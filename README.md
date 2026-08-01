@@ -13,3 +13,10 @@ Thư mục lưu trữ các bài tập, dự án và ghi chép về **Phân tích
    ```bash
    pip install pandas numpy matplotlib seaborn jupyter
    ```
+
+
+## 📚 Danh sách Bài giảng & Tài liệu Thực hành
+
+| Tuần | Chủ đề | Bài giảng (.ipynb) | Slide | Bài tập Lab | Đáp án |
+|:---:|:---|:---:|:---:|:---:|:---:|
+| **01** | **Giới thiệu học phần** | [📘 Notebook](lectures/week-01-gioi-thieu-hoc-phan/lecture.ipynb) | [📊 Slides](lectures/week-01-gioi-thieu-hoc-phan/slides.md) | [💻 Lab](lectures/week-01-gioi-thieu-hoc-phan/lab_exercise.ipynb) | [🔑 Đáp án](lectures/week-01-gioi-thieu-hoc-phan/lab_solution.ipynb) |
