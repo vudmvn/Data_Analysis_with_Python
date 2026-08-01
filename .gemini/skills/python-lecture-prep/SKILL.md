@@ -1,9 +1,9 @@
 ---
 name: python-lecture-prep
-description: Quy trình và công cụ hỗ trợ chuẩn bị bài giảng, tài liệu thực hành, Jupyter Notebooks, dữ liệu mẫu, hình ảnh minh họa và tự động xuất bản (publish) lên GitHub cho môn Phân tích dữ liệu với Python (DSAI1005). Kích hoạt khi người dùng yêu cầu soạn bài giảng, tạo notebook, thiết kế bài tập/lab, quản lý hình ảnh hoặc đẩy bài giảng mới lên GitHub.
+description: Quy trình và công cụ hỗ trợ chuẩn bị bài giảng, tài liệu thực hành, Jupyter Notebooks, dữ liệu mẫu, hình ảnh minh họa (căn giữa hình ảnh trong Markdown) và tự động xuất bản (publish) lên GitHub cho môn Phân tích dữ liệu với Python (DSAI1005). Kích hoạt khi người dùng yêu cầu soạn bài giảng, tạo notebook, thiết kế bài tập/lab, quản lý hình ảnh hoặc đẩy bài giảng mới lên GitHub.
 ---
 
-# Skill: Hỗ trợ Soạn Bài giảng, Quản lý Hình ảnh & Xuất bản GitHub - Phân tích dữ liệu với Python (DSAI1005)
+# Skill: Hỗ trợ Soạn Bài giảng, Căn giữa Hình ảnh & Xuất bản GitHub - Phân tích dữ liệu với Python (DSAI1005)
 
 Skill này được thiết kế riêng cho học phần **DSAI1005 – Phân tích dữ liệu với Python** (Giảng viên: TS. Vũ Đức Minh, ĐH Kinh tế Quốc dân).
 
@@ -16,8 +16,8 @@ Mỗi bài giảng theo từng tuần (hoặc chủ đề) trong repository sẽ
 ```text
 lectures/
 └── week-XX-<ten-chu-de>/
-    ├── README.md                  # Tóm tắt lý thuyết, mục tiêu bài học & chỉ dẫn (dùng link images/)
-    ├── slides.md                  # Slide bài giảng dạng Markdown (tương thích Marp, dùng link images/)
+    ├── README.md                  # Tóm tắt lý thuyết, mục tiêu bài học & chỉ dẫn (dùng link images/ + căn giữa ảnh)
+    ├── slides.md                  # Slide bài giảng dạng Markdown (tương thích Marp, căn giữa ảnh)
     ├── lecture.ipynb              # Notebook giảng dạy chính (Lý thuyết + Minh họa Code)
     ├── lab_exercise.ipynb         # Bài tập thực hành cho sinh viên (Skeleton Code)
     ├── lab_solution.ipynb         # Lời giải chi tiết dành cho giảng viên
@@ -30,9 +30,9 @@ lectures/
 
 ---
 
-## 🖼️ 2. Quy chuẩn Quản lý Hình ảnh & Cập nhật Đường dẫn (Image Management Rules)
+## 🖼️ 2. Quy chuẩn Quản lý & Căn giữa Hình ảnh trong Markdown (Image Centering & Rules)
 
-Khi tạo hoặc nhúng hình ảnh vào bài giảng, Agent **BẮT BUỘC** thực hiện theo các nguyên tắc sau:
+Khi tạo, nhúng hoặc hiển thị hình ảnh trong tệp Markdown (`.md`) và Jupyter Notebook (`.ipynb`), Agent **BẮT BUỘC** thực hiện theo các nguyên tắc sau:
 
 ### 1. Vị trí lưu trữ hình ảnh
 - Tất cả các tệp hình ảnh (sơ đồ, minh họa, ảnh chụp biểu đồ, ảnh sinh tự động từ `generate_image`, v.v.) dành cho tuần học nào **phải được đặt vào thư mục `images/`** của tuần học đó (`lectures/week-XX-<slug>/images/`).
@@ -41,12 +41,23 @@ Khi tạo hoặc nhúng hình ảnh vào bài giảng, Agent **BẮT BUỘC** th
 ### 2. Định dạng & Đặt tên tệp hình ảnh
 - Đặt tên tệp ảnh bằng chữ cái thường, không dấu, nối bằng dấu gạch ngang `-` (VD: `data-cleaning-pipeline.png`, `seaborn-heatmap-example.png`).
 
-### 3. Cập nhật đường dẫn tương đối (Relative Paths) trong tệp Markdown (`.md`) và Jupyter Notebook (`.ipynb`)
-- Trong `README.md` và `slides.md`: Sử dụng đường dẫn tương đối trỏ tới `images/`:
-  - **Cú pháp Markdown:** `![Mô tả hình ảnh](images/ten-anh.png)`
-  - **Cú pháp HTML (khi cần căn chỉnh kích thước):** `<img src="images/ten-anh.png" alt="Mô tả hình ảnh" width="700" />`
-- Trong `lecture.ipynb` (các cell Markdown):
-  - `![Mô tả hình ảnh](images/ten-anh.png)`
+### 3. Quy chuẩn Căn giữa Hình ảnh (Image Centering Mandatory Rule)
+- **TẤT CẢ HÌNH ẢNH** xuất hiện trong các tệp Markdown (`README.md`, `slides.md`, các bài đọc `.md`) và cell Markdown của Jupyter Notebook (`.ipynb`) **PHẢI ĐƯỢC CĂN GIỮA (CENTERED)** để tạo giao diện bài giảng chuyên nghiệp và cân đối.
+- **Cú pháp HTML Căn giữa Chuẩn (Recommended):**
+  ```html
+  <p align="center">
+    <img src="images/ten-anh.png" alt="Mô tả hình ảnh" width="800" />
+  </p>
+  ```
+- Hoặc sử dụng thẻ wrapper `div align="center"`:
+  ```html
+  <div align="center">
+
+  ![Mô tả hình ảnh](images/ten-anh.png)
+
+  </div>
+  ```
+- Cú pháp này tương thích 100% trên GitHub Markdown, Marp Presentation Slides, Jupyter Notebooks và các trình duyệt web.
 
 ---
 
@@ -62,11 +73,11 @@ Khi người dùng yêu cầu soạn bài giảng cho một tuần/chủ đề b
 ### Bước 2: Tạo Nội dung Lý thuyết, Slide & Hình ảnh Minh họa (`README.md`, `slides.md` & `images/`)
 - Biên soạn nội dung ngắn gọn, súc tích bằng tiếng Việt.
 - Đưa vào các ví dụ thực tế trong kinh doanh, tài chính và thương mại điện tử.
-- Nếu tạo hoặc sinh ảnh minh họa, lưu ảnh vào `lectures/week-XX-<slug>/images/` và chèn đường dẫn `![Mô tả](images/filename.png)` vào `README.md` & `slides.md`.
+- Lưu ảnh vào `lectures/week-XX-<slug>/images/` và **luôn căn giữa hình ảnh** bằng `<p align="center"><img src="images/..." /></p>`.
 - Thiết kế slide bằng định dạng Marp Markdown để dễ dàng convert sang PDF/PPTX.
 
 ### Bước 3: Biên soạn Jupyter Notebook (`lecture.ipynb`)
-- Sử dụng Markdown cell giải thích trực quan (kèm công thức LaTeX và ảnh minh họa từ `images/`).
+- Sử dụng Markdown cell giải thích trực quan (kèm công thức LaTeX và ảnh căn giữa từ `images/`).
 - Code Cell: Viết code Python mẫu sạch, có chú thích chi tiết, chuẩn PEP 8.
 - Trực quan hóa dữ liệu (Matplotlib / Seaborn / Plotly) đẹp mắt. Khi xuất đồ thị ra file ảnh, lưu vào `images/`.
 
@@ -75,7 +86,7 @@ Khi người dùng yêu cầu soạn bài giảng cho một tuần/chủ đề b
 - **`lab_solution.ipynb`**: Chứa lời giải hoàn chỉnh cùng kết quả output mẫu.
 
 ### Bước 5: Kiểm tra & Xuất bản lên GitHub (`Git & GitHub CLI`)
-- Kiểm tra tính hợp lệ của code và các đường dẫn hình ảnh `images/`.
+- Kiểm tra tính hợp lệ của code, căn giữa ảnh và đường dẫn hình ảnh `images/`.
 - Cập nhật mục lục tại file root `README.md`.
 - Thực hiện xuất bản tự động qua `python scripts/publish_lecture.py -m "feat(lecture): Soạn bài giảng Tuần XX - <Tên chủ đề>"`.
 
@@ -85,6 +96,6 @@ Khi người dùng yêu cầu soạn bài giảng cho một tuần/chủ đề b
 
 ### Tạo Bài giảng mới:
 Người dùng có thể yêu cầu:
-> *"Soạn bài giảng Tuần 4 về Trực quan hóa dữ liệu với Matplotlib và Seaborn kèm hình ảnh sơ đồ quy trình trong folder images"*
+> *"Soạn bài giảng Tuần 4 về Trực quan hóa dữ liệu với Matplotlib và Seaborn kèm hình ảnh sơ đồ quy trình căn giữa trong folder images"*
 
-Agent sẽ tự động tạo bộ tệp bài giảng cho Tuần 4, lưu ảnh vào `images/`, cập nhật link `images/` trong các file `.md` và tự động push lên GitHub khi hoàn tất.
+Agent sẽ tự động tạo bộ tệp bài giảng cho Tuần 4, lưu ảnh vào `images/`, căn giữa tất cả ảnh trong `.md` và tự động push lên GitHub khi hoàn tất.

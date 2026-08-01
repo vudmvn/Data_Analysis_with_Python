@@ -36,13 +36,18 @@ Data_Analysis_with_Python/
 
 ---
 
-## 🖼️ 2. Quy chuẩn Quản lý Hình ảnh (Image Management Rules)
+## 🖼️ 2. Quy chuẩn Quản lý & Căn giữa Hình ảnh (Image Centering Rules)
 
 1. **Vị trí lưu trữ**: Tất cả ảnh minh họa, sơ đồ, infographic hoặc biểu đồ được tạo/export cho tuần học nào sẽ nằm trong thư mục `lectures/week-XX-<slug>/images/`.
-2. **Định dạng đường dẫn tương đối trong Markdown (`.md`)**:
-   - Cú pháp Markdown chuẩn: `![Mô tả hình ảnh](images/ten-anh.png)`
-   - Cú pháp HTML khi cần căn chỉnh kích thước: `<img src="images/ten-anh.png" alt="Mô tả" width="700" />`
-3. **Tự động hóa**: Antigravity Skill sẽ tự động chuyển tệp ảnh vào `images/` và cập nhật lại đường dẫn tương đối chính xác trong các tệp `.md` và `.ipynb`.
+2. **Quy tắc Bắt buộc Căn giữa (Image Centering Rule)**:
+   - **TẤT CẢ HÌNH ẢNH** trong các tệp Markdown (`README.md`, `slides.md`, các bài đọc `.md`) và Notebook (`.ipynb`) **PHẢI ĐƯỢC CĂN GIỮA (CENTERED)** để hiển thị trực quan và đẹp mắt.
+   - Cú pháp HTML Căn giữa Chuẩn:
+     ```html
+     <p align="center">
+       <img src="images/ten-anh.png" alt="Mô tả hình ảnh" width="800" />
+     </p>
+     ```
+3. **Tự động hóa**: Antigravity Skill sẽ tự động chuyển tệp ảnh vào `images/`, căn giữa ảnh và cập nhật lại đường dẫn tương đối chính xác trong các tệp `.md` và `.ipynb`.
 
 ---
 
