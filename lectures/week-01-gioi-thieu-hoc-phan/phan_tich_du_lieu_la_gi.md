@@ -4,7 +4,7 @@
 
 Phân tích dữ liệu là quá trình thu thập, làm sạch, chuyển đổi và diễn giải dữ liệu nhằm khám phá những thông tin hữu ích và hỗ trợ việc ra quyết định. Quá trình này giúp chuyển dữ liệu thô thành thông tin có ý nghĩa để giải quyết vấn đề, đánh giá hiệu quả hoạt động và đưa ra dự báo.
 
-![alt text](image.png)
+![alt text](images/image.png)
 
 ## Tầm quan trọng của phân tích dữ liệu
 
@@ -15,12 +15,12 @@ Phân tích dữ liệu có vai trò quan trọng vì giúp chuyển thông tin 
 - **Đánh giá hiệu quả:** Quá trình phân tích giúp đo lường mức độ hiệu quả của các quy trình, sản phẩm hoặc chiến lược, đồng thời xác định những lĩnh vực cần được cải thiện.
 - **Quản trị rủi ro:** Phân tích dữ liệu hỗ trợ việc phát hiện, dự báo và giảm thiểu các rủi ro tiềm ẩn trước khi chúng trở thành những vấn đề nghiêm trọng.
 
-![](image-3.png)
+![](images/image-3.png)
 ## Quy trình phân tích dữ liệu
 
 Quy trình phân tích dữ liệu gồm một số bước chính nhằm chuyển đổi dữ liệu thô thành những hiểu biết có giá trị.
 
-![alt text](image-1.png)
+![alt text](images/image-1.png)
 
 ### 1. Xác định mục tiêu
 
@@ -52,7 +52,7 @@ Trình bày kết quả thông qua biểu đồ, bảng điều khiển, báo c�
 
 Phân tích dữ liệu thường được chia thành bốn loại chính, tùy theo câu hỏi cần giải quyết và mục đích của quá trình phân tích.
 
-![alt text](image-2.png)
+![alt text](images/image-2.png)
 
 ### Phân tích mô tả
 
