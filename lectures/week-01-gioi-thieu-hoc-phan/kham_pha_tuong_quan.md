@@ -2,6 +2,66 @@
 
 **Cập nhật lần cuối:** 6 tháng 2 năm 2026
 
+## Giới thiệu bài học
+
+Bài học này giới thiệu cách **khám phá tương quan trong Python** nhằm đánh giá mức độ và chiều hướng của mối quan hệ giữa các biến số. Nội dung tập trung vào ba hệ số tương quan phổ biến là Pearson, Spearman và Kendall, cách tính bằng Pandas, cách trực quan hóa bằng heatmap, cách diễn giải kết quả và những hạn chế cần lưu ý khi sử dụng tương quan trong phân tích dữ liệu.
+
+Bài học kết hợp kiến thức thống kê cơ bản với ví dụ Python để người học có thể tính toán, so sánh và trực quan hóa các hệ số tương quan trên một bộ dữ liệu nhỏ. Các câu hỏi nhanh, bài tập thực hành và phần đáp án ẩn hỗ trợ người học tự kiểm tra và củng cố kiến thức.
+
+## Kiến thức và kỹ năng sẽ đạt được
+
+Sau khi hoàn thành bài học, người học có thể:
+
+- Giải thích được ý nghĩa của tương quan dương, tương quan âm và không có tương quan tuyến tính.
+- Diễn giải được miền giá trị từ `-1` đến `1` của hệ số tương quan.
+- Phân biệt được Pearson, Spearman và Kendall theo loại dữ liệu và dạng mối quan hệ.
+- Nhận biết được khi nào nên sử dụng Pearson, Spearman hoặc Kendall.
+- Tính được ma trận tương quan bằng `DataFrame.corr()`.
+- Tính được tương quan giữa hai cột bằng `Series.corr()`.
+- Trực quan hóa ma trận tương quan bằng `sns.heatmap()`.
+- Đọc và diễn giải được giá trị tương quan trong bối cảnh cụ thể.
+- Phát hiện sơ bộ hiện tượng đa cộng tuyến từ ma trận tương quan.
+- Nhận biết được ảnh hưởng của ngoại lệ và quan hệ phi tuyến đến hệ số Pearson.
+- Giải thích được vì sao tương quan không đồng nghĩa với quan hệ nhân quả.
+- Vận dụng phân tích tương quan trong lựa chọn đặc trưng, tài chính, y tế và hệ thống gợi ý.
+
+## Cấu trúc bài học
+
+Bài học gồm các nội dung chính sau:
+
+1. Khái niệm và ý nghĩa của tương quan.
+2. Tương quan dương, âm và không tương quan tuyến tính.
+3. Tương quan Pearson.
+4. Tương quan Spearman.
+5. Tương quan Kendall.
+6. So sánh ba phương pháp.
+7. Tính tương quan bằng Python.
+8. Trực quan hóa bằng heatmap.
+9. Diễn giải giá trị tương quan.
+10. Phát hiện đa cộng tuyến.
+11. Hạn chế và ứng dụng của tương quan.
+12. Câu hỏi ôn tập và bài tập thực hành.
+
+## Yêu cầu chuẩn bị
+
+Người học nên có:
+
+- Kiến thức Python cơ bản.
+- Hiểu biết ban đầu về DataFrame và biến số.
+- Kiến thức cơ bản về trung bình, phương sai và biểu đồ phân tán.
+- Môi trường Jupyter Notebook, JupyterLab hoặc Google Colab.
+- Các thư viện `pandas`, `matplotlib`, `seaborn`, `scipy` và `statsmodels`.
+
+Có thể cài đặt các thư viện cần thiết bằng lệnh:
+
+```bash
+pip install pandas matplotlib seaborn scipy statsmodels
+```
+
+---
+
+
+
 Tương quan là một trong những thước đo thống kê được sử dụng phổ biến nhất để tìm hiểu mối quan hệ giữa các biến. Trong Python, phân tích tương quan giúp xác định liệu hai biến:
 
 - Cùng tăng hoặc cùng giảm.
@@ -1051,6 +1111,8 @@ Sử dụng bộ dữ liệu điểm số trong bài:
 
 
 # Tài liệu tham khảo và liên kết hữu ích
+
+Các tài liệu tham khảo dưới đây bao quát các phương pháp Pearson, Spearman, Kendall, các hàm tương quan trong Pandas, trực quan hóa bằng Seaborn và kiểm tra đa cộng tuyến bằng VIF.
 
 Các liên kết dưới đây cung cấp tài liệu gốc và tài liệu chính thức cho những thư viện, hàm và phương pháp được đề cập trong bài.
 

@@ -2,6 +2,59 @@
 
 **Cập nhật lần cuối:** 20 tháng 3 năm 2026
 
+## Giới thiệu bài học
+
+Bài học này trình bày một quy trình phân tích dữ liệu gồm sáu bước, từ việc xác định vấn đề đến diễn giải kết quả và hỗ trợ ra quyết định. Nội dung được minh họa xuyên suốt bằng bộ dữ liệu Titanic để người học có thể quan sát cách một quy trình phân tích được triển khai trong thực tế bằng Python.
+
+Bài học kết hợp giữa kiến thức khái niệm, ví dụ mã nguồn, trực quan hóa dữ liệu, câu hỏi nhanh và bài tập thực hành. Qua đó, người học không chỉ hiểu trình tự của một quy trình phân tích dữ liệu mà còn biết cách áp dụng từng bước vào một bộ dữ liệu cụ thể.
+
+## Kiến thức và kỹ năng sẽ đạt được
+
+Sau khi hoàn thành bài học, người học có thể:
+
+- Giải thích được vai trò của một quy trình phân tích dữ liệu có cấu trúc.
+- Xác định được vấn đề, mục tiêu và tiêu chí thành công của một bài toán phân tích.
+- Nhận biết và lựa chọn được các nguồn dữ liệu phù hợp.
+- Kiểm tra cấu trúc, nguồn gốc và chất lượng ban đầu của dữ liệu.
+- Xử lý được một số vấn đề phổ biến như giá trị thiếu, cột không cần thiết và biến phân loại.
+- Sử dụng Python, Pandas, Seaborn và Matplotlib để phân tích và trực quan hóa dữ liệu.
+- Đọc và diễn giải được ma trận tương quan, biểu đồ cột, histogram và scatter plot.
+- Hiểu được cách chia dữ liệu, huấn luyện mô hình và đánh giá độ chính xác ở mức cơ bản.
+- Chuyển kết quả phân tích thành nhận xét, khuyến nghị và quyết định có thể thực hiện.
+- Nhận thức được rằng tương quan không đồng nghĩa với quan hệ nhân quả và một chỉ số đánh giá đơn lẻ không đủ để kết luận về mô hình.
+
+## Cấu trúc bài học
+
+Bài học gồm các nội dung chính sau:
+
+1. Xác định vấn đề.
+2. Thu thập dữ liệu.
+3. Làm sạch dữ liệu.
+4. Phân tích dữ liệu.
+5. Trực quan hóa kết quả.
+6. Diễn giải và ra quyết định.
+7. Tóm tắt toàn bộ quy trình.
+8. Câu hỏi ôn tập và bài tập thực hành.
+
+## Yêu cầu chuẩn bị
+
+Để thực hành đầy đủ các ví dụ trong bài, người học nên có:
+
+- Kiến thức Python cơ bản.
+- Môi trường Jupyter Notebook, JupyterLab hoặc Google Colab.
+- Các thư viện `pandas`, `seaborn`, `matplotlib` và `scikit-learn`.
+- Hiểu biết cơ bản về DataFrame, biến số, biến phân loại và biểu đồ dữ liệu.
+
+Có thể cài đặt các thư viện cần thiết bằng lệnh:
+
+```bash
+pip install pandas seaborn matplotlib scikit-learn
+```
+
+---
+
+
+
 Phân tích dữ liệu là quá trình thu thập, làm sạch, tổ chức và diễn giải dữ liệu nhằm khám phá những hiểu biết hữu ích và hỗ trợ việc ra quyết định. Quy trình này được triển khai theo một cách tiếp cận có cấu trúc, trong đó:
 
 - **Quy trình từng bước:** Chuyển đổi dữ liệu thô thành những hiểu biết có ý nghĩa.

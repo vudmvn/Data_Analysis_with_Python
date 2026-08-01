@@ -2,6 +2,42 @@
 
 **Cập nhật lần cuối:** 24 tháng 3 năm 2026
 
+## Giới thiệu bài học
+
+Bài học này giới thiệu những khái niệm nền tảng về **phân tích dữ liệu**, vai trò của phân tích dữ liệu trong quá trình ra quyết định, các bước chính trong một quy trình phân tích, những loại hình phân tích phổ biến, các công cụ thường được sử dụng, các lĩnh vực ứng dụng và một số hạn chế cần lưu ý.
+
+Nội dung bài học được xây dựng theo hướng từ khái niệm tổng quát đến quy trình thực hiện và ứng dụng thực tế. Sau mỗi phần có các câu hỏi nhanh giúp người học tự kiểm tra mức độ hiểu bài. Cuối bài có hệ thống câu hỏi ôn tập, bài tập tình huống và phần đáp án được ẩn để hỗ trợ việc tự học.
+
+## Kiến thức và kỹ năng sẽ đạt được
+
+Sau khi hoàn thành bài học, người học có thể:
+
+- Trình bày được khái niệm và mục tiêu của phân tích dữ liệu.
+- Giải thích được vai trò của phân tích dữ liệu trong hoạt động ra quyết định.
+- Mô tả được các bước chính của quy trình phân tích dữ liệu.
+- Phân biệt được phân tích mô tả, chẩn đoán, dự báo và đề xuất.
+- Nhận biết được vai trò cơ bản của các công cụ như Excel, Python, R, Tableau, Power BI, SAS và KNIME.
+- Nêu được các ứng dụng của phân tích dữ liệu trong kinh doanh, y tế, tài chính, marketing và nghiên cứu khoa học.
+- Nhận diện được các hạn chế liên quan đến chất lượng dữ liệu, thiên lệch, nguồn lực, công cụ và bối cảnh.
+- Vận dụng các khái niệm đã học để phân tích những tình huống dữ liệu đơn giản.
+
+## Cấu trúc bài học
+
+Bài học gồm các nội dung chính sau:
+
+1. Khái niệm phân tích dữ liệu.
+2. Tầm quan trọng của phân tích dữ liệu.
+3. Quy trình phân tích dữ liệu.
+4. Các loại phân tích dữ liệu.
+5. Các công cụ phân tích dữ liệu.
+6. Ứng dụng của phân tích dữ liệu.
+7. Hạn chế của phân tích dữ liệu.
+8. Câu hỏi ôn tập và bài tập tình huống.
+
+---
+## Phân tích dữ liệu là gì?
+
+
 Phân tích dữ liệu là quá trình thu thập, làm sạch, chuyển đổi và diễn giải dữ liệu nhằm khám phá những thông tin hữu ích và hỗ trợ việc ra quyết định. Quá trình này giúp chuyển dữ liệu thô thành thông tin có ý nghĩa để giải quyết vấn đề, đánh giá hiệu quả hoạt động và đưa ra dự báo.
 
 <p align="center">

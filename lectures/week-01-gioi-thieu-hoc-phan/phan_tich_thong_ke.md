@@ -2,6 +2,69 @@
 
 **Cập nhật lần cuối:** 26 tháng 3 năm 2026
 
+## Giới thiệu bài học
+
+Bài học này giới thiệu những nội dung nền tảng của **phân tích thống kê**, từ quy trình thu thập và tổ chức dữ liệu đến các phương pháp mô tả, suy luận, khám phá, dự báo, khuyến nghị và phân tích nhân quả. Nội dung nhấn mạnh cách sử dụng dữ liệu và bằng chứng để hỗ trợ ra quyết định, kiểm tra giả thuyết, đánh giá sự không chắc chắn và diễn giải kết quả một cách có trách nhiệm.
+
+Bài học kết hợp giữa khái niệm thống kê, công thức cơ bản, ví dụ Python, tình huống ứng dụng và hệ thống câu hỏi ôn tập. Qua đó, người học có thể hình thành cái nhìn tổng quan về vai trò của thống kê trong phân tích dữ liệu, nghiên cứu khoa học và hoạt động quản lý.
+
+## Kiến thức và kỹ năng sẽ đạt được
+
+Sau khi hoàn thành bài học, người học có thể:
+
+- Giải thích được khái niệm và vai trò của phân tích thống kê.
+- Mô tả được bốn bước chính: thu thập dữ liệu, tổ chức dữ liệu, phân tích dữ liệu, diễn giải và trình bày kết quả.
+- Phân biệt được thống kê mô tả và thống kê suy luận.
+- Phân biệt được EDA và CDA.
+- Nhận biết được vai trò của hồi quy, kiểm định giả thuyết, khoảng tin cậy và ANOVA.
+- Tính và diễn giải được trung bình, phương sai và độ lệch chuẩn ở mức cơ bản.
+- Phân biệt được phân tích dự báo, phân tích khuyến nghị và phân tích nhân quả.
+- Giải thích được sự khác nhau giữa tương quan và quan hệ nhân quả.
+- Nhận biết được công dụng cơ bản của R, Python, SPSS và Excel.
+- Lựa chọn được một số công cụ và phương pháp phù hợp với mục tiêu phân tích.
+- Trình bày kết quả thống kê bằng báo cáo, biểu đồ, dashboard hoặc bài thuyết trình.
+- Nêu được hạn chế, mức độ không chắc chắn và ý nghĩa thực tiễn của kết quả.
+- Vận dụng kiến thức vào các tình huống trong kinh doanh, y tế, giáo dục, khoa học xã hội và môi trường.
+
+## Cấu trúc bài học
+
+Bài học gồm các nội dung chính sau:
+
+1. Khái niệm và vai trò của phân tích thống kê.
+2. Thu thập dữ liệu.
+3. Tổ chức và làm sạch dữ liệu.
+4. Phân tích dữ liệu bằng EDA, CDA, hồi quy và kiểm định giả thuyết.
+5. Diễn giải và trình bày kết quả.
+6. Thống kê mô tả.
+7. Thống kê suy luận.
+8. Phân tích dữ liệu khám phá.
+9. Mô hình dự báo.
+10. Phân tích khuyến nghị.
+11. Phân tích nhân quả.
+12. Các công cụ phân tích thống kê.
+13. Tầm quan trọng và ứng dụng.
+14. Câu hỏi ôn tập và bài tập tình huống.
+
+## Yêu cầu chuẩn bị
+
+Người học nên có:
+
+- Kiến thức toán học phổ thông về trung bình và tỷ lệ.
+- Hiểu biết cơ bản về dữ liệu, biến số, mẫu và tổng thể.
+- Kiến thức Python cơ bản nếu thực hành phần mã nguồn.
+- Môi trường Jupyter Notebook, JupyterLab hoặc Google Colab.
+- Các thư viện `numpy`, `pandas`, `scipy`, `matplotlib`, `seaborn`, `statsmodels` và `scikit-learn`.
+
+Có thể cài đặt các thư viện cần thiết bằng lệnh:
+
+```bash
+pip install numpy pandas scipy matplotlib seaborn statsmodels scikit-learn
+```
+
+---
+
+
+
 Phân tích thống kê là quá trình xem xét dữ liệu nhằm hiểu dữ liệu rõ hơn và rút ra những hiểu biết hữu ích. Phương pháp này giúp nhận diện các mẫu hình, mối quan hệ và xu hướng trong dữ liệu, từ đó hỗ trợ việc ra quyết định và đưa ra dự báo.
 
 <p align="center">
@@ -959,6 +1022,8 @@ Một doanh nghiệp có dữ liệu doanh số trong ba năm.
 ---
 
 # Tài liệu tham khảo và liên kết hữu ích
+
+Các tài liệu dưới đây bao quát các công cụ, thư viện và nhóm phương pháp được sử dụng trong bài, bao gồm thống kê mô tả, thống kê suy luận, hồi quy, kiểm định giả thuyết, học máy và trực quan hóa dữ liệu.
 
 1. [What is Statistical Analysis? — GeeksforGeeks](https://www.geeksforgeeks.org/data-analysis/what-is-statistical-analysis/)  
    Bài viết tham khảo ban đầu về khái niệm, quy trình, loại hình và ứng dụng của phân tích thống kê.

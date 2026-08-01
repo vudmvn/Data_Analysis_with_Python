@@ -59,10 +59,20 @@ def scan_lectures_dir(lectures_dir):
 
                 # Tìm các bài đọc bổ sung dạng .md (ngoại trừ README.md và slides.md)
                 extra_mds = []
-                for f in files:
+                for f in sorted(files):
                     if f.endswith(".md") and f not in ["README.md", "slides.md"]:
+                        file_full_path = os.path.join(folder_path, f)
                         doc_title = f.replace(".md", "").replace("_", " ").title()
-                        extra_mds.append(f"[{doc_title}](lectures/{folder}/{f})")
+                        try:
+                            with open(file_full_path, "r", encoding="utf-8") as mdf:
+                                for line in mdf:
+                                    line_str = line.strip()
+                                    if line_str.startswith("# "):
+                                        doc_title = line_str.replace("# ", "").strip()
+                                        break
+                        except Exception:
+                            pass
+                        extra_mds.append(f"• [{doc_title}](lectures/{folder}/{f})")
 
                 extra_docs_str = "<br>".join(extra_mds) if extra_mds else ""
 

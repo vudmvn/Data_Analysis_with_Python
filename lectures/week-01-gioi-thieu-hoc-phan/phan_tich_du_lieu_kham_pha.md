@@ -2,6 +2,64 @@
 
 **Cập nhật lần cuối:** 22 tháng 6 năm 2026
 
+## Giới thiệu bài học
+
+Bài học này giới thiệu **phân tích dữ liệu khám phá** (*Exploratory Data Analysis – EDA*) như một giai đoạn nền tảng trước khi thực hiện kiểm định thống kê hoặc xây dựng mô hình học máy. Nội dung tập trung vào cách khảo sát cấu trúc dữ liệu, nhận diện phân phối, phát hiện dữ liệu thiếu và giá trị ngoại lệ, đánh giá mối quan hệ giữa các biến, biến đổi dữ liệu và truyền đạt những phát hiện quan trọng.
+
+Bài học kết hợp kiến thức khái niệm với ví dụ Python để người học có thể thực hiện một quy trình EDA hoàn chỉnh. Các câu hỏi nhanh sau từng phần hỗ trợ tự kiểm tra, trong khi phần bài tập cuối bài yêu cầu người học vận dụng kiến thức trên một bộ dữ liệu thực tế.
+
+## Kiến thức và kỹ năng sẽ đạt được
+
+Sau khi hoàn thành bài học, người học có thể:
+
+- Giải thích được mục đích và vai trò của EDA trong quy trình phân tích dữ liệu.
+- Phân biệt được phân tích đơn biến, hai biến và đa biến.
+- Kiểm tra được kích thước, kiểu dữ liệu, giá trị thiếu và các đặc điểm ban đầu của một DataFrame.
+- Sử dụng các thống kê mô tả để đánh giá xu hướng trung tâm, độ phân tán, độ lệch và độ nhọn của dữ liệu.
+- Lựa chọn được histogram, box plot, bar chart, scatter plot, heatmap và pair plot cho từng mục tiêu phân tích.
+- Nhận diện và xử lý dữ liệu thiếu bằng các phương pháp phù hợp với bối cảnh.
+- Phát hiện giá trị ngoại lệ bằng IQR, Z-score và biểu đồ hộp.
+- Thực hiện một số phép biến đổi như min-max scaling, standardization và one-hot encoding.
+- Sử dụng Pandas, Matplotlib, Seaborn, Plotly và Scikit-learn ở mức cơ bản trong EDA.
+- Diễn giải kết quả một cách thận trọng, đặc biệt phân biệt tương quan với quan hệ nhân quả.
+- Trình bày phát hiện, hạn chế và đề xuất bước phân tích tiếp theo trong một báo cáo EDA.
+
+## Cấu trúc bài học
+
+Bài học gồm các nội dung chính sau:
+
+1. Khái niệm và tầm quan trọng của EDA.
+2. Phân tích đơn biến, hai biến và đa biến.
+3. Các công cụ thường dùng trong Python và R.
+4. Hiểu vấn đề và ý nghĩa của dữ liệu.
+5. Nhập và kiểm tra dữ liệu.
+6. Xử lý dữ liệu thiếu.
+7. Khám phá phân phối và đặc điểm thống kê.
+8. Biến đổi và mã hóa dữ liệu.
+9. Trực quan hóa mối quan hệ giữa các biến.
+10. Phát hiện và xử lý giá trị ngoại lệ.
+11. Truyền đạt phát hiện và hiểu biết.
+12. Ứng dụng, câu hỏi ôn tập và bài tập thực hành.
+
+## Yêu cầu chuẩn bị
+
+Người học nên có:
+
+- Kiến thức Python cơ bản.
+- Hiểu biết ban đầu về DataFrame và các kiểu dữ liệu.
+- Môi trường Jupyter Notebook, JupyterLab hoặc Google Colab.
+- Các thư viện `pandas`, `matplotlib`, `seaborn`, `plotly` và `scikit-learn`.
+
+Có thể cài đặt các thư viện cần thiết bằng lệnh:
+
+```bash
+pip install pandas matplotlib seaborn plotly scikit-learn
+```
+
+---
+
+
+
 Phân tích dữ liệu khám phá, thường được gọi là **Exploratory Data Analysis (EDA)**, là một bước quan trọng trong quá trình phân tích dữ liệu. EDA giúp người phân tích khám phá, tóm tắt và trực quan hóa dữ liệu để:
 
 - Hiểu cấu trúc của bộ dữ liệu.
@@ -937,6 +995,57 @@ Thực hiện:
 3. Phát hiện ngoại lệ bằng IQR.
 4. So sánh kết quả trước và sau xử lý.
 5. Giải thích lý do giữ lại hoặc loại bỏ ngoại lệ.
+
+---
+
+# Tài liệu tham khảo và liên kết hữu ích
+
+1. [Exploratory Data Analysis — NIST/SEMATECH e-Handbook of Statistical Methods](https://www.itl.nist.gov/div898/handbook/eda/eda.htm)  
+   Tài liệu nền tảng về mục tiêu, tư duy và các kỹ thuật của phân tích dữ liệu khám phá.
+
+2. [Pandas Documentation](https://pandas.pydata.org/docs/)  
+   Tài liệu chính thức cho DataFrame, nhập dữ liệu, kiểm tra kiểu dữ liệu, xử lý giá trị thiếu và thống kê mô tả.
+
+3. [pandas.DataFrame.describe](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.describe.html)  
+   Tài liệu cho phương thức `describe()` dùng để tạo thống kê mô tả.
+
+4. [pandas.DataFrame.info](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.info.html)  
+   Tài liệu cho phương thức `info()` dùng để kiểm tra cột, kiểu dữ liệu và số lượng giá trị không thiếu.
+
+5. [pandas.DataFrame.fillna](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.fillna.html)  
+   Tài liệu chính thức về xử lý giá trị thiếu bằng `fillna()`.
+
+6. [Matplotlib Documentation](https://matplotlib.org/stable/)  
+   Tài liệu chính thức cho các biểu đồ cơ bản và tùy chỉnh hình trực quan.
+
+7. [Seaborn Documentation](https://seaborn.pydata.org/)  
+   Tài liệu chính thức cho histogram, box plot, scatter plot, heatmap, pair plot và các trực quan hóa thống kê.
+
+8. [Plotly Python Documentation](https://plotly.com/python/)  
+   Tài liệu tạo biểu đồ tương tác trong Python.
+
+9. [Scikit-learn Preprocessing](https://scikit-learn.org/stable/modules/preprocessing.html)  
+   Tài liệu về chuẩn hóa dữ liệu, điều chỉnh thang đo và mã hóa biến.
+
+10. [MinMaxScaler — Scikit-learn](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MinMaxScaler.html)  
+    Tài liệu chính thức cho phép biến đổi min-max.
+
+11. [Principal Component Analysis — Scikit-learn](https://scikit-learn.org/stable/modules/decomposition.html#pca)  
+    Tài liệu về PCA và giảm số chiều dữ liệu.
+
+12. [SciPy Statistical Functions](https://docs.scipy.org/doc/scipy/reference/stats.html)  
+    Tài liệu về Z-score, phân phối thống kê và các công cụ hỗ trợ phát hiện điểm bất thường.
+
+13. [ggplot2 Documentation](https://ggplot2.tidyverse.org/)  
+    Tài liệu chính thức về trực quan hóa dữ liệu trong R.
+
+14. [dplyr Documentation](https://dplyr.tidyverse.org/)  
+    Tài liệu chính thức về thao tác và biến đổi dữ liệu trong R.
+
+15. [tidyr Documentation](https://tidyr.tidyverse.org/)  
+    Tài liệu chính thức về tổ chức dữ liệu theo định dạng gọn trong R.
+
+> **Lưu ý:** Nên ưu tiên tài liệu chính thức của thư viện vì cú pháp, tham số và hành vi của các hàm có thể thay đổi giữa các phiên bản.
 
 ---
 
