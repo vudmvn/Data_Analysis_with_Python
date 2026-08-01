@@ -1,61 +1,42 @@
 ---
 name: course-syllabus-updater
-description: Skill chuyên tự động tổng hợp, cập nhật và đồng bộ file README.md / syllabus giới thiệu môn học Phân tích dữ liệu với Python (DSAI1005). Tự động tạo bảng ma trận liên kết động tới tất cả các bài giảng (.ipynb, .md), slide (.md), bài tập lab, đáp án, tệp dữ liệu (data/) và hình ảnh (images/) cho cả 15 tuần học. Kích hoạt khi người dùng yêu cầu cập nhật trang chủ, cập nhật syllabus, đồng bộ bảng bài giảng hoặc cập nhật link tài liệu học phần.
+description: Skill chuyên tự động tổng hợp, cập nhật và đồng bộ file README.md (Tiếng Việt có dấu chuẩn) và README-en.md (Phiên bản Tiếng Anh song ngữ) cho môn Phân tích dữ liệu với Python (DSAI1005). Tự động tạo bảng ma trận liên kết động tới tất cả các bài giảng (.ipynb, .md), slide (.md), bài tập lab, đáp án, tệp dữ liệu (data/) và hình ảnh (images/) cho cả 15 tuần học. Kích hoạt khi người dùng yêu cầu cập nhật trang chủ, cập nhật syllabus, đồng bộ bảng bài giảng hoặc tạo/cập nhật phiên bản song ngữ.
 ---
 
-# Skill: Cập nhật File Markdown Giới thiệu Môn học & Syllabus (Course Portal Updater)
+# Skill: Cập nhật File Markdown Giới thiệu Môn học & Cổng thông tin Song ngữ (Bilingual Course Portal Updater)
 
-Skill này hỗ trợ tự động duy trì và cập nhật tệp **`README.md`** (Trang chủ Cổng thông tin học phần) cho môn **Phân tích dữ liệu với Python (DSAI1005)** - Giảng viên: TS. Vũ Đức Minh (ĐH Kinh tế Quốc dân).
+Skill này hỗ trợ tự động duy trì và cập nhật tệp **`README.md`** (Trang chủ Tiếng Việt có dấu chuẩn) và **`README-en.md`** (Phiên bản Tiếng Anh Song ngữ) cho môn **Phân tích dữ liệu với Python (DSAI1005)** - Giảng viên: TS. Vũ Đức Minh (ĐH Kinh tế Quốc dân).
 
 ---
 
 ## 🎯 1. Nhiệm vụ chính của Skill
 
-1. **Tổng hợp Thông tin Môn học & Syllabus**: Trích xuất dữ liệu từ `syllabus-vn.md` để trình bày thông tin chung, chuẩn đầu ra (CLOs), quy định đánh giá và lộ trình 15 tuần.
-2. **Xây dựng Bảng Ma trận Ma trận Liên kết Động (Dynamic Course Matrix)**: Quét tự động thư mục `lectures/` và xây dựng bảng liên kết trực tiếp tới:
+1. **Hiển thị Tiêu đề Tiếng Việt có dấu chuẩn**: Đảm bảo tất cả tiêu đề bài học, tên chủ đề tuần học, danh mục tài liệu đều viết bằng Tiếng Việt chuẩn có đầy đủ dấu thanh, ngữ pháp chính xác.
+2. **Hỗ trợ Phiên bản Song ngữ (Bilingual Support)**: Tự động khởi tạo và cập nhật song song 2 phiên bản trang chủ:
+   - **`README.md`**: Trang chủ Tiếng Việt (có nút chuyển ngữ 🌐 sang English).
+   - **`README-en.md`**: Trang chủ Tiếng Anh (có nút chuyển ngữ 🌐 về Tiếng Việt).
+3. **Xây dựng Bảng Ma trận Liên kết Động (Dynamic Course Matrix)**: Quét tự động thư mục `lectures/` và xây dựng bảng liên kết trực tiếp cho cả 15 tuần học tới:
    - Bài giảng Jupyter Notebook (`lecture.ipynb`)
    - Bài đọc / Ghi chép lý thuyết bổ sung (`.md` như `phan_tich_du_lieu_la_gi.md`)
    - Slide bài giảng (`slides.md`)
    - Bài tập Lab dành cho sinh viên (`lab_exercise.ipynb`)
    - Đáp án chi tiết cho giảng viên (`lab_solution.ipynb`)
    - Thư mục Dữ liệu (`data/`) & Hình ảnh minh họa (`images/`)
-3. **Cập nhật Trạng thái Tiến độ (Progress Tracker)**:
+4. **Cập nhật Trạng thái Tiến độ (Progress Tracker)**:
    - Các tuần đã có bài giảng: Hiển thị đầy đủ link tải/xem tài liệu.
-   - Các tuần chưa soạn: Hiển thị trạng thái ⏳ *Đang biên soạn*.
+   - Các tuần chưa soạn: Hiển thị trạng thái ⏳ *Đang biên soạn* (In Progress).
 
 ---
 
-## 📑 2. Cấu trúc Tiêu chuẩn của File Trang chủ (`README.md`)
+## 📑 2. Quy chuẩn Ngôn ngữ & Tiêu đề trong Trang chủ
 
-File `README.md` môn học luôn được duy trì với đầy đủ 6 phần chính:
+### 1. Quy chuẩn Tiếng Việt có dấu (`README.md`)
+- Tất cả tiêu đề tuần học, tài liệu đọc và phần mô tả phải chuẩn hóa Tiếng Việt có dấu (VD: `"Tuần 01: Giới thiệu học phần"`, `"Sáu bước trong quy trình phân tích dữ liệu"`).
+- Không viết tắt hoặc bỏ dấu trong các bảng ma trận.
 
-```markdown
-# 🐍 DSAI1005 – Phân tích dữ liệu với Python (Data Analysis with Python)
-
-> **Giảng viên:** TS. Vũ Đức Minh (`minhvd@neu.edu.vn`)  
-> **Đơn vị:** Khoa Khoa học dữ liệu và Trí tuệ nhân tạo, Trường Đại học Kinh tế Quốc dân (NEU)  
-> **Chương trình:** Data Science in Finance and E-commerce (EP15)  
-
----
-
-## 📌 1. Giới thiệu Học phần & Mục tiêu
-(Trích xuất từ syllabus-vn.md)
-
-## 🗺️ 2. Lộ trình Đào tạo 15 Tuần (Syllabus Roadmap)
-(Bảng tóm tắt lộ trình 15 tuần)
-
-## 📚 3. Ma trận Bài giảng, Tài liệu & Bài tập Thực hành (Course Hub)
-(Bảng liên kết động tự động được cập nhật từ thư mục `lectures/`)
-
-## 🛠️ 4. Hướng dẫn Môi trường & Cài đặt (Setup Guide)
-(Hướng dẫn cài đặt Anaconda, JupyterLab, Pandas, NumPy, Seaborn...)
-
-## 📊 5. Trực quan hóa & Hình ảnh Minh họa Môn học
-(Link dẫn tới thư mục images/ và sơ đồ môn học)
-
-## 📝 6. Hướng dẫn Đóng góp & Quy trình Soạn bài giảng
-(Link dẫn tới QUY_TRINH_SOAN_BAI_GIANG.md)
-```
+### 2. Quy chuẩn Song ngữ (`README-en.md`)
+- Cung cấp tiêu đề và mô tả chuẩn bằng Tiếng Anh (VD: `"Week 01: Course Introduction & Setup"`, `"Data Cleaning & Preprocessing"`).
+- Đặt nút chuyển đổi ngôn ngữ nổi bật ở đầu trang: `🌐 Ngôn ngữ / Language: 🇻🇳 Tiếng Việt | 🇬🇧 English`.
 
 ---
 
@@ -64,23 +45,23 @@ File `README.md` môn học luôn được duy trì với đầy đủ 6 phần 
 Khi người dùng ra lệnh:
 > *"Cập nhật file README/Syllabus môn học"*  
 > hoặc  
-> *"Đồng bộ lại danh sách bài giảng và link thực hành trên trang chủ"*
+> *"Đồng bộ lại danh sách bài giảng Tiếng Việt có dấu và tạo phiên bản song ngữ"*
 
 Agent sẽ thực hiện:
-1. Đọc nội dung cập nhật từ `syllabus-vn.md`.
-2. Chạy script `python scripts/publish_lecture.py --no-push` để quét toàn bộ thư mục trong `lectures/` và cập nhật lại bảng ma trận bài giảng trên `README.md`.
-3. Kiểm tra tính hợp lệ của tất cả các liên kết tương đối (relative links).
+1. Đọc nội dung từ `syllabus-vn.md` và thông tin các file bài đọc trong `lectures/`.
+2. Thực thi script `python scripts/publish_lecture.py` để sinh đồng thời cả 2 tệp `README.md` (Tiếng Việt) và `README-en.md` (Tiếng Anh).
+3. Kiểm tra tính hợp lệ của tất cả các liên kết tương đối (relative links) và kiểm tra chính tả Tiếng Việt có dấu.
 4. Đẩy bản cập nhật mới nhất lên GitHub bằng lệnh:
    ```bash
-   python scripts/publish_lecture.py -m "docs(readme): Đồng bộ syllabus và bảng ma trận bài giảng 15 tuần"
+   python scripts/publish_lecture.py -m "docs(readme): Cập nhật cổng thông tin môn học Tiếng Việt có dấu và phiên bản song ngữ README-en.md"
    ```
 
 ---
 
 ## 🛠️ 4. Lệnh Thường Dùng (Usage Prompts)
 
-- **Cập nhật lại toàn bộ README.md:**
-  > *"Cập nhật lại file README môn học chứa syllabus đầy đủ 15 tuần và tất cả các link bài giảng, bài thực hành đã soạn."*
+- **Cập nhật lại toàn bộ README Tiếng Việt & Tiếng Anh:**
+  > *"Cập nhật lại file README môn học hiển thị tiếng Việt có dấu chuẩn và đồng bộ phiên bản song ngữ tiếng Anh."*
 
-- **Thêm bài đọc bổ sung vào bảng mục lục:**
-  > *"Thêm bài đọc phan_tich_du_lieu_la_gi.md của Tuần 1 vào bảng ma trận bài giảng trên README.md và push lên GitHub."*
+- **Cập nhật tiêu đề bài giảng:**
+  > *"Đồng bộ lại tên tiếng Việt có dấu cho các bài giảng Tuần 1 trên README.md và README-en.md rồi push lên GitHub."*

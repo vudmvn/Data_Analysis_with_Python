@@ -1,5 +1,7 @@
 # 🐍 DSAI1005 – Phân tích dữ liệu với Python (Data Analysis with Python)
 
+🌐 **Ngôn ngữ / Language:** 🇻🇳 **Tiếng Việt** | [🇬🇧 English Version (README-en.md)](README-en.md)
+
 > **Giảng viên:** TS. Vũ Đức Minh (`minhvd@neu.edu.vn`)  
 > **Đơn vị phụ trách:** Khoa Khoa học dữ liệu và Trí tuệ nhân tạo – Trường Đại học Kinh tế Quốc dân (NEU)  
 > **Chương trình đào tạo:** Data Science in Finance and E-commerce (EP15)  
@@ -14,20 +16,20 @@ Học phần **Phân tích dữ liệu với Python (DSAI1005)** cung cấp ki�
 ### 🎯 Mục tiêu & Chuẩn đầu ra (CLOs):
 1. **Công cụ & Môi trường:** Thành thạo Anaconda, Python, JupyterLab và quản lý môi trường ảo.
 2. **Đại số tuyến tính & Thống kê:** Tính toán ma trận, vector và phân tích thống kê với NumPy & SciPy.
-3. **Thao tác Dữ liệu:** Đọc, làm sạch, biến đổi, chuẩn hóa và xử lý missing values/outliers bằng Pandas.
+3. **Thao tác Dữ liệu:** Đọc, làm sạch, biến đổi, chuẩn hóa và xử lý giá trị thiếu / ngoại lệ bằng Pandas.
 4. **Trực quan hóa:** Xây dựng biểu đồ mô tả & biểu đồ tương tác với Matplotlib, Seaborn, Bokeh.
 5. **Cơ sở dữ liệu:** Truy xuất và lưu trữ dữ liệu từ CSV, Excel, JSON, SQL (MySQL/SQLite) & NoSQL (MongoDB).
 6. **Mô hình hóa:** Áp dụng thuật toán Phân cụm (K-Means), Hồi quy (Linear/Logistic) & Phân loại (SVM, Decision Tree, Random Forest).
 
 ---
 
-## 📚 2. Ma trận Bài giảng, Tài liệu & Bài tập Thực hành (Course Portal Matrix)
+## 📚 2. Ma trận Bài giảng, Tài liệu & Bài tập Thực hành (Course Matrix)
 
 Bảng dưới đây tổng hợp chi tiết tài liệu học tập, bài giảng Notebook, slide, bài tập thực hành, tệp dữ liệu và đáp án cho **15 tuần học**:
 
-| Tuần | Chủ đề chính | Bài giảng & Bài đọc (.md / .ipynb) | Slide | Bài tập Lab | Đáp án | Tài nguyên (Data / Images) | Trạng thái |
+| Tuần | Chủ đề chính (Tiếng Việt) | Bài giảng & Bài đọc (.md / .ipynb) | Slide | Bài tập Lab | Đáp án | Tài nguyên (Data / Images) | Trạng thái |
 |:---:|:---|:---|:---:|:---:|:---:|:---:|:---:|
-| **Tuần 01** | **Giới thiệu học phần** | [📘 Notebook](lectures/week-01-gioi-thieu-hoc-phan/lecture.ipynb)<br>• [Sáu bước trong quy trình phân tích dữ liệu](lectures/week-01-gioi-thieu-hoc-phan/cac_buoc_cua_phan_tich_du_lieu.md)<br>• [Khám phá tương quan trong Python](lectures/week-01-gioi-thieu-hoc-phan/kham_pha_tuong_quan.md)<br>• [Phân tích dữ liệu khám phá](lectures/week-01-gioi-thieu-hoc-phan/phan_tich_du_lieu_kham_pha.md)<br>• [Phân tích dữ liệu là gì?](lectures/week-01-gioi-thieu-hoc-phan/phan_tich_du_lieu_la_gi.md)<br>• [Phân tích thống kê là gì?](lectures/week-01-gioi-thieu-hoc-phan/phan_tich_thong_ke.md) | [📊 Slides](lectures/week-01-gioi-thieu-hoc-phan/slides.md) | [💻 Lab](lectures/week-01-gioi-thieu-hoc-phan/lab_exercise.ipynb) | [🔑 Đáp án](lectures/week-01-gioi-thieu-hoc-phan/lab_solution.ipynb) | [📁 Data](lectures/week-01-gioi-thieu-hoc-phan/data/) | [🖼️ Images](lectures/week-01-gioi-thieu-hoc-phan/images/) | ✅ *Đã sẵn sàng* |
+| **Tuần 01** | **Giới thiệu học phần** | [📘 Notebook](lectures/week-01-gioi-thieu-hoc-phan/lecture.ipynb)<br>• [Sáu bước trong quy trình phân tích dữ liệu](lectures/week-01-gioi-thieu-hoc-phan/cac_buoc_cua_phan_tich_du_lieu.md)<br>• [Khám phá tương quan trong Python](lectures/week-01-gioi-thieu-hoc-phan/kham_pha_tuong_quan.md)<br>• [Phân tích dữ liệu khám phá](lectures/week-01-gioi-thieu-hoc-phan/phan_tich_du_lieu_kham_pha.md)<br>• [Phân tích dữ liệu là gì?](lectures/week-01-gioi-thieu-hoc-phan/phan_tich_du_lieu_la_gi.md)<br>• [Phân tích thống kê là gì?](lectures/week-01-gioi-thieu-hoc-phan/phan_tich_thong_ke.md) | [📊 Slides](lectures/week-01-gioi-thieu-hoc-phan/slides.md) | [💻 Lab](lectures/week-01-gioi-thieu-hoc-phan/lab_exercise.ipynb) | [🔑 Đáp án / Solution](lectures/week-01-gioi-thieu-hoc-phan/lab_solution.ipynb) | [📁 Data](lectures/week-01-gioi-thieu-hoc-phan/data/) | [🖼️ Images](lectures/week-01-gioi-thieu-hoc-phan/images/) | ✅ *Đã sẵn sàng* |
 | **Tuần 02** | Thư viện tính toán NumPy | - | - | - | - | - | ⏳ *Đang biên soạn* |
 | **Tuần 03** | Thư viện thao tác dữ liệu Pandas | - | - | - | - | - | ⏳ *Đang biên soạn* |
 | **Tuần 04** | Khám phá & Trực quan hóa dữ liệu | - | - | - | - | - | ⏳ *Đang biên soạn* |
@@ -63,7 +65,7 @@ jupyter lab
 
 ---
 
-## 📖 4. Tài liệu & Quy trình Soạn bài giảng
+## 📖 4. Tài liệu Quy trình & Quản lý Bài giảng
 
 - 📋 **Đề cương chi tiết học phần:** Xem tệp [syllabus-vn.md](syllabus-vn.md)
 - ⚙️ **Quy trình soạn bài giảng & Quản lý ảnh:** Xem tệp [QUY_TRINH_SOAN_BAI_GIANG.md](QUY_TRINH_SOAN_BAI_GIANG.md)
