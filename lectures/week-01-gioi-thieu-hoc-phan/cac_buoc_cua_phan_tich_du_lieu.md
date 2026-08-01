@@ -8,9 +8,7 @@ Phân tích dữ liệu là quá trình thu thập, làm sạch, tổ chức và
 - **Cách tiếp cận có hệ thống:** Góp phần bảo đảm độ chính xác và độ tin cậy của kết quả.
 - **Ra quyết định tốt hơn:** Hỗ trợ đưa ra quyết định dựa trên dữ liệu thay vì chỉ dựa trên cảm tính.
 
-<p align="center">
-  <img src="images/image.png" alt="Sáu bước trong quy trình phân tích dữ liệu" />
-</p>
+![alt text](image.png)
 
 ### Câu hỏi nhanh
 
@@ -96,9 +94,7 @@ titanic.head()
 
 Bộ dữ liệu Titanic được tích hợp sẵn trong thư viện Seaborn. Lệnh `head()` hiển thị một số dòng đầu tiên để người phân tích kiểm tra nhanh cấu trúc dữ liệu.
 
-<p align="center">
-  <img src="images/image-1.png" alt="Xác định vấn đề trong phân tích dữ liệu" />
-</p>
+![alt text](image-1.png)
 
 > **Lưu ý:** Trong bài giảng này, bộ dữ liệu Titanic được sử dụng làm ví dụ xuyên suốt cho các bước làm sạch, phân tích, trực quan hóa và xây dựng mô hình.
 
@@ -196,9 +192,7 @@ titanic["embarked"] = titanic["embarked"].map({
 titanic.head()
 ```
 
-<p align="center">
-  <img src="images/image-2.png" alt="Thu thập dữ liệu" />
-</p>
+![alt text](image-2.png)
 
 ### Câu hỏi nhanh
 
@@ -252,9 +246,7 @@ sns.heatmap(
 plt.title("Ma trận tương quan")
 plt.show()
 ```
-<p align="center">
-  <img src="images/image-3.png" alt="Làm sạch dữ liệu" />
-</p>
+![alt text](image-3.png)
 
 Biểu đồ nhiệt giúp quan sát mức độ tương quan giữa các biến số trong bộ dữ liệu.
 
@@ -270,9 +262,7 @@ plt.title("Tỷ lệ sống sót theo hạng hành khách")
 plt.show()
 ```
 
-<p align="center">
-  <img src="images/image-4.png" alt="Phân tích dữ liệu" />
-</p>
+![alt text](image-4.png)
 
 Biểu đồ cột cho phép so sánh tỷ lệ sống sót trung bình giữa các nhóm hạng hành khách.
 
@@ -329,9 +319,7 @@ plt.title("Số lượng hành khách theo trạng thái sống sót")
 plt.show()
 ```
 
-<p align="center">
-  <img src="images/image-5.png" alt="Trực quan hóa dữ liệu" />
-</p>
+![alt text](image.png)
 ### Biểu đồ phân phối độ tuổi
 
 ```python
@@ -342,7 +330,7 @@ sns.histplot(
 plt.title("Phân phối độ tuổi")
 plt.show()
 ```
-
+![alt text](image-1.png)
 ### Biểu đồ phân tán giữa tuổi và giá vé
 
 ```python
@@ -356,10 +344,8 @@ plt.title("Mối quan hệ giữa giá vé và độ tuổi theo trạng thái s
 plt.show()
 ```
 
-<p align="center">
-  <img src="images/titanic_visualizations.png" alt="Các biểu đồ trực quan hóa dữ liệu Titanic" />
-</p>
-![alt text](image.png)
+![alt text](image-3.png)
+
 ### Câu hỏi nhanh
 
 **Câu 1.** Loại biểu đồ nào phù hợp để thể hiện phân phối của biến `age`?

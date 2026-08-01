@@ -36,10 +36,13 @@ Data_Analysis_with_Python/
 
 ---
 
-## 🖼️ 2. Quy chuẩn Quản lý & Căn giữa Hình ảnh (Image Centering Rules)
+## 🖼️ 2. Quy chuẩn Quản lý, Căn giữa & Bảo vệ Hình ảnh (Image Preservation & Centering Rules)
 
 1. **Vị trí lưu trữ**: Tất cả ảnh minh họa, sơ đồ, infographic hoặc biểu đồ được tạo/export cho tuần học nào sẽ nằm trong thư mục `lectures/week-XX-<slug>/images/`.
-2. **Quy tắc Bắt buộc Căn giữa (Image Centering Rule)**:
+2. **Quy tắc Không Ghi đè & Tự động Đổi tên (No-Overwrite & Auto-Rename Rule)**:
+   - **Tuyệt đối không xóa hoặc ghi đè** lên các tệp ảnh đã tồn tại trong thư mục `images/`.
+   - Nếu tên tệp ảnh mới định lưu bị trùng tên với tệp ảnh đã có sẵn, Antigravity Skill sẽ tự động thêm số thứ tự phân biệt (ví dụ `image-1.png`, `image-2.png` hoặc `chart-v2.png`) để đảm bảo không làm mất ảnh cũ.
+3. **Quy tắc Bắt buộc Căn giữa (Image Centering Rule)**:
    - **TẤT CẢ HÌNH ẢNH** trong các tệp Markdown (`README.md`, `slides.md`, các bài đọc `.md`) và Notebook (`.ipynb`) **PHẢI ĐƯỢC CĂN GIỮA (CENTERED)** để hiển thị trực quan và đẹp mắt.
    - Cú pháp HTML Căn giữa Chuẩn:
      ```html
@@ -47,7 +50,7 @@ Data_Analysis_with_Python/
        <img src="images/ten-anh.png" alt="Mô tả hình ảnh" width="800" />
      </p>
      ```
-3. **Tự động hóa**: Antigravity Skill sẽ tự động chuyển tệp ảnh vào `images/`, căn giữa ảnh và cập nhật lại đường dẫn tương đối chính xác trong các tệp `.md` và `.ipynb`.
+4. **Tự động hóa**: Antigravity Skill sẽ tự động chuyển tệp ảnh vào `images/`, đổi tên chống trùng, căn giữa ảnh và cập nhật lại đường dẫn tương đối chính xác trong các tệp `.md` và `.ipynb`.
 
 ---
 
