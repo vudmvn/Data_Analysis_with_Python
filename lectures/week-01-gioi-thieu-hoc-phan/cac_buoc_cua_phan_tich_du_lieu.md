@@ -359,9 +359,7 @@ plt.show()
 <p align="center">
   <img src="images/titanic_visualizations.png" alt="Các biểu đồ trực quan hóa dữ liệu Titanic" />
 </p>
-![
-    
-](image.png)
+![alt text](image.png)
 ### Câu hỏi nhanh
 
 **Câu 1.** Loại biểu đồ nào phù hợp để thể hiện phân phối của biến `age`?
