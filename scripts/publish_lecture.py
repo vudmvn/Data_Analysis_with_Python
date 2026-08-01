@@ -4,8 +4,8 @@ Script tự động quét các bài giảng trong `lectures/`, đối chiếu v�
 tạo/cập nhật Cổng thông tin môn học Song ngữ (Tiếng Việt `README.md` và Tiếng Anh `README-en.md`),
 và thực hiện commit + push lên GitHub.
 
-Cách dùng:
-    python scripts/publish_lecture.py --message "Cập nhật bài giảng Tuần 01"
+Quy tắc: Những mục chưa được biên soạn thực tế (chỉ là template khung hoặc thư mục rỗng)
+sẽ hiển thị dấu gạch ngang '-' thay vì hiển thị link rỗng.
 """
 
 import os
@@ -123,6 +123,19 @@ SYLLABUS_WEEKS = [
     }
 ]
 
+def is_valid_content_file(file_path, min_bytes=1500):
+    """Kiểm tra tệp xem đã có nội dung thực tế chưa hay chỉ là template rỗng"""
+    if not os.path.exists(file_path):
+        return False
+    size = os.path.getsize(file_path)
+    return size >= min_bytes
+
+def is_non_empty_dir(dir_path):
+    """Kiểm tra thư mục xem có chứa tệp thực tế nào không"""
+    if not os.path.exists(dir_path) or not os.path.isdir(dir_path):
+        return False
+    return len(os.listdir(dir_path)) > 0
+
 def scan_lectures_dir(lectures_dir):
     """
     Quét thư mục lectures/ để tìm các thư mục tuần học và các file tài liệu bên trong.
@@ -138,13 +151,21 @@ def scan_lectures_dir(lectures_dir):
             if len(parts) >= 2:
                 week_key = parts[1] # e.g. "01", "02"
                 files = os.listdir(folder_path)
+
+                # Kiểm tra từng loại tài nguyên
+                lecture_file = os.path.join(folder_path, "lecture.ipynb")
+                slides_file = os.path.join(folder_path, "slides.md")
+                lab_file = os.path.join(folder_path, "lab_exercise.ipynb")
+                solution_file = os.path.join(folder_path, "lab_solution.ipynb")
+                data_dir_path = os.path.join(folder_path, "data")
+                images_dir_path = os.path.join(folder_path, "images")
                 
-                notebook_link = f"[📘 Notebook](lectures/{folder}/lecture.ipynb)" if "lecture.ipynb" in files else "-"
-                slides_link = f"[📊 Slides](lectures/{folder}/slides.md)" if "slides.md" in files else "-"
-                lab_link = f"[💻 Lab](lectures/{folder}/lab_exercise.ipynb)" if "lab_exercise.ipynb" in files else "-"
-                solution_link = f"[🔑 Đáp án / Solution](lectures/{folder}/lab_solution.ipynb)" if "lab_solution.ipynb" in files else "-"
-                data_link = f"[📁 Data](lectures/{folder}/data/)" if "data" in files and os.path.isdir(os.path.join(folder_path, "data")) else "-"
-                images_link = f"[🖼️ Images](lectures/{folder}/images/)" if "images" in files and os.path.isdir(os.path.join(folder_path, "images")) else "-"
+                notebook_link = f"[📘 Notebook](lectures/{folder}/lecture.ipynb)" if is_valid_content_file(lecture_file, 2000) else "-"
+                slides_link = f"[📊 Slides](lectures/{folder}/slides.md)" if is_valid_content_file(slides_file, 1500) else "-"
+                lab_link = f"[💻 Lab](lectures/{folder}/lab_exercise.ipynb)" if is_valid_content_file(lab_file, 1500) else "-"
+                solution_link = f"[🔑 Đáp án / Solution](lectures/{folder}/lab_solution.ipynb)" if is_valid_content_file(solution_file, 1500) else "-"
+                data_link = f"[📁 Data](lectures/{folder}/data/)" if is_non_empty_dir(data_dir_path) else "-"
+                images_link = f"[🖼️ Images](lectures/{folder}/images/)" if is_non_empty_dir(images_dir_path) else "-"
 
                 # Tìm các bài đọc bổ sung dạng .md (ngoại trừ README.md và slides.md)
                 extra_mds = []
@@ -390,7 +411,7 @@ if __name__ == "__main__":
         sys.stdout.reconfigure(encoding='utf-8')
 
     parser = argparse.ArgumentParser(description="Cập nhật Cổng thông tin môn học Song ngữ và đẩy bài giảng lên GitHub.")
-    parser.add_argument("--message", "-m", default="docs(readme): Cập nhật Cổng thông tin môn học Song ngữ (README.md & README-en.md)", help="Nội dung commit message")
+    parser.add_argument("--message", "-m", default="docs(readme): Cập nhật Cổng thông tin môn học Song ngữ với quy định dấu gạch ngang '-' cho mục chưa có", help="Nội dung commit message")
     parser.add_argument("--no-push", action="store_true", help="Chỉ cập nhật README files, không git commit & push")
     args = parser.parse_args()
 

@@ -1,6 +1,6 @@
 ---
 name: course-syllabus-updater
-description: Skill chuyên tự động tổng hợp, cập nhật và đồng bộ file README.md (Tiếng Việt có dấu chuẩn) và README-en.md (Phiên bản Tiếng Anh song ngữ) cho môn Phân tích dữ liệu với Python (DSAI1005). Tự động tạo bảng ma trận liên kết động tới tất cả các bài giảng (.ipynb, .md), slide (.md), bài tập lab, đáp án, tệp dữ liệu (data/) và hình ảnh (images/) cho cả 15 tuần học. Kích hoạt khi người dùng yêu cầu cập nhật trang chủ, cập nhật syllabus, đồng bộ bảng bài giảng hoặc tạo/cập nhật phiên bản song ngữ.
+description: Skill chuyên tự động tổng hợp, cập nhật và đồng bộ file README.md (Tiếng Việt có dấu chuẩn) và README-en.md (Phiên bản Tiếng Anh song ngữ) cho môn Phân tích dữ liệu với Python (DSAI1005). Tự động tạo bảng ma trận liên kết động tới các bài giảng, slide, lab, đáp án, tệp dữ liệu và hình ảnh (hiển thị dấu gạch ngang '-' đối với các mục chưa có hoặc chưa được biên soạn thực tế). Kích hoạt khi người dùng yêu cầu cập nhật trang chủ, cập nhật syllabus, đồng bộ bảng bài giảng hoặc tạo/cập nhật phiên bản song ngữ.
 ---
 
 # Skill: Cập nhật File Markdown Giới thiệu Môn học & Cổng thông tin Song ngữ (Bilingual Course Portal Updater)
@@ -15,16 +15,10 @@ Skill này hỗ trợ tự động duy trì và cập nhật tệp **`README.md`
 2. **Hỗ trợ Phiên bản Song ngữ (Bilingual Support)**: Tự động khởi tạo và cập nhật song song 2 phiên bản trang chủ:
    - **`README.md`**: Trang chủ Tiếng Việt (có nút chuyển ngữ 🌐 sang English).
    - **`README-en.md`**: Trang chủ Tiếng Anh (có nút chuyển ngữ 🌐 về Tiếng Việt).
-3. **Xây dựng Bảng Ma trận Liên kết Động (Dynamic Course Matrix)**: Quét tự động thư mục `lectures/` và xây dựng bảng liên kết trực tiếp cho cả 15 tuần học tới:
-   - Bài giảng Jupyter Notebook (`lecture.ipynb`)
-   - Bài đọc / Ghi chép lý thuyết bổ sung (`.md` như `phan_tich_du_lieu_la_gi.md`)
-   - Slide bài giảng (`slides.md`)
-   - Bài tập Lab dành cho sinh viên (`lab_exercise.ipynb`)
-   - Đáp án chi tiết cho giảng viên (`lab_solution.ipynb`)
-   - Thư mục Dữ liệu (`data/`) & Hình ảnh minh họa (`images/`)
-4. **Cập nhật Trạng thái Tiến độ (Progress Tracker)**:
-   - Các tuần đã có bài giảng: Hiển thị đầy đủ link tải/xem tài liệu.
-   - Các tuần chưa soạn: Hiển thị trạng thái ⏳ *Đang biên soạn* (In Progress).
+3. **Quy tắc Hiển thị Dấu Gạch Ngang `-` cho Mục chưa Biên soạn**:
+   - Đối với các tài nguyên **chưa được tạo** hoặc **mới chỉ có tệp template khung rỗng** (chưa có nội dung thực tế như `slides.md`, `lab_exercise.ipynb`, `lab_solution.ipynb`, `data/` rỗng), bảng ma trận bắt buộc hiển thị **dấu gạch ngang `-`**.
+   - Chỉ hiển thị đường liên kết icon (VD: `[📊 Slides]`, `[💻 Lab]`, `[🔑 Đáp án]`) khi tệp đã chứa nội dung bài giảng/thực hành đầy đủ và hoàn chỉnh.
+4. **Xây dựng Bảng Ma trận Liên kết Động (Dynamic Course Matrix)**: Quét tự động thư mục `lectures/` và xây dựng bảng liên kết trực tiếp cho cả 15 tuần học.
 
 ---
 
@@ -34,7 +28,10 @@ Skill này hỗ trợ tự động duy trì và cập nhật tệp **`README.md`
 - Tất cả tiêu đề tuần học, tài liệu đọc và phần mô tả phải chuẩn hóa Tiếng Việt có dấu (VD: `"Tuần 01: Giới thiệu học phần"`, `"Sáu bước trong quy trình phân tích dữ liệu"`).
 - Không viết tắt hoặc bỏ dấu trong các bảng ma trận.
 
-### 2. Quy chuẩn Song ngữ (`README-en.md`)
+### 2. Quy chuẩn Dấu Gạch Ngang (`-`)
+- Cột nào của tuần học chưa có tài nguyên hoàn chỉnh (Ví dụ: chưa soạn Slide, chưa có file Lab, đáp án, hoặc thư mục `data/` đang rỗng) thì đặt giá trị `-`.
+
+### 3. Quy chuẩn Song ngữ (`README-en.md`)
 - Cung cấp tiêu đề và mô tả chuẩn bằng Tiếng Anh (VD: `"Week 01: Course Introduction & Setup"`, `"Data Cleaning & Preprocessing"`).
 - Đặt nút chuyển đổi ngôn ngữ nổi bật ở đầu trang: `🌐 Ngôn ngữ / Language: 🇻🇳 Tiếng Việt | 🇬🇧 English`.
 
@@ -49,19 +46,9 @@ Khi người dùng ra lệnh:
 
 Agent sẽ thực hiện:
 1. Đọc nội dung từ `syllabus-vn.md` và thông tin các file bài đọc trong `lectures/`.
-2. Thực thi script `python scripts/publish_lecture.py` để sinh đồng thời cả 2 tệp `README.md` (Tiếng Việt) và `README-en.md` (Tiếng Anh).
-3. Kiểm tra tính hợp lệ của tất cả các liên kết tương đối (relative links) và kiểm tra chính tả Tiếng Việt có dấu.
+2. Kiểm tra tính thực tế của các tệp `slides.md`, `lab_exercise.ipynb`, `lab_solution.ipynb` (gán `-` nếu chưa hoàn thiện).
+3. Thực thi script `python scripts/publish_lecture.py` để sinh đồng thời cả 2 tệp `README.md` (Tiếng Việt) và `README-en.md` (Tiếng Anh).
 4. Đẩy bản cập nhật mới nhất lên GitHub bằng lệnh:
    ```bash
-   python scripts/publish_lecture.py -m "docs(readme): Cập nhật cổng thông tin môn học Tiếng Việt có dấu và phiên bản song ngữ README-en.md"
+   python scripts/publish_lecture.py -m "docs(readme): Cập nhật cổng thông tin môn học với quy định dấu gạch ngang '-' cho mục chưa có"
    ```
-
----
-
-## 🛠️ 4. Lệnh Thường Dùng (Usage Prompts)
-
-- **Cập nhật lại toàn bộ README Tiếng Việt & Tiếng Anh:**
-  > *"Cập nhật lại file README môn học hiển thị tiếng Việt có dấu chuẩn và đồng bộ phiên bản song ngữ tiếng Anh."*
-
-- **Cập nhật tiêu đề bài giảng:**
-  > *"Đồng bộ lại tên tiếng Việt có dấu cho các bài giảng Tuần 1 trên README.md và README-en.md rồi push lên GitHub."*
