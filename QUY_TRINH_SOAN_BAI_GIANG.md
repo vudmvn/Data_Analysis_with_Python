@@ -10,10 +10,11 @@ Mỗi tuần học sẽ nằm trong một thư mục riêng biệt tại đườ
 
 ```text
 Data_Analysis_with_Python/
-├── .gemini/
-│   └── skills/
-│       └── python-lecture-prep/    # Antigravity Custom Skill
-│           └── SKILL.md
+├── skills/                         # THƯ MỤC QUẢN LÝ TẤT CẢ CUSTOM SKILLS
+│   ├── python-lecture-prep/        # Skill chuẩn bị bài giảng, lab & quản lý ảnh
+│   │   └── SKILL.md
+│   └── course-syllabus-updater/    # Skill cập nhật trang chủ syllabus & ma trận bài giảng
+│       └── SKILL.md
 ├── lectures/
 │   ├── week-01-gioi-thieu-hoc-phan/
 │   │   ├── README.md               # Tóm tắt lý thuyết & chỉ dẫn tuần 1 (Dùng link images/...)
