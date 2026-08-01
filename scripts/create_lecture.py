@@ -45,8 +45,10 @@ def create_lecture(week, title):
     folder_slug = f"week-{week_str}-{slugify(title)}"
     base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "lectures", folder_slug))
     data_dir = os.path.join(base_dir, "data")
+    images_dir = os.path.join(base_dir, "images")
 
     os.makedirs(data_dir, exist_ok=True)
+    os.makedirs(images_dir, exist_ok=True)
 
     # 1. Tạo README.md trong thư mục tuần
     readme_content = f"""# Tuần {week_str}: {title}
