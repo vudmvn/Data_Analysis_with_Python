@@ -30,7 +30,7 @@ The table below summarizes learning materials, lecture notebooks, slides, lab ex
 
 | Week | Main Topic (English) | Lecture & Reading Materials (.md / .ipynb) | Slides | Lab Exercise | Solutions | Resources (Data / Images) | Status |
 |:---:|:---|:---|:---:|:---:|:---:|:---:|:---:|
-| **Week 01** | **Course Introduction** | • [Six Steps in Data Analysis Process](lectures/week-01-gioi-thieu-hoc-phan/cac_buoc_cua_phan_tich_du_lieu.md)<br>• [Exploring Correlation in Python](lectures/week-01-gioi-thieu-hoc-phan/kham_pha_tuong_quan.md)<br>• [Exploratory Data Analysis](lectures/week-01-gioi-thieu-hoc-phan/phan_tich_du_lieu_kham_pha.md)<br>• [What is Data Analysis?](lectures/week-01-gioi-thieu-hoc-phan/phan_tich_du_lieu_la_gi.md)<br>• [What is Statistical Analysis?](lectures/week-01-gioi-thieu-hoc-phan/phan_tich_thong_ke.md) | - | - | - | - | ✅ *Ready* |
+| **Week 01** | **Course Introduction** | • [What is Data Analysis?](lectures/week-01-gioi-thieu-hoc-phan/phan_tich_du_lieu_la_gi.md)<br>• [Six Steps in Data Analysis Process](lectures/week-01-gioi-thieu-hoc-phan/cac_buoc_cua_phan_tich_du_lieu.md)<br>• [What is Exploratory Data Analysis?](lectures/week-01-gioi-thieu-hoc-phan/phan_tich_du_lieu_kham_pha.md)<br>• [What is Correlation Analysis?](lectures/week-01-gioi-thieu-hoc-phan/kham_pha_tuong_quan.md)<br>• [What is Statistical Analysis?](lectures/week-01-gioi-thieu-hoc-phan/phan_tich_thong_ke.md) | - | - | - | - | ✅ *Ready* |
 | **Week 02** | Numerical Computing with NumPy | - | - | - | - | - | ⏳ *In Progress* |
 | **Week 03** | Data Manipulation with Pandas | - | - | - | - | - | ⏳ *In Progress* |
 | **Week 04** | Data Exploration & Visualization | - | - | - | - | - | ⏳ *In Progress* |
@@ -50,6 +50,7 @@ The table below summarizes learning materials, lecture notebooks, slides, lab ex
 
 ## 📖 3. Additional Documents
 
+
 ---
 
-> © 2026 Dr. Minh Duc Vu - School of Data Science & Artificial Intelligence (NEU). All rights reserved.
+> © 2026 Minh Duc Vu - School of Data Science & Artificial Intelligence (NEU).
