@@ -1,0 +1,2522 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+
+\usetheme{AnnArbor}
+% \usecolortheme{seahorse}
+% \usefonttheme{professionalfonts}
+
+% \usepackage{fontspec}
+% \setsansfont{DejaVu Sans}
+% \setmainfont{DejaVu Serif}
+% \setmonofont{DejaVu Sans Mono}
+\usepackage{amsmath,amssymb,booktabs,array,multicol}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\definecolor{CodeBg}{RGB}{248,248,248}
+\definecolor{TitleBlue}{RGB}{38,79,129}
+\definecolor{AccentGreen}{RGB}{35,125,93}
+\definecolor{SoftGray}{RGB}{80,80,80}
+\definecolor{QuizOrange}{RGB}{180,95,30}
+
+\setbeamercolor{title}{fg=TitleBlue}
+\setbeamercolor{frametitle}{fg=TitleBlue}
+\setbeamercolor{structure}{fg=AccentGreen}
+\setbeamercolor{block title}{fg=white,bg=TitleBlue}
+\setbeamercolor{block body}{bg=blue!3}
+\setbeamercolor{alertblock title}{fg=white,bg=QuizOrange}
+\setbeamercolor{alertblock body}{bg=orange!6}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+\setbeamertemplate{itemize item}{\raise0.15ex\hbox{\tiny$\blacktriangleright$}}
+\setbeamertemplate{itemize subitem}{\raise0.15ex\hbox{\tiny$\bullet$}}
+
+\lstdefinestyle{py}{
+  language=Python,
+  basicstyle=\ttfamily\scriptsize,
+  backgroundcolor=\color{CodeBg},
+  frame=single,
+  framerule=0.2pt,
+  rulecolor=\color{gray!35},
+  breaklines=true,
+  showstringspaces=false,
+  keywordstyle=\color{TitleBlue}\bfseries,
+  commentstyle=\color{SoftGray}\itshape,
+  stringstyle=\color{AccentGreen}
+}
+
+\newcommand{\key}[1]{\textbf{\textcolor{AccentGreen}{#1}}}
+\newcommand{\smallnote}[1]{\vspace{0.25em}{\footnotesize\color{SoftGray}#1}}
+\newcommand{\quiztitle}[1]{\textbf{\textcolor{QuizOrange}{#1}}}
+\newcommand{\imageplaceholder}[2]{%
+\begin{center}
+\IfFileExists{#1}{%
+  \includegraphics[width=0.88\linewidth,height=0.62\textheight,keepaspectratio]{#1}\\[0.4em]
+  {\small\textcolor{SoftGray}{\textbf{#2}}}
+}{%
+  \fcolorbox{SoftGray}{gray!5}{%
+  \begin{minipage}[c][0.60\textheight][c]{0.84\linewidth}
+  \centering
+  {\Large\textcolor{TitleBlue}{Image Placeholder}}\\[1.0em]
+  {\normalsize\textbf{#2}}\\[1.2em]
+  {\footnotesize Source in the Markdown file:}\\[0.35em]
+  {\small\texttt{\detokenize{#1}}}
+  \end{minipage}}
+}%
+\end{center}
+}
+
+\title[EDA, Correlation, and Statistics]{Exploratory and Statistical Data Analysis with Python}
+\subtitle{Exploratory Data Analysis, Correlation Analysis, and Statistical Analysis}
+\author{Duc-Minh Vu}
+\institute{SLSCM Lab - FDA - NEU}
+\date{\today}
+
+\begin{document}
+\setbeamertemplate{frametitle continuation}{}
+\begin{frame}\titlepage\end{frame}
+\begin{frame}{Course Modules}
+\begin{enumerate}
+\item Exploratory Data Analysis
+\item Exploring Correlation in Python
+\item What Is Statistical Analysis?
+\end{enumerate}
+\end{frame}
+\begin{frame}
+\centering\vfill
+{\Huge\textcolor{TitleBlue}{\textbf{Exploratory Data Analysis}}}
+\vfill\end{frame}
+\begin{frame}[allowframebreaks]{Lesson Introduction}
+\small
+This lesson introduces \textbf{Exploratory Data Analysis (EDA)} as a foundational stage before statistical testing or machine-learning modeling. It focuses on examining data structure, identifying distributions, detecting missing data and outliers, assessing relationships among variables, transforming data, and communicating important findings.\par\medskip
+The lesson combines conceptual knowledge with Python examples so that learners can carry out a complete EDA workflow.\par\medskip
+\end{frame}
+\begin{frame}[allowframebreaks]{Learning Outcomes}
+\footnotesize
+After completing this lesson, learners will be able to:\par\medskip
+\begin{itemize}
+\item Explain the purpose and role of EDA in the data analysis process.
+\item Distinguish among univariate, bivariate, and multivariate analysis.
+\item Check the size, data types, missing values, and initial characteristics of a DataFrame.
+\item Use descriptive statistics to assess central tendency, dispersion, skewness, and kurtosis.
+\item Select histograms, box plots, bar charts, scatter plots, heatmaps, and pair plots for different analytical purposes.
+\item Identify and handle missing data using context-appropriate methods.
+\item Detect outliers using the IQR rule, Z-scores, and box plots.
+\item Apply transformations such as min-max scaling, standardization, and one-hot encoding.
+\item Use Pandas, Matplotlib, Seaborn, Plotly, and Scikit-learn at a basic level for EDA.
+\item Interpret results carefully, especially by distinguishing correlation from causation.
+\item Present findings, limitations, and recommended next steps in an EDA report.
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Lesson Structure}
+\small
+The lesson covers:\par\medskip
+\begin{enumerate}
+\item The concept and importance of EDA.
+\item Univariate, bivariate, and multivariate analysis.
+\item Common tools in Python.
+\item Understanding the problem and the meaning of the data.
+\item Importing and inspecting data.
+\item Handling missing data.
+\item Exploring distributions and statistical characteristics.
+\item Transforming and encoding data.
+\item Visualizing relationships among variables.
+\item Detecting and handling outliers.
+\item Communicating findings and insights.
+\item Applications, review questions, and practical exercises.
+\end{enumerate}
+\end{frame}
+\begin{frame}[allowframebreaks,fragile]{Prerequisites}
+\footnotesize
+Learners should have:\par\medskip
+\begin{itemize}
+\item Basic Python knowledge.
+\item An introductory understanding of DataFrames and data types.
+\item Access to Jupyter Notebook, JupyterLab, or Google Colab.
+\item The \texttt{\detokenize{pandas}}, \texttt{\detokenize{matplotlib}}, \texttt{\detokenize{seaborn}}, \texttt{\detokenize{plotly}}, and \texttt{\detokenize{scikit-learn}} libraries.
+\end{itemize}
+Install the required libraries with:\par\medskip
+\begin{lstlisting}[basicstyle=\ttfamily\scriptsize,backgroundcolor=\color{CodeBg},frame=single,breaklines=true]
+pip install pandas matplotlib seaborn plotly scikit-learn
+\end{lstlisting}
+Exploratory Data Analysis, commonly called \textbf{EDA}, is an important stage in the data analysis process. EDA helps analysts explore, summarize, and visualize data in order to:\par\medskip
+\begin{itemize}
+\item Understand the structure of the dataset.
+\item Detect patterns and trends.
+\item Identify unusual values.
+\item Check initial assumptions.
+\item Evaluate relationships among variables.
+\item Prepare data before applying statistical or machine-learning models.
+\end{itemize}
+\end{frame}
+\begin{frame}{Exploratory data analysis overview}
+\imageplaceholder{images/image-15.png}{Exploratory data analysis overview}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - Prerequisites}
+\footnotesize
+\textbf{Question 1.} What is the main objective of EDA?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Only to build machine-learning models
+\item[\textbf{B.}] To explore and understand data before modeling
+\item[\textbf{C.}] Only to store data
+\item[\textbf{D.}] To completely replace data cleaning
+\end{itemize}
+\textbf{Question 2. True or false?} EDA is usually performed before statistical or machine-learning modeling.\par\medskip
+\end{frame}
+\begin{frame}{Importance of EDA}
+\imageplaceholder{images/image-16.png}{Importance of EDA}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{The Importance of EDA and Main Benefits}
+\small
+EDA is important because it helps analysts understand a dataset before drawing conclusions or building models. It gives the analyst an early view of structure, quality, patterns, and modeling implications.\par\medskip
+\begin{itemize}
+\item Provides a clear view of the number of variables, data types, and data distributions.
+\item Detects patterns and relationships among variables.
+\item Identifies data errors and outliers that may affect results.
+\item Highlights potentially important features for modeling.
+\item Supports the selection of suitable modeling methods.
+\end{itemize}
+\textbf{Example}\par\medskip
+A customer dataset may contain variables such as age, income, residential area, and spending level. EDA can help determine which customer groups spend the most, whether income is related to spending, whether unusually large income values exist, and whether some variables contain too much missing data.
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Quick Check - Main Benefits}
+\footnotesize
+\textbf{Question 1.} How can EDA support model selection?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] By identifying the characteristics and structure of the data
+\item[\textbf{B.}] By deleting all data
+\item[\textbf{C.}] By replacing model evaluation
+\item[\textbf{D.}] By only increasing the number of variables
+\end{itemize}
+\textbf{Question 2.} Which of the following can be detected through EDA?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Outliers
+\item[\textbf{B.}] Relationships among variables
+\item[\textbf{C.}] Inappropriate data types
+\item[\textbf{D.}] All of the above
+\end{itemize}
+\textbf{Question 3. Case.} A column contains 70\% missing values. How can EDA support a decision about this column?\par\medskip
+\end{frame}
+\begin{frame}[allowframebreaks]{Types of Exploratory Data Analysis}
+\small
+EDA is commonly divided into three types:\par\medskip
+\begin{enumerate}
+\item Univariate analysis.
+\item Bivariate analysis.
+\item Multivariate analysis.
+\end{enumerate}
+\end{frame}
+\begin{frame}{Types of exploratory data analysis}
+\imageplaceholder{images/image-17.png}{Types of exploratory data analysis}
+\end{frame}
+\begin{frame}[allowframebreaks]{1. Univariate Analysis}
+\small
+Univariate analysis examines one variable at a time to understand its characteristics and distribution.\par\medskip
+\textbf{Common Techniques}\par\medskip
+\begin{itemize}
+\item \textbf{Histogram:} Shows the distribution of numerical values.
+\item \textbf{Box plot:} Shows dispersion and helps detect outliers.
+\item \textbf{Bar chart:} Commonly used for categorical variables.
+\item \textbf{Descriptive statistics:} Includes the mean, median, mode, standard deviation, and quantiles.
+\end{itemize}
+\textbf{Example}\par\medskip
+For the variable \texttt{\detokenize{age}}, an analyst can:\par\medskip
+\begin{itemize}
+\item Calculate the mean and median age.
+\item Draw a histogram to inspect the distribution.
+\item Draw a box plot to detect unusual ages.
+\item Check whether the distribution is skewed.
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - 1. Univariate Analysis}
+\footnotesize
+\textbf{Question 1.} How many variables does univariate analysis examine at a time?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] One
+\item[\textbf{B.}] Two
+\item[\textbf{C.}] Three
+\item[\textbf{D.}] None
+\end{itemize}
+\textbf{Question 2.} Which chart is appropriate for examining the distribution of a numerical variable?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Histogram
+\item[\textbf{B.}] Network diagram
+\item[\textbf{C.}] Heatmap
+\item[\textbf{D.}] Gantt chart
+\end{itemize}
+\textbf{Question 3.} What is a box plot commonly used for?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Checking network connectivity
+\item[\textbf{B.}] Detecting outliers and examining dispersion
+\item[\textbf{C.}] Loading data
+\item[\textbf{D.}] Converting data types
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{2. Bivariate Analysis}
+\footnotesize
+Bivariate analysis examines the relationship between two variables to understand how they interact or change together.\par\medskip
+\textbf{Common Techniques}\par\medskip
+\begin{itemize}
+\item \textbf{Scatter plot:} Shows the relationship between two numerical variables.
+\item \textbf{Correlation coefficient:} Measures the strength and direction of a linear relationship.
+\item \textbf{Cross-tabulation:} Shows the relationship between two categorical variables.
+\item \textbf{Line graph:} Compares two variables over time.
+\item \textbf{Covariance:} Indicates how two variables vary together.
+\end{itemize}
+\textbf{Example}\par\medskip
+For \texttt{\detokenize{age}} and \texttt{\detokenize{income}}, an analyst can:\par\medskip
+\begin{itemize}
+\item Draw a scatter plot.
+\item Calculate the correlation coefficient.
+\item Check whether income tends to increase with age.
+\item Detect observations that differ clearly from the overall pattern.
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - 2. Bivariate Analysis}
+\footnotesize
+\textbf{Question 1.} Which technique is suitable for examining the relationship between two numerical variables?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Scatter plot
+\item[\textbf{B.}] One-variable bar chart
+\item[\textbf{C.}] One-variable histogram
+\item[\textbf{D.}] Single frequency table
+\end{itemize}
+\textbf{Question 2.} A correlation coefficient measures:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] The number of data rows
+\item[\textbf{B.}] The strength and direction of a relationship between two variables
+\item[\textbf{C.}] The number of missing values
+\item[\textbf{D.}] File size
+\end{itemize}
+\textbf{Question 3. True or false?} A high correlation always proves that one variable causes the other.\par\medskip
+\end{frame}
+\begin{frame}[allowframebreaks]{3. Multivariate Analysis}
+\footnotesize
+Multivariate analysis examines three or more variables to understand complex relationships in a dataset.\par\medskip
+\textbf{Common Techniques}\par\medskip
+\begin{itemize}
+\item \textbf{Pair plot:} Displays relationships among many pairs of variables.
+\item \textbf{Principal Component Analysis (PCA):} Reduces dimensionality while attempting to preserve important information.
+\item \textbf{Spatial analysis:} Examines geographic patterns using maps and location data.
+\item \textbf{Correlation matrix:} Shows relationships among many numerical variables.
+\item \textbf{Clustering and classification:} May reveal complex structure in data.
+\end{itemize}
+\textbf{Example}\par\medskip
+In customer data, an analyst may examine:\par\medskip
+\begin{itemize}
+\item Age.
+\item Income.
+\item Purchase frequency.
+\item Total spending.
+\end{itemize}
+This can help identify groups of customers with similar characteristics.\par\medskip
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - 3. Multivariate Analysis}
+\footnotesize
+\textbf{Question 1.} Multivariate analysis typically examines:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] One variable
+\item[\textbf{B.}] Two variables
+\item[\textbf{C.}] Three or more variables
+\item[\textbf{D.}] No variables
+\end{itemize}
+\textbf{Question 2.} PCA is mainly used to:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Increase the number of data rows
+\item[\textbf{B.}] Reduce data dimensionality
+\item[\textbf{C.}] Delete all numerical variables
+\item[\textbf{D.}] Convert charts into tables
+\end{itemize}
+\textbf{Question 3.} What does a pair plot do?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Displays relationships among multiple pairs of variables
+\item[\textbf{B.}] Displays only one value
+\item[\textbf{C.}] Processes text only
+\item[\textbf{D.}] Checks data-access permissions
+\end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Tools for EDA in Python}
+\small
+EDA can be performed with many tools. In this course, the practical focus is on Python-based workflows.\par\medskip
+\begin{itemize}
+\item \textbf{Pandas:} data handling, table inspection, cleaning, grouping, and transformation.
+\item \textbf{Matplotlib:} basic plotting and figure customization.
+\item \textbf{Seaborn:} statistical visualization such as histograms, box plots, scatter plots, heatmaps, and pair plots.
+\item \textbf{Plotly:} interactive visualization for exploratory dashboards and richer inspection.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Quick Check - Python Tools}
+\footnotesize
+\textbf{Question 1.} Which Python library is commonly used to manipulate tabular data?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Pandas
+\item[\textbf{B.}] Matplotlib
+\item[\textbf{C.}] Plotly
+\item[\textbf{D.}] Seaborn
+\end{itemize}
+\textbf{Question 2.} Which tool is suitable for interactive charts in Python?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Plotly
+\item[\textbf{B.}] Pandas
+\item[\textbf{C.}] NumPy
+\item[\textbf{D.}] pathlib
+\end{itemize}
+\end{frame}
+
+\begin{frame}{EDA Workflow}
+\small
+EDA consists of a sequence of steps that help analysts understand data, detect problems, and prepare the data for subsequent analysis.\par\medskip
+\imageplaceholder{images/image-18.png}{EDA workflow}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Step 1. Understand the Problem and the Data}
+\small
+The first step is to understand the problem and the meaning of the available data.\par\medskip
+\textbf{Questions to Ask}\par\medskip
+\begin{itemize}
+\item What is the objective or problem?
+\item Which variables are in the dataset?
+\item What does each variable represent?
+\item What types of data are present: numerical, categorical, text, or time?
+\item Are there quality problems or limitations?
+\end{itemize}
+\textbf{Example}\par\medskip
+If the objective is to predict customer churn, identify:\par\medskip
+\begin{itemize}
+\item The target variable.
+\item Potentially relevant input variables.
+\item The period during which the data were collected.
+\item Whether churners and non-churners are imbalanced.
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - Step 1. Understand the Problem and the Data}
+\footnotesize
+\textbf{Question 1.} Why is it necessary to understand the meaning of each variable?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] To interpret the data in the correct context
+\item[\textbf{B.}] To increase the number of variables
+\item[\textbf{C.}] To replace data collection
+\item[\textbf{D.}] To avoid visualization
+\end{itemize}
+\textbf{Question 2.} Which question is appropriate at this step?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Which variable is the target?
+\item[\textbf{B.}] What data types are present?
+\item[\textbf{C.}] What limitations does the dataset have?
+\item[\textbf{D.}] All of the above
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks,fragile]{Step 2. Import and Inspect the Data}
+\footnotesize
+After understanding the problem, the data are loaded into Python or another analytical tool for an initial inspection.\par\medskip
+\textbf{Main Tasks}\par\medskip
+\begin{itemize}
+\item Load the dataset correctly.
+\item Check the number of rows and columns.
+\item Identify missing values.
+\item Inspect each variable's data type.
+\item Detect errors, invalid values, or unusual observations.
+\end{itemize}
+\textbf{Python Example}\par\medskip
+\begin{lstlisting}[style=py]
+import pandas as pd
+
+df = pd.read_csv("data.csv")
+
+print(df.head())
+print(df.shape)
+print(df.info())
+print(df.isnull().sum())
+\end{lstlisting}
+\textbf{Explanation}\par\medskip
+\begin{itemize}
+\item \texttt{\detokenize{head()}} displays the first rows.
+\item \texttt{\detokenize{shape}} returns the number of rows and columns.
+\item \texttt{\detokenize{info()}} provides data-type information.
+\item \texttt{\detokenize{isnull().sum()}} counts missing values in each column.
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - Step 2. Import and Inspect the Data}
+\footnotesize
+\textbf{Question 1.} Which attribute returns the number of rows and columns?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] \texttt{\detokenize{df.shape}}
+\item[\textbf{B.}] \texttt{\detokenize{df.head()}}
+\item[\textbf{C.}] \texttt{\detokenize{df.info()}}
+\item[\textbf{D.}] \texttt{\detokenize{df.columns()}}
+\end{itemize}
+\textbf{Question 2.} Which command helps inspect column data types?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] \texttt{\detokenize{df.info()}}
+\item[\textbf{B.}] \texttt{\detokenize{df.plot()}}
+\item[\textbf{C.}] \texttt{\detokenize{df.sort_values()}}
+\item[\textbf{D.}] \texttt{\detokenize{df.drop()}}
+\end{itemize}
+\textbf{Question 3.} Why should the data be inspected immediately after import?\par\medskip
+\end{frame}
+\begin{frame}[allowframebreaks,fragile]{Step 3. Handle Missing Data}
+\footnotesize
+Missing data are common in real datasets and can affect analytical quality.\par\medskip
+\textbf{Main Tasks}\par\medskip
+\begin{itemize}
+\item Identify why values are missing.
+\item Decide whether to remove or impute missing values.
+\item Select an appropriate imputation method.
+\item Assess the uncertainty remaining after treatment.
+\end{itemize}
+\textbf{Common Methods}\par\medskip
+\begin{itemize}
+\item Mean imputation.
+\item Median imputation.
+\item Mode imputation.
+\item Regression-based imputation.
+\item K-nearest-neighbor imputation.
+\item Decision-tree methods.
+\item Removing rows or columns when appropriate.
+\end{itemize}
+\textbf{Example}\par\medskip
+\begin{lstlisting}[style=py]
+df["age"] = df["age"].fillna(
+    df["age"].median()
+)
+
+df["city"] = df["city"].fillna(
+    df["city"].mode()[0]
+)
+\end{lstlisting}
+\textbf{Note}\par\medskip
+Removing missing observations may reduce sample size and introduce bias. Imputation may also change the original distribution. Therefore, the missingness mechanism and the analytical context should be considered.\par\medskip
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - Step 3. Handle Missing Data}
+\footnotesize
+\textbf{Question 1.} Why should analysts not automatically delete every row with missing data?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] It may reduce the sample and introduce bias
+\item[\textbf{B.}] Missing data are always correct
+\item[\textbf{C.}] Pandas cannot remove rows
+\item[\textbf{D.}] Every missing value equals zero
+\end{itemize}
+\textbf{Question 2.} Which method is suitable for a skewed numerical variable with outliers?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Median
+\item[\textbf{B.}] Maximum value
+\item[\textbf{C.}] Random value
+\item[\textbf{D.}] Column name
+\end{itemize}
+\textbf{Question 3. True or false?} After imputation, all uncertainty is completely eliminated.\par\medskip
+\end{frame}
+\begin{frame}[allowframebreaks,fragile]{Step 4. Explore Data Characteristics}
+\small
+After handling missing data, examine the main statistical characteristics of the data.\par\medskip
+\textbf{Characteristics to Examine}\par\medskip
+\begin{itemize}
+\item Data distribution.
+\item Mean, median, and mode.
+\item Standard deviation.
+\item Skewness.
+\item Kurtosis.
+\item Outliers and unusual observations.
+\end{itemize}
+\textbf{Python Example}\par\medskip
+\begin{lstlisting}[style=py]
+print(df.describe())
+print(df["income"].skew())
+print(df["income"].kurt())
+\end{lstlisting}
+\textbf{Explanation}\par\medskip
+\begin{itemize}
+\item \texttt{\detokenize{describe()}} provides basic descriptive statistics.
+\item \texttt{\detokenize{skew()}} measures distribution asymmetry.
+\item \texttt{\detokenize{kurt()}} measures distribution kurtosis.
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - Step 4. Explore Data Characteristics}
+\footnotesize
+\textbf{Question 1.} Which measure describes data dispersion?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Standard deviation
+\item[\textbf{B.}] Column name
+\item[\textbf{C.}] Number of rows
+\item[\textbf{D.}] File type
+\end{itemize}
+\textbf{Question 2.} Skewness measures:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Distribution asymmetry
+\item[\textbf{B.}] Number of missing values
+\item[\textbf{C.}] Variable-name length
+\item[\textbf{D.}] Number of groups
+\end{itemize}
+\textbf{Question 3.} Why should both the mean and median be examined?\par\medskip
+\end{frame}
+\begin{frame}[allowframebreaks,fragile]{Step 5. Transform the Data}
+\footnotesize
+Data transformation makes the data more suitable for analysis or modeling.\par\medskip
+\textbf{Common Techniques}\par\medskip
+\begin{itemize}
+\item Scaling.
+\item Min-max scaling.
+\item Standardization.
+\item One-hot encoding.
+\item Label encoding.
+\item Log transformation.
+\item Square-root transformation.
+\item Feature creation.
+\item Aggregation or grouping.
+\end{itemize}
+\textbf{Min-Max Scaling Example}\par\medskip
+\begin{lstlisting}[style=py]
+from sklearn.preprocessing import MinMaxScaler
+
+scaler = MinMaxScaler()
+
+df[["age", "income"]] = scaler.fit_transform(
+    df[["age", "income"]]
+)
+\end{lstlisting}
+\textbf{One-Hot Encoding Example}\par\medskip
+\begin{lstlisting}[style=py]
+df = pd.get_dummies(
+    df,
+    columns=["city"],
+    drop_first=True
+)
+\end{lstlisting}
+\textbf{Feature Creation Example}\par\medskip
+\begin{lstlisting}[style=py]
+df["revenue_per_order"] = (
+    df["total_revenue"] / df["number_of_orders"]
+)
+\end{lstlisting}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - Step 5. Transform the Data}
+\footnotesize
+\textbf{Question 1.} One-hot encoding is commonly used for:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Categorical variables
+\item[\textbf{B.}] Image files
+\item[\textbf{C.}] Missing data
+\item[\textbf{D.}] Outliers
+\end{itemize}
+\textbf{Question 2.} Min-max scaling usually maps values to:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] 0 to 1
+\item[\textbf{B.}] 10 to 100
+\item[\textbf{C.}] Negative infinity to positive infinity
+\item[\textbf{D.}] Integers only
+\end{itemize}
+\textbf{Question 3.} Creating a new variable from existing variables is called:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Feature engineering
+\item[\textbf{B.}] Data deletion
+\item[\textbf{C.}] File conversion
+\item[\textbf{D.}] Data duplication
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks,fragile]{Step 6. Visualize Data Relationships}
+\footnotesize
+Visualization helps reveal patterns and relationships that may be difficult to detect in tables.\par\medskip
+\textbf{Charts for Categorical Data}\par\medskip
+\begin{itemize}
+\item Bar chart.
+\item Pie chart.
+\item Count plot.
+\end{itemize}
+\textbf{Charts for Numerical Data}\par\medskip
+\begin{itemize}
+\item Histogram.
+\item Box plot.
+\item Density plot.
+\end{itemize}
+\textbf{Charts for Relationships}\par\medskip
+\begin{itemize}
+\item Scatter plot.
+\item Line chart.
+\item Heatmap.
+\item Pair plot.
+\end{itemize}
+\textbf{Python Examples}\par\medskip
+\begin{lstlisting}[style=py]
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+sns.histplot(df["income"], kde=True)
+plt.title("Income Distribution")
+plt.show()
+\end{lstlisting}
+\begin{lstlisting}[style=py]
+sns.scatterplot(
+    x="age",
+    y="income",
+    data=df
+)
+
+plt.title("Relationship Between Age and Income")
+plt.show()
+\end{lstlisting}
+\begin{lstlisting}[style=py]
+sns.heatmap(
+    df.corr(numeric_only=True),
+    annot=True,
+    cmap="coolwarm"
+)
+
+plt.title("Correlation Matrix")
+plt.show()
+\end{lstlisting}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - Step 6. Visualize Data Relationships}
+\footnotesize
+\textbf{Question 1.} Which chart is suitable for examining the relationship between two numerical variables?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Scatter plot
+\item[\textbf{B.}] Pie chart
+\item[\textbf{C.}] One-variable bar chart
+\item[\textbf{D.}] Frequency table
+\end{itemize}
+\textbf{Question 2.} A heatmap is often used to:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Display a correlation matrix
+\item[\textbf{B.}] Delete missing values
+\item[\textbf{C.}] Load data from an API
+\item[\textbf{D.}] Convert data types
+\end{itemize}
+\textbf{Question 3.} Why can visualizations reveal problems that are not obvious in a numerical table?\par\medskip
+\end{frame}
+\begin{frame}[allowframebreaks,fragile]{Step 7. Handle Outliers}
+\footnotesize
+Outliers are observations that differ substantially from most of the data.\par\medskip
+\textbf{Possible Causes}\par\medskip
+\begin{itemize}
+\item Data-entry errors.
+\item Measurement errors.
+\item Formatting errors.
+\item Rare real-world variation.
+\item Unusual but valid events.
+\end{itemize}
+\textbf{Detection Methods}\par\medskip
+\begin{itemize}
+\item Interquartile range (IQR).
+\item Z-score.
+\item Box plot.
+\item Domain-knowledge analysis.
+\end{itemize}
+\textbf{Treatment Methods}\par\medskip
+\begin{itemize}
+\item Keep the value if it is valid.
+\item Correct it if it is a data-entry error.
+\item Apply capping.
+\item Transform the data.
+\item Remove it if it is clearly incorrect or harmful to the analysis.
+\end{itemize}
+\textbf{IQR Example}\par\medskip
+\begin{lstlisting}[style=py]
+Q1 = df["income"].quantile(0.25)
+Q3 = df["income"].quantile(0.75)
+
+IQR = Q3 - Q1
+
+lower_bound = Q1 - 1.5 * IQR
+upper_bound = Q3 + 1.5 * IQR
+
+outliers = df[
+    (df["income"] < lower_bound) |
+    (df["income"] > upper_bound)
+]
+\end{lstlisting}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - Step 7. Handle Outliers}
+\footnotesize
+\textbf{Question 1.} Outliers may occur because of:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Data-entry errors
+\item[\textbf{B.}] Real variation
+\item[\textbf{C.}] Measurement errors
+\item[\textbf{D.}] All of the above
+\end{itemize}
+\textbf{Question 2.} Which methods can detect outliers?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] IQR
+\item[\textbf{B.}] Z-score
+\item[\textbf{C.}] Box plot
+\item[\textbf{D.}] All of the above
+\end{itemize}
+\textbf{Question 3. True or false?} Every outlier must be removed.\par\medskip
+\end{frame}
+\begin{frame}[allowframebreaks]{Step 8. Communicate Results and Insights}
+\small
+The final EDA step is to present results clearly so that others can understand and use them.\par\medskip
+\textbf{What Should Be Reported?}\par\medskip
+\begin{itemize}
+\item Analytical objective and scope.
+\item Problem context.
+\item Methods used.
+\item Main patterns and trends.
+\item Unusual observations.
+\item Data limitations.
+\item Recommendations for next steps.
+\end{itemize}
+\textbf{Communication Principles}\par\medskip
+\begin{itemize}
+\item Use appropriate charts.
+\item Avoid overcrowding a figure.
+\item Highlight important findings.
+\item Explain results in accessible language.
+\item State limitations and uncertainty clearly.
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - Step 8. Communicate Results and Insights}
+\footnotesize
+\textbf{Question 1.} What should appear in an EDA report?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Analytical objective
+\item[\textbf{B.}] Main findings
+\item[\textbf{C.}] Data limitations
+\item[\textbf{D.}] All of the above
+\end{itemize}
+\textbf{Question 2.} Why should data limitations be stated?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] So readers understand the scope and reliability of the results
+\item[\textbf{B.}] To make the report longer
+\item[\textbf{C.}] To avoid presenting charts
+\item[\textbf{D.}] To eliminate analytical responsibility
+\end{itemize}
+\textbf{Question 3.} What type of language should a good EDA report use?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Clear and understandable language
+\item[\textbf{B.}] Only complex terminology
+\item[\textbf{C.}] No explanation of charts
+\item[\textbf{D.}] Source code only
+\end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Applications of EDA}
+\small
+EDA is widely used across many fields because most analytical work begins with understanding the data before modeling or decision-making.\par\medskip
+\begin{itemize}
+\item \textbf{Market analysis and customer segmentation:} identify customer groups, purchasing behavior, and market trends.
+\item \textbf{Risk assessment in finance and insurance:} detect unusual transactions, risk factors, and high-risk customer groups.
+\item \textbf{Quality control in manufacturing:} identify product defects, process variation, and possible causes of quality problems.
+\item \textbf{Healthcare data analysis and disease prediction:} explore risk factors, disease trends, and relationships among symptoms, treatments, and outcomes.
+\item \textbf{Recommender systems and product optimization:} understand user behavior, engagement, and preferences.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Quick Check - Applications of EDA}
+\footnotesize
+\textbf{Question 1.} Detecting unusual transactions is a common EDA application in:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Finance
+\item[\textbf{B.}] Graphic design
+\item[\textbf{C.}] Architecture
+\item[\textbf{D.}] Music
+\end{itemize}
+\textbf{Question 2.} In manufacturing, EDA can support:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Product-defect detection
+\item[\textbf{B.}] Process-variation monitoring
+\item[\textbf{C.}] Quality control
+\item[\textbf{D.}] All of the above
+\end{itemize}
+\textbf{Question 3. Case.} An e-commerce platform wants to improve its product recommendation system. How can EDA help?\par\medskip
+\end{frame}
+\begin{frame}[allowframebreaks]{Content Summary}
+\footnotesize
+\begin{center}\scriptsize
+\begin{tabular}{@{}p{0.18\linewidth}p{0.28\linewidth}p{0.36\linewidth}@{}}
+\toprule
+\textbf{Topic} & \textbf{Main objective} & \textbf{Tool or technique}\\
+\midrule
+\textbf{Univariate analysis} & Understand one variable & Histogram, box plot, bar chart\\
+\textbf{Bivariate analysis} & Understand relationships between two variables & Scatter plot, correlation, cross-tabulation\\
+\textbf{Multivariate analysis} & Understand relationships among multiple variables & Pair plot, PCA, correlation matrix\\
+\textbf{Missing-data handling} & Reduce the effect of incomplete data & Mean, median, mode, KNN\\
+\textbf{Feature exploration} & Understand distribution and variability & Mean, median, standard deviation\\
+\textbf{Data transformation} & Prepare data for analysis & Scaling, encoding, transformation\\
+\textbf{Outlier handling} & Detect and assess unusual observations & IQR, Z-score, box plot\\
+\textbf{Communication} & Convert results into insights & Charts, reports, dashboards\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{frame}
+\begin{frame}
+\centering\vfill
+{\Huge\textcolor{TitleBlue}{\textbf{Exploring Correlation in Python}}}
+\vfill\end{frame}
+\begin{frame}[allowframebreaks]{Lesson Introduction}
+\small
+This lesson introduces how to \textbf{explore correlation in Python} in order to evaluate the strength and direction of relationships between variables. It focuses on three widely used correlation coefficients-Pearson, Spearman, and Kendall-together with their implementation in Pandas, visualization with heatmaps, interpretation, limitations, and practical applications.\par\medskip
+The lesson combines basic statistical concepts with Python examples so that learners can calculate, compare, and visualize correlation coefficients using a small dataset.\par\medskip
+\end{frame}
+\begin{frame}[allowframebreaks]{Learning Outcomes}
+\footnotesize
+After completing this lesson, learners will be able to:\par\medskip
+\begin{itemize}
+\item Explain positive correlation, negative correlation, and the absence of clear linear correlation.
+\item Interpret the range from \texttt{\detokenize{-1}} to \texttt{\detokenize{1}} for a correlation coefficient.
+\item Distinguish among Pearson, Spearman, and Kendall correlation.
+\item Recognize when each method is appropriate.
+\item Calculate a correlation matrix with \texttt{\detokenize{DataFrame.corr()}}.
+\item Calculate correlation between two columns with \texttt{\detokenize{Series.corr()}}.
+\item Visualize a correlation matrix with \texttt{\detokenize{sns.heatmap()}}.
+\item Interpret correlation values in context.
+\item Perform an initial check for multicollinearity.
+\item Recognize the effects of outliers and nonlinear relationships on Pearson correlation.
+\item Explain why correlation does not imply causation.
+\item Apply correlation analysis in feature selection, finance, healthcare, and recommender systems.
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Lesson Structure}
+\small
+The lesson covers:\par\medskip
+\begin{enumerate}
+\item The concept and meaning of correlation.
+\item Positive, negative, and no clear linear correlation.
+\item Pearson correlation.
+\item Spearman correlation.
+\item Kendall correlation.
+\item Comparison of the three methods.
+\item Calculating correlation in Python.
+\item Visualization with heatmaps.
+\item Interpreting correlation values.
+\item Detecting multicollinearity.
+\item Limitations and applications.
+\item Review questions and practical exercises.
+\end{enumerate}
+\end{frame}
+\begin{frame}[allowframebreaks,fragile]{Prerequisites}
+\footnotesize
+Learners should have:\par\medskip
+\begin{itemize}
+\item Basic Python knowledge.
+\item An introductory understanding of DataFrames and numerical variables.
+\item Basic knowledge of means, variance, and scatter plots.
+\item Access to Jupyter Notebook, JupyterLab, or Google Colab.
+\item The \texttt{\detokenize{pandas}}, \texttt{\detokenize{matplotlib}}, \texttt{\detokenize{seaborn}}, \texttt{\detokenize{scipy}}, and \texttt{\detokenize{statsmodels}} libraries.
+\end{itemize}
+Install the required libraries with:\par\medskip
+\begin{lstlisting}[basicstyle=\ttfamily\scriptsize,backgroundcolor=\color{CodeBg},frame=single,breaklines=true]
+pip install pandas matplotlib seaborn scipy statsmodels
+\end{lstlisting}
+Correlation is one of the most widely used statistical measures for studying relationships between variables. In Python, correlation analysis helps determine whether two variables:\par\medskip
+\begin{itemize}
+\item Increase or decrease together.
+\item Move in opposite directions.
+\item Show no clear relationship.
+\end{itemize}
+Correlation analysis can support:\par\medskip
+\begin{itemize}
+\item Understanding relationships between variables.
+\item Feature selection in machine learning.
+\item Detection of multicollinearity.
+\item Data-driven decision-making.
+\end{itemize}
+\end{frame}
+\begin{frame}{Correlation overview}
+\imageplaceholder{images/image-19.png}{Correlation overview}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - Prerequisites}
+\footnotesize
+\textbf{Question 1.} What does correlation measure?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] The number of rows in a dataset
+\item[\textbf{B.}] The strength and direction of a relationship between two variables
+\item[\textbf{C.}] The size of a data file
+\item[\textbf{D.}] The number of missing values
+\end{itemize}
+\textbf{Question 2. True or false?} Correlation can support feature selection in machine learning.\par\medskip
+\end{frame}
+\begin{frame}[allowframebreaks]{What Is Correlation?}
+\small
+Correlation measures the \textbf{strength} and \textbf{direction} of the relationship between two numerical variables.\par\medskip
+A correlation coefficient usually lies in the interval:\par\medskip
+\[
+-1 \leq r \leq 1
+\]
+where:\par\medskip
+\begin{itemize}
+\item \textbf{\(r=1\):} Perfect positive relationship.
+\item \textbf{\(r=-1\):} Perfect negative relationship.
+\item \textbf{\(r=0\):} No clear linear correlation.
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Positive Correlation}
+\small
+Positive correlation occurs when two variables tend to move in the same direction.\par\medskip
+Examples:\par\medskip
+\begin{itemize}
+\item Height and weight.
+\item Study time and test scores.
+\item Advertising expenditure and sales in some contexts.
+\end{itemize}
+When one variable increases, the other tends to increase. When one decreases, the other tends to decrease.\par\medskip
+\end{frame}
+\begin{frame}[allowframebreaks]{Negative Correlation}
+\small
+Negative correlation occurs when two variables tend to move in opposite directions.\par\medskip
+Examples:\par\medskip
+\begin{itemize}
+\item Price and demand.
+\item Speed and travel time over a fixed distance.
+\item Fuel efficiency and fuel consumption.
+\end{itemize}
+When one variable increases, the other tends to decrease.\par\medskip
+\end{frame}
+\begin{frame}[allowframebreaks]{No Clear Correlation}
+\small
+A correlation value near zero indicates no clear linear relationship.\par\medskip
+Examples:\par\medskip
+\begin{itemize}
+\item Shoe size and examination score.
+\item Number of letters in a name and income.
+\item Favorite color and height.
+\end{itemize}
+\begin{block}{Note}
+\textbf{Note:} A correlation coefficient of zero does not prove that two variables are completely unrelated. They may still have a nonlinear relationship.
+\end{block}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - No Clear Correlation}
+\footnotesize
+\textbf{Question 1.} A correlation of \texttt{\detokenize{+1}} represents:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] A perfect positive relationship
+\item[\textbf{B.}] A perfect negative relationship
+\item[\textbf{C.}] No correlation
+\item[\textbf{D.}] Missing data
+\end{itemize}
+\textbf{Question 2.} Which is an example of negative correlation?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Height and weight
+\item[\textbf{B.}] Price and demand
+\item[\textbf{C.}] Study hours and test score
+\item[\textbf{D.}] Temperature and ice-cream sales
+\end{itemize}
+\textbf{Question 3. True or false?} A correlation coefficient of zero proves that two variables have no relationship of any kind.\par\medskip
+\end{frame}
+\begin{frame}[allowframebreaks]{Common Correlation Methods in Python}
+\small
+Python supports several methods for calculating correlation. Three common methods are:\par\medskip
+\begin{enumerate}
+\item Pearson correlation.
+\item Spearman correlation.
+\item Kendall correlation.
+\end{enumerate}
+\end{frame}
+\begin{frame}[allowframebreaks]{1. Pearson Correlation}
+\footnotesize
+Pearson correlation measures the \textbf{linear relationship} between two continuous variables.\par\medskip
+\textbf{Characteristics}\par\medskip
+\begin{itemize}
+\item The value lies between \texttt{\detokenize{-1}} and \texttt{\detokenize{+1}}.
+\item It is commonly used with continuous numerical data.
+\item It is suitable when the relationship is approximately linear.
+\item It is often associated with assumptions of approximately normal data.
+\item It is sensitive to outliers.
+\end{itemize}
+\textbf{Formula}\par\medskip
+The Pearson correlation coefficient is:\par\medskip
+$$
+r =
+\frac{
+\sum_{i=1}^{n}(x_i-\bar{x})(y_i-\bar{y})
+}{
+\sqrt{\sum_{i=1}^{n}(x_i-\bar{x})^2}
+\sqrt{\sum_{i=1}^{n}(y_i-\bar{y})^2}
+}
+$$
+where:\par\medskip
+\begin{itemize}
+\item \(x_i\) and \(y_i\) are observations.
+\item \(\bar{x}\) and \(\bar{y}\) are sample means.
+\item \(n\) is the number of observations.
+\end{itemize}
+\textbf{When Should Pearson Be Used?}\par\medskip
+Pearson may be appropriate when:\par\medskip
+\begin{itemize}
+\item Both variables are numerical.
+\item The relationship of interest is linear.
+\item There are no severe outliers.
+\item The distributional conditions are suitable for the intended analysis.
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - 1. Pearson Correlation}
+\footnotesize
+\textbf{Question 1.} Pearson correlation primarily measures what type of relationship?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Linear
+\item[\textbf{B.}] Categorical only
+\item[\textbf{C.}] Geographic
+\item[\textbf{D.}] Textual
+\end{itemize}
+\textbf{Question 2.} Pearson is most suitable for:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Two continuous numerical variables
+\item[\textbf{B.}] Two text passages
+\item[\textbf{C.}] Two unordered nominal variables
+\item[\textbf{D.}] Two image files
+\end{itemize}
+\textbf{Question 3. True or false?} Pearson correlation may be strongly affected by outliers.\par\medskip
+\end{frame}
+\begin{frame}[allowframebreaks]{2. Spearman Correlation}
+\footnotesize
+Spearman correlation measures a \textbf{monotonic relationship} by converting values into ranks before calculating correlation.\par\medskip
+\textbf{Characteristics}\par\medskip
+\begin{itemize}
+\item The relationship does not need to be linear.
+\item It is suitable for monotonic relationships.
+\item It can be used with ordinal data.
+\item It is useful when data are not normally distributed.
+\item It is often less sensitive to outliers than Pearson correlation.
+\end{itemize}
+\textbf{Monotonic Relationship}\par\medskip
+A relationship is monotonic when:\par\medskip
+\begin{itemize}
+\item As one variable increases, the other consistently tends to increase; or
+\item As one variable increases, the other consistently tends to decrease.
+\end{itemize}
+The rate of change does not have to be constant, and the relationship does not have to follow a straight line.\par\medskip
+\textbf{When Should Spearman Be Used?}\par\medskip
+Spearman may be appropriate when:\par\medskip
+\begin{itemize}
+\item The data are ordinal.
+\item The relationship is monotonic but nonlinear.
+\item The data do not satisfy normality assumptions well.
+\item Outliers substantially affect Pearson correlation.
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - 2. Spearman Correlation}
+\footnotesize
+\textbf{Question 1.} Spearman correlation is calculated from:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Data ranks
+\item[\textbf{B.}] Column names
+\item[\textbf{C.}] Number of files
+\item[\textbf{D.}] Chart colors
+\end{itemize}
+\textbf{Question 2.} Spearman is suitable for:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Monotonic relationships
+\item[\textbf{B.}] Only perfect linear relationships
+\item[\textbf{C.}] Only text data
+\item[\textbf{D.}] Only binary variables
+\end{itemize}
+\textbf{Question 3. True or false?} Spearman correlation can be used with ordinal data.\par\medskip
+\end{frame}
+\begin{frame}[allowframebreaks]{3. Kendall Correlation}
+\small
+Kendall correlation measures the consistency or agreement between ranked pairs of observations.\par\medskip
+\textbf{Characteristics}\par\medskip
+\begin{itemize}
+\item It is rank-based.
+\item It measures agreement between pairs.
+\item It is often suitable for small datasets.
+\item It can be robust for ordinal data or data with ties.
+\item It may be slower on large datasets.
+\end{itemize}
+\textbf{When Should Kendall Be Used?}\par\medskip
+Kendall may be considered when:\par\medskip
+\begin{itemize}
+\item The dataset is relatively small.
+\item The data are ordinal.
+\item Rank consistency is of interest.
+\item A method with weaker distributional assumptions is preferred.
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - 3. Kendall Correlation}
+\footnotesize
+\textbf{Question 1.} Kendall correlation focuses on:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Agreement between rankings
+\item[\textbf{B.}] The number of rows
+\item[\textbf{C.}] The mean
+\item[\textbf{D.}] File size
+\end{itemize}
+\textbf{Question 2.} Kendall is often suitable for:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Small datasets
+\item[\textbf{B.}] Image data only
+\item[\textbf{C.}] Audio data only
+\item[\textbf{D.}] Data with no order
+\end{itemize}
+\textbf{Question 3.} What do Spearman and Kendall have in common?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Both are rank-based
+\item[\textbf{B.}] Both apply only to text data
+\item[\textbf{C.}] Both only measure means
+\item[\textbf{D.}] Both always produce the same result as Pearson
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Comparing Pearson, Spearman, and Kendall}
+\small
+\begin{center}\scriptsize
+\begin{tabular}{@{}p{0.14\linewidth}p{0.19\linewidth}p{0.22\linewidth}p{0.25\linewidth}@{}}
+\toprule
+\textbf{Method} & \textbf{Relationship type} & \textbf{Suitable data} & \textbf{Key feature}\\
+\midrule
+\textbf{Pearson} & Linear & Continuous numerical variables & Popular and easy to interpret, but sensitive to outliers\\
+\textbf{Spearman} & Monotonic & Numerical or ordinal data & Rank-based and suitable for monotonic nonlinear relationships\\
+\textbf{Kendall} & Rank agreement & Ordinal data and small datasets & Robust and interpretable through concordant and discordant pairs\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - Comparing Pearson, Spearman, and Kendall}
+\footnotesize
+\textbf{Question 1.} Which method is most appropriate for a linear relationship between two continuous variables?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Pearson
+\item[\textbf{B.}] Spearman
+\item[\textbf{C.}] Kendall
+\item[\textbf{D.}] None of the above
+\end{itemize}
+\textbf{Question 2.} Which method is appropriate for a monotonic but nonlinear relationship?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Pearson
+\item[\textbf{B.}] Spearman
+\item[\textbf{C.}] Mean only
+\item[\textbf{D.}] Variance only
+\end{itemize}
+\textbf{Question 3.} Which method is often suitable for a small ordinal dataset?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Kendall
+\item[\textbf{B.}] Pearson
+\item[\textbf{C.}] Histogram
+\item[\textbf{D.}] Min-max scaling
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks,fragile]{Calculating Correlation in Python: Sample Dataset}
+\small
+Python provides correlation functions in Pandas and visualization tools in Seaborn and Matplotlib. The example dataset contains scores in three subjects:\par\medskip
+\begin{itemize}
+\item Mathematics.
+\item Science.
+\item English.
+\end{itemize}
+\begin{lstlisting}[style=py]
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+data = {
+    "Math": [78, 85, 96, 80, 86],
+    "Science": [88, 90, 94, 82, 89],
+    "English": [72, 75, 78, 70, 74]
+}
+
+df = pd.DataFrame(data)
+
+df
+\end{lstlisting}
+\textbf{Illustrative Result}\par\medskip
+\end{frame}
+\begin{frame}{Sample score dataset}
+\imageplaceholder{images/image-20.png}{Sample score dataset}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - 1. Create a Sample Dataset}
+\footnotesize
+\textbf{Question 1.} Which object is used to create the table?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] \texttt{\detokenize{pd.DataFrame()}}
+\item[\textbf{B.}] \texttt{\detokenize{plt.figure()}}
+\item[\textbf{C.}] \texttt{\detokenize{sns.heatmap()}}
+\item[\textbf{D.}] \texttt{\detokenize{df.drop()}}
+\end{itemize}
+\textbf{Question 2.} How many variables are in the sample dataset?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] 2
+\item[\textbf{B.}] 3
+\item[\textbf{C.}] 5
+\item[\textbf{D.}] 15
+\end{itemize}
+\textbf{Question 3.} Why is this dataset suitable for demonstration?\par\medskip
+\end{frame}
+\begin{frame}[allowframebreaks,fragile]{2. Calculate Pearson Correlation}
+\small
+Pandas provides the \texttt{\detokenize{corr()}} method to calculate correlations between numerical columns.\par\medskip
+\begin{lstlisting}[style=py]
+pearson_corr = df.corr(
+    method="pearson"
+)
+
+print(pearson_corr)
+\end{lstlisting}
+\textbf{Visualize with a Heatmap}\par\medskip
+\begin{lstlisting}[style=py]
+sns.heatmap(
+    pearson_corr,
+    annot=True,
+    cmap="coolwarm"
+)
+
+plt.title(
+    "Pearson Correlation Matrix"
+)
+
+plt.show()
+\end{lstlisting}
+\end{frame}
+\begin{frame}{Pearson correlation heatmap}
+\imageplaceholder{images/image-21.png}{Pearson correlation heatmap}
+\end{frame}
+\begin{frame}[allowframebreaks]{2. Calculate Pearson Correlation}
+\small
+\textbf{Explanation}\par\medskip
+\begin{itemize}
+\item \texttt{\detokenize{df.corr(method="pearson")}} calculates pairwise Pearson correlations.
+\item \texttt{\detokenize{annot=True}} displays the correlation values in the cells.
+\item \texttt{\detokenize{cmap="coolwarm"}} defines the color map.
+\item The main diagonal is always equal to 1 because each variable is perfectly correlated with itself.
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - 2. Calculate Pearson Correlation}
+\footnotesize
+\textbf{Question 1.} Which method calculates a correlation matrix?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] \texttt{\detokenize{df.corr()}}
+\item[\textbf{B.}] \texttt{\detokenize{df.head()}}
+\item[\textbf{C.}] \texttt{\detokenize{df.drop()}}
+\item[\textbf{D.}] \texttt{\detokenize{df.merge()}}
+\end{itemize}
+\textbf{Question 2.} Values on the main diagonal are usually:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] 0
+\item[\textbf{B.}] 1
+\item[\textbf{C.}] -1
+\item[\textbf{D.}] Undefined
+\end{itemize}
+\textbf{Question 3.} What does \texttt{\detokenize{annot=True}} do?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Displays values in the heatmap cells
+\item[\textbf{B.}] Removes missing values
+\item[\textbf{C.}] Converts data to strings
+\item[\textbf{D.}] Changes the number of rows
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks,fragile]{3. Calculate Spearman Correlation}
+\small
+Spearman converts values into ranks before calculating correlation.\par\medskip
+\begin{lstlisting}[style=py]
+spearman_corr = df.corr(
+    method="spearman"
+)
+
+print(spearman_corr)
+\end{lstlisting}
+\textbf{Visualization}\par\medskip
+\begin{lstlisting}[style=py]
+sns.heatmap(
+    spearman_corr,
+    annot=True,
+    cmap="viridis"
+)
+
+plt.title(
+    "Spearman Correlation Matrix"
+)
+
+plt.show()
+\end{lstlisting}
+\end{frame}
+\begin{frame}{Spearman correlation heatmap}
+\imageplaceholder{images/image-22.png}{Spearman correlation heatmap}
+\end{frame}
+\begin{frame}[allowframebreaks]{3. Calculate Spearman Correlation}
+\small
+\textbf{Explanation}\par\medskip
+Spearman is appropriate when:\par\medskip
+\begin{itemize}
+\item Relationships are monotonic.
+\item Data are not normally distributed.
+\item Data are ordinal.
+\item Outliers substantially affect Pearson correlation.
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - 3. Calculate Spearman Correlation}
+\footnotesize
+\textbf{Question 1.} To calculate Spearman correlation in Pandas, \texttt{\detokenize{method}} is set to:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] \texttt{\detokenize{"spearman"}}
+\item[\textbf{B.}] \texttt{\detokenize{"linear"}}
+\item[\textbf{C.}] \texttt{\detokenize{"ranked"}}
+\item[\textbf{D.}] \texttt{\detokenize{"ordinal"}}
+\end{itemize}
+\textbf{Question 2.} What does Spearman use before calculating correlation?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Ranks
+\item[\textbf{B.}] Arithmetic means
+\item[\textbf{C.}] Variable names
+\item[\textbf{D.}] Row counts
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks,fragile]{4. Calculate Kendall Correlation}
+\small
+Kendall measures agreement between ranked observations.\par\medskip
+\begin{lstlisting}[style=py]
+kendall_corr = df.corr(
+    method="kendall"
+)
+
+print(kendall_corr)
+\end{lstlisting}
+\textbf{Visualization}\par\medskip
+\begin{lstlisting}[style=py]
+sns.heatmap(
+    kendall_corr,
+    annot=True,
+    cmap="plasma"
+)
+
+plt.title(
+    "Kendall Correlation Matrix"
+)
+
+plt.show()
+\end{lstlisting}
+\end{frame}
+\begin{frame}{Kendall correlation heatmap}
+\imageplaceholder{images/image-23.png}{Kendall correlation heatmap}
+\end{frame}
+\begin{frame}[allowframebreaks]{4. Calculate Kendall Correlation}
+\small
+\textbf{Explanation}\par\medskip
+Kendall is useful when:\par\medskip
+\begin{itemize}
+\item The dataset is small.
+\item The data are ordinal.
+\item Rank agreement is important.
+\item Dependence on distributional assumptions should be reduced.
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - 4. Calculate Kendall Correlation}
+\footnotesize
+\textbf{Question 1.} Which value is used for \texttt{\detokenize{method}} when calculating Kendall correlation?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] \texttt{\detokenize{"kendall"}}
+\item[\textbf{B.}] \texttt{\detokenize{"small"}}
+\item[\textbf{C.}] \texttt{\detokenize{"pair"}}
+\item[\textbf{D.}] \texttt{\detokenize{"ordinal"}}
+\end{itemize}
+\textbf{Question 2. True or false?} Kendall can be used to assess agreement between rankings.\par\medskip
+\end{frame}
+\begin{frame}[allowframebreaks,fragile]{5. Calculate Correlation Between Two Columns}
+\small
+Correlation between two specific columns can be calculated with \texttt{\detokenize{Series.corr()}}.\par\medskip
+\begin{lstlisting}[style=py]
+corr_value = df["Math"].corr(
+    df["Science"]
+)
+
+print(
+    "Correlation between Math and Science:",
+    corr_value
+)
+\end{lstlisting}
+\textbf{Create a Two-Column Matrix}\par\medskip
+\begin{lstlisting}[style=py]
+two_col_corr = df[
+    ["Math", "Science"]
+].corr()
+
+sns.heatmap(
+    two_col_corr,
+    annot=True,
+    cmap="coolwarm"
+)
+
+plt.title(
+    "Correlation Between Math and Science"
+)
+
+plt.show()
+\end{lstlisting}
+\end{frame}
+\begin{frame}{Correlation between two columns}
+\imageplaceholder{images/image-24.png}{Correlation between two columns}
+\end{frame}
+\begin{frame}[allowframebreaks]{5. Calculate Correlation Between Two Columns}
+\small
+\textbf{Explanation}\par\medskip
+\begin{itemize}
+\item \texttt{\detokenize{df["Math"].corr(df["Science"])}} returns a single correlation value.
+\item \texttt{\detokenize{df[["Math", "Science"]].corr()}} returns a \texttt{\detokenize{2 $\\times$ 2}} correlation matrix.
+\item A heatmap visually communicates the strength and direction of the relationship.
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - 5. Calculate Correlation Between Two Columns}
+\footnotesize
+\textbf{Question 1.} Which command directly returns the correlation between two columns?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] \texttt{\detokenize{df["Math"].corr(df["Science"])}}
+\item[\textbf{B.}] \texttt{\detokenize{df["Math"].head(df["Science"])}}
+\item[\textbf{C.}] \texttt{\detokenize{df.merge("Math", "Science")}}
+\item[\textbf{D.}] \texttt{\detokenize{df.plot("Math", "Science")}}
+\end{itemize}
+\textbf{Question 2.} A correlation matrix for two variables has size:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] \texttt{\detokenize{1 $\\times$ 1}}
+\item[\textbf{B.}] \texttt{\detokenize{2 $\\times$ 2}}
+\item[\textbf{C.}] \texttt{\detokenize{2 $\\times$ 3}}
+\item[\textbf{D.}] \texttt{\detokenize{3 $\\times$ 3}}
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Interpreting Correlation Values}
+\small
+The following table provides a general interpretation.\par\medskip
+\begin{center}\scriptsize
+\begin{tabular}{@{}p{0.28\linewidth}p{0.58\linewidth}@{}}
+\toprule
+\textbf{Correlation value} & \textbf{Suggested interpretation}\\
+\midrule
+\textbf{0.8 to 1.0} & Strong positive correlation\\
+\textbf{0.5 to below 0.8} & Moderate positive correlation\\
+\textbf{Above 0 to below 0.5} & Weak positive correlation\\
+\textbf{0} & No linear correlation\\
+\textbf{Above -0.5 to below 0} & Weak negative correlation\\
+\textbf{Above -0.8 to -0.5} & Moderate negative correlation\\
+\textbf{-1.0 to -0.8} & Strong negative correlation\\
+\bottomrule
+\end{tabular}
+\end{center}
+\begin{block}{Note}
+\textbf{Note:} These thresholds are only guidelines. Interpretation depends on the field, sample size, data quality, and analytical objective.
+\end{block}
+\end{frame}
+\begin{frame}[allowframebreaks]{Interpretation Examples}
+\small
+\begin{itemize}
+\item \texttt{\detokenize{0.92}}: Strong positive correlation.
+\item \texttt{\detokenize{0.63}}: Moderate positive correlation.
+\item \texttt{\detokenize{0.18}}: Weak positive correlation.
+\item \texttt{\detokenize{-0.74}}: Moderate negative correlation.
+\item \texttt{\detokenize{-0.91}}: Strong negative correlation.
+\item \texttt{\detokenize{0.02}}: Almost no linear correlation.
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - Interpretation Examples}
+\footnotesize
+\textbf{Question 1.} A value of \texttt{\detokenize{0.87}} is usually interpreted as:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Strong positive correlation
+\item[\textbf{B.}] Strong negative correlation
+\item[\textbf{C.}] No correlation
+\item[\textbf{D.}] Weak negative correlation
+\end{itemize}
+\textbf{Question 2.} A value of \texttt{\detokenize{-0.65}} is usually interpreted as:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Moderate negative correlation
+\item[\textbf{B.}] Moderate positive correlation
+\item[\textbf{C.}] Strong positive correlation
+\item[\textbf{D.}] No correlation
+\end{itemize}
+\textbf{Question 3.} Why should interpretation thresholds not be applied rigidly?\par\medskip
+\end{frame}
+\begin{frame}[allowframebreaks,fragile]{Visualizing Correlation with Heatmaps}
+\footnotesize
+A heatmap is commonly used to display a correlation matrix. It helps compare many pairwise relationships in one compact view.\par\medskip
+\begin{lstlisting}[style=py]
+corr_matrix = df.corr(
+    method="pearson"
+)
+
+sns.heatmap(
+    corr_matrix,
+    annot=True,
+    cmap="coolwarm",
+    vmin=-1,
+    vmax=1
+)
+
+plt.title(
+    "Correlation Heatmap"
+)
+
+plt.show()
+\end{lstlisting}
+\textbf{Useful Parameters}\par\medskip
+\begin{itemize}
+\item \texttt{\detokenize{annot=True}}: Displays values inside the cells.
+\item \texttt{\detokenize{cmap}}: Selects the color map.
+\item \texttt{\detokenize{vmin=-1}}: Sets the minimum color-scale value.
+\item \texttt{\detokenize{vmax=1}}: Sets the maximum color-scale value.
+\item \texttt{\detokenize{fmt=".2f"}}: Displays two decimal places.
+\item \texttt{\detokenize{square=True}}: Displays square cells.
+\end{itemize}
+\textbf{More Complete Example}\par\medskip
+\begin{lstlisting}[style=py]
+sns.heatmap(
+    corr_matrix,
+    annot=True,
+    fmt=".2f",
+    cmap="coolwarm",
+    vmin=-1,
+    vmax=1,
+    square=True
+)
+
+plt.title(
+    "Correlation Matrix"
+)
+
+plt.show()
+\end{lstlisting}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - Heatmap Example}
+\footnotesize
+\textbf{Question 1.} Why should \texttt{\detokenize{vmin=-1}} and \texttt{\detokenize{vmax=1}} be used?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] To represent the full range of correlation values on the color scale
+\item[\textbf{B.}] To delete negative data
+\item[\textbf{C.}] To retain only strong values
+\item[\textbf{D.}] To rename columns
+\end{itemize}
+\textbf{Question 2.} What does \texttt{\detokenize{fmt=".2f"}} do?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Displays two decimal places
+\item[\textbf{B.}] Displays integers only
+\item[\textbf{C.}] Removes negative values
+\item[\textbf{D.}] Changes the data size
+\end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks,fragile]{Detecting Multicollinearity}
+\small
+Multicollinearity occurs when two or more input variables are strongly correlated. It can make it difficult to isolate the effect of each variable and may make regression coefficients unstable.\par\medskip
+\textbf{Possible effects}\par\medskip
+\begin{itemize}
+\item Model interpretation may become unreliable.
+\item Some variables may provide redundant information.
+\item Feature selection may be needed to simplify the model.
+\end{itemize}
+\textbf{Initial check}\par\medskip
+A correlation matrix can be used to identify variable pairs with high absolute correlation.\par\medskip
+\begin{lstlisting}[style=py]
+corr_matrix = df.corr(numeric_only=True)
+high_corr = corr_matrix.abs() > 0.8
+print(high_corr)
+\end{lstlisting}
+\begin{block}{Note}
+A correlation matrix is only an initial screening tool. A fuller multicollinearity assessment may require additional measures such as the Variance Inflation Factor.
+\end{block}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Quick Check - Detecting Multicollinearity}
+\footnotesize
+\textbf{Question 1.} Multicollinearity occurs when:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Input variables are strongly correlated with one another
+\item[\textbf{B.}] The dataset contains no numerical columns
+\item[\textbf{C.}] The data contain no missing values
+\item[\textbf{D.}] All variables are completely independent
+\end{itemize}
+\textbf{Question 2.} One possible effect of multicollinearity is:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Model coefficients may become unstable
+\item[\textbf{B.}] Data automatically become more accurate
+\item[\textbf{C.}] Feature selection becomes unnecessary
+\item[\textbf{D.}] Every model achieves 100\% accuracy
+\end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Limitations of Correlation Analysis}
+\small
+Correlation is useful for exploring associations, but it must be interpreted carefully.\par\medskip
+\begin{itemize}
+\item \textbf{Association only:} correlation indicates that two variables are related, but it does not prove causation. Ice-cream sales and fires may both rise in summer because high temperature affects both variables.
+\item \textbf{Sensitivity to outliers:} a few unusual observations may substantially change the Pearson coefficient.
+\item \textbf{Linear focus:} Pearson may be near zero even when two variables have a strong nonlinear relationship.
+\item \textbf{Dependence on data quality:} correlation may change with sample size, restricted ranges, errors, unrepresentative data, or omitted variables.
+\item \textbf{Practical importance:} a numerically strong correlation may still be unimportant without domain relevance.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Quick Check - Limitations of Correlation Analysis}
+\footnotesize
+\textbf{Question 1.} Why does correlation not prove causation?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] A third variable or a coincidental association may exist
+\item[\textbf{B.}] Correlation can never be calculated
+\item[\textbf{C.}] All variables are independent
+\item[\textbf{D.}] The coefficient is always zero
+\end{itemize}
+\textbf{Question 2.} Which type of relationship can Pearson fail to detect?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] A nonlinear relationship
+\item[\textbf{B.}] A linear relationship
+\item[\textbf{C.}] A perfect relationship
+\item[\textbf{D.}] A positive relationship
+\end{itemize}
+\textbf{Question 3. True or false?} A strong correlation always has major practical significance.\par\medskip
+\end{frame}
+\begin{frame}[allowframebreaks]{Feature Selection in Machine Learning}
+\small
+Correlation can help:\par\medskip
+\begin{itemize}
+\item Identify variables associated with a target.
+\item Detect redundant input variables.
+\item Reduce multicollinearity.
+\item Simplify a model.
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Financial Market Analysis}
+\small
+Correlation is used to:\par\medskip
+\begin{itemize}
+\item Compare movements across assets.
+\item Support portfolio diversification.
+\item Evaluate relationships between indices and stocks.
+\item Analyze economic factors.
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Healthcare Research}
+\small
+Correlation can support the study of relationships between:\par\medskip
+\begin{itemize}
+\item Age and disease risk.
+\item Drug dosage and response.
+\item Lifestyle and health indicators.
+\item Symptoms and treatment outcomes.
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Recommender Systems}
+\small
+Correlation can be used to:\par\medskip
+\begin{itemize}
+\item Compare user behavior.
+\item Identify products rated similarly.
+\item Find groups of users with similar preferences.
+\item Support product or content recommendations.
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - Recommender Systems}
+\footnotesize
+\textbf{Question 1.} In machine learning, correlation can support:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Feature selection
+\item[\textbf{B.}] Multicollinearity detection
+\item[\textbf{C.}] Identification of redundant variables
+\item[\textbf{D.}] All of the above
+\end{itemize}
+\textbf{Question 2.} In finance, correlation can be used to:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Compare movements across assets
+\item[\textbf{B.}] Support portfolio diversification
+\item[\textbf{C.}] Analyze relationships across markets
+\item[\textbf{D.}] All of the above
+\end{itemize}
+\textbf{Question 3. Case.} A recommender system wants to identify users with similar preferences. How can correlation help?\par\medskip
+\end{frame}
+\begin{frame}[allowframebreaks]{Content Summary}
+\small
+\begin{center}\scriptsize
+\begin{tabular}{@{}p{0.28\linewidth}p{0.58\linewidth}@{}}
+\toprule
+\textbf{Topic} & \textbf{Main meaning}\\
+\midrule
+\textbf{Correlation} & Measures the strength and direction of a relationship between two variables\\
+\textbf{Pearson} & Measures linear relationships between numerical variables\\
+\textbf{Spearman} & Measures monotonic relationships using ranks\\
+\textbf{Kendall} & Measures agreement between rankings\\
+\textbf{Heatmap} & Visualizes a correlation matrix\\
+\textbf{Multicollinearity} & Input variables are strongly correlated with one another\\
+\textbf{Limitations} & Correlation does not prove causation and may be affected by outliers\\
+\textbf{Applications} & Machine learning, finance, healthcare, and recommender systems\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{frame}
+\begin{frame}
+\centering\vfill
+{\Huge\textcolor{TitleBlue}{\textbf{What Is Statistical Analysis?}}}
+\vfill\end{frame}
+\begin{frame}[allowframebreaks]{Lesson Introduction}
+\small
+This lesson introduces the foundations of \textbf{statistical analysis}, from collecting and organizing data to descriptive, inferential, exploratory, predictive, prescriptive, and causal methods. It emphasizes the use of data and evidence to support decisions, test hypotheses, evaluate uncertainty, and interpret results responsibly.\par\medskip
+The lesson combines statistical concepts, basic formulas, Python examples, application scenarios, and quick-check questions. It provides learners with an overview of the role of statistics in data analysis, scientific research, and management.\par\medskip
+\end{frame}
+\begin{frame}[allowframebreaks]{Learning Outcomes}
+\footnotesize
+After completing this lesson, learners will be able to:\par\medskip
+\begin{itemize}
+\item Explain the concept and role of statistical analysis.
+\item Describe four major stages: data collection, data organization, data analysis, and interpretation and presentation.
+\item Distinguish between descriptive and inferential statistics.
+\item Distinguish between Exploratory Data Analysis (EDA) and Confirmatory Data Analysis (CDA).
+\item Recognize the roles of regression, hypothesis testing, confidence intervals, and ANOVA.
+\item Calculate and interpret the mean, variance, and standard deviation at a basic level.
+\item Distinguish predictive, prescriptive, and causal analysis.
+\item Explain the difference between correlation and causation.
+\item Recognize the basic uses of Python, SPSS, and Excel.
+\item Select suitable tools and methods for different analytical objectives.
+\item Present statistical results using reports, charts, dashboards, or presentations.
+\item State limitations, uncertainty, and practical implications of results.
+\item Apply statistical concepts in business, healthcare, education, social science, and environmental contexts.
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Lesson Structure}
+\small
+The lesson covers:\par\medskip
+\begin{enumerate}
+\item The concept and role of statistical analysis.
+\item Data collection.
+\item Data organization and cleaning.
+\item Data analysis using EDA, CDA, regression, and hypothesis testing.
+\item Interpretation and presentation.
+\item Descriptive statistics.
+\item Inferential statistics.
+\item Exploratory Data Analysis.
+\item Predictive modeling.
+\item Prescriptive analysis.
+\item Causal analysis.
+\item Statistical analysis tools.
+\item Importance and applications.
+\item Review questions and case-based exercises.
+\end{enumerate}
+\end{frame}
+\begin{frame}[allowframebreaks,fragile]{Prerequisites}
+\footnotesize
+Learners should have:\par\medskip
+\begin{itemize}
+\item Basic mathematical knowledge of means and proportions.
+\item An introductory understanding of data, variables, samples, and populations.
+\item Basic Python knowledge for the coding examples.
+\item Access to Jupyter Notebook, JupyterLab, or Google Colab.
+\item The \texttt{\detokenize{numpy}}, \texttt{\detokenize{pandas}}, \texttt{\detokenize{scipy}}, \texttt{\detokenize{matplotlib}}, \texttt{\detokenize{seaborn}}, \texttt{\detokenize{statsmodels}}, and \texttt{\detokenize{scikit-learn}} libraries.
+\end{itemize}
+Install the required libraries with:\par\medskip
+\begin{lstlisting}[basicstyle=\ttfamily\scriptsize,backgroundcolor=\color{CodeBg},frame=single,breaklines=true]
+pip install numpy pandas scipy matplotlib seaborn statsmodels scikit-learn
+\end{lstlisting}
+Statistical analysis is the process of examining data to understand it more clearly and extract useful insights. It helps identify patterns, relationships, and trends, thereby supporting decision-making and forecasting.\par\medskip
+\end{frame}
+\begin{frame}{Statistical analysis overview}
+\imageplaceholder{images/image-26.png}{Statistical analysis overview}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - Prerequisites}
+\footnotesize
+\textbf{Question 1.} What is the main objective of statistical analysis?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Only to store data
+\item[\textbf{B.}] To understand data and extract useful information
+\item[\textbf{C.}] Only to create charts
+\item[\textbf{D.}] To completely replace humans in decision-making
+\end{itemize}
+\textbf{Question 2. True or false?} Statistical analysis can help identify patterns, relationships, and trends in data.\par\medskip
+\end{frame}
+
+\begin{frame}{Statistical Analysis Process}
+\small
+Statistical analysis is usually carried out through a structured process to ensure that results are accurate and meaningful. This process supports effective data collection, preparation, analysis, and communication.\par\medskip
+\imageplaceholder{images/image-27.png}{Statistical analysis process}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{1. Collect Data}
+\footnotesize
+Data collection is the first step in statistical analysis. The data must have sufficient reliability and quality for the results to be meaningful.\par\medskip
+\textbf{Possible Data Sources}\par\medskip
+\begin{itemize}
+\item Surveys.
+\item Observations.
+\item Experiments.
+\item Internal databases.
+\item Administrative data.
+\item APIs.
+\item Public datasets.
+\item Sensors.
+\end{itemize}
+\textbf{Data Requirements}\par\medskip
+\begin{itemize}
+\item Relevant to the research objective.
+\item Collected from trustworthy sources.
+\item Sufficient in size.
+\item Collected using a clear method.
+\item Designed to minimize bias and missingness.
+\end{itemize}
+\textbf{Example}\par\medskip
+A company that wants to assess customer satisfaction may collect information through questionnaires, purchase histories, online feedback, and customer-service records.\par\medskip
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - 1. Collect Data}
+\footnotesize
+\textbf{Question 1.} Why should high-quality data be collected?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] To increase the number of columns
+\item[\textbf{B.}] To ensure reliable analytical results
+\item[\textbf{C.}] To eliminate the need for cleaning
+\item[\textbf{D.}] To replace interpretation
+\end{itemize}
+\textbf{Question 2.} Which can be used as a data source?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Surveys
+\item[\textbf{B.}] APIs
+\item[\textbf{C.}] Databases
+\item[\textbf{D.}] All of the above
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks,fragile]{2. Organize the Data}
+\footnotesize
+After collection, data must be cleaned and organized before they can be analyzed correctly.\par\medskip
+\textbf{Main Tasks}\par\medskip
+\begin{itemize}
+\item Use spreadsheets, databases, or programming tools.
+\item Handle missing values.
+\item Correct errors or inconsistent values.
+\item Remove duplicate records.
+\item Standardize formats.
+\item Check data types.
+\item Arrange the data in a suitable structure.
+\end{itemize}
+\textbf{Possible Tools}\par\medskip
+\begin{itemize}
+\item Microsoft Excel.
+\item Google Sheets.
+\item SQL.
+\item Python with Pandas.
+\item Database software.
+\end{itemize}
+\textbf{Python Example}\par\medskip
+\begin{lstlisting}[style=py]
+import pandas as pd
+
+df = pd.read_csv("data.csv")
+
+print(df.head())
+print(df.info())
+print(df.isnull().sum())
+\end{lstlisting}
+\textbf{Handle Missing Data}\par\medskip
+\begin{lstlisting}[style=py]
+df["age"] = df["age"].fillna(
+    df["age"].median()
+)
+\end{lstlisting}
+\textbf{Remove Duplicates}\par\medskip
+\begin{lstlisting}[style=py]
+df = df.drop_duplicates()
+\end{lstlisting}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - 2. Organize the Data}
+\footnotesize
+\textbf{Question 1.} Which activity belongs to data organization?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Handling missing values
+\item[\textbf{B.}] Correcting inconsistent data
+\item[\textbf{C.}] Removing duplicates
+\item[\textbf{D.}] All of the above
+\end{itemize}
+\textbf{Question 2.} Which tool is suitable for handling tabular data in Python?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Pandas
+\item[\textbf{B.}] Matplotlib
+\item[\textbf{C.}] Seaborn
+\item[\textbf{D.}] TensorFlow
+\end{itemize}
+\textbf{Question 3. True or false?} Collected data are always immediately ready for analysis.\par\medskip
+\end{frame}
+\begin{frame}[allowframebreaks]{3. Analyze the Data}
+\footnotesize
+At this stage, statistical techniques are applied to explore the data and extract useful insights.\par\medskip
+\textbf{Common Methods}\par\medskip
+\textbf{Exploratory Data Analysis}\par\medskip
+\textbf{Exploratory Data Analysis (EDA)} is used to understand the data and identify patterns, trends, and unusual observations.\par\medskip
+Common techniques include:\par\medskip
+\begin{itemize}
+\item Descriptive statistics.
+\item Histograms.
+\item Box plots.
+\item Scatter plots.
+\item Correlation matrices.
+\item Outlier detection.
+\end{itemize}
+\textbf{Confirmatory Data Analysis}\par\medskip
+\textbf{Confirmatory Data Analysis (CDA)} is used to test hypotheses or confirm conclusions formulated in advance.\par\medskip
+\textbf{Regression Analysis}\par\medskip
+Regression analysis studies the relationship between a dependent variable and one or more independent variables.\par\medskip
+Examples:\par\medskip
+\begin{itemize}
+\item Predicting sales from advertising expenditure.
+\item Estimating house prices from area and location.
+\item Studying the effect of study time on examination scores.
+\end{itemize}
+\textbf{Hypothesis Testing}\par\medskip
+Hypothesis testing evaluates whether an observed result is statistically significant or may have occurred by chance.\par\medskip
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - 3. Analyze the Data}
+\footnotesize
+\textbf{Question 1.} What is EDA mainly used for?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Exploring data and identifying patterns
+\item[\textbf{B.}] Only presenting reports
+\item[\textbf{C.}] Only storing data
+\item[\textbf{D.}] Only creating optimization models
+\end{itemize}
+\textbf{Question 2.} CDA is commonly used to:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Test hypotheses
+\item[\textbf{B.}] Delete data
+\item[\textbf{C.}] Create spreadsheets
+\item[\textbf{D.}] Collect data
+\end{itemize}
+\textbf{Question 3.} Regression analysis is used to:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Study relationships among variables
+\item[\textbf{B.}] Process text only
+\item[\textbf{C.}] Create pie charts only
+\item[\textbf{D.}] Remove every outlier
+\end{itemize}
+\textbf{Question 4. True or false?} Hypothesis testing helps determine whether a result is statistically significant.\par\medskip
+\end{frame}
+\begin{frame}[allowframebreaks]{4. Interpret and Present Results}
+\footnotesize
+After analysis, results must be explained and presented clearly so that others can understand and use them.\par\medskip
+\textbf{Presentation Formats}\par\medskip
+\begin{itemize}
+\item Reports.
+\item Charts.
+\item Graphs.
+\item Dashboards.
+\item Presentations.
+\item Statistical tables.
+\item Executive summaries.
+\end{itemize}
+\textbf{Presentation Principles}\par\medskip
+\begin{itemize}
+\item State the analytical objective clearly.
+\item Explain the method used.
+\item Present the main findings.
+\item Discuss practical meaning.
+\item State limitations.
+\item Recommend next actions.
+\item Avoid overinterpreting statistical results.
+\end{itemize}
+\textbf{Example}\par\medskip
+If an analysis shows that sales declined sharply in one region, a report should not provide only the percentage decline. It should explain:\par\medskip
+\begin{itemize}
+\item Which region was affected.
+\item How large the decline was.
+\item How long the trend lasted.
+\item Which factors may be related.
+\item Which actions the company should consider.
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - 4. Interpret and Present Results}
+\footnotesize
+\textbf{Question 1.} Which format can be used to present results?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Reports
+\item[\textbf{B.}] Charts
+\item[\textbf{C.}] Dashboards
+\item[\textbf{D.}] All of the above
+\end{itemize}
+\textbf{Question 2.} Why should analytical limitations be stated?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] So readers understand the scope and reliability of the results
+\item[\textbf{B.}] To make the report longer
+\item[\textbf{C.}] To avoid presenting results
+\item[\textbf{D.}] To replace the data
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Types of Statistical Analysis}
+\small
+There are six major types of statistical analysis:\par\medskip
+\begin{enumerate}
+\item Descriptive statistics.
+\item Inferential statistics.
+\item Exploratory Data Analysis.
+\item Predictive modeling.
+\item Prescriptive analysis.
+\item Causal analysis.
+\end{enumerate}
+\end{frame}
+\begin{frame}{Types of statistical analysis}
+\imageplaceholder{images/image-28.png}{Types of statistical analysis}
+\end{frame}
+\begin{frame}[allowframebreaks,fragile]{1. Descriptive Statistics}
+\footnotesize
+Descriptive statistics summarize and organize data so that readers can quickly understand the main characteristics.\par\medskip
+\textbf{Common Techniques}\par\medskip
+\begin{itemize}
+\item Measures of central tendency.
+\item Variance.
+\item Standard deviation.
+\item Histograms.
+\item Bar charts.
+\item Box plots.
+\end{itemize}
+\textbf{Central Tendency}\par\medskip
+Common measures include:\par\medskip
+\begin{itemize}
+\item \textbf{Mean:} The sum of values divided by the number of observations.
+\item \textbf{Median:} The middle value after sorting.
+\item \textbf{Mode:} The most frequently occurring value.
+\end{itemize}
+\textbf{Mean Formula}\par\medskip
+$$
+\bar{x}
+=
+\frac{1}{n}
+\sum_{i=1}^{n}x_i
+$$
+\textbf{Sample Variance}\par\medskip
+$$
+s^2
+=
+\frac{
+\sum_{i=1}^{n}(x_i-\bar{x})^2
+}{
+n-1
+}
+$$
+\textbf{Sample Standard Deviation}\par\medskip
+$$
+s
+=
+\sqrt{
+\frac{
+\sum_{i=1}^{n}(x_i-\bar{x})^2
+}{
+n-1
+}
+}
+$$
+\textbf{Python Example}\par\medskip
+\begin{lstlisting}[style=py]
+print(df.describe())
+print(df["income"].mean())
+print(df["income"].median())
+print(df["income"].std())
+\end{lstlisting}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - 1. Descriptive Statistics}
+\footnotesize
+\textbf{Question 1.} Descriptive statistics are used to:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Summarize data
+\item[\textbf{B.}] Prove causation
+\item[\textbf{C.}] Build deep-learning models only
+\item[\textbf{D.}] Forecast the future only
+\end{itemize}
+\textbf{Question 2.} Which measure describes data dispersion?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Standard deviation
+\item[\textbf{B.}] Mode
+\item[\textbf{C.}] Median
+\item[\textbf{D.}] Variable name
+\end{itemize}
+\textbf{Question 3.} Which chart is commonly used to detect outliers?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Box plot
+\item[\textbf{B.}] Pie chart
+\item[\textbf{C.}] Line chart
+\item[\textbf{D.}] Map
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{2. Inferential Statistics}
+\footnotesize
+Inferential statistics use sample data to draw conclusions or make predictions about a larger population.\par\medskip
+\textbf{Common Techniques}\par\medskip
+\begin{itemize}
+\item Hypothesis testing.
+\item Confidence intervals.
+\item Regression analysis.
+\item Analysis of variance.
+\item Parameter estimation.
+\end{itemize}
+\textbf{Sample and Population}\par\medskip
+\begin{itemize}
+\item \textbf{Population:} The complete group of interest.
+\item \textbf{Sample:} A subset selected from the population.
+\end{itemize}
+\textbf{Example}\par\medskip
+A university has 20,000 students. Instead of surveying all students, a researcher may select a sample of 1,000 students to estimate overall satisfaction.\par\medskip
+\textbf{Confidence Interval}\par\medskip
+A confidence interval provides a range of plausible values for a population parameter.\par\medskip
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - 2. Inferential Statistics}
+\footnotesize
+\textbf{Question 1.} Inferential statistics use sample data to:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Draw conclusions about a population
+\item[\textbf{B.}] Describe the sample only
+\item[\textbf{C.}] Create charts only
+\item[\textbf{D.}] Remove data
+\end{itemize}
+\textbf{Question 2.} Which technique belongs to inferential statistics?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Hypothesis testing
+\item[\textbf{B.}] Confidence intervals
+\item[\textbf{C.}] ANOVA
+\item[\textbf{D.}] All of the above
+\end{itemize}
+\textbf{Question 3. True or false?} A sample is the complete group of interest.\par\medskip
+\end{frame}
+\begin{frame}[allowframebreaks,fragile]{3. Exploratory Data Analysis}
+\small
+EDA focuses on understanding data before model building.\par\medskip
+\textbf{Objectives}\par\medskip
+\begin{itemize}
+\item Understand data structure.
+\item Detect patterns.
+\item Examine relationships.
+\item Detect missing data.
+\item Identify outliers.
+\item Check initial assumptions.
+\end{itemize}
+\textbf{Common Techniques}\par\medskip
+\begin{itemize}
+\item Scatter plots.
+\item Correlation analysis.
+\item Distribution analysis.
+\item Outlier detection.
+\end{itemize}
+\textbf{Python Example}\par\medskip
+\begin{lstlisting}[style=py]
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+sns.histplot(
+    df["income"],
+    kde=True
+)
+
+plt.title("Income Distribution")
+plt.show()
+\end{lstlisting}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - 3. Exploratory Data Analysis}
+\footnotesize
+\textbf{Question 1.} When is EDA commonly performed?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Before model building
+\item[\textbf{B.}] Only after model deployment
+\item[\textbf{C.}] After deleting the data
+\item[\textbf{D.}] It is unrelated to modeling
+\end{itemize}
+\textbf{Question 2.} Which technique belongs to EDA?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Scatter plots
+\item[\textbf{B.}] Correlation analysis
+\item[\textbf{C.}] Outlier detection
+\item[\textbf{D.}] All of the above
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks,fragile]{4. Predictive Modeling}
+\small
+Predictive models use historical data to forecast future outcomes or trends.\par\medskip
+\textbf{Common Methods}\par\medskip
+\begin{itemize}
+\item Linear regression.
+\item Decision trees.
+\item Neural networks.
+\item Support Vector Machines.
+\item Random Forest.
+\item Time-series models.
+\end{itemize}
+\textbf{Applications}\par\medskip
+\begin{itemize}
+\item Sales forecasting.
+\item Demand forecasting.
+\item Credit-risk prediction.
+\item Churn prediction.
+\item Price forecasting.
+\end{itemize}
+\textbf{Python Example}\par\medskip
+\begin{lstlisting}[style=py]
+from sklearn.linear_model import LinearRegression
+
+model = LinearRegression()
+
+model.fit(
+    X_train,
+    y_train
+)
+
+y_pred = model.predict(
+    X_test
+)
+\end{lstlisting}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - 4. Predictive Modeling}
+\footnotesize
+\textbf{Question 1.} Predictive models use:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Historical data
+\item[\textbf{B.}] Text data only
+\item[\textbf{C.}] Missing data only
+\item[\textbf{D.}] No data
+\end{itemize}
+\textbf{Question 2.} Which method can be used for prediction?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Linear regression
+\item[\textbf{B.}] Decision trees
+\item[\textbf{C.}] Neural networks
+\item[\textbf{D.}] All of the above
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{5. Prescriptive Analysis}
+\small
+Prescriptive analysis recommends the best actions based on data. It goes beyond prediction by proposing solutions that can help achieve desired outcomes.\par\medskip
+\textbf{Common Methods}\par\medskip
+\begin{itemize}
+\item Optimization techniques.
+\item Simulation models.
+\item Decision theory.
+\item Scenario analysis.
+\item Multi-objective optimization.
+\end{itemize}
+\textbf{Applications}\par\medskip
+\begin{itemize}
+\item Selecting an optimal price.
+\item Designing a production schedule.
+\item Optimizing delivery routes.
+\item Allocating an advertising budget.
+\item Selecting an investment portfolio.
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - 5. Prescriptive Analysis}
+\footnotesize
+\textbf{Question 1.} Which question does prescriptive analysis answer?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] What happened?
+\item[\textbf{B.}] Why did it happen?
+\item[\textbf{C.}] What may happen?
+\item[\textbf{D.}] What should we do?
+\end{itemize}
+\textbf{Question 2.} Which techniques are commonly used in prescriptive analysis?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Optimization
+\item[\textbf{B.}] Simulation
+\item[\textbf{C.}] Decision theory
+\item[\textbf{D.}] All of the above
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{6. Causal Analysis}
+\footnotesize
+Causal analysis evaluates whether one variable causes a change in another.\par\medskip
+\textbf{Common Methods}\par\medskip
+\begin{itemize}
+\item Randomized experiments.
+\item Regression models.
+\item Propensity-score matching.
+\item A/B testing.
+\item Instrumental variables.
+\item Difference-in-differences.
+\end{itemize}
+\textbf{Example}\par\medskip
+A company wants to determine whether a promotion truly increases sales or merely coincides with a period of naturally rising demand.\par\medskip
+\textbf{Correlation and Causation}\par\medskip
+Correlation indicates that two variables are associated. It is not sufficient to establish causation.\par\medskip
+For example:\par\medskip
+\begin{itemize}
+\item Ice-cream sales and the number of fires may both rise during summer.
+\item This does not mean that selling ice cream causes fires.
+\item High temperature may affect both variables.
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - 6. Causal Analysis}
+\footnotesize
+\textbf{Question 1.} The objective of causal analysis is to:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Identify cause-and-effect relationships
+\item[\textbf{B.}] Summarize data only
+\item[\textbf{C.}] Calculate means only
+\item[\textbf{D.}] Create dashboards only
+\end{itemize}
+\textbf{Question 2.} Which method may be used in causal analysis?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Randomized experiments
+\item[\textbf{B.}] Propensity-score matching
+\item[\textbf{C.}] Regression models
+\item[\textbf{D.}] All of the above
+\end{itemize}
+\textbf{Question 3. True or false?} A strong correlation always proves causation.\par\medskip
+\end{frame}
+\begin{frame}[allowframebreaks]{Python}
+\small
+Python provides many libraries for data analysis and modeling.\par\medskip
+\textbf{Common Libraries}\par\medskip
+\begin{itemize}
+\item \textbf{NumPy:} Numerical computing.
+\item \textbf{Pandas:} Data processing.
+\item \textbf{SciPy:} Statistical methods.
+\item \textbf{Scikit-learn:} Machine learning.
+\item \textbf{Matplotlib:} Visualization.
+\item \textbf{Seaborn:} Statistical visualization.
+\item \textbf{Statsmodels:} Statistical modeling.
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{SPSS}
+\small
+SPSS is widely used in social-science research.\par\medskip
+\textbf{Strengths}\par\medskip
+\begin{itemize}
+\item User-friendly interface.
+\item Supports many statistical tests.
+\item Suitable for users with limited programming experience.
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Microsoft Excel}
+\footnotesize
+Excel is suitable for basic statistical calculations and simple visualizations.\par\medskip
+\textbf{Strengths}\par\medskip
+\begin{itemize}
+\item Easy to use.
+\item Suitable for small datasets.
+\item Supports PivotTables.
+\item Provides basic statistical functions.
+\end{itemize}
+\textbf{Comparison}\par\medskip
+\begin{center}\scriptsize
+\begin{tabular}{@{}p{0.18\linewidth}p{0.28\linewidth}p{0.36\linewidth}@{}}
+\toprule
+\textbf{Tool} & \textbf{Main purpose} & \textbf{Key feature}\\
+\midrule
+\textbf{Python} & Data analysis and modeling & Flexible and well integrated with machine learning\\
+\textbf{SPSS} & Social-science research & User-friendly graphical interface\\
+\textbf{Excel} & Basic analysis & Widely available and accessible\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - Statistical Analysis Tools}
+\footnotesize
+\textbf{Question 1.} Which Python libraries are commonly used for statistical methods?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] SciPy
+\item[\textbf{B.}] Pandas
+\item[\textbf{C.}] Statsmodels
+\item[\textbf{D.}] Both A and C
+\end{itemize}
+\textbf{Question 2.} Which tool is widely used in social-science research?\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] SPSS
+\item[\textbf{B.}] Matplotlib
+\item[\textbf{C.}] NumPy
+\item[\textbf{D.}] Git
+\end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{The Importance of Statistical Analysis}
+\small
+Statistical analysis plays an important role in decision-making because it helps convert data into evidence, uncertainty estimates, and performance measures.\par\medskip
+\begin{itemize}
+\item \textbf{Data-driven decision-making:} replaces guesswork with decisions based on data and evidence.
+\item \textbf{Evaluating uncertainty:} probability models help evaluate uncertainty and risk.
+\item \textbf{Testing ideas:} supports hypothesis testing and the confirmation of findings.
+\item \textbf{Evaluating performance:} helps measure KPIs, productivity, business growth, product quality, campaign effectiveness, and satisfaction levels.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Quick Check - The Importance of Statistical Analysis}
+\footnotesize
+\textbf{Question 1.} Statistical analysis helps replace:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Guesswork with data-driven decisions
+\item[\textbf{B.}] Data with intuition
+\item[\textbf{C.}] Reports with speech
+\item[\textbf{D.}] Processes with randomness
+\end{itemize}
+\textbf{Question 2.} Probability models support:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Evaluating uncertainty
+\item[\textbf{B.}] Eliminating all risk
+\item[\textbf{C.}] Removing data
+\item[\textbf{D.}] Creating charts only
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Business and Markets}
+\small
+Statistical analysis supports:\par\medskip
+\begin{itemize}
+\item Market research.
+\item Quality control.
+\item Customer analysis.
+\item Financial decision-making.
+\item Business-performance measurement.
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Healthcare and Public Health}
+\small
+Statistical analysis is used in:\par\medskip
+\begin{itemize}
+\item Medical research.
+\item Public-health analysis.
+\item Drug-safety evaluation.
+\item Disease surveillance.
+\item Treatment-effectiveness assessment.
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Education}
+\small
+Statistical analysis can help:\par\medskip
+\begin{itemize}
+\item Evaluate learning outcomes.
+\item Improve teaching methods.
+\item Develop educational policy.
+\item Identify students who need support.
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Social Sciences}
+\small
+Statistical analysis supports:\par\medskip
+\begin{itemize}
+\item Human-behavior research.
+\item Social-trend analysis.
+\item Population studies.
+\item Public-policy evaluation.
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Environment}
+\small
+Statistical analysis is used to:\par\medskip
+\begin{itemize}
+\item Analyze climate.
+\item Monitor pollution.
+\item Evaluate resources.
+\item Support conservation.
+\item Forecast environmental risk.
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Quick Check - Environment}
+\footnotesize
+\textbf{Question 1.} Statistical analysis can be applied in:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Healthcare
+\item[\textbf{B.}] Education
+\item[\textbf{C.}] The environment
+\item[\textbf{D.}] All of the above
+\end{itemize}
+\textbf{Question 2.} In education, statistical analysis can help:\par\medskip
+\begin{itemize}
+\item[\textbf{A.}] Evaluate learning outcomes
+\item[\textbf{B.}] Improve teaching methods
+\item[\textbf{C.}] Support policy development
+\item[\textbf{D.}] All of the above
+\end{itemize}
+\textbf{Question 3. Case.} A hospital wants to evaluate the effectiveness of a new treatment. How can statistical analysis support this task?\par\medskip
+\end{frame}
+\begin{frame}[allowframebreaks]{Content Summary}
+\small
+\begin{center}\scriptsize
+\begin{tabular}{@{}p{0.28\linewidth}p{0.58\linewidth}@{}}
+\toprule
+\textbf{Topic} & \textbf{Main objective}\\
+\midrule
+\textbf{Data collection} & Obtain quality data from appropriate sources\\
+\textbf{Data organization} & Clean and structure the data\\
+\textbf{Data analysis} & Apply statistical techniques\\
+\textbf{Interpretation and presentation} & Communicate results clearly\\
+\textbf{Descriptive statistics} & Summarize data characteristics\\
+\textbf{Inferential statistics} & Generalize from a sample to a population\\
+\textbf{EDA} & Explore patterns and data problems\\
+\textbf{Predictive modeling} & Forecast future outcomes\\
+\textbf{Prescriptive analysis} & Recommend actions\\
+\textbf{Causal analysis} & Identify cause-and-effect relationships\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{frame}
+
+\end{document}
