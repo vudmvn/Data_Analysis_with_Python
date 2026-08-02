@@ -1,9 +1,9 @@
 ---
 name: python-lecture-prep
-description: Quy trình và công cụ hỗ trợ chuẩn bị bài giảng, tài liệu thực hành, Jupyter Notebooks, dữ liệu mẫu, hình ảnh minh họa (căn giữa ảnh, tự động đổi tên ảnh trùng không ghi đè) và tự động xuất bản (publish) lên GitHub cho môn Phân tích dữ liệu với Python (DSAI1005). Kích hoạt khi người dùng yêu cầu soạn bài giảng, tạo notebook, thiết kế bài tập/lab, quản lý hình ảnh hoặc đẩy bài giảng mới lên GitHub.
+description: Quy trình và công cụ hỗ trợ chuẩn bị bài giảng, tài liệu thực hành, Jupyter Notebooks, Slide LaTeX Beamer / PDF, dữ liệu mẫu, hình ảnh minh họa (căn giữa ảnh, tự động đổi tên ảnh trùng không ghi đè, kiểm tra đường dẫn ảnh .tex, dọn dẹp file tạm .aux/.log sau khi biên dịch PDF, cập nhật link PDF vào README.md/README-en.md dạng target=_blank) và tự động xuất bản (publish) lên GitHub cho môn Phân tích dữ liệu với Python (DSAI1005). Kích hoạt khi người dùng yêu cầu soạn bài giảng, tạo notebook, thiết kế slide TeX/PDF, quản lý hình ảnh hoặc đẩy bài giảng mới lên GitHub.
 ---
 
-# Skill: Hỗ trợ Soạn Bài giảng, Quản lý & Căn giữa Hình ảnh, Xuất bản GitHub - Phân tích dữ liệu với Python (DSAI1005)
+# Skill: Hỗ trợ Soạn Bài giảng, Quản lý Slide TeX/PDF, Hình ảnh & Xuất bản GitHub - Phân tích dữ liệu với Python (DSAI1005)
 
 Skill này được thiết kế riêng cho học phần **DSAI1005 – Phân tích dữ liệu với Python** (Giảng viên: TS. Vũ Đức Minh, ĐH Kinh tế Quốc dân).
 
@@ -11,31 +11,35 @@ Skill này được thiết kế riêng cho học phần **DSAI1005 – Phân t�
 
 ## 🏛️ 1. Cấu trúc Tài liệu Bài giảng Chuẩn
 
-Mỗi bài giảng theo từng tuần (hoặc chủ đề) trong repository sẽ tuân theo cấu trúc thư mục tiêu chuẩn sau:
+Mỗi bài giảng theo từng phần/tuần (hoặc chủ đề) trong repository sẽ tuân theo cấu trúc thư mục tiêu chuẩn sau:
 
 ```text
 lectures/
-└── week-XX-<ten-chu-de>/
+└── partXX-<ten-chu-de>/
     ├── README.md                  # Tóm tắt lý thuyết, mục tiêu bài học & chỉ dẫn (dùng link images/ + căn giữa ảnh)
-    ├── slides.md                  # Slide bài giảng dạng Markdown (tương thích Marp, căn giữa ảnh)
+    ├── phan_tich_du_lieu_la_gi.md # Tệp bài đọc chi tiết (.md tiếng Việt)
+    ├── phan_tich_du_lieu_la_gi-en.md # Tệp bài đọc chi tiết (.md tiếng Anh)
+    ├── partXX_lecture_1.tex       # Tệp nguồn Slide LaTeX Beamer (hỗ trợ phông chữ Việt DejaVu)
+    ├── partXX_lecture_1.pdf       # Tệp Slide PDF đã biên dịch hoàn chỉnh (80 trang Beamer)
+    ├── slides.md                  # Slide bài giảng dạng Markdown (Marp presentation)
     ├── lecture.ipynb              # Notebook giảng dạy chính (Lý thuyết + Minh họa Code)
     ├── lab_exercise.ipynb         # Bài tập thực hành cho sinh viên (Skeleton Code)
     ├── lab_solution.ipynb         # Lời giải chi tiết dành cho giảng viên
     ├── data/                      # Dữ liệu mẫu phục vụ bài giảng & thực hành
     │   └── dataset.csv
-    └── images/                    # THƯ MỤC CHỨA HÌNH ẢNH MINH HỌA CỦA TUẦN HỌC
+    └── images/                    # THƯ MỤC CHỨA HÌNH ẢNH MINH HỌA CỦA BÀI GIẢNG
         ├── architecture.png
         └── chart_example.png
 ```
 
 ---
 
-## 🖼️ 2. Quy chuẩn Quản lý, Căn giữa & Bảo vệ Hình ảnh (Image Centering & Preservation Rules)
+## 🖼️ 2. Quy chuẩn Quản lý Hình ảnh, Slide TeX/PDF & Tự động Cập nhật README
 
-Khi tạo, nhúng hoặc hiển thị hình ảnh trong tệp Markdown (`.md`) và Jupyter Notebook (`.ipynb`), Agent **BẮT BUỘC** thực hiện theo 4 nguyên tắc sau:
+Khi tạo, nhúng hoặc biên dịch tài liệu, Agent **BẮT BUỘC** thực hiện theo các nguyên tắc sau:
 
 ### 1. Vị trí lưu trữ hình ảnh
-- Tất cả các tệp hình ảnh (sơ đồ, minh họa, ảnh chụp biểu đồ, ảnh sinh tự động từ `generate_image`, v.v.) dành cho tuần học nào **phải được đặt vào thư mục `images/`** của tuần học đó (`lectures/week-XX-<slug>/images/`).
+- Tất cả các tệp hình ảnh (sơ đồ, minh họa, ảnh chụp biểu đồ, ảnh sinh tự động từ `generate_image`, v.v.) dành cho bài học nào **phải được đặt vào thư mục `images/`** của bài học đó (`lectures/partXX-<slug>/images/`).
 - Tuyệt đối **không** đặt ảnh ở thư mục gốc, thư mục tạm, hay lưu URL bên ngoài không ổn định.
 
 ### 2. Định dạng & Đặt tên tệp hình ảnh
@@ -45,19 +49,29 @@ Khi tạo, nhúng hoặc hiển thị hình ảnh trong tệp Markdown (`.md`) v
 - **TUYỆT ĐỐI KHÔNG XÓA HOẶC GHI ĐÈ** lên các tệp hình ảnh đã tồn tại trong thư mục `images/`.
 - Khi chèn hoặc sinh một hình ảnh mới, Agent phải kiểm tra xem tên tệp đã tồn tại trong thư mục `images/` hay chưa.
 - **Tự động đổi tên ảnh trùng (Auto-rename on collision):** Nếu tên tệp dự định lưu đã tồn tại (ví dụ `data-flow.png`), Agent sẽ tự động bổ sung số thứ tự tăng dần thành `data-flow-1.png`, `data-flow-2.png`, ... hoặc gán nhãn mô tả phân biệt.
-- Cập nhật đường dẫn tương đối trong tệp Markdown (`.md`) hoặc Notebook (`.ipynb`) trỏ chính xác tới tên tệp mới đã đổi tên.
 
 ### 4. Quy chuẩn Căn giữa Hình ảnh (Image Centering Mandatory Rule)
-- **TẤT CẢ HÌNH ẢNH** xuất hiện trong các tệp Markdown (`README.md`, `slides.md`, các bài đọc `.md`) và cell Markdown của Jupyter Notebook (`.ipynb`) **PHẢI ĐƯỢC CĂN GIỮA (CENTERED)** để tạo giao diện bài giảng chuyên nghiệp và cân đối.
-- **Cú pháp HTML Căn giữa Chuẩn (Recommended):**
+- **TẤT CẢ HÌNH ẢNH** xuất hiện trong các tệp Markdown (`README.md`, `slides.md`, các bài đọc `.md`) và cell Markdown của Jupyter Notebook (`.ipynb`) **PHẢI ĐƯỢC CĂN GIỮA (CENTERED)** để tạo giao diện bài giảng chuyên nghiệp.
+- Cú pháp HTML Căn giữa Chuẩn:
   ```html
   <p align="center">
     <img src="images/ten-anh.png" alt="Mô tả hình ảnh" width="800" />
   </p>
   ```
-- Cú pháp này tương thích 100% trên GitHub Markdown, Marp Presentation Slides, Jupyter Notebooks và các trình duyệt web.
 
-### 5. Quy tắc Tự động Cập nhật Ngày chỉnh sửa (Auto Last-Updated Date Rule)
+### 5. Quy chuẩn Biên dịch Slide LaTeX Beamer (.tex ➔ .pdf) & Kiểm tra Đường dẫn Ảnh
+- **Kiểm tra đường dẫn ảnh trong tệp `.tex`:** Mọi hình ảnh chèn vào Slide LaTeX Beamer phải được kiểm tra tồn tại thực tế tại thư mục `images/`. Macro `\imageplaceholder{#1}{#2}` phải được cấu hình tự động hiển thị hình ảnh thật qua `\IfFileExists{#1}{\includegraphics[...]{#1}}{...}`.
+- **Lệnh biên dịch chuẩn:** Sử dụng `xelatex -interaction=nonstopmode <filename>.tex` (chạy 2 lượt biên dịch để cập nhật đầy đủ chỉ mục, bookmark và số trang).
+- **Quy tắc Dọn dẹp Tệp Tạm (Temp Build Files Cleanup):** Ngay sau khi biên dịch hoàn tất tệp `.pdf`, Agent **BẮT BUỘC** phải xóa (hoặc cấu hình `.gitignore` loại trừ) tất cả các tệp phụ trợ sinh ra trong quá trình biên dịch (`.aux`, `.log`, `.nav`, `.out`, `.snm`, `.toc`, `.vrb`, `.fls`, `.fdb_latexmk`, `.synctex.gz`) để giữ cho repository luôn sạch sẽ.
+
+### 6. Quy tắc Cập nhật Liên kết Slide PDF vào `README.md` & `README-en.md` (Anti-404 Docsify Link)
+- Ngay sau khi tệp PDF slide được tạo hoặc biên dịch lại, Agent **BẮT BUỘC** phải cập nhật liên kết tệp PDF vào cột Slide/Slides thuộc bảng Ma trận học phần ở cả 2 tệp **`README.md`** và **`README-en.md`**.
+- **Cú pháp thẻ mở PDF bắt buộc:** Do trang web Docsify là ứng dụng Single Page (SPA), liên kết tệp PDF **bắt buộc** phải dùng cú pháp thẻ HTML có `target="_blank"` để mở trực tiếp tệp PDF trên tab mới của trình duyệt, tránh bị Docsify SPA Router chặn trả về lỗi 404 Not Found:
+  ```html
+  <a href="lectures/partXX-<slug>/<filename>.pdf" target="_blank">PDF</a>
+  ```
+
+### 7. Quy tắc Tự động Cập nhật Ngày chỉnh sửa (Auto Last-Updated Date Rule)
 - **BẮT BUỘC:** Mỗi tệp bài giảng Markdown (`.md`) phải có dòng thông tin ngày cập nhật ngay dưới tiêu đề bài học (dòng `#`):
   - Tệp tiếng Việt: `**Cập nhật lần cuối:** <ngày> tháng <tháng> năm <năm>` (VD: `**Cập nhật lần cuối:** 2 tháng 8 năm 2026`)
   - Tệp tiếng Anh: `**Last updated:** <Month> <Day>, <Year>` (VD: `**Last updated:** August 2, 2026`)
@@ -65,41 +79,25 @@ Khi tạo, nhúng hoặc hiển thị hình ảnh trong tệp Markdown (`.md`) v
 
 ---
 
-## 🔄 3. Quy trình Soạn Bài giảng (5 Bước)
+## 🔄 3. Quy trình Soạn & Cập nhật Bài giảng (5 Bước)
 
-Khi người dùng yêu cầu soạn bài giảng cho một tuần/chủ đề bất kỳ, Agent áp dụng quy trình 5 bước:
+Khi người dùng yêu cầu soạn bài giảng hoặc cập nhật slide TeX/PDF, Agent áp dụng quy trình 5 bước:
 
 ### Bước 1: Xác định Yêu cầu & Chuẩn đầu ra (CLOs)
-- Đối chiếu chủ đề tuần học với file `syllabus-vn.md`.
-- Xác định mục tiêu bài học (Ví dụ: Hiểu NumPy array, thao tác vectorized operations, v.v.).
-- Lựa chọn dataset phù hợp (Finance, E-commerce, Marketing hoặc tự sinh data giả lập chất lượng cao).
+- Đối chiếu chủ đề bài học với tệp đề cương `syllabus-vn.md` / `syllabus-en.md`.
 
-### Bước 2: Tạo Nội dung Lý thuyết, Slide & Hình ảnh Minh họa (`README.md`, `slides.md` & `images/`)
-- Biên soạn nội dung ngắn gọn, súc tích bằng tiếng Việt.
-- Đưa vào các ví dụ thực tế trong kinh doanh, tài chính và thương mại điện tử.
-- Lưu ảnh mới vào `lectures/week-XX-<slug>/images/` (kiểm tra đổi tên nếu trùng ảnh cũ) và **luôn căn giữa hình ảnh** bằng `<p align="center"><img src="images/..." /></p>`.
-- Thiết kế slide bằng định dạng Marp Markdown để dễ dàng convert sang PDF/PPTX.
+### Bước 2: Tạo Nội dung Bài đọc, Slide TeX & Hình ảnh (`README.md`, `.md`, `.tex` & `images/`)
+- Biên soạn nội dung lý thuyết và các bài đọc `.md` song ngữ.
+- Kiểm tra toàn bộ đường dẫn tệp ảnh trong `images/`.
+- Biên soạn tệp Slide LaTeX Beamer `.tex` với phông chữ Việt (`fontspec`, `DejaVu Sans`).
 
-### Bước 3: Biên soạn Jupyter Notebook (`lecture.ipynb`)
-- Sử dụng Markdown cell giải thích trực quan (kèm công thức LaTeX và ảnh căn giữa từ `images/`).
-- Code Cell: Viết code Python mẫu sạch, có chú thích chi tiết, chuẩn PEP 8.
-- Trực quan hóa dữ liệu (Matplotlib / Seaborn / Plotly) đẹp mắt. Khi xuất đồ thị ra file ảnh, lưu vào `images/` (kiểm tra không đè file cũ).
+### Bước 3: Biên dịch PDF & Xóa Tệp Tạm
+- Chạy `xelatex -interaction=nonstopmode <filename>.tex` (2 pass).
+- Xóa toàn bộ tệp tạm rác (`.aux`, `.log`, `.nav`, `.out`, `.snm`, `.toc`, `.vrb`).
 
-### Bước 4: Tạo Bài tập Thực hành & Lời giải (`lab_exercise.ipynb` & `lab_solution.ipynb`)
-- **`lab_exercise.ipynb`**: Chứa yêu cầu bài tập, gợi ý (hints), cùng các ô code dạng `# TODO: Sinh viên viết code tại đây`.
-- **`lab_solution.ipynb`**: Chứa lời giải hoàn chỉnh cùng kết quả output mẫu.
+### Bước 4: Cập nhật Liên kết Slide PDF vào `README.md` & `README-en.md`
+- Cập nhật ô Slide tương ứng trong bảng Ma trận bài giảng bằng `<a href="..." target="_blank">PDF</a>`.
 
-### Bước 5: Kiểm tra & Xuất bản lên GitHub (`Git & GitHub CLI`)
-- Kiểm tra tính hợp lệ của code, căn giữa ảnh, tự động đổi tên bảo vệ ảnh và các đường dẫn hình ảnh `images/`.
-- Cập nhật mục lục tại file root `README.md`.
-- Thực hiện xuất bản tự động qua `python scripts/publish_lecture.py -m "feat(lecture): Soạn bài giảng Tuần XX - <Tên chủ đề>"`.
-
----
-
-## 🛠️ 4. Lệnh Thường Dùng (Commands & Workflow Integration)
-
-### Tạo Bài giảng mới:
-Người dùng có thể yêu cầu:
-> *"Soạn bài giảng Tuần 4 về Trực quan hóa dữ liệu với Matplotlib và Seaborn kèm hình ảnh mới không ghi đè ảnh cũ và căn giữa tất cả ảnh trong folder images"*
-
-Agent sẽ tự động tạo bộ tệp bài giảng cho Tuần 4, lưu ảnh vào `images/` (tự đổi tên nếu trùng), căn giữa tất cả ảnh trong `.md` và tự động push lên GitHub khi hoàn tất.
+### Bước 5: Kiểm tra & Đồng bộ lên GitHub (`Git Push`)
+- Đảm bảo working tree sạch sẽ, các tệp tạm đã được xóa/ignore.
+- Thực hiện `git add .`, `git commit -m "..."`, và `git push origin main`.

@@ -56,6 +56,14 @@ Data_Analysis_with_Python/
    - Mỗi tệp bài giảng Markdown (`.md`) bắt buộc phải có dòng thông tin ngày cập nhật ngay dưới tiêu đề bài học.
    - Khi tạo mới bài giảng hoặc bất kỳ khi nào chỉnh sửa, cập nhật nội dung của tệp bài giảng `.md`, Antigravity Skill sẽ tự động cập nhật dòng ngày này về ngày hiện tại (`**Cập nhật lần cuối:** <ngày> tháng <tháng> năm <năm>` cho Tiếng Việt hoặc `**Last updated:** <Month> <Day>, <Year>` cho Tiếng Anh).
 
+6. **Quy chuẩn Slide TeX/PDF (.tex ➔ .pdf)**:
+   - **Kiểm tra đường dẫn ảnh trong `.tex`:** Mọi hình ảnh chèn vào Slide LaTeX Beamer phải được đối chiếu tồn tại thực tế tại thư mục `images/`. Macro `\imageplaceholder` được thiết lập tự động render hình ảnh thật qua `\IfFileExists`.
+   - **Biên dịch XeLaTeX & Xóa tệp tạm:** Biên dịch bằng `xelatex -interaction=nonstopmode <filename>.tex` (2 lượt). Ngay sau khi xuất xong tệp PDF, Antigravity Skill **bắt buộc dọn dẹp xóa các tệp tạm** (`.aux`, `.log`, `.nav`, `.out`, `.snm`, `.toc`, `.vrb`) để repo luôn sạch sẽ.
+
+7. **Quy tắc Cập nhật Link Slide PDF vào `README.md` & `README-en.md` (Anti-404 Docsify Link)**:
+   - Cập nhật liên kết slide PDF vào ô Slide thuộc bảng Ma trận bài giảng ở cả 2 tệp `README.md` và `README-en.md`.
+   - **Bắt buộc dùng thẻ HTML `target="_blank"`:** Do trang web Docsify là ứng dụng Single Page (SPA), liên kết tệp PDF phải sử dụng dạng `<a href="lectures/.../partXX_lecture_X.pdf" target="_blank">PDF</a>` để trình duyệt mở trực tiếp tệp PDF trên tab mới, tránh lỗi 404 Not Found từ Docsify router.
+
 ---
 
 ## ⚡ 3. Quy trình Soạn Bài giảng Chi tiết
