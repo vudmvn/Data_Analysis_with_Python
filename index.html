@@ -30,6 +30,12 @@
     .markdown-section table th, .markdown-section table td {
       padding: 10px 12px;
     }
+    .markdown-section img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
     /* Simple header banner */
     .app-name-link {
       font-weight: 600;
@@ -47,6 +53,7 @@
       auto2top: true,
       executeScript: true,
       loadSidebar: false,
+      relativePath: true,
       subMaxLevel: 3,
       search: {
         maxAge: 86400000,
@@ -59,7 +66,37 @@
         buttonText: 'Sao chép',
         errorText: 'Lỗi',
         successText: 'Đã sao chép'
-      }
+      },
+      plugins: [
+        function(hook, vm) {
+          hook.beforeEach(function(html) {
+            var currentPath = vm.route.file;
+            if (!currentPath) return html;
+            var lastSlash = currentPath.lastIndexOf('/');
+            if (lastSlash === -1) return html;
+            var currentDir = currentPath.substring(0, lastSlash + 1);
+            
+            // Rewrite relative image paths in <img src="..."> and ![alt](...)
+            html = html.replace(/(<img[^>]*src=["'])(?!\/|http|https)([^"']+)(["'])/gi, function(match, p1, p2, p3) {
+              if (!p2.startsWith(currentDir) && !p2.startsWith('/')) {
+                var cleanP2 = p2.replace(/^\.\//, '');
+                return p1 + currentDir + cleanP2 + p3;
+              }
+              return match;
+            });
+            
+            html = html.replace(/(!\[[^\]]*\]\()(?!\/|http|https)([^)]+)(\))/gi, function(match, p1, p2, p3) {
+              if (!p2.startsWith(currentDir) && !p2.startsWith('/')) {
+                var cleanP2 = p2.replace(/^\.\//, '');
+                return p1 + currentDir + cleanP2 + p3;
+              }
+              return match;
+            });
+            
+            return html;
+          });
+        }
+      ]
     }
   </script>
   <!-- Docsify v4 -->
