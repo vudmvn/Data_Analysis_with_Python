@@ -6,6 +6,7 @@
 > **Department:** School of Data Science and Artificial Intelligence – National Economics University (NEU)  
 > **Academic Program:** Data Science in Finance and E-commerce (EP15)  
 > **Credits:** 3 Credits (30h Lectures, 15h Labs, 90h Self-study)  
+> **Detailed Syllabus:** View file [syllabus-vn.md](syllabus-vn.md)
 
 ---
 
@@ -23,13 +24,13 @@ The course **Data Analysis with Python (DSAI1005)** provides a systematic introd
 
 ---
 
-## 📚 2. Course Portal & Learning Matrix (15-Week Syllabus)
+## 📚 2. Course Matrix & Learning Materials
 
-The table below summarizes lecture notebooks, reading materials, slides, lab assignments, sample datasets, and solutions for all **15 weeks**:
+The table below summarizes learning materials, lecture notebooks, slides, lab exercises, sample datasets, and solutions for all **15 weeks**:
 
 | Week | Main Topic (English) | Lecture & Reading Materials (.md / .ipynb) | Slides | Lab Exercise | Solutions | Resources (Data / Images) | Status |
 |:---:|:---|:---|:---:|:---:|:---:|:---:|:---:|
-| **Week 01** | **Course Introduction & Setup** | • [Sáu bước trong quy trình phân tích dữ liệu](lectures/week-01-gioi-thieu-hoc-phan/cac_buoc_cua_phan_tich_du_lieu.md)<br>• [Khám phá tương quan trong Python](lectures/week-01-gioi-thieu-hoc-phan/kham_pha_tuong_quan.md)<br>• [Phân tích dữ liệu khám phá](lectures/week-01-gioi-thieu-hoc-phan/phan_tich_du_lieu_kham_pha.md)<br>• [Phân tích dữ liệu là gì?](lectures/week-01-gioi-thieu-hoc-phan/phan_tich_du_lieu_la_gi.md)<br>• [Phân tích thống kê là gì?](lectures/week-01-gioi-thieu-hoc-phan/phan_tich_thong_ke.md) | - | - | - | [🖼️ Images](lectures/week-01-gioi-thieu-hoc-phan/images/) | ✅ *Ready* |
+| **Week 01** | **Course Introduction** | • [Six Steps in Data Analysis Process](lectures/week-01-gioi-thieu-hoc-phan/cac_buoc_cua_phan_tich_du_lieu.md)<br>• [Exploring Correlation in Python](lectures/week-01-gioi-thieu-hoc-phan/kham_pha_tuong_quan.md)<br>• [Exploratory Data Analysis](lectures/week-01-gioi-thieu-hoc-phan/phan_tich_du_lieu_kham_pha.md)<br>• [What is Data Analysis?](lectures/week-01-gioi-thieu-hoc-phan/phan_tich_du_lieu_la_gi.md)<br>• [What is Statistical Analysis?](lectures/week-01-gioi-thieu-hoc-phan/phan_tich_thong_ke.md) | - | - | - | - | ✅ *Ready* |
 | **Week 02** | Numerical Computing with NumPy | - | - | - | - | - | ⏳ *In Progress* |
 | **Week 03** | Data Manipulation with Pandas | - | - | - | - | - | ⏳ *In Progress* |
 | **Week 04** | Data Exploration & Visualization | - | - | - | - | - | ⏳ *In Progress* |
@@ -47,28 +48,7 @@ The table below summarizes lecture notebooks, reading materials, slides, lab ass
 
 ---
 
-## 🛠️ 3. Environment & Installation Setup Guide
-
-### 1. Python & Anaconda Installation
-We recommend installing [Anaconda Distribution](https://www.anaconda.com/download) (Python 3.10+).
-
-### 2. Dependency Package Installation
-Open **Anaconda Prompt** or **Terminal** and execute:
-```bash
-pip install numpy pandas matplotlib seaborn scipy scikit-learn bokeh jupyterlab pymongo
-```
-
-### 3. Launching JupyterLab
-```bash
-jupyter lab
-```
-
----
-
-## 📖 4. Workflow & Course Guidelines
-
-- 📋 **Detailed Syllabus Document:** View [syllabus-vn.md](syllabus-vn.md)
-- ⚙️ **Lecture Preparation & Image Workflow:** View [QUY_TRINH_SOAN_BAI_GIANG.md](QUY_TRINH_SOAN_BAI_GIANG.md)
+## 📖 3. Additional Documents
 
 ---
 
