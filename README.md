@@ -5,7 +5,7 @@
 > **Giảng viên:** TS. Vũ Đức Minh (`minhvd@neu.edu.vn`)  
 > **Đơn vị phụ trách:** Khoa Khoa học dữ liệu và Trí tuệ nhân tạo – Trường Đại học Kinh tế Quốc dân (NEU)  
 > **Chương trình đào tạo:** Data Science in Finance and E-commerce (EP15)  
-> **Số tín chỉ:** 3 Tín chỉ (30h lý thuyết, 15h thực hành, 90h tự học)  
+> **Số tín chỉ:** 3 Tín chỉ (45h lý thuyết, 22.5h thực hành, 90h tự học)  
 > **Đề cương chi tiết học phần:** Xem tệp [syllabus-vn.md](syllabus-vn.md)
 ---
 

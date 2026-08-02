@@ -11,7 +11,7 @@
 | **Academic Program** | Data Science in Finance and E-commerce (EP15) |
 | **Course Type** | Mandatory |
 | **Credits** | 3 Credits |
-| **Duration** | 30 hours of lectures, 15 hours of labs, and 90 hours of self-study |
+| **Duration** | 45 hours of lectures, 22.5 hours of labs, and 90 hours of self-study |
 | **Prerequisite Course** | DSAI1003 |
 | **Department** | School of Data Science and Artificial Intelligence, Room 1604, Building A1, National Economics University |
 
