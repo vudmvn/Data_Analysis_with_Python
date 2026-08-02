@@ -48,7 +48,4 @@ Thumbs.db
 # *.xlsx
 # *.parquet
 
-# MkDocs build outputs
-site/
-docs/
 
