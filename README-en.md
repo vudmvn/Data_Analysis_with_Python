@@ -30,7 +30,7 @@ The table below summarizes learning materials, lecture notebooks, slides, lab ex
 
 | Week | Main Topic (English) | Lecture & Reading Materials (.md / .ipynb) | Slides | Lab Exercise | Solutions | Resources (Data / Images) | Status |
 |:---:|:---|:---|:---:|:---:|:---:|:---:|:---:|
-| **Week 01** | **Course Introduction** | • [What is Data Analysis?](lectures/week-01-gioi-thieu-hoc-phan/phan_tich_du_lieu_la_gi-en.md)<br>• [Six Steps in Data Analysis Process](lectures/week-01-gioi-thieu-hoc-phan/cac_buoc_cua_phan_tich_du_lieu-en.md)<br>• [What is Exploratory Data Analysis?](lectures/week-01-gioi-thieu-hoc-phan/phan_tich_du_lieu_kham_pha-en.md)<br>• [What is Correlation Analysis?](lectures/week-01-gioi-thieu-hoc-phan/kham_pha_tuong_quan-en.md)<br>• [What is Statistical Analysis?](lectures/week-01-gioi-thieu-hoc-phan/phan_tich_thong_ke-en.md) | - | - | - | - | ✅ *Ready* |
+| **Week 01** | **Course Introduction** | • [What is Data Analysis?](lectures/part01-gioi-thieu-hoc-phan/phan_tich_du_lieu_la_gi-en.md)<br>• [Six Steps in Data Analysis Process](lectures/part01-gioi-thieu-hoc-phan/cac_buoc_cua_phan_tich_du_lieu-en.md)<br>• [What is Exploratory Data Analysis?](lectures/part01-gioi-thieu-hoc-phan/phan_tich_du_lieu_kham_pha-en.md)<br>• [What is Correlation Analysis?](lectures/part01-gioi-thieu-hoc-phan/kham_pha_tuong_quan-en.md)<br>• [What is Statistical Analysis?](lectures/part01-gioi-thieu-hoc-phan/phan_tich_thong_ke-en.md) | - | - | - | - | ✅ *Ready* |
 | **Week 02** | Numerical Computing with NumPy | - | - | - | - | - | ⏳ *In Progress* |
 | **Week 03** | Data Manipulation with Pandas | - | - | - | - | - | ⏳ *In Progress* |
 | **Week 04** | Data Exploration & Visualization | - | - | - | - | - | ⏳ *In Progress* |

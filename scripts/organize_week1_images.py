@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Script di chuyển toàn bộ ảnh lẻ từ `lectures/week-01-gioi-thieu-hoc-phan/` vào `images/`,
+Script di chuyển toàn bộ ảnh lẻ từ `lectures/part01-gioi-thieu-hoc-phan/` vào `images/`,
 áp dụng quy tắc bảo vệ không ghi đè (Auto-rename) và cập nhật đường dẫn căn giữa trong các tệp .md.
 """
 
@@ -11,7 +11,7 @@ import re
 import shutil
 
 def organize_images():
-    week_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "lectures", "week-01-gioi-thieu-hoc-phan"))
+    week_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "lectures", "part01-gioi-thieu-hoc-phan"))
     images_dir = os.path.join(week_dir, "images")
     os.makedirs(images_dir, exist_ok=True)
 

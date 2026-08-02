@@ -16,7 +16,7 @@ Data_Analysis_with_Python/
 │   └── course-syllabus-updater/    # Skill cập nhật trang chủ syllabus & ma trận bài giảng
 │       └── SKILL.md
 ├── lectures/
-│   ├── week-01-gioi-thieu-hoc-phan/
+│   ├── part01-gioi-thieu-hoc-phan/
 │   │   ├── README.md               # Tóm tắt lý thuyết & chỉ dẫn tuần 1 (Dùng link images/...)
 │   │   ├── slides.md               # Slide bài giảng (định dạng Marp, dùng link images/...)
 │   │   ├── lecture.ipynb           # Notebook bài giảng lý thuyết + minh họa
