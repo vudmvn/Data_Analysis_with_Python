@@ -115,9 +115,9 @@ Sinh viên sử dụng máy tính và các môi trường lập trình như Jupy
 
 | Thành phần | Nội dung | Tỷ trọng |
 |---|---|---:|
-| **Bài tập** | Lý thuyết, bài tập lập trình và thực hành hằng tuần | 30% |
-| **Thi giữa kỳ** | Bài kiểm tra trên máy tính, bao quát chuẩn đầu ra từ 1.1 đến 5.5 | 30% |
-| **Thi cuối kỳ / Dự án** | Bài tự luận hoặc dự án, bao quát chuẩn đầu ra từ 1.1 đến 6.3 | 40% |
+| **Chuyên cần/Bài tập** | Lý thuyết, bài tập lập trình và thực hành hằng tuần | 10% |
+| **Thi giữa kỳ** | Bài kiểm tra trên máy tính, bao quát chuẩn đầu ra từ 1.1 đến 5.5 | 40% |
+| **Thi cuối kỳ / Dự án** | Bài tự luận hoặc dự án, bao quát chuẩn đầu ra từ 1.1 đến 6.3 | 50% |
 
 Các tiêu chí đánh giá gồm mức độ nắm vững kiến thức, kỹ năng giải quyết vấn đề, tư duy phản biện, khả năng vận dụng kiến thức, chất lượng nội dung, tính sáng tạo, khả năng hợp tác, kỹ năng trình bày và quản lý thời gian.
 

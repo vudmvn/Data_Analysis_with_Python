@@ -115,9 +115,9 @@ Students use laptops with programming environments such as Jupyter Notebook, Jup
 
 | Component | Content | Weight |
 |---|---|---:|
-| **Assignments** | Theory, weekly programming labs, and practical tasks | 30% |
-| **Midterm Exam** | Computer-based examination covering CLOs 1.1 to 5.5 | 30% |
-| **Final Exam / Project** | Written exam or capstone project covering CLOs 1.1 to 6.3 | 40% |
+| **Attendance/Assignments** | Theory, weekly programming labs, and practical tasks | 10% |
+| **Midterm Exam** | Computer-based examination covering CLOs 1.1 to 5.5 | 40% |
+| **Final Exam / Project** | Written exam or capstone project covering CLOs 1.1 to 6.3 | 50% |
 
 Assessment criteria include knowledge mastery, problem-solving skills, critical thinking, practical application, content quality, creativity, teamwork collaboration, presentation skills, and time management.
 
