@@ -55,8 +55,6 @@ extra_javascript:
 nav:
   - Trang chủ: index.md
   - Đề cương học phần: syllabus-vn.md
-  - Quy trình soạn bài giảng: QUY_TRINH_SOAN_BAI_GIANG.md
-  - English README: README-en.md
   - Tuần 01 - Giới thiệu học phần:
       - Tổng quan tuần 1: lectures/week-01-gioi-thieu-hoc-phan/README.md
       - Sáu bước trong quy trình PTDL: lectures/week-01-gioi-thieu-hoc-phan/cac_buoc_cua_phan_tich_du_lieu.md
@@ -65,3 +63,4 @@ nav:
       - Phân tích dữ liệu là gì: lectures/week-01-gioi-thieu-hoc-phan/phan_tich_du_lieu_la_gi.md
       - Phân tích thống kê là gì: lectures/week-01-gioi-thieu-hoc-phan/phan_tich_thong_ke.md
       - Slide tổng quan: lectures/week-01-gioi-thieu-hoc-phan/slides.md
+
