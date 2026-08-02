@@ -52,6 +52,10 @@ Data_Analysis_with_Python/
      ```
 4. **Tự động hóa**: Antigravity Skill sẽ tự động chuyển tệp ảnh vào `images/`, đổi tên chống trùng, căn giữa ảnh và cập nhật lại đường dẫn tương đối chính xác trong các tệp `.md` và `.ipynb`.
 
+5. **Quy tắc Cập nhật Ngày chỉnh sửa (Auto Last-Updated Date Rule)**:
+   - Mỗi tệp bài giảng Markdown (`.md`) bắt buộc phải có dòng thông tin ngày cập nhật ngay dưới tiêu đề bài học.
+   - Khi tạo mới bài giảng hoặc bất kỳ khi nào chỉnh sửa, cập nhật nội dung của tệp bài giảng `.md`, Antigravity Skill sẽ tự động cập nhật dòng ngày này về ngày hiện tại (`**Cập nhật lần cuối:** <ngày> tháng <tháng> năm <năm>` cho Tiếng Việt hoặc `**Last updated:** <Month> <Day>, <Year>` cho Tiếng Anh).
+
 ---
 
 ## ⚡ 3. Quy trình Soạn Bài giảng Chi tiết

@@ -1,6 +1,6 @@
 # Phân tích thống kê là gì?
 
-**Cập nhật lần cuối:** 26 tháng 3 năm 2026
+**Cập nhật lần cuối:** 2 tháng 8 năm 2026
 
 ## Giới thiệu bài học
 

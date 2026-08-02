@@ -57,6 +57,12 @@ Khi tạo, nhúng hoặc hiển thị hình ảnh trong tệp Markdown (`.md`) v
   ```
 - Cú pháp này tương thích 100% trên GitHub Markdown, Marp Presentation Slides, Jupyter Notebooks và các trình duyệt web.
 
+### 5. Quy tắc Tự động Cập nhật Ngày chỉnh sửa (Auto Last-Updated Date Rule)
+- **BẮT BUỘC:** Mỗi tệp bài giảng Markdown (`.md`) phải có dòng thông tin ngày cập nhật ngay dưới tiêu đề bài học (dòng `#`):
+  - Tệp tiếng Việt: `**Cập nhật lần cuối:** <ngày> tháng <tháng> năm <năm>` (VD: `**Cập nhật lần cuối:** 2 tháng 8 năm 2026`)
+  - Tệp tiếng Anh: `**Last updated:** <Month> <Day>, <Year>` (VD: `**Last updated:** August 2, 2026`)
+- Khi tạo mới bài giảng hoặc bất kỳ khi nào chỉnh sửa, cập nhật nội dung của tệp bài giảng `.md`, Agent **BẮT BUỘC** phải tự động cập nhật dòng này về **ngày hiện tại**.
+
 ---
 
 ## 🔄 3. Quy trình Soạn Bài giảng (5 Bước)

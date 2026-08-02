@@ -1,6 +1,6 @@
 # Khám phá tương quan trong Python
 
-**Cập nhật lần cuối:** 6 tháng 2 năm 2026
+**Cập nhật lần cuối:** 2 tháng 8 năm 2026
 
 ## Giới thiệu bài học
 

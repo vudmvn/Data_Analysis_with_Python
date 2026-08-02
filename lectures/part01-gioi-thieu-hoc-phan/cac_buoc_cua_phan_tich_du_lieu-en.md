@@ -1,6 +1,6 @@
 # Six Steps in the Data Analysis Process
 
-**Last updated:** March 20, 2026
+**Last updated:** August 2, 2026
 
 ## Lesson Introduction
 

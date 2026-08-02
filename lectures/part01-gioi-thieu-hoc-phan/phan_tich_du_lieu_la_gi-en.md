@@ -1,6 +1,6 @@
 # What Is Data Analysis?
 
-**Last updated:** March 24, 2026
+**Last updated:** August 2, 2026
 
 ## Lesson Introduction
 

@@ -1,6 +1,6 @@
 # Exploring Correlation in Python
 
-**Last updated:** February 6, 2026
+**Last updated:** August 2, 2026
 
 ## Lesson Introduction
 
