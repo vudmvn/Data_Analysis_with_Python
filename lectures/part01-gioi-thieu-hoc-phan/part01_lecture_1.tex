@@ -1,0 +1,1300 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+
+\usetheme{AnnArbor}
+% \usecolortheme{seahorse}
+% \usefonttheme{professionalfonts}
+
+% \usepackage{fontspec}
+% \setsansfont{DejaVu Sans}
+% \setmainfont{DejaVu Serif}
+% \setmonofont{DejaVu Sans Mono}
+\usepackage{amsmath,amssymb,booktabs,array,multicol}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\definecolor{CodeBg}{RGB}{248,248,248}
+\definecolor{TitleBlue}{RGB}{38,79,129}
+\definecolor{AccentGreen}{RGB}{35,125,93}
+\definecolor{SoftGray}{RGB}{80,80,80}
+\definecolor{QuizOrange}{RGB}{180,95,30}
+
+\setbeamercolor{title}{fg=TitleBlue}
+\setbeamercolor{frametitle}{fg=TitleBlue}
+\setbeamercolor{structure}{fg=AccentGreen}
+\setbeamercolor{block title}{fg=white,bg=TitleBlue}
+\setbeamercolor{block body}{bg=blue!3}
+\setbeamercolor{alertblock title}{fg=white,bg=QuizOrange}
+\setbeamercolor{alertblock body}{bg=orange!6}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+\setbeamertemplate{itemize item}{\raise0.15ex\hbox{\tiny$\blacktriangleright$}}
+\setbeamertemplate{itemize subitem}{\raise0.15ex\hbox{\tiny$\bullet$}}
+
+\lstdefinestyle{py}{
+  language=Python,
+  basicstyle=\ttfamily\scriptsize,
+  backgroundcolor=\color{CodeBg},
+  frame=single,
+  framerule=0.2pt,
+  rulecolor=\color{gray!35},
+  breaklines=true,
+  showstringspaces=false,
+  keywordstyle=\color{TitleBlue}\bfseries,
+  commentstyle=\color{SoftGray}\itshape,
+  stringstyle=\color{AccentGreen}
+}
+
+\newcommand{\key}[1]{\textbf{\textcolor{AccentGreen}{#1}}}
+\newcommand{\smallnote}[1]{\vspace{0.25em}{\footnotesize\color{SoftGray}#1}}
+\newcommand{\quiztitle}[1]{\textbf{\textcolor{QuizOrange}{#1}}}
+\newcommand{\imageplaceholder}[2]{%
+\begin{center}
+\IfFileExists{#1}{%
+  \includegraphics[width=0.88\linewidth,height=0.62\textheight,keepaspectratio]{#1}\\[0.4em]
+  {\small\textcolor{SoftGray}{\textbf{#2}}}
+}{%
+  \fcolorbox{SoftGray}{gray!5}{%
+  \begin{minipage}[c][0.60\textheight][c]{0.84\linewidth}
+  \centering
+  {\Large\textcolor{TitleBlue}{Image Placeholder}}\\[1.0em]
+  {\normalsize\textbf{#2}}\\[1.2em]
+  {\footnotesize Source in the Markdown file:}\\[0.35em]
+  {\small\texttt{\detokenize{#1}}}
+  \end{minipage}}
+}%
+\end{center}
+}
+
+\title[Data Analysis Foundations]{Data Analysis with Python}
+\subtitle{What Data Analysis Is and the Six-Step Data Analysis Process}
+\author{Duc-Minh Vu}
+\institute{SLSCM Lab - FDA - NEU}
+\date{\today}
+
+\begin{document}
+
+% 1
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+% 3
+\begin{frame}{Lecture Roadmap}
+\begin{columns}[T]
+\begin{column}{0.48\linewidth}
+\textbf{Part I. What Is Data Analysis?}
+\begin{itemize}
+  \item Concept and objectives.
+  \item Importance and applications.
+  \item Main process overview.
+  \item Four types of analysis.
+  \item Tools and limitations.
+\end{itemize}
+\end{column}
+\begin{column}{0.48\linewidth}
+\textbf{Part II. Six-Step Process}
+\begin{itemize}
+  \item Define the problem.
+  \item Collect data.
+  \item Clean data.
+  \item Analyze data.
+  \item Visualize results.
+  \item Interpret and decide.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\section{Part I: What Is Data Analysis?}
+
+
+% 5
+\begin{frame}{Learning Outcomes}
+After completing this lesson, learners will be able to:
+\begin{itemize}
+  \item Explain the concept and objectives of data analysis.
+  \item Describe the role of data analysis in decision-making.
+  \item Outline the main stages of a data analysis process.
+  \item Distinguish descriptive, diagnostic, predictive, and prescriptive analysis.
+  \item Recognize tools such as Excel, Python, R, Tableau, Power BI, SAS, and KNIME.
+  \item Describe applications in business, healthcare, finance, marketing, and scientific research.
+  \item Identify limitations related to data quality, bias, resources, tools, and context.
+  \item Apply the concepts to simple analytical situations.
+\end{itemize}
+\end{frame}
+
+
+% 7
+\begin{frame}{What Is Data Analysis?}
+\begin{block}{Definition}
+Data analysis is the process of \textbf{collecting}, \textbf{cleaning}, \textbf{transforming}, and \textbf{interpreting} data to discover useful information and support decision-making.
+\end{block}
+\begin{itemize}
+  \item It converts raw data into meaningful information.
+  \item It supports problem solving, performance evaluation, and forecasting.
+  \item It is not only about software: it also requires a good question, appropriate methods, and contextual interpretation.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Visual Overview: What Is Data Analysis?}
+\centering
+\imageplaceholder{images/image-11.png}{Data analysis overview}
+\end{frame}
+
+
+% 8
+\begin{frame}{Data Analysis: Input, Process, Output}
+\begin{center}
+\begin{tabular}{p{0.22\linewidth}p{0.65\linewidth}}
+\toprule
+\textbf{Component} & \textbf{Meaning}\\
+\midrule
+Input & Raw data: possibly incomplete, inconsistent, duplicated, biased, or poorly structured.\\
+Process & Cleaning, organizing, exploring, summarizing, modeling, visualizing, and interpreting.\\
+Output & Insights, reports, dashboards, forecasts, recommendations, or decisions.\\
+\bottomrule
+\end{tabular}
+\end{center}
+\smallnote{Key message: data create value only when they are linked to a meaningful analytical question.}
+\end{frame}
+
+% 9
+\begin{frame}{Quick Check: What Is Data Analysis?}
+\begin{alertblock}{Question 1}
+What is the main objective of data analysis?
+\end{alertblock}
+\begin{enumerate}[A.]
+  \item Only to store data
+  \item To transform raw data into useful information
+  \item To delete all unnecessary data
+  \item To completely replace humans in decision-making
+\end{enumerate}
+\vspace{0.5em}
+\begin{alertblock}{Question 2}
+Which activity is not mentioned as part of data analysis?
+\end{alertblock}
+\begin{enumerate}[A.]
+  \item Data collection
+  \item Data cleaning
+  \item Data interpretation
+  \item Hardware manufacturing
+\end{enumerate}
+\end{frame}
+
+% 10
+\begin{frame}{The Importance of Data Analysis}
+Data analysis is important because it transforms raw information into insights that can be applied in practice.
+\begin{itemize}
+  \item \key{Data-driven decision-making}: decisions can be based on evidence rather than intuition alone.
+  \item \key{Business intelligence support}: organizations can understand customers, markets, and internal operations.
+  \item \key{Performance evaluation}: processes, products, services, and strategies can be measured and improved.
+  \item \key{Risk management}: potential risks can be detected, forecast, and mitigated before they become serious problems.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Illustration: Why Data Analysis Matters}
+\centering
+\imageplaceholder{images/image-14.png}{Why data analysis matters}
+\end{frame}
+
+
+% 11
+\begin{frame}{Why Data-Driven Decisions Matter}
+\begin{columns}[T]
+\begin{column}{0.50\linewidth}
+\textbf{Without analysis}
+\begin{itemize}
+  \item Decisions rely heavily on assumptions.
+  \item Problems may be detected too late.
+  \item The same strategy may be applied to every group.
+  \item Performance is difficult to evaluate objectively.
+\end{itemize}
+\end{column}
+\begin{column}{0.47\linewidth}
+\textbf{With analysis}
+\begin{itemize}
+  \item Decisions are supported by evidence.
+  \item Patterns and risks can be detected earlier.
+  \item Actions can be customized by segment.
+  \item Performance can be tracked and compared.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+% 12
+\begin{frame}{Quick Check: Importance (1/2)}
+\begin{alertblock}{Question 1}
+Why are data-driven decisions often more reliable than decisions based only on intuition?
+\end{alertblock}
+\begin{enumerate}[A.]
+  \item Because data are always completely accurate
+  \item Because data provide evidence to support decisions
+  \item Because data eliminate all risks
+  \item Because data do not require interpretation
+\end{enumerate}
+\begin{alertblock}{Question 2}
+How does data analysis support risk management?
+\end{alertblock}
+\begin{enumerate}[A.]
+  \item By completely eliminating all risks
+  \item By detecting and forecasting potential risks
+  \item By recording risks only after they occur
+  \item By replacing all control measures
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Quick Check: Importance (2/2)}
+\begin{alertblock}{Question 3. True or false?}
+Data analysis is valuable only for large companies.
+\end{alertblock}
+\end{frame}
+
+% 13
+\begin{frame}{The Data Analysis Process: Overview}
+The data analysis process includes several major stages that transform raw data into valuable insights.
+\begin{center}
+\begin{tabular}{p{0.28\linewidth}p{0.55\linewidth}}
+\toprule
+\textbf{Stage} & \textbf{Core role}\\
+\midrule
+Define the objective & Clarify what the analysis must answer.\\
+Collect data & Gather relevant and reliable data.\\
+Clean and preprocess & Correct errors, missing values, duplicates, and outliers.\\
+Exploratory analysis & Identify patterns, trends, relationships, and anomalies.\\
+Statistical analysis & Test hypotheses, find relationships, and forecast.\\
+Communicate results & Present insights for decision-making.\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{frame}
+
+\begin{frame}{Illustration: Data Analysis Process}
+\centering
+\imageplaceholder{images/image-12.png}{Overview of the data analysis process}
+\end{frame}
+
+
+% 14
+\begin{frame}{Main Stages of the Process}
+\begin{enumerate}
+  \item \textbf{Define the Objective}: set clear objectives and identify the main questions.
+  \item \textbf{Collect Data}: collect relevant and reliable qualitative or quantitative data.
+  \item \textbf{Clean and Preprocess Data}: correct errors, handle missing values, remove duplicate records, and address outliers.
+  \item \textbf{Perform EDA}: use descriptive statistics and visualization to identify patterns, trends, relationships, and anomalies.
+  \item \textbf{Perform Statistical Analysis}: apply statistical methods or analytical models to test hypotheses and generate forecasts.
+  \item \textbf{Visualize and Communicate Results}: present findings through charts, dashboards, reports, or presentations.
+\end{enumerate}
+\end{frame}
+
+% 15
+\begin{frame}{Quick Check: Data Analysis Process}
+\begin{alertblock}{Question 1}
+What is the first stage of the data analysis process?
+\end{alertblock}
+\begin{enumerate}[A.]
+  \item Data visualization
+  \item Model building
+  \item Defining the objective
+  \item Data cleaning
+\end{enumerate}
+\begin{alertblock}{Question 2}
+Handling missing values and duplicate records belongs to which stage?
+\end{alertblock}
+\begin{enumerate}[A.]
+  \item Data collection
+  \item Data cleaning and preprocessing
+  \item Statistical analysis
+  \item Communicating results
+\end{enumerate}
+\end{frame}
+
+% 16
+\begin{frame}{Quick Check: EDA and Process Order}
+\begin{alertblock}{Question 3}
+What is the main objective of exploratory data analysis?
+\end{alertblock}
+\begin{enumerate}[A.]
+  \item To delete the original data
+  \item To identify patterns, trends, relationships, and unusual observations
+  \item To create only a written report
+  \item To completely replace statistical analysis
+\end{enumerate}
+\vspace{0.3em}
+\quiztitle{Question 4.} Arrange the following activities in a logical order:
+\begin{enumerate}
+  \item Clean the data
+  \item Define the objective
+  \item Visualize and communicate the results
+  \item Collect the data
+\end{enumerate}
+\quiztitle{Question 5. Case.} A company wants to determine why its sales have declined. What should it do before collecting data?
+\end{frame}
+
+% 17
+\begin{frame}{Types of Data Analysis}
+Data analysis is commonly divided into four major types, depending on the question being addressed.
+\begin{center}
+\begin{tabular}{p{0.22\linewidth}p{0.25\linewidth}p{0.40\linewidth}}
+\toprule
+\textbf{Type} & \textbf{Question} & \textbf{Purpose}\\
+\midrule
+Descriptive & What happened? & Summarize historical data.\\
+Diagnostic & Why did it happen? & Identify causes and contributing factors.\\
+Predictive & What may happen? & Estimate future outcomes or trends.\\
+Prescriptive & What should we do? & Recommend actions or strategies.\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{frame}
+
+\begin{frame}{Illustration: Four Types of Data Analysis}
+\centering
+\imageplaceholder{images/image-13.png}{Four types of data analysis}
+\end{frame}
+
+
+% 18
+\begin{frame}{Descriptive and Diagnostic Analysis}
+\begin{block}{Descriptive Analysis}
+Descriptive analysis summarizes historical data to explain what happened. It commonly uses reports, charts, dashboards, descriptive statistics, and performance indicators.
+\end{block}
+\begin{block}{Diagnostic Analysis}
+Diagnostic analysis examines data in greater depth to determine why an event or outcome occurred. It helps identify possible causes, correlations, and contributing factors behind observed patterns.
+\end{block}
+\end{frame}
+
+% 19
+\begin{frame}{Predictive and Prescriptive Analysis}
+\begin{block}{Predictive Analysis}
+Predictive analysis uses historical data, statistical models, and machine-learning methods to estimate what is likely to happen in the future. It supports planning by forecasting trends, risks, and opportunities.
+\end{block}
+\begin{block}{Prescriptive Analysis}
+Prescriptive analysis builds on predictions to recommend actions. It supports decision-making by identifying strategies or solutions likely to produce the best outcomes.
+\end{block}
+\end{frame}
+
+% 20
+\begin{frame}{Quick Check: Types of Data Analysis (1/2)}
+\begin{enumerate}
+  \item Which type of analysis answers the question ``What happened?''
+  \begin{enumerate}[A.]
+    \item Descriptive analysis \item Diagnostic analysis \item Predictive analysis \item Prescriptive analysis
+  \end{enumerate}
+  \item Which type investigates causes of an observed outcome?
+  \begin{enumerate}[A.]
+    \item Descriptive \item Diagnostic \item Predictive \item Prescriptive
+  \end{enumerate}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Quick Check: Types of Data Analysis (2/2)}
+\begin{enumerate}\setcounter{enumi}{2}
+  \item Forecasting sales for the next quarter belongs to which type?
+  \begin{enumerate}[A.]
+    \item Descriptive \item Diagnostic \item Predictive \item Prescriptive
+  \end{enumerate}
+  \item A system recommends changing prices to maximize profit. Which type is this?
+  \begin{enumerate}[A.]
+    \item Descriptive \item Diagnostic \item Predictive \item Prescriptive
+  \end{enumerate}
+\end{enumerate}
+\end{frame}
+
+% 21
+\begin{frame}{Matching: Core Analytical Questions}
+\begin{center}
+\begin{tabular}{p{0.42\linewidth}p{0.42\linewidth}}
+\toprule
+\textbf{Question} & \textbf{Type of analysis}\\
+\midrule
+What happened? & Descriptive analysis\\
+Why did it happen? & Diagnostic analysis\\
+What may happen? & Predictive analysis\\
+What should we do? & Prescriptive analysis\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{frame}
+
+% 22
+\begin{frame}{Data Analysis Tools}
+\begin{center}\scriptsize
+\begin{tabular}{p{0.19\linewidth}p{0.70\linewidth}}
+\toprule
+\textbf{Tool} & \textbf{Main use}\\
+\midrule
+Microsoft Excel & Basic calculations, pivot tables, data summaries, and simple charts.\\
+SAS & Advanced analysis, statistical modeling, and predictive analytics.\\
+R & Statistical analysis, data modeling, and visualization.\\
+Python & Data processing, analysis, visualization, and machine learning with Pandas, NumPy, and Matplotlib.\\
+Tableau & Interactive dashboards and advanced data visualization.\\
+Power BI & Business-intelligence reports and dashboards in the Microsoft ecosystem.\\
+KNIME & Open-source workflows for data mining, processing, and machine learning.\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{frame}
+
+% 23
+\begin{frame}{Quick Check: Tools}
+\begin{enumerate}
+  \item Which tool is suitable for basic calculations, pivot tables, and simple charts?
+  \begin{enumerate}[A.]
+    \item Excel \item KNIME \item SAS \item Tableau
+  \end{enumerate}
+  \item Pandas, NumPy, and Matplotlib are commonly used with which language?
+  \begin{enumerate}[A.]
+    \item R \item Python \item SQL \item Java
+  \end{enumerate}
+  \item Which tools are commonly used to build interactive dashboards?
+  \begin{enumerate}[A.]
+    \item Tableau or Power BI \item Only a word processor \item A file browser \item A pocket calculator
+  \end{enumerate}
+\end{enumerate}
+\quiztitle{Question 4. True or false?} Every data-analysis problem must use the same tool.
+\end{frame}
+
+% 24
+\begin{frame}{Applications of Data Analysis}
+\begin{itemize}
+  \item \key{Business intelligence}: monitor sales, customer behavior, operational performance, and strategy.
+  \item \key{Healthcare}: monitor treatment outcomes, evaluate procedures, improve operations, and support medical research.
+  \item \key{Finance}: detect fraud, evaluate risk, analyze investments, forecast markets, and support budgeting.
+  \item \key{Marketing}: understand customer preferences, evaluate campaigns, segment markets, and design targeted strategies.
+  \item \key{Scientific research}: interpret experimental results, test hypotheses, identify patterns, and generate knowledge.
+\end{itemize}
+\end{frame}
+
+% 25
+\begin{frame}{Quick Check: Applications}
+\begin{enumerate}
+  \item Fraud detection is a common application of data analysis in which field?
+  \begin{enumerate}[A.]
+    \item Finance \item Linguistics \item Graphic design \item Architecture
+  \end{enumerate}
+  \item Customer segmentation and campaign-performance evaluation belong to which field?
+  \begin{enumerate}[A.]
+    \item Healthcare \item Marketing \item Mechanical engineering \item Physics
+  \end{enumerate}
+  \item In healthcare, data analysis can be used to:
+  \begin{enumerate}[A.]
+    \item Monitor treatment outcomes
+    \item Evaluate treatment effectiveness
+    \item Support medical research
+    \item All of the above
+  \end{enumerate}
+\end{enumerate}
+\quiztitle{Question 4. Case.} A university wants to identify factors associated with student dropout risk. In which application area does this problem belong?
+\end{frame}
+
+% 26
+\begin{frame}{Limitations of Data Analysis}
+\begin{itemize}
+  \item \key{Data-quality problems}: inaccurate, incomplete, outdated, or inconsistent data can mislead.
+  \item \key{Time and resource requirements}: collection, cleaning, processing, and interpretation require effort.
+  \item \key{Risk of bias}: biased datasets, methods, or assumptions may produce unreliable results.
+  \item \key{Overreliance on tools}: software output can be wrong or misleading without methodological knowledge.
+  \item \key{Lack of context}: quantitative data may not capture qualitative, social, behavioral, or human factors.
+\end{itemize}
+\end{frame}
+
+% 27
+\begin{frame}{Quick Check: Limitations}
+\begin{enumerate}
+  \item What may happen when data are incomplete or inconsistent?
+  \begin{enumerate}[A.]
+    \item Results always become more accurate
+    \item Conclusions may be biased or misleading
+    \item Data cleaning becomes unnecessary
+    \item The model automatically corrects every error
+  \end{enumerate}
+  \item Why should analysts not rely entirely on analytical tools?
+  \begin{enumerate}[A.]
+    \item Because every tool is inaccurate
+    \item Because results must be evaluated using methodological knowledge and context
+    \item Because tools can only be used with small datasets
+    \item Because tools cannot create charts
+  \end{enumerate}
+\end{enumerate}
+\quiztitle{Question 3. True or false?} A highly accurate result obtained from biased data may still lead to an inappropriate decision.\\[0.3em]
+\quiztitle{Question 4.} What does the limitation ``lack of context'' mean?
+\end{frame}
+
+% 28
+\begin{frame}{Conclusion: What Data Analysis Provides}
+\begin{block}{Summary}
+Data analysis provides a systematic method for transforming raw data into useful knowledge.
+\end{block}
+\begin{itemize}
+  \item Define objectives.
+  \item Collect and prepare data.
+  \item Explore patterns and apply analytical methods.
+  \item Communicate results for decision-making.
+  \item Evaluate reliability through data quality, method suitability, and correct interpretation.
+\end{itemize}
+\end{frame}
+
+% 29
+\begin{frame}{End-of-Lesson Review: Part A}
+\begin{enumerate}\scriptsize
+  \item Data analysis is the process of:
+  \begin{enumerate}[A.]\scriptsize
+    \item Only collecting and storing data
+    \item Collecting, cleaning, transforming, and interpreting data
+    \item Only visualizing data
+    \item Only building machine-learning models
+  \end{enumerate}
+  \item What should be done before collecting data?
+  \begin{enumerate}[A.]\scriptsize
+    \item Choose chart colors
+    \item Define the objective and analytical questions
+    \item Build the final report
+    \item Remove all outliers
+  \end{enumerate}
+  \item Which type of analysis answers ``Why did sales decline?''
+  \begin{enumerate}[A.]\scriptsize
+    \item Descriptive \item Diagnostic \item Predictive \item Prescriptive
+  \end{enumerate}
+  \item Which type answers ``What might next month's sales be?''
+  \begin{enumerate}[A.]\scriptsize
+    \item Descriptive \item Diagnostic \item Predictive \item Prescriptive
+  \end{enumerate}
+\end{enumerate}
+\end{frame}
+
+% 30
+\begin{frame}{End-of-Lesson Review: Part A Continued}
+\begin{enumerate}\scriptsize\setcounter{enumi}{4}
+  \item Which type of analysis answers ``Which strategy should the company choose?''
+  \begin{enumerate}[A.]\scriptsize
+    \item Descriptive \item Diagnostic \item Predictive \item Prescriptive
+  \end{enumerate}
+  \item Which of the following is a programming language widely used in data science?
+  \begin{enumerate}[A.]\scriptsize
+    \item Python \item Tableau \item Power BI \item Excel
+  \end{enumerate}
+  \item Missing values are usually handled during which stage?
+  \begin{enumerate}[A.]\scriptsize
+    \item Defining the objective \item Data cleaning and preprocessing \item Communicating results \item Prescriptive analysis
+  \end{enumerate}
+  \item Which is a limitation of data analysis?
+  \begin{enumerate}[A.]\scriptsize
+    \item Data always capture the full context
+    \item No expertise is needed to interpret results
+    \item Biased data can produce unreliable conclusions
+    \item Data analysis eliminates all risk
+  \end{enumerate}
+\end{enumerate}
+\end{frame}
+
+% 31
+\begin{frame}{End-of-Lesson Review: True/False and Short Answers}
+\begin{block}{Part B. True/False}
+\begin{enumerate}
+  \item Descriptive analysis focuses on explaining what happened.
+  \item Predictive analysis guarantees that the future will occur exactly as forecast.
+  \item Visualization helps communicate analytical findings to stakeholders.
+  \item Poor-quality data do not affect the results if powerful software is used.
+  \item Contextual knowledge is important when interpreting results.
+\end{enumerate}
+\end{block}
+\begin{block}{Part C. Short-answer prompts}
+\begin{enumerate}
+  \item Present the six major stages of the data analysis process.
+  \item Distinguish between descriptive and diagnostic analysis.
+  \item Why does data quality strongly affect analytical results?
+  \item State two benefits and two limitations of data analysis.
+\end{enumerate}
+\end{block}
+\end{frame}
+
+% 32
+\begin{frame}{Case-Based Exercises}
+\begin{block}{Case 1: Sales Analysis}
+A store observes that June sales are 15\% lower than May sales.
+\begin{enumerate}
+  \item What information should descriptive analysis provide?
+  \item Which factors should diagnostic analysis investigate?
+  \item How can predictive analysis be used?
+  \item What recommendations might prescriptive analysis provide?
+\end{enumerate}
+\end{block}
+\begin{block}{Case 2: Data Quality}
+A customer dataset contains many duplicate rows, missing age values, and several negative income values.
+\begin{enumerate}
+  \item Which data-quality problems are present?
+  \item During which stage should these problems be handled?
+  \item What may happen if the dataset is used without cleaning?
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\section{Part II: Six Steps in the Data Analysis Process}
+
+
+% 34
+\begin{frame}{Learning Outcomes}
+After completing this lesson, learners will be able to:
+\begin{itemize}\small
+  \item Explain the role of a structured data analysis process.
+  \item Define the problem, objectives, and success criteria of an analytical task.
+  \item Identify and select appropriate data sources.
+  \item Examine the structure, origin, and initial quality of a dataset.
+  \item Handle missing values, unnecessary columns, and categorical variables.
+  \item Use Python, Pandas, Seaborn, and Matplotlib to analyze and visualize data.
+  \item Read and interpret correlation matrices, bar charts, histograms, and scatter plots.
+  \item Understand basic data splitting, model training, and accuracy evaluation.
+  \item Convert analytical results into recommendations and decisions.
+  \item Recognize that correlation does not imply causation and that a single metric is not sufficient to judge a model.
+\end{itemize}
+\end{frame}
+
+
+% 36
+\begin{frame}[fragile]{Installing Required Libraries}
+\begin{lstlisting}[style=py]
+pip install pandas seaborn matplotlib scikit-learn
+\end{lstlisting}
+\begin{itemize}
+  \item \texttt{pandas}: tabular data manipulation.
+  \item \texttt{seaborn}: statistical visualization and built-in datasets.
+  \item \texttt{matplotlib}: plotting backend and chart customization.
+  \item \texttt{scikit-learn}: train-validation split, models, and evaluation metrics.
+\end{itemize}
+\end{frame}
+
+% 37
+\begin{frame}{Why Use a Structured Process?}
+Data analysis follows a structured approach in which:
+\begin{itemize}
+  \item \key{Step-by-step process}: raw data are transformed into meaningful insights.
+  \item \key{Systematic approach}: the process helps improve accuracy and reliability.
+  \item \key{Better decision-making}: decisions are based on evidence rather than intuition alone.
+\end{itemize}
+\begin{alertblock}{Quick Check}
+\begin{enumerate}
+  \item What is the main objective of a structured data analysis process?
+  \item True or false? A systematic data analysis process helps improve the accuracy and reliability of results.
+\end{enumerate}
+\end{alertblock}
+\end{frame}
+
+% 38
+\begin{frame}{The Six-Step Workflow}
+\begin{center}
+\begin{tabular}{p{0.28\linewidth}p{0.56\linewidth}}
+\toprule
+\textbf{Step} & \textbf{Central question}\\
+\midrule
+Define the problem & What problem must be solved?\\
+Collect data & What data are needed and where can they be obtained?\\
+Clean the data & Are the data ready for analysis?\\
+Analyze the data & What do the data show?\\
+Visualize the results & How can the results be made easier to understand?\\
+Interpret and decide & What do the results mean and what should be done next?\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{frame}
+
+\begin{frame}{Illustration: Six-Step Workflow}
+\centering
+\imageplaceholder{images/image-4-v1.png}{Structured data analysis workflow}
+\end{frame}
+
+
+% 39
+\begin{frame}{Step 1: Define the Problem}
+Before beginning any analytical activity, the problem must be clearly defined.
+\begin{itemize}
+  \item Clarify the question, objective, or analytical opportunity.
+  \item Ensure the analytical goal aligns with stakeholder expectations.
+  \item Keep the analysis focused and relevant.
+  \item Avoid unnecessary data collection.
+\end{itemize}
+\begin{block}{Main tasks}
+Identify the core problem, define expected outcomes, understand context and constraints, and define success criteria.
+\end{block}
+\end{frame}
+
+% 40
+\begin{frame}{Step 1 Example: Sales Decline}
+A company notices that sales have declined significantly over the last three months.
+\begin{block}{Instead of asking only ``Why did sales decline?'', ask:}
+\begin{itemize}
+  \item Which products experienced the largest decline?
+  \item Which region had the greatest decrease?
+  \item Which customer groups were most affected?
+  \item Is the decline related to pricing, inventory, or marketing activities?
+\end{itemize}
+\end{block}
+\end{frame}
+
+% 41
+\begin{frame}{Quick Check: Step 1}
+\begin{enumerate}
+  \item Why should the problem be defined before data collection?
+  \begin{enumerate}[A.]
+    \item To reduce file size
+    \item To keep the analysis focused and relevant
+    \item To avoid using charts
+    \item To remove all qualitative data
+  \end{enumerate}
+  \item Which activity belongs to the problem-definition step?
+  \begin{enumerate}[A.]
+    \item Handling missing values
+    \item Defining success criteria
+    \item Training a model
+    \item Drawing a heatmap
+  \end{enumerate}
+\end{enumerate}
+\quiztitle{Question 3. Case.} A university wants to investigate why students drop out. Suggest two more specific analytical questions.
+\end{frame}
+
+% 42
+\begin{frame}{Step 2: Collect Data}
+After defining the problem, collect data from appropriate sources.
+\begin{itemize}
+  \item Data may come from internal databases, APIs, surveys, web scraping, or public datasets.
+  \item Data must be relevant, accurate, and sufficiently complete.
+  \item Combining multiple sources may enrich the analysis.
+  \item The origin and structure of each dataset should be documented for transparency.
+  \item Update frequency, file format, and refresh requirements should be considered.
+\end{itemize}
+\end{frame}
+
+% 43
+\begin{frame}[fragile]{Step 2 Example: Titanic Dataset}
+\begin{lstlisting}[style=py]
+import seaborn as sns
+import pandas as pd
+
+titanic = sns.load_dataset("titanic")
+titanic.head()
+\end{lstlisting}
+\begin{itemize}
+  \item The Titanic dataset is built into Seaborn.
+  \item \texttt{head()} displays the first few rows.
+  \item The dataset is used to demonstrate cleaning, analysis, visualization, and model building.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Illustration: Titanic Dataset Preview}
+\centering
+\imageplaceholder{images/image-5-v1.png}{Titanic dataset preview}
+\end{frame}
+
+
+% 44
+\begin{frame}{Quick Check: Step 2}
+\begin{enumerate}
+  \item Which of the following can be used as a data source?
+  \begin{enumerate}[A.]
+    \item Internal databases \item APIs \item Surveys \item All of the above
+  \end{enumerate}
+  \item Why should the origin of a dataset be documented?
+  \begin{enumerate}[A.]
+    \item To improve transparency and auditability
+    \item To make the dataset larger
+    \item To avoid data cleaning
+    \item To replace data analysis
+  \end{enumerate}
+  \item Which function is used to load the Titanic dataset in the example?
+  \begin{enumerate}[A.]
+    \item \texttt{pd.read\_csv()} \item \texttt{sns.load\_dataset()} \item \texttt{plt.load()} \item \texttt{np.loadtxt()}
+  \end{enumerate}
+\end{enumerate}
+\end{frame}
+
+% 45
+\begin{frame}{Step 3: Clean the Data}
+Raw data are rarely ready for direct analysis.
+\begin{block}{Data cleaning includes}
+\begin{itemize}
+  \item Handling missing values.
+  \item Removing duplicate records.
+  \item Standardizing formats.
+  \item Converting categorical variables into numerical form.
+  \item Removing irrelevant, redundant, or inconsistent columns.
+\end{itemize}
+\end{block}
+Well-prepared data improve the reliability and accuracy of analytical results.
+\end{frame}
+
+% 46
+\begin{frame}[fragile]{Step 3: Check and Handle Missing Data}
+\begin{lstlisting}[style=py]
+print(titanic.isnull().sum())
+
+titanic["age"].fillna(
+    titanic["age"].median(),
+    inplace=True
+)
+
+titanic["embarked"].fillna(
+    titanic["embarked"].mode()[0],
+    inplace=True
+)
+\end{lstlisting}
+\begin{itemize}
+  \item \texttt{isnull().sum()} counts missing values in each column.
+  \item Missing values in \texttt{age} are replaced by the median.
+  \item Missing values in \texttt{embarked} are replaced by the most frequent value.
+\end{itemize}
+\end{frame}
+
+% 47
+\begin{frame}[fragile]{Step 3: Remove Columns and Encode Categories}
+\begin{lstlisting}[style=py]
+titanic.drop(
+    ["deck", "embark_town", "alive", "class", "who", "adult_male"],
+    axis=1,
+    inplace=True
+)
+
+titanic["sex"] = titanic["sex"].map({"male": 0, "female": 1})
+titanic["embarked"] = titanic["embarked"].map({"C": 0, "Q": 1, "S": 2})
+
+titanic.head()
+\end{lstlisting}
+\smallnote{Categorical variables often need to be converted before analysis or modeling.}
+\end{frame}
+
+\begin{frame}{Illustration: Cleaned Titanic Data}
+\centering
+\imageplaceholder{images/image-6.png}{Titanic data after cleaning and encoding}
+\end{frame}
+
+
+% 48
+\begin{frame}{Quick Check: Step 3}
+\begin{enumerate}\small
+  \item Which command counts missing values in each column?
+  \begin{enumerate}[A.]\small
+    \item \texttt{titanic.head()} \item \texttt{titanic.isnull().sum()} \item \texttt{titanic.describe()} \item \texttt{titanic.drop()}
+  \end{enumerate}
+  \item In the example, missing values in \texttt{age} are replaced by:
+  \begin{enumerate}[A.]\small
+    \item The minimum value \item The maximum value \item The median \item Zero
+  \end{enumerate}
+  \item Why is the \texttt{sex} column converted into numerical values?
+  \begin{enumerate}[A.]\small
+    \item To reduce rows \item To make the data more suitable for analytical algorithms or models \item To change gender \item To create a pie chart
+  \end{enumerate}
+\end{enumerate}
+\quiztitle{Question 4. True or false?} Every column containing missing values can be removed without considering context.
+\end{frame}
+
+% 49
+\begin{frame}{Step 4: Analyze the Data}
+Data analysis is the core step in which the analyst searches for patterns, trends, and relationships.
+\begin{itemize}
+  \item Calculate measures such as mean, median, mode, and variance.
+  \item Identify correlations, trends, and unusual observations.
+  \item Apply models such as regression, clustering, or classification.
+  \item Compare results with expectations or hypotheses.
+\end{itemize}
+\end{frame}
+
+% 50
+\begin{frame}[fragile]{Step 4: Correlation Matrix}
+\begin{lstlisting}[style=py]
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(8, 6))
+sns.heatmap(
+    titanic.corr(),
+    annot=True,
+    cmap="coolwarm"
+)
+
+plt.title("Correlation Matrix")
+plt.show()
+\end{lstlisting}
+A heatmap helps observe the degree of correlation among numerical variables.
+\end{frame}
+
+\begin{frame}{Illustration: Correlation Matrix}
+\centering
+\imageplaceholder{images/image-7.png}{Correlation matrix for the Titanic dataset}
+\end{frame}
+
+
+% 51
+\begin{frame}[fragile]{Step 4: Survival Rate by Passenger Class}
+\begin{lstlisting}[style=py]
+sns.barplot(
+    x="pclass",
+    y="survived",
+    data=titanic
+)
+
+plt.title("Survival Rate by Passenger Class")
+plt.show()
+\end{lstlisting}
+The bar chart compares the average survival rate across passenger classes.
+\end{frame}
+
+\begin{frame}{Illustration: Survival Rate by Passenger Class}
+\centering
+\imageplaceholder{images/image-8.png}{Survival rate by passenger class}
+\end{frame}
+
+
+% 52
+\begin{frame}{Quick Check: Step 4}
+\begin{enumerate}
+  \item What is a correlation matrix used for?
+  \begin{enumerate}[A.]
+    \item Checking file types \item Examining relationships among variables \item Removing duplicates \item Loading data from an API
+  \end{enumerate}
+  \item In the example, the barplot compares:
+  \begin{enumerate}[A.]
+    \item Age and fare \item Passenger class and survival rate \item Gender and port \item Number of columns and rows
+  \end{enumerate}
+  \item Which models may be used during data analysis?
+  \begin{enumerate}[A.]
+    \item Regression \item Clustering \item Classification \item All of the above
+  \end{enumerate}
+\end{enumerate}
+\quiztitle{Question 4. Case.} If two variables are highly correlated, can we conclude with certainty that one causes the other?
+\end{frame}
+
+% 53
+\begin{frame}{Step 5: Visualize the Results}
+Visualization makes complex data easier to understand.
+\begin{itemize}
+  \item Charts, graphs, and dashboards highlight important trends, patterns, and unusual observations.
+  \item A good visualization should be clear, intuitive, and useful for decision-making.
+  \item Select chart types according to analytical questions: histogram, scatter plot, bar chart, heatmap, etc.
+  \item Avoid excessive detail that distracts from the main message.
+\end{itemize}
+\end{frame}
+
+% 54
+\begin{frame}[fragile]{Step 5: Count Plot and Age Distribution}
+\begin{lstlisting}[style=py]
+sns.countplot(
+    x="survived",
+    data=titanic
+)
+plt.title("Number of Passengers by Survival Status")
+plt.show()
+
+sns.histplot(
+    titanic["age"],
+    kde=True
+)
+plt.title("Age Distribution")
+plt.show()
+\end{lstlisting}
+\end{frame}
+
+
+\begin{frame}{Illustration: Survival Count and Age Distribution}
+\begin{columns}[c]
+\begin{column}{0.50\linewidth}
+\centering
+\imageplaceholder{images/image-9.png}{Passenger counts by survival status}
+\end{column}
+\begin{column}{0.50\linewidth}
+\centering
+\imageplaceholder{images/image-1-v1.png}{Age distribution of Titanic passengers}
+\end{column}
+\end{columns}
+\end{frame}
+
+
+% 55
+\begin{frame}[fragile]{Step 5: Scatter Plot of Age and Fare}
+\begin{lstlisting}[style=py]
+sns.scatterplot(
+    x="age",
+    y="fare",
+    hue="survived",
+    data=titanic
+)
+
+plt.title("Relationship Between Fare and Age by Survival Status")
+plt.show()
+\end{lstlisting}
+\smallnote{The \texttt{hue} argument colors points by survival status.}
+\end{frame}
+
+\begin{frame}{Illustration: Fare vs Age by Survival Status}
+\centering
+\imageplaceholder{images/image-10.png}{Age and fare by survival status}
+\end{frame}
+
+
+% 56
+\begin{frame}{Quick Check: Step 5}
+\begin{enumerate}
+  \item Which chart is suitable for displaying the distribution of \texttt{age}?
+  \begin{enumerate}[A.]
+    \item Histogram \item Network chart \item Gantt chart \item Geographic map
+  \end{enumerate}
+  \item What is the purpose of \texttt{hue="survived"} in the scatter plot?
+  \begin{enumerate}[A.]
+    \item To remove the \texttt{survived} column
+    \item To distinguish points by survival status
+    \item To change the figure size
+    \item To calculate the mean
+  \end{enumerate}
+\end{enumerate}
+\quiztitle{Question 3. True or false?} A chart is always more effective when it contains more details.\\[0.4em]
+\quiztitle{Question 4.} Why should the chart type be selected according to the analytical question?
+\end{frame}
+
+% 57
+\begin{frame}{Step 6: Interpret Results and Make Decisions}
+The final step is to transform analytical results into actionable insights.
+\begin{itemize}
+  \item Place results in the context of the original problem.
+  \item Provide actionable recommendations based on findings.
+  \item Communicate results clearly to stakeholders.
+  \item Monitor outcomes and repeat the process for continuous improvement.
+\end{itemize}
+\smallnote{Interpretation connects the numerical result with practical decision-making.}
+\end{frame}
+
+% 58
+\begin{frame}[fragile]{Step 6: Building a Survival Prediction Model}
+\begin{lstlisting}[style=py]
+X = titanic.drop("survived", axis=1)
+y = titanic["survived"]
+
+X_train, X_val, y_train, y_val = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+model = RandomForestClassifier(n_estimators=100, random_state=42)
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_val)
+accuracy = accuracy_score(y_val, y_pred)
+print(f"Model accuracy: {accuracy:.4f}")
+\end{lstlisting}
+\end{frame}
+
+% 59
+\begin{frame}{Step 6: Interpreting Accuracy}
+\begin{block}{Result}
+\texttt{Model accuracy: 0.8101}
+\end{block}
+\begin{itemize}
+  \item The model correctly predicts approximately 81.01\% of observations in the validation set.
+  \item Accuracy alone should not be used to evaluate a model.
+  \item Practical applications may require additional metrics and careful context-specific interpretation.
+  \item The code uses \texttt{train\_test\_split}, \texttt{RandomForestClassifier}, and \texttt{accuracy\_score}, which must be imported from Scikit-learn.
+\end{itemize}
+\end{frame}
+
+% 60
+\begin{frame}{Quick Check: Step 6}
+\begin{enumerate}\small
+  \item What is the objective of the interpretation step?
+  \begin{enumerate}[A.]\small
+    \item Only to present numbers
+    \item To transform analytical results into insights and actions
+    \item To delete all data
+    \item To change the original problem
+  \end{enumerate}
+  \item An accuracy value of \texttt{0.8101} is approximately:
+  \begin{enumerate}[A.]\small
+    \item 8.101\% \item 18.01\% \item 81.01\% \item 810.1\%
+  \end{enumerate}
+  \item Why should results be monitored after a decision is implemented?
+  \begin{enumerate}[A.]\small
+    \item To determine whether the decision is effective and make adjustments when needed
+    \item To increase the number of columns
+    \item To avoid communicating with stakeholders
+    \item To ensure no further analysis is needed
+  \end{enumerate}
+\end{enumerate}
+\quiztitle{Question 4. True or false?} Accuracy alone is always sufficient to fully evaluate a classification model.
+\end{frame}
+
+% 61
+\begin{frame}{Process Summary}
+\begin{center}\small
+\begin{tabular}{p{0.27\linewidth}p{0.34\linewidth}p{0.27\linewidth}}
+\toprule
+\textbf{Step} & \textbf{Main content} & \textbf{Central question}\\
+\midrule
+Define the problem & Objective, context, success criteria & What problem must be solved?\\
+Collect data & Relevant sources & What data are needed?\\
+Clean data & Missing values, formatting & Are data ready?\\
+Analyze data & Patterns and relationships & What do data show?\\
+Visualize results & Charts and dashboards & How to make results clear?\\
+Interpret and decide & Recommendations and actions & What should be done?\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{frame}
+
+% 62
+\begin{frame}{Review: Multiple-Choice Questions 1-4}
+\begin{enumerate}\scriptsize
+  \item What is the first step in the data analysis process?
+  \begin{enumerate}[A.]\scriptsize
+    \item Clean the data \item Define the problem \item Visualize the data \item Train a model
+  \end{enumerate}
+  \item Which activity belongs to the data-collection step?
+  \begin{enumerate}[A.]\scriptsize
+    \item Identify data sources \item Handle missing values \item Calculate a correlation matrix \item Evaluate model accuracy
+  \end{enumerate}
+  \item The median is commonly used to:
+  \begin{enumerate}[A.]\scriptsize
+    \item Rename a column \item Fill missing values in a numerical variable \item Create an API \item Draw a scatter plot
+  \end{enumerate}
+  \item Which function is used to visualize a correlation matrix in the example?
+  \begin{enumerate}[A.]\scriptsize
+    \item \texttt{sns.heatmap()} \item \texttt{sns.load\_dataset()} \item \texttt{pd.DataFrame()} \item \texttt{model.fit()}
+  \end{enumerate}
+\end{enumerate}
+\end{frame}
+
+% 63
+\begin{frame}{Review: Multiple-Choice Questions 5-8}
+\begin{enumerate}\scriptsize\setcounter{enumi}{4}
+  \item Which chart is used to show the age distribution?
+  \begin{enumerate}[A.]\scriptsize
+    \item Histogram \item Pie chart \item Gantt chart \item Geographic heatmap
+  \end{enumerate}
+  \item What does \texttt{test\_size=0.2} mean?
+  \begin{enumerate}[A.]\scriptsize
+    \item 20\% of data are used as validation \item 20\% are deleted \item There are 20 input variables \item Model has 20\% accuracy
+  \end{enumerate}
+  \item An accuracy of \texttt{0.8101} is equal to:
+  \begin{enumerate}[A.]\scriptsize
+    \item 0.8101\% \item 8.101\% \item 81.01\% \item 810.1\%
+  \end{enumerate}
+  \item Which step converts analytical results into recommendations?
+  \begin{enumerate}[A.]\scriptsize
+    \item Data collection \item Data cleaning \item Interpretation and decision-making \item Visualization only
+  \end{enumerate}
+\end{enumerate}
+\end{frame}
+
+% 64
+\begin{frame}{Review: True/False}
+\begin{block}{Part B. True/False}
+\begin{enumerate}
+  \item The analytical objective should be defined before data collection.
+  \item Raw data can always be used directly to build a model.
+  \item A correlation matrix can help identify relationships among variables.
+  \item A high correlation always proves causation.
+  \item Data visualization can support communication with stakeholders.
+  \item After a decision has been made, there is no need to monitor the outcome.
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}{Review: Short Answers}
+\begin{block}{Part C. Short answers}
+\begin{enumerate}
+  \item Present the six main steps.
+  \item Why is defining the problem important?
+  \item State three common problems in raw data.
+  \item Distinguish data analysis and visualization.
+  \item Why must model results be interpreted in context?
+\end{enumerate}
+\end{block}
+\end{frame}
+
+% 65
+\begin{frame}{Practical Exercises}
+\begin{block}{Exercise 1. Explore the Titanic Dataset}
+Display the first five rows, determine rows and columns, check data types, count missing values, and comment on quality.
+\end{block}
+\begin{block}{Exercise 2. Clean the Data}
+Fill missing values, remove unnecessary columns, convert \texttt{sex} into numerical values, and recheck the data.
+\end{block}
+\begin{block}{Exercise 3. Analyze and Visualize}
+Calculate descriptive statistics, plot age distribution, compare survival by class, draw age/fare scatter plot, and write observations.
+\end{block}
+\end{frame}
+
+% 66
+\begin{frame}{Practical Exercise 4: Interpret the Result}
+Assume that a survival-prediction model achieves an accuracy of 81.01\%.
+\begin{enumerate}
+  \item Explain what the result means.
+  \item State two reasons why accuracy alone should not be used.
+  \item Suggest two additional evaluation metrics.
+  \item State one ethical or practical limitation of using the model.
+\end{enumerate}
+\end{frame}
+
+\appendix
+\section{Answer Key}
+
+% 67
+\begin{frame}{Answer Key: What Is Data Analysis?}
+\begin{itemize}\small
+  \item Quick Check - What Is Data Analysis: Q1 B; Q2 D.
+  \item Importance: Q1 B; Q2 B; Q3 False.
+  \item Data Analysis Process: Q1 C; Q2 B; Q3 B; Q4 order is 2 $\rightarrow$ 4 $\rightarrow$ 1 $\rightarrow$ 3.
+  \item Types: Q1 A; Q2 B; Q3 C; Q4 D.
+  \item Tools: Q1 A; Q2 B; Q3 A; Q4 False.
+  \item Applications: Q1 A; Q2 B; Q3 D; Q4 Education.
+  \item Limitations: Q1 B; Q2 B; Q3 True; Q4 quantitative data may miss qualitative, social, behavioral, or human context.
+\end{itemize}
+\end{frame}
+
+% 68
+\begin{frame}{Answer Key: Review for Part I}
+\begin{itemize}\small
+  \item Multiple choice: 1 B; 2 B; 3 B; 4 C; 5 D; 6 A; 7 B; 8 C.
+  \item True/False: 1 True; 2 False; 3 True; 4 False; 5 True.
+  \item Short answer Q1: define objective, collect data, clean/preprocess data, perform EDA, perform statistical analysis, visualize/communicate results.
+  \item Short answer Q2: descriptive explains what happened; diagnostic investigates why it happened.
+  \item Short answer Q3: poor-quality data can produce misleading patterns, biased conclusions, and unreliable models.
+  \item Short answer Q4: benefits include better decisions and risk management; limitations include bias, poor quality, resource needs, and lack of context.
+\end{itemize}
+\end{frame}
+
+% 69
+\begin{frame}{Answer Key: Six-Step Process Quick Checks}
+\begin{itemize}\small
+  \item Introduction: Q1 B; Q2 True.
+  \item Step 1: Q1 B; Q2 B; case examples: student groups with highest dropout rates; relationship with grades, finances, or engagement.
+  \item Step 2: Q1 D; Q2 A; Q3 B.
+  \item Step 3: Q1 B; Q2 C; Q3 B; Q4 False.
+  \item Step 4: Q1 B; Q2 B; Q3 D; Q4 No - correlation does not imply causation.
+  \item Step 5: Q1 A; Q2 B; Q3 False; Q4 different chart types fit different data and communication objectives.
+  \item Step 6: Q1 B; Q2 C; Q3 A; Q4 False.
+\end{itemize}
+\end{frame}
+
+% 70
+\begin{frame}{Answer Key: Review for Part II}
+\begin{itemize}\small
+  \item Multiple choice: 1 B; 2 A; 3 B; 4 A; 5 A; 6 A; 7 C; 8 C.
+  \item True/False: 1 True; 2 False; 3 True; 4 False; 5 True; 6 False.
+  \item Short answer Q1: define problem, collect data, clean data, analyze data, visualize results, interpret and decide.
+  \item Q2: defining the problem determines the objective, scope, required data, and success criteria.
+  \item Q3: common raw-data problems include missing values, duplicates, inconsistent formats, outliers, and unsuitable data types.
+  \item Q4: analysis discovers patterns and draws conclusions; visualization presents data or findings visually.
+  \item Q5: context determines what a statistical or model result actually means for decisions.
+\end{itemize}
+\end{frame}
+
+% 71
+\begin{frame}{Closing Message}
+\begin{block}{Core idea}
+Good data analysis is not a single tool or chart. It is a disciplined process that starts with a clear question, prepares data carefully, explores patterns, communicates findings, and connects results to decisions.
+\end{block}
+\begin{itemize}
+  \item Use the process to avoid jumping directly into tools.
+  \item Use quizzes to check conceptual understanding.
+  \item Use exercises to build practical fluency with real datasets.
+\end{itemize}
+\end{frame}
+
+\end{document}

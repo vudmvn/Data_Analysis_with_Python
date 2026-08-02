@@ -43,6 +43,18 @@ venv.bak/
 .DS_Store
 Thumbs.db
 
+# LaTeX auxiliary build files
+*.aux
+*.log
+*.nav
+*.out
+*.snm
+*.toc
+*.vrb
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
 # Data files (tùy chọn bỏ bớt nếu dữ liệu quá lớn)
 # *.csv
 # *.xlsx
