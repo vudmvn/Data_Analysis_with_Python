@@ -6,7 +6,7 @@
 > **Đơn vị phụ trách:** Khoa Khoa học dữ liệu và Trí tuệ nhân tạo – Trường Đại học Kinh tế Quốc dân (NEU)  
 > **Chương trình đào tạo:** Data Science in Finance and E-commerce (EP15)  
 > **Số tín chỉ:** 3 Tín chỉ (30h lý thuyết, 15h thực hành, 90h tự học)  
-
+> **Đề cương chi tiết học phần:** Xem tệp [syllabus-vn.md](syllabus-vn.md)
 ---
 
 ## 📌 1. Giới thiệu Học phần & Mục tiêu
@@ -29,7 +29,7 @@ Bảng dưới đây tổng hợp chi tiết tài liệu học tập, bài giả
 
 | Tuần | Chủ đề chính (Tiếng Việt) | Bài giảng & Bài đọc (.md / .ipynb) | Slide | Bài tập Lab | Đáp án | Tài nguyên (Data / Images) | Trạng thái |
 |:---:|:---|:---|:---:|:---:|:---:|:---:|:---:|
-| **Tuần 01** | **Giới thiệu học phần** | • [Sáu bước trong quy trình phân tích dữ liệu](lectures/week-01-gioi-thieu-hoc-phan/cac_buoc_cua_phan_tich_du_lieu.md)<br>• [Khám phá tương quan trong Python](lectures/week-01-gioi-thieu-hoc-phan/kham_pha_tuong_quan.md)<br>• [Phân tích dữ liệu khám phá](lectures/week-01-gioi-thieu-hoc-phan/phan_tich_du_lieu_kham_pha.md)<br>• [Phân tích dữ liệu là gì?](lectures/week-01-gioi-thieu-hoc-phan/phan_tich_du_lieu_la_gi.md)<br>• [Phân tích thống kê là gì?](lectures/week-01-gioi-thieu-hoc-phan/phan_tich_thong_ke.md) | - | - | - | [🖼️ Images](lectures/week-01-gioi-thieu-hoc-phan/images/) | ✅ *Đã sẵn sàng* |
+| **Tuần 01** | **Giới thiệu học phần** | • [Sáu bước trong quy trình phân tích dữ liệu](lectures/week-01-gioi-thieu-hoc-phan/cac_buoc_cua_phan_tich_du_lieu.md)<br>• [Khám phá tương quan trong Python](lectures/week-01-gioi-thieu-hoc-phan/kham_pha_tuong_quan.md)<br>• [Phân tích dữ liệu khám phá](lectures/week-01-gioi-thieu-hoc-phan/phan_tich_du_lieu_kham_pha.md)<br>• [Phân tích dữ liệu là gì?](lectures/week-01-gioi-thieu-hoc-phan/phan_tich_du_lieu_la_gi.md)<br>• [Phân tích thống kê là gì?](lectures/week-01-gioi-thieu-hoc-phan/phan_tich_thong_ke.md) | - | - | - | - | ✅ *Đã sẵn sàng* |
 | **Tuần 02** | Thư viện tính toán NumPy | - | - | - | - | - | ⏳ *Đang biên soạn* |
 | **Tuần 03** | Thư viện thao tác dữ liệu Pandas | - | - | - | - | - | ⏳ *Đang biên soạn* |
 | **Tuần 04** | Khám phá & Trực quan hóa dữ liệu | - | - | - | - | - | ⏳ *Đang biên soạn* |
@@ -47,29 +47,9 @@ Bảng dưới đây tổng hợp chi tiết tài liệu học tập, bài giả
 
 ---
 
-## 🛠️ 3. Hướng dẫn Môi trường & Cài đặt (Setup Guide)
+## 📖 3. Tài liệu khác
 
-### 1. Cài đặt Python & Anaconda
-Khuyến nghị cài đặt bản [Anaconda Distribution](https://www.anaconda.com/download) (Python 3.10+).
-
-### 2. Cài đặt các thư viện phụ thuộc
-Mở **Anaconda Prompt** hoặc **Terminal** và chạy lệnh:
-```bash
-pip install numpy pandas matplotlib seaborn scipy scikit-learn bokeh jupyterlab pymongo
-```
-
-### 3. Mở JupyterLab làm việc
-```bash
-jupyter lab
-```
 
 ---
 
-## 📖 4. Tài liệu Quy trình & Quản lý Bài giảng
-
-- 📋 **Đề cương chi tiết học phần:** Xem tệp [syllabus-vn.md](syllabus-vn.md)
-- ⚙️ **Quy trình soạn bài giảng & Quản lý ảnh:** Xem tệp [QUY_TRINH_SOAN_BAI_GIANG.md](QUY_TRINH_SOAN_BAI_GIANG.md)
-
----
-
-> © 2026 TS. Vũ Đức Minh - Khoa Khoa học dữ liệu & Trí tuệ nhân tạo (NEU). Bản quyền tài liệu thuộc về tác giả.
+> © 2026 Vũ Đức Minh - Khoa Khoa học dữ liệu & Trí tuệ nhân tạo (NEU).  
