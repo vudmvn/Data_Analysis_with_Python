@@ -1,5 +1,7 @@
 # DSAI1005 – Phân tích dữ liệu với Python 
 
+🌐 **Ngôn ngữ / Language:** 🇻🇳 **Tiếng Việt** | [🇬🇧 English Version (syllabus-en.md)](syllabus-en.md)
+
 ## 1. Thông tin chung
 
 | Nội dung | Thông tin |
