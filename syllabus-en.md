@@ -121,18 +121,16 @@ Students use laptops with programming environments such as Jupyter Notebook, Jup
 
 Assessment criteria include knowledge mastery, problem-solving skills, critical thinking, practical application, content quality, creativity, teamwork collaboration, presentation skills, and time management.
 
-## 9. Learning Resources
+## 9. Learning Resources (References & Textbooks)
 
-### Primary Textbooks
+| Book Cover | Title | Authors | Publisher | ISBN | Link |
+|:---:|:---|:---|:---|:---:|:---:|
+| <img src="assets/images/python-data-analysis-3rd-cover.jpg" alt="Python Data Analysis 3rd Edition" width="90" /> | **Python Data Analysis**, 3rd Edition | Avinash Navlani, Armando Fandango, Ivan Idris | Packt Publishing, 2021 | 9781800564480 | [Book Info](https://www.packtpub.com/product/python-data-analysis-third-edition/9781800564480) |
+| <img src="assets/images/python-data-analysis-1st-cover.jpg" alt="Python Data Analysis 1st Edition" width="90" /> | **Python Data Analysis**, 1st Edition | Ivan Idris | Packt Publishing, 2014 | 9781783552030 | [Book Info](https://www.packtpub.com/product/python-data-analysis/9781783552030) |
+| <img src="assets/images/data-science-marketing-analytics-cover.jpg" alt="Data Science for Marketing Analytics" width="90" /> | **Data Science for Marketing Analytics**, 2nd Edition | Mirza Rahim Baig, Gururajan Govindan, Vishwesh Ravi Shrimali | Packt Publishing, 2021 | 9781800560475 | [Book Info](https://www.packtpub.com/product/data-science-for-marketing-analytics-second-edition/9781800560475) |
+| <img src="assets/images/data-analysis-business-economics-cover.jpg" alt="Data Analysis for Business, Economics and Policy" width="90" /> | **Data Analysis for Business, Economics and Policy** | Gábor Békés, Gábor Kézdi | Cambridge University Press, 2021 | 9781108716208 | [Book Info](https://www.cambridge.org/highereducation/books/data-analysis-for-business-economics-and-policy/B80C65A15ACD4FF5FA0B0FD7A73F1C46) |
+| <img src="assets/images/python-for-data-science-dummies-cover.jpg" alt="Python for Data Science For Dummies" width="90" /> | **Python for Data Science For Dummies**, 2nd Edition | John Paul Mueller, Luca Massaron | John Wiley & Sons, 2019 | 9781119547624 | [Book Info](https://www.wiley.com/en-us/Python+for+Data+Science+For+Dummies%2C+2nd+Edition-p-9781119547624) |
 
-1. Avinash Navlani, Armando Fandango, and Ivan Idris (2021), *Python Data Analysis: Perform Data Collection, Data Processing, Wrangling, Visualization, and Model Building Using Python*, 3rd Edition, Packt Publishing.
-2. Ivan Idris (2014), *Python Data Analysis: Learn How to Apply Powerful Data Analysis Techniques with Popular Open-Source Python Modules*, Packt Publishing.
-3. Mirza Rahim Baig, Gururajan Govindan, and Vishwesh Ravi Shrimali (2021), *Data Science for Marketing Analytics*, 2nd Edition, Packt Publishing.
-
-### Supplementary References
-
-4. Gábor Békés and Gábor Kézdi (2010), *Data Analysis for Business, Economics and Policy*, Cambridge University Press.
-5. John Paul Mueller and Luca Massaron (2019), *Python for Data Science*, 2nd Edition, John Wiley & Sons.
 
 ## 10. Course Regulations
 
