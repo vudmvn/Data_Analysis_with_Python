@@ -149,9 +149,12 @@ def scan_lectures_dir(lectures_dir):
             files = os.listdir(folder_path)
 
             # Check lecture notebooks / PDFs
-            notebook_links = []
-            lab_links = []
-            solution_links = []
+            notebook_links_vn = []
+            notebook_links_en = []
+            lab_links_vn = []
+            lab_links_en = []
+            solution_links_vn = []
+            solution_links_en = []
 
             for f in sorted(files):
                 if f.endswith(".ipynb"):
@@ -159,29 +162,35 @@ def scan_lectures_dir(lectures_dir):
                     if is_valid_content_file(full_p, 2000):
                         clean_name = f.replace(".ipynb", "")
                         link_html = f'<a href="lectures/{folder}/{f}" target="_blank">{clean_name}</a>'
-                        if "solution" in f or "dap_an" in f:
-                            solution_links.append(f'🔑 {link_html}')
-                        elif "practice" in f or "exercise" in f or "lab" in f:
-                            lab_links.append(f'💻 {link_html}')
-                        else:
-                            notebook_links.append(f'📘 {link_html}')
+                        is_vn_file = f.endswith("-vn.ipynb") or "_vn" in f
+                        is_en_file = f.endswith("-en.ipynb") or "_en" in f
 
-            notebook_link = "<br>".join(notebook_links) if notebook_links else "-"
-            lab_link = "<br>".join(lab_links) if lab_links else "-"
-            solution_link = "<br>".join(solution_links) if solution_links else "-"
+                        if "solution" in f or "dap_an" in f:
+                            if not is_en_file: solution_links_vn.append(f'🔑 {link_html}')
+                            if not is_vn_file: solution_links_en.append(f'🔑 {link_html}')
+                        elif "practice" in f or "exercise" in f or "lab" in f:
+                            if not is_en_file: lab_links_vn.append(f'💻 {link_html}')
+                            if not is_vn_file: lab_links_en.append(f'💻 {link_html}')
+                        else:
+                            if not is_en_file: notebook_links_vn.append(f'📘 {link_html}')
+                            if not is_vn_file: notebook_links_en.append(f'📘 {link_html}')
 
             # Check slides
-            slide_links = []
+            slide_links_vn = []
+            slide_links_en = []
             for f in sorted(files):
                 if f.endswith(".pdf"):
-                    slide_links.append(f'<a href="lectures/{folder}/{f}" target="_blank">PDF ({f.replace(".pdf", "")})</a>')
-            slides_link = "<br>".join(slide_links) if slide_links else "-"
+                    link_html = f'<a href="lectures/{folder}/{f}" target="_blank">PDF ({f.replace(".pdf", "")})</a>'
+                    is_vn_file = f.endswith("-vn.pdf") or "_vn" in f
+                    is_en_file = f.endswith("-en.pdf") or "_en" in f
+                    if not is_en_file: slide_links_vn.append(link_html)
+                    if not is_vn_file: slide_links_en.append(link_html)
 
             extra_mds_vn = []
             extra_mds_en = []
 
             for f in sorted(files):
-                if f.endswith(".md") and f not in ["README.md", "slides.md"]:
+                if f.endswith(".md") and f not in ["README.md", "README-en.md", "slides.md", "slides-en.md"]:
                     file_full_path = os.path.join(folder_path, f)
                     doc_title = f.replace(".md", "").replace("_", " ").replace("-", " ").title()
                     try:
@@ -197,20 +206,21 @@ def scan_lectures_dir(lectures_dir):
                     link_str = f"• [{doc_title}](lectures/{folder}/{f})"
                     if f.endswith("-en.md"):
                         extra_mds_en.append(link_str)
-                    elif f.endswith("-vn.md") or not f.endswith("-en.md"):
+                    else:
                         extra_mds_vn.append(link_str)
-
-            extra_docs_vn_str = "<br>".join(extra_mds_vn) if extra_mds_vn else ""
-            extra_docs_en_str = "<br>".join(extra_mds_en) if extra_mds_en else ""
 
             lecture_map[week_key] = {
                 "folder": folder,
-                "notebook": notebook_link,
-                "slides": slides_link,
-                "lab": lab_link,
-                "solution": solution_link,
-                "extra_docs_vn": extra_docs_vn_str,
-                "extra_docs_en": extra_docs_en_str
+                "notebook_vn": "<br>".join(notebook_links_vn) if notebook_links_vn else "-",
+                "notebook_en": "<br>".join(notebook_links_en) if notebook_links_en else "-",
+                "slides_vn": "<br>".join(slide_links_vn) if slide_links_vn else "-",
+                "slides_en": "<br>".join(slide_links_en) if slide_links_en else "-",
+                "lab_vn": "<br>".join(lab_links_vn) if lab_links_vn else "-",
+                "lab_en": "<br>".join(lab_links_en) if lab_links_en else "-",
+                "solution_vn": "<br>".join(solution_links_vn) if solution_links_vn else "-",
+                "solution_en": "<br>".join(solution_links_en) if solution_links_en else "-",
+                "extra_docs_vn": "<br>".join(extra_mds_vn) if extra_mds_vn else "",
+                "extra_docs_en": "<br>".join(extra_mds_en) if extra_mds_en else ""
             }
     return lecture_map
 
@@ -265,14 +275,14 @@ Bảng dưới đây tổng hợp chi tiết tài liệu học tập, bài giả
         if w in lecture_map:
             info = lecture_map[w]
             theory_parts = []
-            if info["notebook"] != "-":
-                theory_parts.append(info["notebook"])
+            if info["notebook_vn"] != "-":
+                theory_parts.append(info["notebook_vn"])
             if info["extra_docs_vn"]:
                 theory_parts.append(info["extra_docs_vn"])
             
             theory_str = "<br>".join(theory_parts) if theory_parts else "-"
 
-            vn_content += f"| **Tuần {w}** | **{topic_vn}** | {theory_str} | {info['slides']} | {info['lab']} | {info['solution']} | ✅ *Đã sẵn sàng* |\n"
+            vn_content += f"| **Tuần {w}** | **{topic_vn}** | {theory_str} | {info['slides_vn']} | {info['lab_vn']} | {info['solution_vn']} | ✅ *Đã sẵn sàng* |\n"
         else:
             vn_content += f"| **Tuần {w}** | {topic_vn} | - | - | - | - | ⏳ *Đang biên soạn* |\n"
 
@@ -341,14 +351,14 @@ The table below summarizes lecture notebooks, reading materials, slides, lab ass
         if w in lecture_map:
             info = lecture_map[w]
             theory_parts = []
-            if info["notebook"] != "-":
-                theory_parts.append(info["notebook"])
+            if info["notebook_en"] != "-":
+                theory_parts.append(info["notebook_en"])
             if info["extra_docs_en"]:
                 theory_parts.append(info["extra_docs_en"])
             
             theory_str = "<br>".join(theory_parts) if theory_parts else "-"
 
-            en_content += f"| **Week {w}** | **{topic_en}** | {theory_str} | {info['slides']} | {info['lab']} | {info['solution']} | ✅ *Ready* |\n"
+            en_content += f"| **Week {w}** | **{topic_en}** | {theory_str} | {info['slides_en']} | {info['lab_en']} | {info['solution_en']} | ✅ *Ready* |\n"
         else:
             en_content += f"| **Week {w}** | {topic_en} | - | - | - | - | ⏳ *In Progress* |\n"
 
