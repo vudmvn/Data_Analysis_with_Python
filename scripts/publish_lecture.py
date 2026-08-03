@@ -149,8 +149,26 @@ def scan_lectures_dir(lectures_dir):
             files = os.listdir(folder_path)
 
             # Check lecture notebooks / PDFs
-            lecture_file = os.path.join(folder_path, "lecture.ipynb")
-            notebook_link = f"[📘 Notebook](lectures/{folder}/lecture.ipynb)" if is_valid_content_file(lecture_file, 1000) else "-"
+            notebook_links = []
+            lab_links = []
+            solution_links = []
+
+            for f in sorted(files):
+                if f.endswith(".ipynb"):
+                    full_p = os.path.join(folder_path, f)
+                    if is_valid_content_file(full_p, 2000):
+                        clean_name = f.replace(".ipynb", "")
+                        link_html = f'<a href="lectures/{folder}/{f}" target="_blank">{clean_name}</a>'
+                        if "solution" in f or "dap_an" in f:
+                            solution_links.append(f'🔑 {link_html}')
+                        elif "practice" in f or "exercise" in f or "lab" in f:
+                            lab_links.append(f'💻 {link_html}')
+                        else:
+                            notebook_links.append(f'📘 {link_html}')
+
+            notebook_link = "<br>".join(notebook_links) if notebook_links else "-"
+            lab_link = "<br>".join(lab_links) if lab_links else "-"
+            solution_link = "<br>".join(solution_links) if solution_links else "-"
 
             # Check slides
             slide_links = []
@@ -158,16 +176,6 @@ def scan_lectures_dir(lectures_dir):
                 if f.endswith(".pdf"):
                     slide_links.append(f'<a href="lectures/{folder}/{f}" target="_blank">PDF ({f.replace(".pdf", "")})</a>')
             slides_link = "<br>".join(slide_links) if slide_links else "-"
-
-            # Check lab exercises
-            lab_links = []
-            for f in sorted(files):
-                if f.endswith(".ipynb") and "practice" in f or "exercise" in f:
-                    lab_links.append(f'<a href="lectures/{folder}/{f}" target="_blank">Lab ({f.replace(".ipynb", "")})</a>')
-            lab_link = "<br>".join(lab_links) if lab_links else "-"
-
-            solution_file = os.path.join(folder_path, "lab_solution.ipynb")
-            solution_link = f"[🔑 Đáp án / Solution](lectures/{folder}/lab_solution.ipynb)" if is_valid_content_file(solution_file, 1000) else "-"
 
             extra_mds_vn = []
             extra_mds_en = []

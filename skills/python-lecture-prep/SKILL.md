@@ -17,20 +17,19 @@ Mỗi bài giảng theo từng phần/tuần (hoặc chủ đề) trong reposito
 lectures/
 └── partXX-<ten-chu-de>/
     ├── README.md                  # Tóm tắt lý thuyết, mục tiêu bài học & chỉ dẫn (dùng link images/ + căn giữa ảnh)
-    ├── phan_tich_du_lieu_la_gi.md # Tệp bài đọc chi tiết (.md tiếng Việt)
-    ├── phan_tich_du_lieu_la_gi-en.md # Tệp bài đọc chi tiết (.md tiếng Anh)
+    ├── ten_bai_doc.md             # Tệp bài đọc chi tiết (.md tiếng Việt)
+    ├── ten_bai_doc-en.md          # Tệp bài đọc chi tiết (.md tiếng Anh)
     ├── partXX_lecture_1.tex       # Tệp nguồn Slide LaTeX Beamer (hỗ trợ phông chữ Việt DejaVu)
-    ├── partXX_lecture_1.pdf       # Tệp Slide PDF đã biên dịch hoàn chỉnh (80 trang Beamer)
-    ├── slides.md                  # Slide bài giảng dạng Markdown (Marp presentation)
-    ├── lecture.ipynb              # Notebook giảng dạy chính (Lý thuyết + Minh họa Code)
-    ├── lab_exercise.ipynb         # Bài tập thực hành cho sinh viên (Skeleton Code)
-    ├── lab_solution.ipynb         # Lời giải chi tiết dành cho giảng viên
-    ├── data/                      # Dữ liệu mẫu phục vụ bài giảng & thực hành
+    ├── partXX_lecture_1.pdf       # Tệp Slide PDF đã biên dịch hoàn chỉnh
+    ├── data/                      # Dữ liệu mẫu thực tế phục vụ bài giảng (nếu có)
     │   └── dataset.csv
     └── images/                    # THƯ MỤC CHỨA HÌNH ẢNH MINH HỌA CỦA BÀI GIẢNG
         ├── architecture.png
         └── chart_example.png
 ```
+
+> ⚠️ **Quy tắc Nghiêm ngặt về Notebook (`.ipynb`):**  
+> **TUYỆT ĐỐI KHÔNG TỰ ĐỘNG TẠO CÁC FILE NOTEBOOK RỖNG/TEMPLATE DUMMY (`lecture.ipynb`, `lab_exercise.ipynb`, `lab_solution.ipynb`).** Chỉ khởi tạo tệp Notebook khi có nội dung mã nguồn thực tế và được yêu cầu cụ thể.
 
 ---
 
