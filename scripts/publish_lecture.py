@@ -120,6 +120,21 @@ SYLLABUS_WEEKS = [
     }
 ]
 
+DOC_PRIORITY_ORDER = [
+    "phan_tich_du_lieu_la_gi",
+    "cac_buoc_cua_phan_tich_du_lieu",
+    "phan_tich_du_lieu_kham_pha",
+    "kham_pha_tuong_quan",
+    "phan_tich_thong_ke"
+]
+
+def get_doc_sort_key(filename):
+    clean = filename.replace("-vn.md", "").replace("-en.md", "").replace(".md", "")
+    for idx, key in enumerate(DOC_PRIORITY_ORDER):
+        if key in clean:
+            return idx
+    return 999
+
 def is_valid_content_file(file_path, min_bytes=500):
     if not os.path.exists(file_path):
         return False
@@ -189,25 +204,27 @@ def scan_lectures_dir(lectures_dir):
             extra_mds_vn = []
             extra_mds_en = []
 
-            for f in sorted(files):
-                if f.endswith(".md") and f not in ["README.md", "README-en.md", "slides.md", "slides-en.md"]:
-                    file_full_path = os.path.join(folder_path, f)
-                    doc_title = f.replace(".md", "").replace("_", " ").replace("-", " ").title()
-                    try:
-                        with open(file_full_path, "r", encoding="utf-8") as mdf:
-                            for line in mdf:
-                                line_str = line.strip()
-                                if line_str.startswith("# "):
-                                    doc_title = line_str.replace("# ", "").strip()
-                                    break
-                    except Exception:
-                        pass
+            md_files = [f for f in files if f.endswith(".md") and f not in ["README.md", "README-en.md", "slides.md", "slides-en.md"]]
+            md_files.sort(key=get_doc_sort_key)
 
-                    link_str = f"• [{doc_title}](lectures/{folder}/{f})"
-                    if f.endswith("-en.md"):
-                        extra_mds_en.append(link_str)
-                    else:
-                        extra_mds_vn.append(link_str)
+            for f in md_files:
+                file_full_path = os.path.join(folder_path, f)
+                doc_title = f.replace(".md", "").replace("_", " ").replace("-", " ").title()
+                try:
+                    with open(file_full_path, "r", encoding="utf-8") as mdf:
+                        for line in mdf:
+                            line_str = line.strip()
+                            if line_str.startswith("# "):
+                                doc_title = line_str.replace("# ", "").strip()
+                                break
+                except Exception:
+                    pass
+
+                link_str = f"• [{doc_title}](lectures/{folder}/{f})"
+                if f.endswith("-en.md"):
+                    extra_mds_en.append(link_str)
+                else:
+                    extra_mds_vn.append(link_str)
 
             lecture_map[week_key] = {
                 "folder": folder,
