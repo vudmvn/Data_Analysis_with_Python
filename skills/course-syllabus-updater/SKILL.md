@@ -31,9 +31,13 @@ Skill này hỗ trợ tự động duy trì và cập nhật tệp **`README.md`
 ### 2. Quy chuẩn Dấu Gạch Ngang (`-`)
 - Cột nào của tuần học chưa có tài nguyên hoàn chỉnh (Ví dụ: chưa soạn Slide, chưa có file Lab, đáp án, hoặc thư mục `data/` đang rỗng) thì đặt giá trị `-`.
 
-### 3. Quy chuẩn Song ngữ (`README-en.md`)
+### 3. Quy chuẩn Song ngữ & Quy tắc Nghiêm ngặt cho `README-en.md` (Strict No-Vietnamese in `README-en.md` Rule)
 - Cung cấp tiêu đề và mô tả chuẩn bằng Tiếng Anh (VD: `"Week 01: Course Introduction & Setup"`, `"Data Cleaning & Preprocessing"`).
-- Đặt nút chuyển đổi ngôn ngữ nổi bật ở đầu trang: `🌐 Ngôn ngữ / Language: 🇻🇳 Tiếng Việt | 🇬🇧 English`.
+- Đặt nút chuyển đổi ngôn ngữ nổi bật ở đầu trang: `🌐 Language: [🇻🇳 Vietnamese Version (README.md)](README.md) | 🇬🇧 English`.
+- **TUYỆT ĐỐI KHÔNG ĐƯA NỘI DUNG TIẾNG VIỆT VÀO `README-en.md`**:
+  - Tệp `README-en.md` là giao diện Tiếng Anh 100%. **Không bao giờ** chèn các bài đọc Tiếng Việt (`-vn.md`), tiêu đề Tiếng Việt hoặc mô tả Tiếng Việt vào tệp `README-en.md`.
+  - Nếu bài đọc/bài giảng chưa có bản dịch Tiếng Anh (`-en.md`), tại ô Bài đọc trong `README-en.md` **bắt buộc hiển thị dấu gạch ngang `-`** (không tự động lấy link bài đọc Tiếng Việt làm fallback).
+  - **Quy tắc Chiều ngược lại (Reverse Rule)**: Trong tệp Tiếng Việt `README.md`, có thể dẫn liên kết tham chiếu tài liệu Tiếng Anh nếu cần thiết hoặc thích hợp, nhưng chiều ngược lại (đưa nội dung Tiếng Việt sang `README-en.md`) là **HOÀN TOÀN BỊ CẤM**.
 
 ---
 

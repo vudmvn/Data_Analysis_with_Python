@@ -77,6 +77,11 @@ Khi tạo, nhúng hoặc biên dịch tài liệu, Agent **BẮT BUỘC** thực
   - Tệp tiếng Anh: `**Last updated:** <Month> <Day>, <Year>` (VD: `**Last updated:** August 2, 2026`)
 - Khi tạo mới bài giảng hoặc bất kỳ khi nào chỉnh sửa, cập nhật nội dung của tệp bài giảng `.md`, Agent **BẮT BUỘC** phải tự động cập nhật dòng này về **ngày hiện tại**.
 
+### 8. Quy tắc Phân định Ngôn ngữ Nghiêm ngặt cho `README-en.md` (Strict No-Vietnamese in `README-en.md` Rule)
+- **TUYỆT ĐỐI KHÔNG ĐƯA NỘI DUNG TIẾNG VIỆT VÀO `README-en.md`**: Tệp `README-en.md` là giao diện Tiếng Anh 100%. Không bao giờ chèn các bài đọc Tiếng Việt (`-vn.md`), tiêu đề Tiếng Việt hoặc mô tả Tiếng Việt vào tệp `README-en.md`.
+- Nếu bài đọc/bài giảng chưa có bản dịch Tiếng Anh (`-en.md`), tại ô Bài đọc trong `README-en.md` **bắt buộc hiển thị dấu gạch ngang `-`** (không tự động lấy link bài đọc Tiếng Việt làm fallback).
+- **Quy tắc Chiều ngược lại (Reverse Rule)**: Trong tệp Tiếng Việt `README.md`, có thể dẫn liên kết tham chiếu tài liệu Tiếng Anh nếu cần thiết hoặc thích hợp, nhưng chiều ngược lại (đưa nội dung Tiếng Việt sang `README-en.md`) là **HOÀN TOÀN BỊ CẤM**.
+
 ---
 
 ## 🔄 3. Quy trình Soạn & Cập nhật Bài giảng (5 Bước)

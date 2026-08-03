@@ -337,8 +337,6 @@ The table below summarizes lecture notebooks, reading materials, slides, lab ass
                 theory_parts.append(info["notebook"])
             if info["extra_docs_en"]:
                 theory_parts.append(info["extra_docs_en"])
-            elif info["extra_docs_vn"]:
-                theory_parts.append(info["extra_docs_vn"])
             
             theory_str = "<br>".join(theory_parts) if theory_parts else "-"
 
