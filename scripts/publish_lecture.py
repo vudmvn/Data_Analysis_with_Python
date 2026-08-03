@@ -3,9 +3,6 @@
 Script tự động quét các bài giảng trong `lectures/`, đối chiếu với đề cương `syllabus-vn.md`,
 tạo/cập nhật Cổng thông tin môn học Song ngữ (Tiếng Việt `README.md` và Tiếng Anh `README-en.md`),
 và thực hiện commit + push lên GitHub.
-
-Quy tắc: Những mục chưa được biên soạn thực tế (chỉ là template khung hoặc thư mục rỗng)
-sẽ hiển thị dấu gạch ngang '-' thay vì hiển thị link rỗng.
 """
 
 import os
@@ -123,79 +120,90 @@ SYLLABUS_WEEKS = [
     }
 ]
 
-def is_valid_content_file(file_path, min_bytes=1500):
-    """Kiểm tra tệp xem đã có nội dung thực tế chưa hay chỉ là template rỗng"""
+def is_valid_content_file(file_path, min_bytes=500):
     if not os.path.exists(file_path):
         return False
-    size = os.path.getsize(file_path)
-    return size >= min_bytes
-
-def is_non_empty_dir(dir_path):
-    """Kiểm tra thư mục xem có chứa tệp thực tế nào không"""
-    if not os.path.exists(dir_path) or not os.path.isdir(dir_path):
-        return False
-    return len(os.listdir(dir_path)) > 0
+    return os.path.getsize(file_path) >= min_bytes
 
 def scan_lectures_dir(lectures_dir):
-    """
-    Quét thư mục lectures/ để tìm các thư mục tuần học và các file tài liệu bên trong.
-    """
     lecture_map = {}
     if not os.path.exists(lectures_dir):
         return lecture_map
 
     for folder in os.listdir(lectures_dir):
         folder_path = os.path.join(lectures_dir, folder)
-        if os.path.isdir(folder_path) and folder.startswith("week-"):
-            parts = folder.split("-")
-            if len(parts) >= 2:
-                week_key = parts[1] # e.g. "01", "02"
-                files = os.listdir(folder_path)
+        if os.path.isdir(folder_path):
+            week_key = None
+            if folder.startswith("part"):
+                num_match = re.search(r'part(\d+)', folder)
+                if num_match:
+                    week_key = f"{int(num_match.group(1)):02d}"
+            elif folder.startswith("week-"):
+                num_match = re.search(r'week-(\d+)', folder)
+                if num_match:
+                    week_key = f"{int(num_match.group(1)):02d}"
 
-                # Kiểm tra từng loại tài nguyên
-                lecture_file = os.path.join(folder_path, "lecture.ipynb")
-                slides_file = os.path.join(folder_path, "slides.md")
-                lab_file = os.path.join(folder_path, "lab_exercise.ipynb")
-                solution_file = os.path.join(folder_path, "lab_solution.ipynb")
-                data_dir_path = os.path.join(folder_path, "data")
-                images_dir_path = os.path.join(folder_path, "images")
-                
-                notebook_link = f"[📘 Notebook](lectures/{folder}/lecture.ipynb)" if is_valid_content_file(lecture_file, 2000) else "-"
-                slides_link = f"[📊 Slides](lectures/{folder}/slides.md)" if is_valid_content_file(slides_file, 1500) else "-"
-                lab_link = f"[💻 Lab](lectures/{folder}/lab_exercise.ipynb)" if is_valid_content_file(lab_file, 1500) else "-"
-                solution_link = f"[🔑 Đáp án / Solution](lectures/{folder}/lab_solution.ipynb)" if is_valid_content_file(solution_file, 1500) else "-"
-                data_link = f"[📁 Data](lectures/{folder}/data/)" if is_non_empty_dir(data_dir_path) else "-"
-                images_link = f"[🖼️ Images](lectures/{folder}/images/)" if is_non_empty_dir(images_dir_path) else "-"
+            if not week_key:
+                continue
 
-                # Tìm các bài đọc bổ sung dạng .md (ngoại trừ README.md và slides.md)
-                extra_mds = []
-                for f in sorted(files):
-                    if f.endswith(".md") and f not in ["README.md", "slides.md"]:
-                        file_full_path = os.path.join(folder_path, f)
-                        doc_title = f.replace(".md", "").replace("_", " ").title()
-                        try:
-                            with open(file_full_path, "r", encoding="utf-8") as mdf:
-                                for line in mdf:
-                                    line_str = line.strip()
-                                    if line_str.startswith("# "):
-                                        doc_title = line_str.replace("# ", "").strip()
-                                        break
-                        except Exception:
-                            pass
-                        extra_mds.append(f"• [{doc_title}](lectures/{folder}/{f})")
+            files = os.listdir(folder_path)
 
-                extra_docs_str = "<br>".join(extra_mds) if extra_mds else ""
+            # Check lecture notebooks / PDFs
+            lecture_file = os.path.join(folder_path, "lecture.ipynb")
+            notebook_link = f"[📘 Notebook](lectures/{folder}/lecture.ipynb)" if is_valid_content_file(lecture_file, 1000) else "-"
 
-                lecture_map[week_key] = {
-                    "folder": folder,
-                    "notebook": notebook_link,
-                    "slides": slides_link,
-                    "lab": lab_link,
-                    "solution": solution_link,
-                    "data": data_link,
-                    "images": images_link,
-                    "extra_docs": extra_docs_str
-                }
+            # Check slides
+            slide_links = []
+            for f in sorted(files):
+                if f.endswith(".pdf"):
+                    slide_links.append(f'<a href="lectures/{folder}/{f}" target="_blank">PDF ({f.replace(".pdf", "")})</a>')
+            slides_link = "<br>".join(slide_links) if slide_links else "-"
+
+            # Check lab exercises
+            lab_links = []
+            for f in sorted(files):
+                if f.endswith(".ipynb") and "practice" in f or "exercise" in f:
+                    lab_links.append(f'<a href="lectures/{folder}/{f}" target="_blank">Lab ({f.replace(".ipynb", "")})</a>')
+            lab_link = "<br>".join(lab_links) if lab_links else "-"
+
+            solution_file = os.path.join(folder_path, "lab_solution.ipynb")
+            solution_link = f"[🔑 Đáp án / Solution](lectures/{folder}/lab_solution.ipynb)" if is_valid_content_file(solution_file, 1000) else "-"
+
+            extra_mds_vn = []
+            extra_mds_en = []
+
+            for f in sorted(files):
+                if f.endswith(".md") and f not in ["README.md", "slides.md"]:
+                    file_full_path = os.path.join(folder_path, f)
+                    doc_title = f.replace(".md", "").replace("_", " ").replace("-", " ").title()
+                    try:
+                        with open(file_full_path, "r", encoding="utf-8") as mdf:
+                            for line in mdf:
+                                line_str = line.strip()
+                                if line_str.startswith("# "):
+                                    doc_title = line_str.replace("# ", "").strip()
+                                    break
+                    except Exception:
+                        pass
+
+                    link_str = f"• [{doc_title}](lectures/{folder}/{f})"
+                    if f.endswith("-en.md"):
+                        extra_mds_en.append(link_str)
+                    elif f.endswith("-vn.md") or not f.endswith("-en.md"):
+                        extra_mds_vn.append(link_str)
+
+            extra_docs_vn_str = "<br>".join(extra_mds_vn) if extra_mds_vn else ""
+            extra_docs_en_str = "<br>".join(extra_mds_en) if extra_mds_en else ""
+
+            lecture_map[week_key] = {
+                "folder": folder,
+                "notebook": notebook_link,
+                "slides": slides_link,
+                "lab": lab_link,
+                "solution": solution_link,
+                "extra_docs_vn": extra_docs_vn_str,
+                "extra_docs_en": extra_docs_en_str
+            }
     return lecture_map
 
 def generate_portal_readmes():
@@ -215,8 +223,8 @@ def generate_portal_readmes():
 
 > **Giảng viên:** TS. Vũ Đức Minh (`minhvd@neu.edu.vn`)  
 > **Đơn vị phụ trách:** Khoa Khoa học dữ liệu và Trí tuệ nhân tạo – Trường Đại học Kinh tế Quốc dân (NEU)  
-> **Chương trình đào tạo:** Data Science in Finance and E-commerce (EP15)  
-> **Số tín chỉ:** 3 Tín chỉ (30h lý thuyết, 15h thực hành, 90h tự học)  
+> **Số tín chỉ:** 3 Tín chỉ (45h lý thuyết, 22.5h thực hành, 90h tự học)  
+> **Đề cương chi tiết học phần:** Xem tệp [syllabus-vn.md](syllabus-vn.md)
 
 ---
 
@@ -238,8 +246,8 @@ Học phần **Phân tích dữ liệu với Python (DSAI1005)** cung cấp ki�
 
 Bảng dưới đây tổng hợp chi tiết tài liệu học tập, bài giảng Notebook, slide, bài tập thực hành, tệp dữ liệu và đáp án cho **15 tuần học**:
 
-| Tuần | Chủ đề chính (Tiếng Việt) | Bài giảng & Bài đọc (.md / .ipynb) | Slide | Bài tập Lab | Đáp án | Tài nguyên (Data / Images) | Trạng thái |
-|:---:|:---|:---|:---:|:---:|:---:|:---:|:---:|
+| Tuần | Chủ đề chính (Tiếng Việt) | Bài giảng & Bài đọc (.md / .ipynb) | Slide | Bài tập Lab | Đáp án | Trạng thái |
+|:---:|:---|:---|:---:|:---:|:---:|:---:|
 """
 
     for item in SYLLABUS_WEEKS:
@@ -251,46 +259,27 @@ Bảng dưới đây tổng hợp chi tiết tài liệu học tập, bài giả
             theory_parts = []
             if info["notebook"] != "-":
                 theory_parts.append(info["notebook"])
-            if info["extra_docs"]:
-                theory_parts.append(info["extra_docs"])
+            if info["extra_docs_vn"]:
+                theory_parts.append(info["extra_docs_vn"])
             
             theory_str = "<br>".join(theory_parts) if theory_parts else "-"
-            resources_parts = []
-            if info["data"] != "-":
-                resources_parts.append(info["data"])
-            if info["images"] != "-":
-                resources_parts.append(info["images"])
-            res_str = " | ".join(resources_parts) if resources_parts else "-"
 
-            vn_content += f"| **Tuần {w}** | **{topic_vn}** | {theory_str} | {info['slides']} | {info['lab']} | {info['solution']} | {res_str} | ✅ *Đã sẵn sàng* |\n"
+            vn_content += f"| **Tuần {w}** | **{topic_vn}** | {theory_str} | {info['slides']} | {info['lab']} | {info['solution']} | ✅ *Đã sẵn sàng* |\n"
         else:
-            vn_content += f"| **Tuần {w}** | {topic_vn} | - | - | - | - | - | ⏳ *Đang biên soạn* |\n"
+            vn_content += f"| **Tuần {w}** | {topic_vn} | - | - | - | - | ⏳ *Đang biên soạn* |\n"
 
     vn_content += """
 ---
 
-## 🛠️ 3. Hướng dẫn Môi trường & Cài đặt (Setup Guide)
+## 📖 3. Sách tham khảo (References & Textbooks)
 
-### 1. Cài đặt Python & Anaconda
-Khuyến nghị cài đặt bản [Anaconda Distribution](https://www.anaconda.com/download) (Python 3.10+).
-
-### 2. Cài đặt các thư viện phụ thuộc
-Mở **Anaconda Prompt** hoặc **Terminal** và chạy lệnh:
-```bash
-pip install numpy pandas matplotlib seaborn scipy scikit-learn bokeh jupyterlab pymongo
-```
-
-### 3. Mở JupyterLab làm việc
-```bash
-jupyter lab
-```
-
----
-
-## 📖 4. Tài liệu Quy trình & Quản lý Bài giảng
-
-- 📋 **Đề cương chi tiết học phần:** Xem tệp [syllabus-vn.md](syllabus-vn.md)
-- ⚙️ **Quy trình soạn bài giảng & Quản lý ảnh:** Xem tệp [QUY_TRINH_SOAN_BAI_GIANG.md](QUY_TRINH_SOAN_BAI_GIANG.md)
+| Bìa sách | Tài liệu | Tác giả | Nhà xuất bản | ISBN | Liên kết |
+|:---:|:---|:---|:---|:---:|:---:|
+| <img src="assets/images/python-data-analysis-3rd-cover.jpg" alt="Python Data Analysis 3rd Edition" width="90" /> | **Python Data Analysis**, 3rd Edition | Avinash Navlani, Armando Fandango, Ivan Idris | Packt Publishing, 2021 | 9781800564480 | [Thông tin sách](https://www.packtpub.com/product/python-data-analysis-third-edition/9781800564480) |
+| <img src="assets/images/data-science-marketing-analytics-cover.jpg" alt="Data Science for Marketing Analytics" width="90" /> | **Data Science for Marketing Analytics**, 2nd Edition | Mirza Rahim Baig, Gururajan Govindan, Vishwesh Ravi Shrimali | Packt Publishing, 2021 | 9781800560475 | [Thông tin sách](https://www.packtpub.com/product/data-science-for-marketing-analytics-second-edition/9781800560475) |
+| <img src="assets/images/data-analysis-business-economics-cover.jpg" alt="Data Analysis for Business, Economics and Policy" width="90" /> | **Data Analysis for Business, Economics and Policy** | Gábor Békés, Gábor Kézdi | Cambridge University Press, 2021 | 9781108716208 | [Thông tin sách](https://www.cambridge.org/highereducation/books/data-analysis-for-business-economics-and-policy/B80C65A15ACD4FF5FA0B0FD7A73F1C46) |
+| <img src="assets/images/python-for-data-science-dummies-cover.jpg" alt="Python for Data Science For Dummies" width="90" /> | **Python for Data Science For Dummies**, 2nd Edition | John Paul Mueller, Luca Massaron | John Wiley & Sons, 2019 | 9781119547624 | [Thông tin sách](https://www.wiley.com/en-us/Python+for+Data+Science+For+Dummies%2C+2nd+Edition-p-9781119547624) |
+| <img src="assets/images/python-data-analysis-1st-cover.jpg" alt="Python Data Analysis 1st Edition" width="90" /> | **Python Data Analysis**, 1st Edition | Ivan Idris | Packt Publishing, 2014 | 9781783552030 | [Thông tin sách](https://www.packtpub.com/product/python-data-analysis/9781783552030) |
 
 ---
 
@@ -310,8 +299,8 @@ jupyter lab
 
 > **Lecturer:** Dr. Minh Duc Vu (`minhvd@neu.edu.vn`)  
 > **Department:** School of Data Science and Artificial Intelligence – National Economics University (NEU)  
-> **Academic Program:** Data Science in Finance and E-commerce (EP15)  
-> **Credits:** 3 Credits (30h Lectures, 15h Labs, 90h Self-study)  
+> **Credits:** 3 Credits (45h Lectures, 22.5h Labs, 90h Self-study)  
+> **Detailed Syllabus:** View [syllabus-en.md](syllabus-en.md)
 
 ---
 
@@ -333,8 +322,8 @@ The course **Data Analysis with Python (DSAI1005)** provides a systematic introd
 
 The table below summarizes lecture notebooks, reading materials, slides, lab assignments, sample datasets, and solutions for all **15 weeks**:
 
-| Week | Main Topic (English) | Lecture & Reading Materials (.md / .ipynb) | Slides | Lab Exercise | Solutions | Resources (Data / Images) | Status |
-|:---:|:---|:---|:---:|:---:|:---:|:---:|:---:|
+| Week | Main Topic (English) | Lecture & Reading Materials (.md / .ipynb) | Slides | Lab Exercise | Solutions | Status |
+|:---:|:---|:---|:---:|:---:|:---:|:---:|
 """
 
     for item in SYLLABUS_WEEKS:
@@ -346,46 +335,29 @@ The table below summarizes lecture notebooks, reading materials, slides, lab ass
             theory_parts = []
             if info["notebook"] != "-":
                 theory_parts.append(info["notebook"])
-            if info["extra_docs"]:
-                theory_parts.append(info["extra_docs"])
+            if info["extra_docs_en"]:
+                theory_parts.append(info["extra_docs_en"])
+            elif info["extra_docs_vn"]:
+                theory_parts.append(info["extra_docs_vn"])
             
             theory_str = "<br>".join(theory_parts) if theory_parts else "-"
-            resources_parts = []
-            if info["data"] != "-":
-                resources_parts.append(info["data"])
-            if info["images"] != "-":
-                resources_parts.append(info["images"])
-            res_str = " | ".join(resources_parts) if resources_parts else "-"
 
-            en_content += f"| **Week {w}** | **{topic_en}** | {theory_str} | {info['slides']} | {info['lab']} | {info['solution']} | {res_str} | ✅ *Ready* |\n"
+            en_content += f"| **Week {w}** | **{topic_en}** | {theory_str} | {info['slides']} | {info['lab']} | {info['solution']} | ✅ *Ready* |\n"
         else:
-            en_content += f"| **Week {w}** | {topic_en} | - | - | - | - | - | ⏳ *In Progress* |\n"
+            en_content += f"| **Week {w}** | {topic_en} | - | - | - | - | ⏳ *In Progress* |\n"
 
     en_content += """
 ---
 
-## 🛠️ 3. Environment & Installation Setup Guide
+## 📖 3. References & Textbooks
 
-### 1. Python & Anaconda Installation
-We recommend installing [Anaconda Distribution](https://www.anaconda.com/download) (Python 3.10+).
-
-### 2. Dependency Package Installation
-Open **Anaconda Prompt** or **Terminal** and execute:
-```bash
-pip install numpy pandas matplotlib seaborn scipy scikit-learn bokeh jupyterlab pymongo
-```
-
-### 3. Launching JupyterLab
-```bash
-jupyter lab
-```
-
----
-
-## 📖 4. Workflow & Course Guidelines
-
-- 📋 **Detailed Syllabus Document:** View [syllabus-vn.md](syllabus-vn.md)
-- ⚙️ **Lecture Preparation & Image Workflow:** View [QUY_TRINH_SOAN_BAI_GIANG.md](QUY_TRINH_SOAN_BAI_GIANG.md)
+| Book Cover | Reference | Author | Publisher | ISBN | Link |
+|:---:|:---|:---|:---|:---:|:---:|
+| <img src="assets/images/python-data-analysis-3rd-cover.jpg" alt="Python Data Analysis 3rd Edition" width="90" /> | **Python Data Analysis**, 3rd Edition | Avinash Navlani, Armando Fandango, Ivan Idris | Packt Publishing, 2021 | 9781800564480 | [Book Info](https://www.packtpub.com/product/python-data-analysis-third-edition/9781800564480) |
+| <img src="assets/images/data-science-marketing-analytics-cover.jpg" alt="Data Science for Marketing Analytics" width="90" /> | **Data Science for Marketing Analytics**, 2nd Edition | Mirza Rahim Baig, Gururajan Govindan, Vishwesh Ravi Shrimali | Packt Publishing, 2021 | 9781800560475 | [Book Info](https://www.packtpub.com/product/data-science-for-marketing-analytics-second-edition/9781800560475) |
+| <img src="assets/images/data-analysis-business-economics-cover.jpg" alt="Data Analysis for Business, Economics and Policy" width="90" /> | **Data Analysis for Business, Economics and Policy** | Gábor Békés, Gábor Kézdi | Cambridge University Press, 2021 | 97811108716208 | [Book Info](https://www.cambridge.org/highereducation/books/data-analysis-for-business-economics-and-policy/B80C65A15ACD4FF5FA0B0FD7A73F1C46) |
+| <img src="assets/images/python-for-data-science-dummies-cover.jpg" alt="Python for Data Science For Dummies" width="90" /> | **Python for Data Science For Dummies**, 2nd Edition | John Paul Mueller, Luca Massaron | John Wiley & Sons, 2019 | 9781119547624 | [Book Info](https://www.wiley.com/en-us/Python+for+Data+Science+For+Dummies%2C+2nd+Edition-p-9781119547624) |
+| <img src="assets/images/python-data-analysis-1st-cover.jpg" alt="Python Data Analysis 1st Edition" width="90" /> | **Python Data Analysis**, 1st Edition | Ivan Idris | Packt Publishing, 2014 | 9781783552030 | [Book Info](https://www.packtpub.com/product/python-data-analysis/9781783552030) |
 
 ---
 
@@ -411,7 +383,7 @@ if __name__ == "__main__":
         sys.stdout.reconfigure(encoding='utf-8')
 
     parser = argparse.ArgumentParser(description="Cập nhật Cổng thông tin môn học Song ngữ và đẩy bài giảng lên GitHub.")
-    parser.add_argument("--message", "-m", default="docs(readme): Cập nhật Cổng thông tin môn học Song ngữ với quy định dấu gạch ngang '-' cho mục chưa có", help="Nội dung commit message")
+    parser.add_argument("--message", "-m", default="docs(readme): Cập nhật Cổng thông tin môn học Song ngữ", help="Nội dung commit message")
     parser.add_argument("--no-push", action="store_true", help="Chỉ cập nhật README files, không git commit & push")
     args = parser.parse_args()
 

@@ -1,0 +1,1405 @@
+
+\documentclass[aspectratio=169,11pt]{beamer}
+
+\usetheme{AnnArbor}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,booktabs,array,multicol}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\definecolor{CodeBg}{RGB}{248,248,248}
+\definecolor{TitleBlue}{RGB}{38,79,129}
+\definecolor{AccentGreen}{RGB}{35,125,93}
+\definecolor{SoftGray}{RGB}{80,80,80}
+\definecolor{QuizOrange}{RGB}{180,95,30}
+
+\setbeamercolor{title}{fg=TitleBlue}
+\setbeamercolor{frametitle}{fg=TitleBlue}
+\setbeamercolor{structure}{fg=AccentGreen}
+\setbeamercolor{block title}{fg=white,bg=TitleBlue}
+\setbeamercolor{block body}{bg=blue!3}
+\setbeamercolor{alertblock title}{fg=white,bg=QuizOrange}
+\setbeamercolor{alertblock body}{bg=orange!6}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+\setbeamertemplate{itemize item}{\raise0.15ex\hbox{\tiny$\blacktriangleright$}}
+\setbeamertemplate{itemize subitem}{\raise0.15ex\hbox{\tiny$\bullet$}}
+
+\lstdefinestyle{py}{
+  language=Python,
+  basicstyle=\ttfamily\scriptsize,
+  backgroundcolor=\color{CodeBg},
+  frame=single,
+  framerule=0.2pt,
+  rulecolor=\color{gray!35},
+  breaklines=true,
+  showstringspaces=false,
+  keywordstyle=\color{TitleBlue}\bfseries,
+  commentstyle=\color{SoftGray}\itshape,
+  stringstyle=\color{AccentGreen}
+}
+
+\newcommand{\key}[1]{\textbf{\textcolor{AccentGreen}{#1}}}
+\newcommand{\smallnote}[1]{\vspace{0.25em}{\footnotesize\color{SoftGray}#1}}
+\newcommand{\quiztitle}[1]{\textbf{\textcolor{QuizOrange}{#1}}}
+\newcommand{\imageplaceholder}[2]{%
+\begin{center}
+  \fcolorbox{SoftGray}{gray!5}{%
+  \begin{minipage}[c][0.55\textheight][c]{0.84\linewidth}
+  \centering
+  {\Large\textcolor{TitleBlue}{Image Placeholder}}\\[1.0em]
+  {\normalsize\textbf{#2}}\\[1.2em]
+  {\footnotesize Source path in Markdown:}\\[0.35em]
+  {\small\texttt{\detokenize{#1}}}
+  \end{minipage}}
+\end{center}
+}
+
+\title[Introduction to NumPy]{Introduction to NumPy}
+\subtitle{Arrays, Vectorization, Broadcasting, and Numerical Computing}
+\author{Duc-Minh Vu}
+\institute{SLSCM Lab -- FDA -- NEU}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Lesson Roadmap}
+\begin{columns}[T]
+\column{0.48\linewidth}
+\begin{enumerate}
+  \item What NumPy is
+  \item Why NumPy is useful
+  \item Installation and importing
+  \item Creating arrays
+  \item Array properties
+  \item Indexing and slicing
+  \item Reshaping, resizing, stacking, splitting
+\end{enumerate}
+\column{0.48\linewidth}
+\begin{enumerate}
+  \setcounter{enumi}{7}
+  \item Broadcasting
+  \item Arithmetic and aggregation
+  \item Universal functions
+  \item Boolean operations
+  \item Linear algebra
+  \item Random numbers and statistics
+  \item Integration and common errors
+\end{enumerate}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Learning Outcomes}
+\small
+By the end of this lesson, learners will be able to:
+\begin{itemize}
+  \item Explain the purpose of NumPy in numerical computing.
+  \item Distinguish NumPy arrays from Python lists.
+  \item Create one-dimensional and multidimensional arrays.
+  \item Inspect \texttt{shape}, \texttt{size}, \texttt{ndim}, and \texttt{dtype}.
+  \item Use indexing, slicing, reshaping, stacking, and splitting.
+  \item Apply vectorized arithmetic, broadcasting, aggregation, and universal functions.
+  \item Perform basic linear algebra and descriptive statistics.
+  \item Generate random values and understand reproducibility.
+  \item Explain how NumPy connects with Pandas, SciPy, and Scikit-learn.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Prerequisites and Setup}
+\begin{block}{Recommended background}
+\begin{itemize}
+  \item Basic Python variables, lists, loops, and functions.
+  \item A working Python environment: Jupyter Notebook, JupyterLab, Google Colab, or similar.
+\end{itemize}
+\end{block}
+\begin{block}{Installation and import}
+\begin{lstlisting}[style=py]
+pip install numpy
+\end{lstlisting}
+\begin{lstlisting}[style=py]
+import numpy as np
+print(np.__version__)
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\section{What Is NumPy?}
+
+\begin{frame}{What Is NumPy?}
+\small
+\key{NumPy}, short for \key{Numerical Python}, is a core Python library for fast numerical computing.
+\vspace{0.4em}
+
+Its central object is the \key{N-dimensional array}, called \texttt{ndarray}. A NumPy array can represent:
+\begin{itemize}
+  \item A one-dimensional vector.
+  \item A two-dimensional matrix.
+  \item A three-dimensional tensor.
+  \item Higher-dimensional numerical structures.
+\end{itemize}
+\begin{block}{Why it matters}
+NumPy stores homogeneous data efficiently and supports fast operations over whole arrays.
+\end{block}
+\end{frame}
+
+\begin{frame}{NumPy Provides}
+\small
+\begin{columns}[T]
+\column{0.47\linewidth}
+\begin{itemize}
+  \item Fast array operations.
+  \item Vectorized calculations.
+  \item Broadcasting.
+  \item Linear algebra functions.
+\end{itemize}
+\column{0.47\linewidth}
+\begin{itemize}
+  \item Statistical functions.
+  \item Random-number generation.
+  \item Integration with Pandas, SciPy, Matplotlib, and Scikit-learn.
+\end{itemize}
+\end{columns}
+\vspace{0.7em}
+% \imageplaceholder{numpy_linear_algebra.webp}{NumPy linear algebra overview}
+\end{frame}
+
+\begin{frame}{Main Features}
+\small
+\begin{tabular}{p{0.26\linewidth}p{0.66\linewidth}}
+\toprule
+\textbf{Feature} & \textbf{Meaning} \\
+\midrule
+\texttt{ndarray} & Efficient multidimensional array with one common data type. \\
+Vectorization & Apply calculations to entire arrays without explicit Python loops. \\
+Broadcasting & Operate on compatible arrays with different shapes. \\
+Linear algebra & Matrix multiplication, determinants, inverses, eigenvalues, and vector products. \\
+Statistics & Mean, median, variance, standard deviation, percentiles, and quantiles. \\
+Integration & Works with Pandas, SciPy, Matplotlib, Scikit-learn, and Statsmodels. \\
+\bottomrule
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Quick Check: What Is NumPy?}
+\small
+\quiztitle{Question 1.} What is the main data structure in NumPy?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \texttt{DataFrame}
+  \item B. \texttt{ndarray}
+  \item C. \texttt{dictionary}
+  \item D. \texttt{tuple}
+\end{itemize}
+\end{multicols}
+\vspace{0.8em}
+\quiztitle{Question 2. True or false?} NumPy is designed mainly for numerical computing.
+\end{frame}
+
+\section{Why Learn NumPy?}
+
+\begin{frame}{Why Learn NumPy?}
+\small
+NumPy provides an efficient foundation for numerical work in Python.
+\begin{itemize}
+  \item Executes vectorized operations much faster than many ordinary Python loops.
+  \item Stores homogeneous numerical data more compactly than standard Python lists.
+  \item Provides optimized functions for matrices, linear algebra, and transformations.
+  \item Supports random-number generation and statistical analysis.
+  \item Expresses complex mathematical operations using concise syntax.
+  \item Serves as the numerical foundation for many data-science libraries.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Python List vs. NumPy Array}
+\begin{columns}[T]
+\column{0.48\linewidth}
+\textbf{Python list: mixed objects}
+\begin{lstlisting}[style=py]
+values = [10, 2.5, "Python", True]
+\end{lstlisting}
+\begin{itemize}
+  \item Flexible object container.
+  \item Not optimized for large numerical arrays.
+\end{itemize}
+\column{0.48\linewidth}
+\textbf{NumPy array: homogeneous values}
+\begin{lstlisting}[style=py]
+import numpy as np
+values = np.array([10, 20, 30, 40])
+\end{lstlisting}
+\begin{itemize}
+  \item Regular structure.
+  \item Efficient numerical computation.
+\end{itemize}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Example: Multiplying Values}
+\begin{columns}[T]
+\column{0.48\linewidth}
+\textbf{Python list}
+\begin{lstlisting}[style=py]
+values = [1, 2, 3, 4]
+result = []
+
+for value in values:
+    result.append(value * 10)
+
+print(result)
+# [10, 20, 30, 40]
+\end{lstlisting}
+\column{0.48\linewidth}
+\textbf{NumPy vectorization}
+\begin{lstlisting}[style=py]
+import numpy as np
+values = np.array([1, 2, 3, 4])
+
+result = values * 10
+print(result)
+# [10 20 30 40]
+\end{lstlisting}
+\end{columns}
+\begin{block}{Key idea}
+The same operation is applied to all elements at once.
+\end{block}
+\end{frame}
+
+\begin{frame}{Quick Check: Why Learn NumPy?}
+\small
+\quiztitle{Question 1.} Why are NumPy arrays efficient for numerical calculations?
+\begin{itemize}
+  \item A. They always contain text
+  \item B. They use a homogeneous and optimized array structure
+  \item C. They do not use memory
+  \item D. They automatically connect to the internet
+\end{itemize}
+\vspace{0.6em}
+\quiztitle{Question 2.} Which expression multiplies every element of a NumPy array \texttt{a} by 10?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \texttt{a * 10}
+  \item B. \texttt{a.append(10)}
+  \item C. \texttt{a.add("10")}
+  \item D. \texttt{a.sort(10)}
+\end{itemize}
+\end{multicols}
+\end{frame}
+
+\section{Creating Arrays}
+
+\begin{frame}[fragile]{Creating NumPy Arrays}
+\small
+NumPy arrays can be created from Python lists, tuples, ranges, or built-in NumPy functions.
+\begin{lstlisting}[style=py]
+import numpy as np
+
+a = [9, 3, 3, 5]
+arr = np.array(a)
+print(arr)
+# [9 3 3 5]
+\end{lstlisting}
+\vspace{0.2em}
+\begin{columns}[T]
+\column{0.5\linewidth}
+\begin{lstlisting}[style=py]
+arr = np.array([10, 20, 30, 40])
+print(arr)
+\end{lstlisting}
+\column{0.5\linewidth}
+\begin{lstlisting}[style=py]
+matrix = np.array([
+    [1, 2, 3],
+    [4, 5, 6]
+])
+print(matrix)
+\end{lstlisting}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Multidimensional Arrays}
+\small
+A three-dimensional array can represent stacked matrices or tensors.
+\begin{lstlisting}[style=py]
+tensor = np.array([
+    [
+        [1, 2],
+        [3, 4]
+    ],
+    [
+        [5, 6],
+        [7, 8]
+    ]
+])
+print(tensor)
+\end{lstlisting}
+\begin{block}{Interpretation}
+Dimensions often correspond to observations, features, time, channels, or scenarios.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Common Array-Creation Functions}
+\small
+\begin{columns}[T]
+\column{0.48\linewidth}
+\begin{lstlisting}[style=py]
+np.zeros(5)
+np.zeros((2, 3))
+np.ones((2, 3))
+np.full((2, 3), 7)
+\end{lstlisting}
+\column{0.48\linewidth}
+\begin{lstlisting}[style=py]
+np.arange(0, 10, 2)
+# [0 2 4 6 8]
+
+np.linspace(0, 1, 5)
+# [0.   0.25 0.5  0.75 1.]
+
+np.eye(3)
+\end{lstlisting}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Quick Check: Creating Arrays}
+\small
+\quiztitle{Question 1.} Which function converts a Python list into a NumPy array?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \texttt{np.array()}
+  \item B. \texttt{np.list()}
+  \item C. \texttt{np.convert()}
+  \item D. \texttt{np.ndarray\_list()}
+\end{itemize}
+\end{multicols}
+\vspace{0.4em}
+\quiztitle{Question 2.} Which function creates evenly spaced values between two endpoints?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \texttt{np.linspace()}
+  \item B. \texttt{np.stack()}
+  \item C. \texttt{np.split()}
+  \item D. \texttt{np.mean()}
+\end{itemize}
+\end{multicols}
+\end{frame}
+
+\section{Array Properties}
+
+\begin{frame}[fragile]{Array Properties}
+\small
+\begin{lstlisting}[style=py]
+arr = np.array([
+    [1, 2, 3],
+    [4, 5, 6]
+])
+
+print(arr.ndim)     # 2
+print(arr.shape)    # (2, 3)
+print(arr.size)     # 6
+print(arr.dtype)
+print(arr.itemsize)
+\end{lstlisting}
+\begin{tabular}{p{0.22\linewidth}p{0.68\linewidth}}
+\toprule
+\textbf{Attribute} & \textbf{Meaning} \\
+\midrule
+\texttt{ndim} & Number of dimensions. \\
+\texttt{shape} & Size along each dimension. \\
+\texttt{size} & Total number of elements. \\
+\texttt{dtype} & Data type. \\
+\texttt{itemsize} & Number of bytes used by each element. \\
+\bottomrule
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Quick Check: Array Properties}
+\small
+\quiztitle{Question 1.} Which attribute returns the dimensions of an array?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \texttt{shape}
+  \item B. \texttt{mean}
+  \item C. \texttt{append}
+  \item D. \texttt{index}
+\end{itemize}
+\end{multicols}
+\vspace{0.4em}
+\quiztitle{Question 2.} Which attribute returns the total number of elements?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \texttt{size}
+  \item B. \texttt{dtype}
+  \item C. \texttt{ndim}
+  \item D. \texttt{itemsize}
+\end{itemize}
+\end{multicols}
+\end{frame}
+
+\section{Indexing and Slicing}
+
+\begin{frame}[fragile]{Array Indexing}
+\begin{columns}[T]
+\column{0.48\linewidth}
+\textbf{One-dimensional indexing}
+\begin{lstlisting}[style=py]
+arr = np.array([10, 20, 30, 40])
+
+print(arr[0])   # 10
+print(arr[2])   # 30
+print(arr[-1])  # 40
+\end{lstlisting}
+\column{0.48\linewidth}
+\textbf{Two-dimensional indexing}
+\begin{lstlisting}[style=py]
+matrix = np.array([
+    [1, 2, 3],
+    [4, 5, 6]
+])
+
+print(matrix[0, 1])  # 2
+print(matrix[1, 2])  # 6
+\end{lstlisting}
+\end{columns}
+\begin{block}{Indexing convention}
+Python and NumPy use zero-based indexing.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Array Slicing}
+\begin{columns}[T]
+\column{0.48\linewidth}
+\textbf{One-dimensional slicing}
+\begin{lstlisting}[style=py]
+arr = np.array([10, 20, 30, 40, 50])
+
+print(arr[1:4])
+# [20 30 40]
+
+print(arr[::2])
+# [10 30 50]
+\end{lstlisting}
+\column{0.48\linewidth}
+\textbf{Two-dimensional slicing}
+\begin{lstlisting}[style=py]
+matrix = np.array([
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+])
+
+print(matrix[0:2, 1:3])
+# [[2 3]
+#  [5 6]]
+\end{lstlisting}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Views and Copies}
+\small
+Many NumPy slices return a \key{view} of the original array instead of an independent copy.
+\begin{lstlisting}[style=py]
+arr = np.array([10, 20, 30, 40])
+
+view = arr[1:3]
+view[0] = 999
+
+print(arr)
+# [ 10 999  30  40]
+\end{lstlisting}
+Create an independent copy when needed:
+\begin{lstlisting}[style=py]
+copy = arr[1:3].copy()
+\end{lstlisting}
+\begin{alertblock}{Important}
+Modifying a view may modify the original array.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{Quick Check: Indexing and Slicing}
+\small
+\quiztitle{Question 1.} What does \texttt{arr[0]} return?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. The first element
+  \item B. The last element
+  \item C. The array shape
+  \item D. The array size
+\end{itemize}
+\end{multicols}
+\quiztitle{Question 2.} In a two-dimensional array, \texttt{matrix[1, 2]} refers to:
+\begin{itemize}
+  \item A. Row index 1 and column index 2
+  \item B. Row 1 only
+  \item C. Column 2 only
+  \item D. The array dimensions
+\end{itemize}
+\quiztitle{Question 3. True or false?} A NumPy slice may share memory with the original array.
+\end{frame}
+
+\section{Reshaping, Stacking, Splitting}
+
+\begin{frame}[fragile]{Reshaping Arrays}
+\small
+Reshaping changes array dimensions without changing its data.
+\begin{lstlisting}[style=py]
+arr = np.arange(12)
+matrix = arr.reshape(3, 4)
+print(matrix)
+# [[ 0  1  2  3]
+#  [ 4  5  6  7]
+#  [ 8  9 10 11]]
+\end{lstlisting}
+Use \texttt{-1} to infer a dimension:
+\begin{lstlisting}[style=py]
+matrix = arr.reshape(2, -1)
+\end{lstlisting}
+Flatten an array:
+\begin{lstlisting}[style=py]
+flat = matrix.flatten()
+flat_view = matrix.ravel()
+\end{lstlisting}
+\smallnote{\texttt{flatten()} returns a copy; \texttt{ravel()} often returns a view when possible.}
+\end{frame}
+
+\begin{frame}[fragile]{Resizing Arrays}
+\small
+\texttt{resize()} changes shape and may change the number of elements.
+\begin{lstlisting}[style=py]
+arr = np.array([1, 2, 3, 4])
+resized = np.resize(arr, (2, 3))
+print(resized)
+# [[1 2 3]
+#  [4 1 2]]
+\end{lstlisting}
+\begin{block}{Compare}
+\begin{itemize}
+  \item \texttt{reshape()} requires the total number of elements to remain compatible.
+  \item \texttt{resize()} can create a different total size by repeating values.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Stacking Arrays}
+\begin{columns}[T]
+\column{0.5\linewidth}
+\begin{lstlisting}[style=py]
+a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
+
+np.vstack((a, b))
+# [[1 2 3]
+#  [4 5 6]]
+\end{lstlisting}
+\column{0.5\linewidth}
+\begin{lstlisting}[style=py]
+np.hstack((a, b))
+# [1 2 3 4 5 6]
+
+np.stack((a, b), axis=0)
+\end{lstlisting}
+\end{columns}
+\begin{block}{Purpose}
+Stacking combines arrays into larger arrays along a chosen axis.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Splitting Arrays}
+\small
+Splitting divides arrays into smaller arrays.
+\begin{lstlisting}[style=py]
+arr = np.array([1, 2, 3, 4, 5, 6])
+parts = np.split(arr, 3)
+print(parts)
+# [array([1, 2]), array([3, 4]), array([5, 6])]
+\end{lstlisting}
+For multidimensional arrays:
+\begin{lstlisting}[style=py]
+matrix = np.array([
+    [1, 2, 3, 4],
+    [5, 6, 7, 8]
+])
+
+left, right = np.hsplit(matrix, 2)
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Quick Check: Reshaping and Splitting}
+\small
+\quiztitle{Question 1.} Which method changes an array from one shape to another?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \texttt{reshape()}
+  \item B. \texttt{mean()}
+  \item C. \texttt{split()}
+  \item D. \texttt{sort\_index()}
+\end{itemize}
+\end{multicols}
+\quiztitle{Question 2.} What does \texttt{-1} mean in \texttt{reshape()}?
+\begin{itemize}
+  \item A. NumPy should infer that dimension
+  \item B. Delete one dimension
+  \item C. Reverse the array
+  \item D. Convert values to negative numbers
+\end{itemize}
+\quiztitle{Question 3.} Which function stacks arrays vertically? \texttt{np.vstack()}, \texttt{np.mean()}, \texttt{np.split()}, or \texttt{np.random()}?
+\end{frame}
+
+\section{Broadcasting and Arithmetic}
+
+\begin{frame}[fragile]{Broadcasting: Core Idea}
+\small
+Broadcasting allows NumPy to perform operations between arrays of compatible shapes.
+\begin{lstlisting}[style=py]
+arr = np.array([1, 2, 3, 4])
+result = arr + 10
+print(result)
+# [11 12 13 14]
+\end{lstlisting}
+\begin{block}{Basic rule}
+Starting from the rightmost dimensions, two dimensions are compatible when:
+\begin{itemize}
+  \item they are equal; or
+  \item one of them is \texttt{1}.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Broadcasting Between Arrays}
+\small
+\begin{lstlisting}[style=py]
+matrix = np.array([
+    [1, 2, 3],
+    [4, 5, 6]
+])
+
+row = np.array([10, 20, 30])
+result = matrix + row
+print(result)
+# [[11 22 33]
+#  [14 25 36]]
+\end{lstlisting}
+\begin{alertblock}{Incompatible shapes}
+\begin{lstlisting}[style=py]
+a = np.ones((2, 3))
+b = np.ones((2, 2))
+# a + b raises a broadcasting error
+\end{lstlisting}
+\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{Basic Arithmetic Operations}
+\small
+NumPy supports element-wise arithmetic.
+\begin{lstlisting}[style=py]
+a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
+
+print(a + b)   # [5 7 9]
+print(a - b)   # [-3 -3 -3]
+print(a * b)   # [ 4 10 18]
+print(a / b)
+print(a ** 2)  # [1 4 9]
+print(b % a)
+\end{lstlisting}
+\begin{block}{Important distinction}
+\texttt{*} performs element-wise multiplication, not matrix multiplication.
+\end{block}
+\end{frame}
+
+\begin{frame}{Quick Check: Broadcasting and Arithmetic}
+\small
+\quiztitle{Question 1.} What does broadcasting allow?
+\begin{itemize}
+  \item A. Operations on arrays with compatible different shapes
+  \item B. Automatic internet transmission
+  \item C. Conversion of arrays into files
+  \item D. Removal of all dimensions
+\end{itemize}
+\quiztitle{Question 2.} Two dimensions are broadcasting-compatible when they are equal or:
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. One of them is 1
+  \item B. Both are negative
+  \item C. Both are text
+  \item D. Their sum is zero
+\end{itemize}
+\end{multicols}
+\quiztitle{Question 3.} What does \texttt{a * b} do for arrays of the same shape?
+\end{frame}
+
+\section{Aggregation and Universal Functions}
+
+\begin{frame}[fragile]{Aggregation Functions}
+\small
+Aggregation functions summarize an array.
+\begin{lstlisting}[style=py]
+arr = np.array([9, 3, 3, 5])
+
+print(arr.sum())   # 20
+print(arr.mean())  # 5.0
+print(arr.min())
+print(arr.max())
+print(np.median(arr))
+print(np.var(arr))
+print(np.std(arr))
+\end{lstlisting}
+\begin{block}{Typical use}
+Aggregation turns raw arrays into summary statistics.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Aggregation Along an Axis}
+\small
+\begin{lstlisting}[style=py]
+matrix = np.array([
+    [1, 2, 3],
+    [4, 5, 6]
+])
+
+print(matrix.sum(axis=0))
+# [5 7 9]
+
+print(matrix.sum(axis=1))
+# [ 6 15]
+\end{lstlisting}
+\begin{itemize}
+  \item \texttt{axis=0}: aggregate down rows, producing column-wise results.
+  \item \texttt{axis=1}: aggregate across columns, producing row-wise results.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Universal Functions}
+\small
+A universal function, or \key{ufunc}, performs element-wise operations on arrays.
+\begin{columns}[T]
+\column{0.48\linewidth}
+\begin{lstlisting}[style=py]
+arr = np.array([1, 4, 9, 16])
+print(np.sqrt(arr))
+# [1. 2. 3. 4.]
+
+print(np.exp(np.array([0, 1, 2])))
+\end{lstlisting}
+\column{0.48\linewidth}
+\begin{lstlisting}[style=py]
+values = np.array([1, np.e, np.e**2])
+print(np.log(values))
+
+angles = np.array([0, np.pi / 2, np.pi])
+print(np.sin(angles))
+\end{lstlisting}
+\end{columns}
+\vspace{0.4em}
+Other examples: \texttt{np.abs()}, \texttt{np.round()}.
+\end{frame}
+
+\begin{frame}{Quick Check: Aggregation and Ufuncs}
+\small
+\quiztitle{Question 1.} Which function calculates the arithmetic mean?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \texttt{np.mean()}
+  \item B. \texttt{np.stack()}
+  \item C. \texttt{np.dot()}
+  \item D. \texttt{np.reshape()}
+\end{itemize}
+\end{multicols}
+\quiztitle{Question 2.} In a two-dimensional array, what does \texttt{axis=0} generally aggregate over?
+\begin{itemize}
+  \item A. Rows, producing column-wise results
+  \item B. Columns, producing row-wise results
+  \item C. File names
+  \item D. Data types
+\end{itemize}
+\quiztitle{Question 3.} Which function calculates square roots element by element?
+\end{frame}
+
+\section{Boolean Operations}
+
+\begin{frame}[fragile]{Comparison and Boolean Filtering}
+\small
+NumPy supports element-wise comparisons.
+\begin{lstlisting}[style=py]
+arr = np.array([10, 20, 30, 40])
+print(arr > 20)
+# [False False  True  True]
+
+selected = arr[arr > 20]
+print(selected)
+# [30 40]
+\end{lstlisting}
+Combine conditions:
+\begin{lstlisting}[style=py]
+selected = arr[(arr >= 20) & (arr <= 30)]
+print(selected)
+# [20 30]
+\end{lstlisting}
+Use \texttt{\&} for AND, \texttt{|} for OR, and \texttt{\textasciitilde} for NOT.
+\end{frame}
+
+\begin{frame}{Quick Check: Boolean Operations}
+\small
+\quiztitle{Question 1.} What does \texttt{arr[arr > 20]} return?
+\begin{itemize}
+  \item A. Elements greater than 20
+  \item B. The array size
+  \item C. The array data type
+  \item D. All elements converted to Boolean values
+\end{itemize}
+\vspace{0.8em}
+\quiztitle{Discussion.} Why is Boolean filtering useful in data analysis?
+\end{frame}
+
+\section{Linear Algebra}
+
+\begin{frame}[fragile]{Matrix Multiplication}
+\small
+\begin{lstlisting}[style=py]
+A = np.array([
+    [1, 2],
+    [3, 4]
+])
+
+result = np.dot(A, A)
+print(result)
+# [[ 7 10]
+#  [15 22]]
+
+result = A @ A
+\end{lstlisting}
+\begin{block}{Element-wise vs. matrix multiplication}
+\begin{itemize}
+  \item \texttt{A * A}: element-wise multiplication.
+  \item \texttt{A @ A}: matrix multiplication.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Matrix Operations}
+\small
+\begin{columns}[T]
+\column{0.48\linewidth}
+\begin{lstlisting}[style=py]
+print(A.T)
+
+determinant = np.linalg.det(A)
+print(determinant)
+
+inverse = np.linalg.inv(A)
+print(inverse)
+\end{lstlisting}
+\column{0.48\linewidth}
+\begin{lstlisting}[style=py]
+A = np.array([
+    [2, 1],
+    [1, 3]
+])
+
+b = np.array([8, 13])
+x = np.linalg.solve(A, b)
+print(x)
+\end{lstlisting}
+\end{columns}
+\begin{block}{Condition}
+An inverse exists only for a square, nonsingular matrix.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Eigenvalues and Vector Products}
+\small
+\begin{columns}[T]
+\column{0.48\linewidth}
+\begin{lstlisting}[style=py]
+eigenvalues, eigenvectors = np.linalg.eig(A)
+
+print(eigenvalues)
+print(eigenvectors)
+\end{lstlisting}
+\column{0.48\linewidth}
+\begin{lstlisting}[style=py]
+a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
+
+print(np.inner(a, b))
+print(np.outer(a, b))
+print(np.dot(a, b))
+print(np.vdot(a, b))
+\end{lstlisting}
+\end{columns}
+\smallnote{For real one-dimensional arrays, \texttt{dot} and \texttt{vdot} are often the same. \texttt{vdot} also handles complex conjugation.}
+\end{frame}
+
+\begin{frame}{Quick Check: Linear Algebra}
+\small
+\quiztitle{Question 1.} Which operator performs matrix multiplication?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \texttt{@}
+  \item B. \texttt{\%}
+  \item C. \texttt{//}
+  \item D. \texttt{\&}
+\end{itemize}
+\end{multicols}
+\quiztitle{Question 2.} Which function calculates a matrix inverse?
+\begin{itemize}
+  \item A. \texttt{np.linalg.inv()}
+  \item B. \texttt{np.mean()}
+  \item C. \texttt{np.resize()}
+  \item D. \texttt{np.random()}
+\end{itemize}
+\quiztitle{Question 3.} Explain the difference between \texttt{A * B} and \texttt{A @ B}.
+\end{frame}
+
+\section{Random Numbers and Statistics}
+
+\begin{frame}[fragile]{Random-Number Generation}
+\small
+For new code, NumPy commonly uses a random-number generator object.
+\begin{lstlisting}[style=py]
+rng = np.random.default_rng()
+\end{lstlisting}
+\begin{columns}[T]
+\column{0.48\linewidth}
+\begin{lstlisting}[style=py]
+rng = np.random.default_rng(42)
+values = rng.integers(
+    low=1,
+    high=10,
+    size=5
+)
+print(values)
+\end{lstlisting}
+\column{0.48\linewidth}
+\begin{lstlisting}[style=py]
+values = rng.normal(
+    loc=0,
+    scale=1,
+    size=5
+)
+print(values)
+\end{lstlisting}
+\end{columns}
+\begin{alertblock}{Note}
+NumPy random-number generators are for numerical and statistical work; they should not be treated as cryptographically secure generators.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{Common Distributions}
+\small
+\begin{lstlisting}[style=py]
+rng = np.random.default_rng(42)
+
+rng.uniform(low=0, high=1, size=5)
+rng.normal(loc=0, scale=1, size=5)
+rng.binomial(n=10, p=0.5, size=5)
+rng.poisson(lam=3, size=5)
+rng.exponential(scale=2, size=5)
+rng.chisquare(df=4, size=5)
+\end{lstlisting}
+\begin{block}{Reproducibility}
+Using the same seed helps reproduce the same pseudorandom sequence in a compatible environment.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Statistical Functions}
+\small
+\begin{lstlisting}[style=py]
+data = np.array([12, 15, 18, 20, 25])
+
+print(np.mean(data))
+print(np.median(data))
+print(np.var(data))
+print(np.std(data))
+print(np.percentile(data, 25))
+print(np.quantile(data, 0.75))
+\end{lstlisting}
+\begin{block}{Population and sample conventions}
+By default, \texttt{np.var()} and \texttt{np.std()} use \texttt{ddof=0}. For the common sample convention, use \texttt{ddof=1}.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Missing Numerical Values}
+\small
+NumPy commonly represents missing numerical values with \texttt{np.nan}.
+\begin{lstlisting}[style=py]
+data = np.array([10.0, 20.0, np.nan, 40.0])
+print(np.mean(data))
+# nan
+
+print(np.nanmean(data))
+print(np.nanmedian(data))
+print(np.nanstd(data))
+
+print(np.isnan(data))
+clean_data = data[~np.isnan(data)]
+\end{lstlisting}
+\smallnote{More complete missing-data workflows are commonly handled with Pandas.}
+\end{frame}
+
+\begin{frame}{Quick Check: Random Numbers and Statistics}
+\small
+\quiztitle{Question 1.} Which method creates a modern NumPy random-number generator?
+\begin{itemize}
+  \item A. \texttt{np.random.default\_rng()}
+  \item B. \texttt{np.random.file()}
+  \item C. \texttt{np.create\_random\_array()}
+  \item D. \texttt{np.random.text()}
+\end{itemize}
+\quiztitle{Question 2.} Why is a seed useful?
+\begin{itemize}
+  \item A. It helps reproduce a pseudorandom sequence
+  \item B. It makes values truly unpredictable
+  \item C. It removes every random value
+  \item D. It converts data into strings
+\end{itemize}
+\quiztitle{Question 3.} Which parameter gives the usual sample standard deviation convention? \texttt{ddof=1}, \texttt{axis=-100}, \texttt{dtype="sample"}, or \texttt{copy=False}?
+\end{frame}
+
+\section{Vectorization and Performance}
+
+\begin{frame}[fragile]{Vectorized Operations}
+\small
+Vectorization applies an operation to an entire array at once.
+\begin{columns}[T]
+\column{0.48\linewidth}
+\begin{lstlisting}[style=py]
+a = np.arange(5)
+result = a * 10
+print(result)
+# [ 0 10 20 30 40]
+\end{lstlisting}
+\column{0.48\linewidth}
+\begin{lstlisting}[style=py]
+a = list(range(5))
+result = []
+for value in a:
+    result.append(value * 10)
+print(result)
+\end{lstlisting}
+\end{columns}
+\begin{block}{Typical benefits}
+Shorter code, easier reading, faster operations for large numerical arrays, and better fit for scientific workflows.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Vectorized Conditional Logic}
+\small
+\begin{lstlisting}[style=py]
+arr = np.array([10, 20, 30, 40])
+
+labels = np.where(
+    arr >= 30,
+    "high",
+    "low"
+)
+
+print(labels)
+# ['low' 'low' 'high' 'high']
+\end{lstlisting}
+\begin{block}{Interpretation}
+Vectorized conditions are useful for labeling, screening, filtering, and transforming datasets.
+\end{block}
+\end{frame}
+
+\begin{frame}{Quick Check: Vectorization}
+\small
+\quiztitle{Question 1.} What is a major advantage of vectorization?
+\begin{itemize}
+  \item A. It applies array operations without explicit Python loops
+  \item B. It converts every array into text
+  \item C. It eliminates the need for memory
+  \item D. It prevents all errors
+\end{itemize}
+\vspace{0.8em}
+\quiztitle{Discussion.} When might vectorized code be easier to maintain than loop-based code?
+\end{frame}
+
+\section{Memory, Sorting, Images}
+
+\begin{frame}[fragile]{Memory Considerations}
+\small
+NumPy arrays usually store homogeneous values in a regular memory layout.
+\begin{lstlisting}[style=py]
+arr = np.array([1, 2, 3, 4], dtype=np.int32)
+print(arr.nbytes)
+
+small_values = np.array([1, 2, 3, 4], dtype=np.int8)
+print(small_values.dtype)
+print(small_values.nbytes)
+\end{lstlisting}
+\begin{block}{Data type choice}
+A smaller data type may reduce memory use, but it must represent the required value range and precision.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Converting Data Types}
+\small
+\begin{lstlisting}[style=py]
+arr = np.array([1.2, 2.8, 3.5])
+integers = arr.astype(np.int32)
+print(integers)
+# [1 2 3]
+\end{lstlisting}
+\begin{alertblock}{Important}
+Conversion from floating-point values to integers removes the fractional part.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{Sorting and Searching}
+\small
+\begin{lstlisting}[style=py]
+arr = np.array([9, 3, 7, 1])
+sorted_arr = np.sort(arr)
+print(sorted_arr)
+# [1 3 7 9]
+
+arr = np.array([10, 20, 30, 40])
+indices = np.where(arr > 20)
+print(indices)
+
+arr = np.array([1, 2, 2, 3, 3, 3])
+values, counts = np.unique(arr, return_counts=True)
+print(values)
+print(counts)
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Working with Images}
+\small
+Digital images can be represented as NumPy arrays.
+\begin{itemize}
+  \item Grayscale image: two-dimensional array.
+  \item Color image: three-dimensional array containing height, width, and color channels.
+\end{itemize}
+\begin{lstlisting}[style=py]
+image = np.array([
+    [0, 128, 255],
+    [255, 128, 0],
+    [50, 100, 150]
+])
+print(image.shape)
+# (3, 3)
+
+brighter = np.clip(image + 30, 0, 255)
+\end{lstlisting}
+\smallnote{\texttt{np.clip()} keeps values inside a valid range.}
+\end{frame}
+
+\begin{frame}{Quick Check: Memory, Search, Images}
+\small
+\quiztitle{Question 1.} Which attribute returns the number of bytes used by array elements?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \texttt{nbytes}
+  \item B. \texttt{ndim}
+  \item C. \texttt{mean}
+  \item D. \texttt{shape}
+\end{itemize}
+\end{multicols}
+\quiztitle{Question 2.} Which function returns unique array values?
+\begin{itemize}
+  \item A. \texttt{np.unique()}
+  \item B. \texttt{np.reshape()}
+  \item C. \texttt{np.random()}
+  \item D. \texttt{np.outer()}
+\end{itemize}
+\quiztitle{Question 3.} A grayscale image is commonly represented as what type of array?
+\end{frame}
+
+\section{Integration and Errors}
+
+\begin{frame}[fragile]{Integration with Pandas}
+\small
+A Pandas \texttt{Series} or \texttt{DataFrame} can exchange data with NumPy.
+\begin{lstlisting}[style=py]
+import numpy as np
+import pandas as pd
+
+arr = np.array([
+    [1, 2],
+    [3, 4],
+    [5, 6]
+])
+
+df = pd.DataFrame(arr, columns=["A", "B"])
+array_from_df = df.to_numpy()
+
+df["A_sqrt"] = np.sqrt(df["A"])
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Integration with Scikit-learn}
+\small
+Many Scikit-learn models accept NumPy arrays as input.
+\begin{lstlisting}[style=py]
+from sklearn.linear_model import LinearRegression
+
+X = np.array([[1], [2], [3], [4]])
+y = np.array([2, 4, 6, 8])
+
+model = LinearRegression()
+model.fit(X, y)
+
+prediction = model.predict(np.array([[5]]))
+print(prediction)
+\end{lstlisting}
+NumPy supports feature matrices, target vectors, model predictions, numerical preprocessing, and evaluation calculations.
+\end{frame}
+
+\begin{frame}[fragile]{Common NumPy Errors}
+\small
+\begin{columns}[T]
+\column{0.48\linewidth}
+\textbf{Shape mismatch}
+\begin{lstlisting}[style=py]
+a = np.ones((2, 3))
+b = np.ones((2, 2))
+# a + b raises an error
+\end{lstlisting}
+\textbf{Invalid reshape}
+\begin{lstlisting}[style=py]
+arr = np.arange(10)
+# arr.reshape(3, 4) raises an error
+\end{lstlisting}
+\column{0.48\linewidth}
+\textbf{Division by zero}
+\begin{lstlisting}[style=py]
+arr = np.array([1.0, 0.0])
+print(1 / arr)
+\end{lstlisting}
+\textbf{Integer overflow}
+\begin{lstlisting}[style=py]
+arr = np.array([127], dtype=np.int8)
+print(arr + 1)
+\end{lstlisting}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Good Practices}
+\small
+\begin{itemize}
+  \item Import NumPy using \texttt{import numpy as np}.
+  \item Use vectorized operations instead of Python loops when practical.
+  \item Check \texttt{shape}, \texttt{ndim}, and \texttt{dtype} before complex operations.
+  \item Use broadcasting only when intended shape behavior is clear.
+  \item Distinguish element-wise multiplication from matrix multiplication.
+  \item Use \texttt{.copy()} when an independent array is required.
+  \item Choose data types carefully to balance range, precision, and memory.
+  \item Use a fixed random seed when reproducibility is important.
+  \item Treat \texttt{NaN}, infinity, and overflow explicitly.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Quick Check: Integration and Errors}
+\small
+\quiztitle{Question 1.} Which Pandas method converts a DataFrame to a NumPy array?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \texttt{to\_numpy()}
+  \item B. \texttt{to\_list\_only()}
+  \item C. \texttt{as\_matrix\_text()}
+  \item D. \texttt{convert\_numpy\_file()}
+\end{itemize}
+\end{multicols}
+\quiztitle{Question 2.} In machine learning, a two-dimensional NumPy array commonly represents:
+\begin{itemize}
+  \item A. A feature matrix
+  \item B. A filename
+  \item C. A chart title
+  \item D. A package installer
+\end{itemize}
+\quiztitle{Question 3.} Why does \texttt{np.arange(10).reshape(3, 4)} fail?
+\end{frame}
+
+\section{Summary and Practice}
+
+\begin{frame}{Content Summary}
+\scriptsize
+\begin{tabular}{p{0.25\linewidth}p{0.66\linewidth}}
+\toprule
+\textbf{Topic} & \textbf{Main idea} \\
+\midrule
+NumPy & Core Python library for numerical computing. \\
+\texttt{ndarray} & N-dimensional homogeneous array. \\
+Vectorization & Array operations without explicit Python loops. \\
+Broadcasting & Operations on compatible different shapes. \\
+Indexing and slicing & Access and extract array elements. \\
+Reshaping & Change array dimensions. \\
+Aggregation & Sums, means, minima, maxima, variance, and standard deviation. \\
+Universal functions & Fast element-wise mathematical functions. \\
+Linear algebra & Matrix multiplication, inverse, determinant, and eigenvalues. \\
+Random generation & Generate values from probability distributions. \\
+Statistics & Mean, median, variance, standard deviation, and percentiles. \\
+Integration & Works closely with Pandas, SciPy, and Scikit-learn. \\
+\bottomrule
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Practice: Array Creation}
+\small
+\begin{block}{Exercise 1}
+\begin{enumerate}
+  \item Create an array containing values from 1 to 20.
+  \item Reshape it into a \(4 \times 5\) matrix.
+  \item Print its shape, number of dimensions, size, and data type.
+\end{enumerate}
+\end{block}
+\begin{block}{Exercise 2}
+Using a \(4 \times 5\) matrix:
+\begin{enumerate}
+  \item Extract the first row.
+  \item Extract the last column.
+  \item Extract the central \(2 \times 3\) section.
+  \item Select all even values using Boolean filtering.
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}{Practice: Statistics and Broadcasting}
+\small
+\begin{block}{Exercise 3: Statistics}
+Create an array of ten numerical values and calculate mean, median, variance, sample standard deviation, minimum, maximum, and the 25th, 50th, and 75th percentiles.
+\end{block}
+\begin{block}{Exercise 4: Broadcasting}
+\begin{enumerate}
+  \item Create a \(3 \times 4\) matrix.
+  \item Create a one-dimensional array with four values.
+  \item Add the one-dimensional array to each row of the matrix.
+  \item Explain why broadcasting is valid.
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}{Practice: Linear Algebra and Missing Values}
+\small
+\begin{block}{Exercise 5: Linear algebra}
+Given
+\[
+A=\begin{bmatrix}2&1\\1&3\end{bmatrix},\quad b=\begin{bmatrix}8\\13\end{bmatrix},
+\]
+calculate the determinant of \(A\), inverse of \(A\), solve \(Ax=b\), and verify with \texttt{A @ x}.
+\end{block}
+\begin{block}{Exercise 6: Missing values}
+Given \texttt{[10.0, np.nan, 20.0, 30.0, np.nan, 40.0]}, count missing values, calculate the mean while ignoring missing values, remove missing values, and replace missing values with the median.
+\end{block}
+\end{frame}
+
+\begin{frame}{Final Reflection}
+\small
+\begin{itemize}
+  \item Which NumPy topic is most important for data analysis workflows?
+  \item When should you check \texttt{shape} before running an operation?
+  \item How do vectorization and broadcasting reduce manual loops?
+  \item Why is it important to distinguish views from copies?
+  \item When should you use \texttt{ddof=1} instead of the default?
+  \item What common NumPy error are you most likely to encounter in practice?
+\end{itemize}
+\end{frame}
+
+\end{document}

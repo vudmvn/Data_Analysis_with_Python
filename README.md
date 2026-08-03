@@ -4,9 +4,9 @@
 
 > **Giảng viên:** TS. Vũ Đức Minh (`minhvd@neu.edu.vn`)  
 > **Đơn vị phụ trách:** Khoa Khoa học dữ liệu và Trí tuệ nhân tạo – Trường Đại học Kinh tế Quốc dân (NEU)  
-> **Chương trình đào tạo:** Data Science in Finance and E-commerce (EP15)  
 > **Số tín chỉ:** 3 Tín chỉ (45h lý thuyết, 22.5h thực hành, 90h tự học)  
 > **Đề cương chi tiết học phần:** Xem tệp [syllabus-vn.md](syllabus-vn.md)
+
 ---
 
 ## 📌 1. Giới thiệu Học phần & Mục tiêu
@@ -27,23 +27,23 @@ Học phần **Phân tích dữ liệu với Python (DSAI1005)** cung cấp ki�
 
 Bảng dưới đây tổng hợp chi tiết tài liệu học tập, bài giảng Notebook, slide, bài tập thực hành, tệp dữ liệu và đáp án cho **15 tuần học**:
 
-| Tuần | Chủ đề chính (Tiếng Việt) | Bài giảng & Bài đọc (.md / .ipynb) | Slide | Bài tập Lab | Đáp án | Tài nguyên (Data / Images) | Trạng thái |
-|:---:|:---|:---|:---:|:---:|:---:|:---:|:---:|
-| **Tuần 01** | **Giới thiệu học phần** |• [Phân tích dữ liệu là gì](lectures/part01-gioi-thieu-hoc-phan/phan_tich_du_lieu_la_gi.md)<br> • [Sáu bước trong quy trình phân tích dữ liệu](lectures/part01-gioi-thieu-hoc-phan/cac_buoc_cua_phan_tich_du_lieu.md)<br>• [Phân tích dữ liệu khám phá là gì](lectures/part01-gioi-thieu-hoc-phan/phan_tich_du_lieu_kham_pha.md)<br>• [Khám phá tương quan là gì](lectures/part01-gioi-thieu-hoc-phan/kham_pha_tuong_quan.md)<br>• [Phân tích thống kê là gì?](lectures/part01-gioi-thieu-hoc-phan/phan_tich_thong_ke.md) | <a href="lectures/part01-gioi-thieu-hoc-phan/part01_lecture_1.pdf" target="_blank">PDF 1</a><br><a href="lectures/part01-gioi-thieu-hoc-phan/part01_lecture_2.pdf" target="_blank">PDF 2</a> | - | - | - | ✅ *Đã sẵn sàng* |
-| **Tuần 02** | **Thư viện tính toán NumPy** |• [Giới thiệu về NumPy](lectures/part02-numpy/numpy-intro-vn.md) | - | <a href="lectures/part02-numpy/numpy-practice-vn.ipynb" target="_blank">Lab 1 (Cơ bản)</a><br><a href="lectures/part02-numpy/numpy_business_economics_exercises-vn.ipynb" target="_blank">Lab 2 (Kinh doanh)</a> | - | - | ✅ *Đã sẵn sàng* |
-| **Tuần 03** | Thư viện thao tác dữ liệu Pandas | - | - | - | - | - | ⏳ *Đang biên soạn* |
-| **Tuần 04** | Khám phá & Trực quan hóa dữ liệu | - | - | - | - | - | ⏳ *Đang biên soạn* |
-| **Tuần 05** | Truy xuất & Lưu trữ dữ liệu | - | - | - | - | - | ⏳ *Đang biên soạn* |
-| **Tuần 06** | Làm sạch & Tiền xử lý dữ liệu | - | - | - | - | - | ⏳ *Đang biên soạn* |
-| **Tuần 07** | Thi giữa kỳ | - | - | - | - | - | ⏳ *Đang biên soạn* |
-| **Tuần 08** | Phân khúc & Phân cụm dữ liệu (Phần 1) | - | - | - | - | - | ⏳ *Đang biên soạn* |
-| **Tuần 09** | Phân khúc & Phân cụm dữ liệu (Phần 2) | - | - | - | - | - | ⏳ *Đang biên soạn* |
-| **Tuần 10** | Dự báo dữ liệu & Hồi quy tuyến tính (Phần 1) | - | - | - | - | - | ⏳ *Đang biên soạn* |
-| **Tuần 11** | Dự báo dữ liệu & Hồi quy tuyến tính (Phần 2) | - | - | - | - | - | ⏳ *Đang biên soạn* |
-| **Tuần 12** | Hồi quy phi tuyến & Classification Pipeline | - | - | - | - | - | ⏳ *Đang biên soạn* |
-| **Tuần 13** | Phân loại nhị phân (Binary Classification) | - | - | - | - | - | ⏳ *Đang biên soạn* |
-| **Tuần 14** | Phân loại đa lớp (Multiclass Classification) | - | - | - | - | - | ⏳ *Đang biên soạn* |
-| **Tuần 15** | Tổng kết & Ôn tập cuối kỳ | - | - | - | - | - | ⏳ *Đang biên soạn* |
+| Tuần | Chủ đề chính (Tiếng Việt) | Bài giảng & Bài đọc (.md / .ipynb) | Slide | Bài tập Lab | Đáp án | Trạng thái |
+|:---:|:---|:---|:---:|:---:|:---:|:---:|
+| **Tuần 01** | **Giới thiệu học phần** | [📘 Notebook](lectures/part01-gioi-thieu-hoc-phan/lecture.ipynb)<br>• [Sáu bước trong quy trình phân tích dữ liệu](lectures/part01-gioi-thieu-hoc-phan/cac_buoc_cua_phan_tich_du_lieu.md)<br>• [Khám phá tương quan trong Python](lectures/part01-gioi-thieu-hoc-phan/kham_pha_tuong_quan.md)<br>• [Phân tích dữ liệu khám phá](lectures/part01-gioi-thieu-hoc-phan/phan_tich_du_lieu_kham_pha.md)<br>• [Phân tích dữ liệu là gì?](lectures/part01-gioi-thieu-hoc-phan/phan_tich_du_lieu_la_gi.md)<br>• [Phân tích thống kê là gì?](lectures/part01-gioi-thieu-hoc-phan/phan_tich_thong_ke.md) | <a href="lectures/part01-gioi-thieu-hoc-phan/part01_lecture_1.pdf" target="_blank">PDF (part01_lecture_1)</a><br><a href="lectures/part01-gioi-thieu-hoc-phan/part01_lecture_2.pdf" target="_blank">PDF (part01_lecture_2)</a> | <a href="lectures/part01-gioi-thieu-hoc-phan/lab_exercise.ipynb" target="_blank">Lab (lab_exercise)</a> | - | ✅ *Đã sẵn sàng* |
+| **Tuần 02** | **Thư viện tính toán NumPy** | • [Giới thiệu về NumPy](lectures/part02-numpy/numpy-intro-vn.md) | <a href="lectures/part02-numpy/numpy-intro-en.pdf" target="_blank">PDF (numpy-intro-en)</a> | <a href="lectures/part02-numpy/numpy-practice-en.ipynb" target="_blank">Lab (numpy-practice-en)</a><br><a href="lectures/part02-numpy/numpy-practice-vn.ipynb" target="_blank">Lab (numpy-practice-vn)</a><br><a href="lectures/part02-numpy/numpy_business_economics_exercises-en.ipynb" target="_blank">Lab (numpy_business_economics_exercises-en)</a><br><a href="lectures/part02-numpy/numpy_business_economics_exercises-vn.ipynb" target="_blank">Lab (numpy_business_economics_exercises-vn)</a> | - | ✅ *Đã sẵn sàng* |
+| **Tuần 03** | Thư viện thao tác dữ liệu Pandas | - | - | - | - | ⏳ *Đang biên soạn* |
+| **Tuần 04** | Khám phá & Trực quan hóa dữ liệu | - | - | - | - | ⏳ *Đang biên soạn* |
+| **Tuần 05** | Truy xuất & Lưu trữ dữ liệu | - | - | - | - | ⏳ *Đang biên soạn* |
+| **Tuần 06** | Làm sạch & Tiền xử lý dữ liệu | - | - | - | - | ⏳ *Đang biên soạn* |
+| **Tuần 07** | Thi giữa kỳ | - | - | - | - | ⏳ *Đang biên soạn* |
+| **Tuần 08** | Phân khúc & Phân cụm dữ liệu (Phần 1) | - | - | - | - | ⏳ *Đang biên soạn* |
+| **Tuần 09** | Phân khúc & Phân cụm dữ liệu (Phần 2) | - | - | - | - | ⏳ *Đang biên soạn* |
+| **Tuần 10** | Dự báo dữ liệu & Hồi quy tuyến tính (Phần 1) | - | - | - | - | ⏳ *Đang biên soạn* |
+| **Tuần 11** | Dự báo dữ liệu & Hồi quy tuyến tính (Phần 2) | - | - | - | - | ⏳ *Đang biên soạn* |
+| **Tuần 12** | Hồi quy phi tuyến & Classification Pipeline | - | - | - | - | ⏳ *Đang biên soạn* |
+| **Tuần 13** | Phân loại nhị phân (Binary Classification) | - | - | - | - | ⏳ *Đang biên soạn* |
+| **Tuần 14** | Phân loại đa lớp (Multiclass Classification) | - | - | - | - | ⏳ *Đang biên soạn* |
+| **Tuần 15** | Tổng kết & Ôn tập cuối kỳ | - | - | - | - | ⏳ *Đang biên soạn* |
 
 ---
 
@@ -52,12 +52,11 @@ Bảng dưới đây tổng hợp chi tiết tài liệu học tập, bài giả
 | Bìa sách | Tài liệu | Tác giả | Nhà xuất bản | ISBN | Liên kết |
 |:---:|:---|:---|:---|:---:|:---:|
 | <img src="assets/images/python-data-analysis-3rd-cover.jpg" alt="Python Data Analysis 3rd Edition" width="90" /> | **Python Data Analysis**, 3rd Edition | Avinash Navlani, Armando Fandango, Ivan Idris | Packt Publishing, 2021 | 9781800564480 | [Thông tin sách](https://www.packtpub.com/product/python-data-analysis-third-edition/9781800564480) |
-| <img src="assets/images/python-data-analysis-1st-cover.jpg" alt="Python Data Analysis 1st Edition" width="90" /> | **Python Data Analysis**, 1st Edition | Ivan Idris | Packt Publishing, 2014 | 9781783552030 | [Thông tin sách](https://www.packtpub.com/product/python-data-analysis/9781783552030) |
 | <img src="assets/images/data-science-marketing-analytics-cover.jpg" alt="Data Science for Marketing Analytics" width="90" /> | **Data Science for Marketing Analytics**, 2nd Edition | Mirza Rahim Baig, Gururajan Govindan, Vishwesh Ravi Shrimali | Packt Publishing, 2021 | 9781800560475 | [Thông tin sách](https://www.packtpub.com/product/data-science-for-marketing-analytics-second-edition/9781800560475) |
 | <img src="assets/images/data-analysis-business-economics-cover.jpg" alt="Data Analysis for Business, Economics and Policy" width="90" /> | **Data Analysis for Business, Economics and Policy** | Gábor Békés, Gábor Kézdi | Cambridge University Press, 2021 | 9781108716208 | [Thông tin sách](https://www.cambridge.org/highereducation/books/data-analysis-for-business-economics-and-policy/B80C65A15ACD4FF5FA0B0FD7A73F1C46) |
 | <img src="assets/images/python-for-data-science-dummies-cover.jpg" alt="Python for Data Science For Dummies" width="90" /> | **Python for Data Science For Dummies**, 2nd Edition | John Paul Mueller, Luca Massaron | John Wiley & Sons, 2019 | 9781119547624 | [Thông tin sách](https://www.wiley.com/en-us/Python+for+Data+Science+For+Dummies%2C+2nd+Edition-p-9781119547624) |
+| <img src="assets/images/python-data-analysis-1st-cover.jpg" alt="Python Data Analysis 1st Edition" width="90" /> | **Python Data Analysis**, 1st Edition | Ivan Idris | Packt Publishing, 2014 | 9781783552030 | [Thông tin sách](https://www.packtpub.com/product/python-data-analysis/9781783552030) |
 
 ---
 
 > © 2026 TS. Vũ Đức Minh - Khoa Khoa học dữ liệu & Trí tuệ nhân tạo (NEU). Bản quyền tài liệu thuộc về tác giả.
-

@@ -113,9 +113,9 @@ Mảng NumPy được sử dụng rộng rãi trong:
 - Scikit-learn.
 - Statsmodels.
 
-<p align="center">
+<!-- <p align="center">
   <img src="numpy_linear_algebra.webp" alt="Tổng quan đại số tuyến tính trong NumPy" />
-</p>
+</p> -->
 
 ### Câu hỏi nhanh
 
