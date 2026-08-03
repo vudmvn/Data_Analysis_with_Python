@@ -1,6 +1,6 @@
 # Introduction to NumPy
 
-**Last updated:** August 02, 2026
+**language:** "en" | **date_updated:** "August 3, 2026"
 
 ## Lesson Introduction
 
@@ -113,9 +113,6 @@ NumPy arrays are widely used by libraries such as:
 - Scikit-learn.
 - Statsmodels.
 
-<p align="center">
-  <img src="numpy_linear_algebra.webp" alt="NumPy linear algebra overview" />
-</p>
 
 ### Quick Check
 
@@ -156,7 +153,7 @@ A NumPy array usually stores values of one common data type:
 ```python
 import numpy as np
 
-values = np.array([10, 20, 30, 40])
+import numpy as np
 ```
 
 Because NumPy arrays use a regular, homogeneous structure, numerical operations can be performed more efficiently.
@@ -168,12 +165,12 @@ Using a Python list:
 ```python
 values = [1, 2, 3, 4]
 
+values = [1, 2, 3, 4]
+
 result = []
-
 for value in values:
-    result.append(value * 10)
 
-print(result)
+    result.append(value * 10)
 ```
 
 Output:
@@ -187,11 +184,11 @@ Using NumPy:
 ```python
 import numpy as np
 
+import numpy as np
+
 values = np.array([1, 2, 3, 4])
 
 result = values * 10
-
-print(result)
 ```
 
 Output:
@@ -245,7 +242,7 @@ The alias `np` is widely used in Python code and documentation.
 ```python
 import numpy as np
 
-print(np.__version__)
+import numpy as np
 ```
 
 ### Quick Check
@@ -275,11 +272,11 @@ NumPy arrays can be created from Python lists, tuples, ranges, or built-in NumPy
 ```python
 import numpy as np
 
+import numpy as np
+
 a = [9, 3, 3, 5]
 
 arr = np.array(a)
-
-print(arr)
 ```
 
 Output:
@@ -293,30 +290,31 @@ Output:
 ```python
 arr = np.array([10, 20, 30, 40])
 
-print(arr)
+arr = np.array([10, 20, 30, 40])
 ```
 
 ## Create a Two-Dimensional Array
 
 ```python
 matrix = np.array([
+matrix = np.array([
     [1, 2, 3],
     [4, 5, 6]
-])
 
-print(matrix)
+])
 ```
 
 Output:
 
 ```text
 [[1 2 3]
- [4 5 6]]
+[[1 2 3]
 ```
 
 ## Create a Three-Dimensional Array
 
 ```python
+tensor = np.array([
 tensor = np.array([
     [
         [1, 2],
@@ -326,9 +324,8 @@ tensor = np.array([
         [5, 6],
         [7, 8]
     ]
-])
 
-print(tensor)
+])
 ```
 
 ### Quick Check
@@ -356,7 +353,7 @@ D. A Boolean condition
 ```python
 zeros = np.zeros(5)
 
-print(zeros)
+zeros = np.zeros(5)
 ```
 
 Output:
@@ -370,7 +367,7 @@ Create a matrix of zeros:
 ```python
 zeros_matrix = np.zeros((2, 3))
 
-print(zeros_matrix)
+zeros_matrix = np.zeros((2, 3))
 ```
 
 ## Create an Array of Ones
@@ -378,7 +375,7 @@ print(zeros_matrix)
 ```python
 ones = np.ones((2, 3))
 
-print(ones)
+ones = np.ones((2, 3))
 ```
 
 ## Create an Array with a Constant Value
@@ -386,7 +383,7 @@ print(ones)
 ```python
 filled = np.full((2, 3), 7)
 
-print(filled)
+filled = np.full((2, 3), 7)
 ```
 
 ## Create a Sequence with `arange()`
@@ -394,7 +391,7 @@ print(filled)
 ```python
 values = np.arange(0, 10, 2)
 
-print(values)
+values = np.arange(0, 10, 2)
 ```
 
 Output:
@@ -408,7 +405,7 @@ Output:
 ```python
 values = np.linspace(0, 1, 5)
 
-print(values)
+values = np.linspace(0, 1, 5)
 ```
 
 Output:
@@ -422,15 +419,15 @@ Output:
 ```python
 identity = np.eye(3)
 
-print(identity)
+identity = np.eye(3)
 ```
 
 Output:
 
 ```text
 [[1. 0. 0.]
+[[1. 0. 0.]
  [0. 1. 0.]
- [0. 0. 1.]]
 ```
 
 ### Quick Check
@@ -457,9 +454,9 @@ NumPy arrays provide several useful attributes.
 
 ```python
 arr = np.array([
+arr = np.array([
     [1, 2, 3],
     [4, 5, 6]
-])
 ```
 
 ## Number of Dimensions
@@ -551,15 +548,15 @@ Indexing is used to access individual elements.
 ```python
 arr = np.array([10, 20, 30, 40])
 
+arr = np.array([10, 20, 30, 40])
 print(arr[0])
-print(arr[2])
 ```
 
 Output:
 
 ```text
 10
-30
+10
 ```
 
 Negative indexing accesses elements from the end:
@@ -578,19 +575,19 @@ Output:
 
 ```python
 matrix = np.array([
+matrix = np.array([
     [1, 2, 3],
     [4, 5, 6]
-])
 
+])
 print(matrix[0, 1])
-print(matrix[1, 2])
 ```
 
 Output:
 
 ```text
 2
-6
+2
 ```
 
 ### Quick Check
@@ -620,7 +617,7 @@ Slicing extracts part of an array.
 ```python
 arr = np.array([10, 20, 30, 40, 50])
 
-print(arr[1:4])
+arr = np.array([10, 20, 30, 40, 50])
 ```
 
 Output:
@@ -645,19 +642,19 @@ Output:
 
 ```python
 matrix = np.array([
+matrix = np.array([
     [1, 2, 3],
     [4, 5, 6],
     [7, 8, 9]
-])
 
-print(matrix[0:2, 1:3])
+])
 ```
 
 Output:
 
 ```text
 [[2 3]
- [5 6]]
+[[2 3]
 ```
 
 ## Important Note: Views and Copies
@@ -667,10 +664,10 @@ Many NumPy slices return a **view** of the original array rather than an indepen
 ```python
 arr = np.array([10, 20, 30, 40])
 
+arr = np.array([10, 20, 30, 40])
 view = arr[1:3]
-view[0] = 999
 
-print(arr)
+view[0] = 999
 ```
 
 Output:
@@ -705,17 +702,17 @@ Reshaping changes the dimensions of an array without changing its data.
 ```python
 arr = np.arange(12)
 
-matrix = arr.reshape(3, 4)
+arr = np.arange(12)
 
-print(matrix)
+matrix = arr.reshape(3, 4)
 ```
 
 Output:
 
 ```text
 [[ 0  1  2  3]
+[[ 0  1  2  3]
  [ 4  5  6  7]
- [ 8  9 10 11]]
 ```
 
 ## Use `-1` to Infer a Dimension
@@ -723,7 +720,7 @@ Output:
 ```python
 matrix = arr.reshape(2, -1)
 
-print(matrix)
+matrix = arr.reshape(2, -1)
 ```
 
 NumPy automatically calculates the missing dimension.
@@ -733,7 +730,7 @@ NumPy automatically calculates the missing dimension.
 ```python
 flat = matrix.flatten()
 
-print(flat)
+flat = matrix.flatten()
 ```
 
 ## Use `ravel()`
@@ -741,7 +738,7 @@ print(flat)
 ```python
 flat_view = matrix.ravel()
 
-print(flat_view)
+flat_view = matrix.ravel()
 ```
 
 `flatten()` returns a copy, while `ravel()` often returns a view when possible.
@@ -771,16 +768,16 @@ D. Convert values to negative numbers
 ```python
 arr = np.array([1, 2, 3, 4])
 
-resized = np.resize(arr, (2, 3))
+arr = np.array([1, 2, 3, 4])
 
-print(resized)
+resized = np.resize(arr, (2, 3))
 ```
 
 Output:
 
 ```text
 [[1 2 3]
- [4 1 2]]
+[[1 2 3]
 ```
 
 When the new array is larger, values may be repeated.
@@ -806,18 +803,18 @@ Stacking combines arrays.
 
 ```python
 a = np.array([1, 2, 3])
+a = np.array([1, 2, 3])
+
 b = np.array([4, 5, 6])
 
 result = np.vstack((a, b))
-
-print(result)
 ```
 
 Output:
 
 ```text
 [[1 2 3]
- [4 5 6]]
+[[1 2 3]
 ```
 
 ## Horizontal Stacking
@@ -825,7 +822,7 @@ Output:
 ```python
 result = np.hstack((a, b))
 
-print(result)
+result = np.hstack((a, b))
 ```
 
 Output:
@@ -839,7 +836,7 @@ Output:
 ```python
 result = np.stack((a, b), axis=0)
 
-print(result)
+result = np.stack((a, b), axis=0)
 ```
 
 ### Quick Check
@@ -860,9 +857,9 @@ Splitting divides an array into smaller arrays.
 ```python
 arr = np.array([1, 2, 3, 4, 5, 6])
 
-parts = np.split(arr, 3)
+arr = np.array([1, 2, 3, 4, 5, 6])
 
-print(parts)
+parts = np.split(arr, 3)
 ```
 
 Output:
@@ -873,18 +870,16 @@ Output:
 
 ## Horizontal and Vertical Splitting
 
-For multidimensional arrays:
-
 ```python
+matrix = np.array([
 matrix = np.array([
     [1, 2, 3, 4],
     [5, 6, 7, 8]
+
 ])
 
 left, right = np.hsplit(matrix, 2)
-
 print(left)
-print(right)
 ```
 
 ### Quick Check
@@ -907,9 +902,9 @@ Broadcasting allows NumPy to perform operations between arrays of compatible sha
 ```python
 arr = np.array([1, 2, 3, 4])
 
-result = arr + 10
+arr = np.array([1, 2, 3, 4])
 
-print(result)
+result = arr + 10
 ```
 
 Output:
@@ -924,22 +919,22 @@ The scalar `10` is conceptually applied to every element.
 
 ```python
 matrix = np.array([
+matrix = np.array([
     [1, 2, 3],
     [4, 5, 6]
+
 ])
 
 row = np.array([10, 20, 30])
 
 result = matrix + row
-
-print(result)
 ```
 
 Output:
 
 ```text
 [[11 22 33]
- [14 25 36]]
+[[11 22 33]
 ```
 
 ## Basic Broadcasting Rule
@@ -955,7 +950,7 @@ If the shapes are incompatible, NumPy raises an error.
 
 ```python
 a = np.ones((2, 3))
-b = np.ones((2, 2))
+a = np.ones((2, 3))
 
 # a + b raises a broadcasting error
 ```
@@ -984,7 +979,7 @@ NumPy supports element-wise arithmetic.
 
 ```python
 a = np.array([1, 2, 3])
-b = np.array([4, 5, 6])
+a = np.array([1, 2, 3])
 ```
 
 ## Addition
@@ -1098,7 +1093,7 @@ Output:
 
 ```python
 print(arr.min())
-print(arr.max())
+print(arr.min())
 ```
 
 ## Median
@@ -1111,26 +1106,26 @@ print(np.median(arr))
 
 ```python
 print(np.var(arr))
-print(np.std(arr))
+print(np.var(arr))
 ```
 
 ## Aggregation Along an Axis
 
 ```python
 matrix = np.array([
+matrix = np.array([
     [1, 2, 3],
     [4, 5, 6]
-])
 
+])
 print(matrix.sum(axis=0))
-print(matrix.sum(axis=1))
 ```
 
 Output:
 
 ```text
 [5 7 9]
-[ 6 15]
+[5 7 9]
 ```
 
 - `axis=0` aggregates down the rows, producing one value per column.
@@ -1163,7 +1158,7 @@ A **universal function**, or **ufunc**, performs element-wise operations on arra
 ```python
 arr = np.array([1, 4, 9, 16])
 
-print(np.sqrt(arr))
+arr = np.array([1, 4, 9, 16])
 ```
 
 Output:
@@ -1183,7 +1178,7 @@ print(np.exp(np.array([0, 1, 2])))
 ```python
 values = np.array([1, np.e, np.e**2])
 
-print(np.log(values))
+values = np.array([1, np.e, np.e**2])
 ```
 
 ## Trigonometric Functions
@@ -1191,7 +1186,7 @@ print(np.log(values))
 ```python
 angles = np.array([0, np.pi / 2, np.pi])
 
-print(np.sin(angles))
+angles = np.array([0, np.pi / 2, np.pi])
 ```
 
 ## Absolute Value
@@ -1199,7 +1194,7 @@ print(np.sin(angles))
 ```python
 values = np.array([-3, -1, 2, 4])
 
-print(np.abs(values))
+values = np.array([-3, -1, 2, 4])
 ```
 
 ## Rounding
@@ -1207,7 +1202,7 @@ print(np.abs(values))
 ```python
 values = np.array([1.234, 5.678])
 
-print(np.round(values, 2))
+values = np.array([1.234, 5.678])
 ```
 
 ### Quick Check
@@ -1228,7 +1223,7 @@ NumPy supports element-wise comparisons.
 ```python
 arr = np.array([10, 20, 30, 40])
 
-print(arr > 20)
+arr = np.array([10, 20, 30, 40])
 ```
 
 Output:
@@ -1242,7 +1237,7 @@ Output:
 ```python
 selected = arr[arr > 20]
 
-print(selected)
+selected = arr[arr > 20]
 ```
 
 Output:
@@ -1256,7 +1251,7 @@ Output:
 ```python
 selected = arr[(arr >= 20) & (arr <= 30)]
 
-print(selected)
+selected = arr[(arr >= 20) & (arr <= 30)]
 ```
 
 Output:
@@ -1291,21 +1286,21 @@ NumPy provides linear-algebra functions through `numpy.linalg` and matrix multip
 ```python
 import numpy as np
 
+import numpy as np
 A = np.array([
     [1, 2],
     [3, 4]
+
 ])
 
 result = np.dot(A, A)
-
-print(result)
 ```
 
 Output:
 
 ```text
 [[ 7 10]
- [15 22]]
+[[ 7 10]
 ```
 
 The `@` operator can also be used:
@@ -1313,14 +1308,14 @@ The `@` operator can also be used:
 ```python
 result = A @ A
 
-print(result)
+result = A @ A
 ```
 
 ## Element-Wise vs. Matrix Multiplication
 
 ```python
 print(A * A)
-print(A @ A)
+print(A * A)
 ```
 
 - `A * A` performs element-wise multiplication.
@@ -1337,7 +1332,7 @@ print(A.T)
 ```python
 determinant = np.linalg.det(A)
 
-print(determinant)
+determinant = np.linalg.det(A)
 ```
 
 ## Matrix Inverse
@@ -1345,7 +1340,7 @@ print(determinant)
 ```python
 inverse = np.linalg.inv(A)
 
-print(inverse)
+inverse = np.linalg.inv(A)
 ```
 
 An inverse exists only for a square, nonsingular matrix.
@@ -1356,15 +1351,15 @@ For the system \(Ax=b\):
 
 ```python
 A = np.array([
+A = np.array([
     [2, 1],
     [1, 3]
+
 ])
 
 b = np.array([8, 13])
 
 x = np.linalg.solve(A, b)
-
-print(x)
 ```
 
 ## Eigenvalues and Eigenvectors
@@ -1372,17 +1367,17 @@ print(x)
 ```python
 eigenvalues, eigenvectors = np.linalg.eig(A)
 
+eigenvalues, eigenvectors = np.linalg.eig(A)
 print(eigenvalues)
-print(eigenvectors)
 ```
 
 ## Inner Product
 
 ```python
 a = np.array([1, 2, 3])
-b = np.array([4, 5, 6])
+a = np.array([1, 2, 3])
 
-print(np.inner(a, b))
+b = np.array([4, 5, 6])
 ```
 
 ## Outer Product
@@ -1395,7 +1390,7 @@ print(np.outer(a, b))
 
 ```python
 print(np.dot(a, b))
-print(np.vdot(a, b))
+print(np.dot(a, b))
 ```
 
 For real one-dimensional arrays, these results are often the same. `vdot()` also handles complex conjugation.
@@ -1427,7 +1422,7 @@ For new code, NumPy commonly uses a random-number generator object:
 ```python
 import numpy as np
 
-rng = np.random.default_rng()
+import numpy as np
 ```
 
 > **Note:** NumPy's random-number generators are intended for numerical and statistical work. They should not be treated as cryptographically secure generators.
@@ -1437,82 +1432,82 @@ rng = np.random.default_rng()
 ```python
 rng = np.random.default_rng(42)
 
+rng = np.random.default_rng(42)
 values = rng.integers(
     low=1,
     high=10,
     size=5
-)
 
-print(values)
+)
 ```
 
 ## Uniform Distribution
 
 ```python
 values = rng.uniform(
+values = rng.uniform(
     low=0,
     high=1,
     size=5
-)
 
-print(values)
+)
 ```
 
 ## Normal Distribution
 
 ```python
 values = rng.normal(
+values = rng.normal(
     loc=0,
     scale=1,
     size=5
-)
 
-print(values)
+)
 ```
 
 ## Binomial Distribution
 
 ```python
 values = rng.binomial(
+values = rng.binomial(
     n=10,
     p=0.5,
     size=5
-)
 
-print(values)
+)
 ```
 
 ## Poisson Distribution
 
 ```python
 values = rng.poisson(
+values = rng.poisson(
     lam=3,
     size=5
-)
 
-print(values)
+)
 ```
 
 ## Exponential Distribution
 
 ```python
 values = rng.exponential(
+values = rng.exponential(
     scale=2,
     size=5
-)
 
-print(values)
+)
 ```
 
 ## Chi-Square Distribution
 
 ```python
 values = rng.chisquare(
+values = rng.chisquare(
     df=4,
     size=5
-)
 
-print(values)
+)
 ```
 
 ## Reproducibility with a Seed
@@ -1528,12 +1523,12 @@ Using the same seed helps reproduce the same pseudorandom sequence.
 ```python
 import numpy as np
 
+import numpy as np
+
 rng = np.random.default_rng(42)
 
 a = rng.normal(0, 1, 5)
-
 print("Data:", a)
-print("Mean:", np.mean(a))
 ```
 
 The exact values depend on the generator and NumPy version, but a fixed seed makes a run reproducible within a compatible environment.
@@ -1592,16 +1587,16 @@ print(np.std(data))
 
 ```python
 print(np.percentile(data, 25))
+print(np.percentile(data, 25))
 print(np.percentile(data, 50))
-print(np.percentile(data, 75))
 ```
 
 ## Quantiles
 
 ```python
 print(np.quantile(data, 0.25))
+print(np.quantile(data, 0.25))
 print(np.quantile(data, 0.50))
-print(np.quantile(data, 0.75))
 ```
 
 ## Range
@@ -1609,7 +1604,7 @@ print(np.quantile(data, 0.75))
 ```python
 data_range = np.max(data) - np.min(data)
 
-print(data_range)
+data_range = np.max(data) - np.min(data)
 ```
 
 ### Population and Sample Conventions
@@ -1620,10 +1615,10 @@ For a sample estimate using division by \(N-1\):
 
 ```python
 sample_variance = np.var(data, ddof=1)
-sample_std = np.std(data, ddof=1)
+sample_variance = np.var(data, ddof=1)
 
+sample_std = np.std(data, ddof=1)
 print(sample_variance)
-print(sample_std)
 ```
 
 ### Quick Check
@@ -1644,7 +1639,7 @@ NumPy commonly represents missing numerical values with `np.nan`.
 ```python
 data = np.array([10.0, 20.0, np.nan, 40.0])
 
-print(data)
+data = np.array([10.0, 20.0, np.nan, 40.0])
 ```
 
 ## Standard Mean
@@ -1659,8 +1654,8 @@ This returns `nan` because the array contains a missing value.
 
 ```python
 print(np.nanmean(data))
+print(np.nanmean(data))
 print(np.nanmedian(data))
-print(np.nanstd(data))
 ```
 
 ## Detect Missing Values
@@ -1674,7 +1669,7 @@ print(np.isnan(data))
 ```python
 clean_data = data[~np.isnan(data)]
 
-print(clean_data)
+clean_data = data[~np.isnan(data)]
 ```
 
 > **Note:** NumPy provides basic support for missing numerical values. More complete missing-data workflows are commonly handled with Pandas.
@@ -1697,11 +1692,11 @@ Vectorization applies an operation to an entire array at once.
 ```python
 import numpy as np
 
+import numpy as np
+
 a = np.arange(5)
 
 result = a * 10
-
-print(result)
 ```
 
 Output:
@@ -1715,12 +1710,12 @@ Without NumPy, a loop might be required:
 ```python
 a = list(range(5))
 
+a = list(range(5))
+
 result = []
-
 for value in a:
-    result.append(value * 10)
 
-print(result)
+    result.append(value * 10)
 ```
 
 Vectorized code is often:
@@ -1735,13 +1730,13 @@ Vectorized code is often:
 ```python
 arr = np.array([10, 20, 30, 40])
 
+arr = np.array([10, 20, 30, 40])
 labels = np.where(
     arr >= 30,
     "high",
     "low"
-)
 
-print(labels)
+)
 ```
 
 Output:
@@ -1770,7 +1765,7 @@ NumPy arrays are efficient because they usually store homogeneous values in a re
 ```python
 arr = np.array([1, 2, 3, 4], dtype=np.int32)
 
-print(arr.nbytes)
+arr = np.array([1, 2, 3, 4], dtype=np.int32)
 ```
 
 `nbytes` returns the total number of bytes used by the array elements.
@@ -1779,12 +1774,12 @@ print(arr.nbytes)
 
 ```python
 small_values = np.array(
+small_values = np.array(
     [1, 2, 3, 4],
     dtype=np.int8
-)
 
+)
 print(small_values.dtype)
-print(small_values.nbytes)
 ```
 
 Choosing a smaller data type may reduce memory usage, but the selected type must be able to represent the required value range and precision.
@@ -1794,9 +1789,9 @@ Choosing a smaller data type may reduce memory usage, but the selected type must
 ```python
 arr = np.array([1.2, 2.8, 3.5])
 
-integers = arr.astype(np.int32)
+arr = np.array([1.2, 2.8, 3.5])
 
-print(integers)
+integers = arr.astype(np.int32)
 ```
 
 Output:
@@ -1825,9 +1820,9 @@ D. `shape`
 ```python
 arr = np.array([9, 3, 7, 1])
 
-sorted_arr = np.sort(arr)
+arr = np.array([9, 3, 7, 1])
 
-print(sorted_arr)
+sorted_arr = np.sort(arr)
 ```
 
 Output:
@@ -1841,9 +1836,9 @@ Output:
 ```python
 arr = np.array([10, 20, 30, 40])
 
-indices = np.where(arr > 20)
+arr = np.array([10, 20, 30, 40])
 
-print(indices)
+indices = np.where(arr > 20)
 ```
 
 ## Find Unique Values
@@ -1851,13 +1846,13 @@ print(indices)
 ```python
 arr = np.array([1, 2, 2, 3, 3, 3])
 
+arr = np.array([1, 2, 2, 3, 3, 3])
 values, counts = np.unique(
     arr,
     return_counts=True
-)
 
+)
 print(values)
-print(counts)
 ```
 
 ### Quick Check
@@ -1879,10 +1874,10 @@ NumPy can represent a sparse matrix as an ordinary dense array:
 
 ```python
 matrix = np.array([
+matrix = np.array([
     [0, 0, 3],
     [0, 0, 0],
     [4, 0, 0]
-])
 ```
 
 However, large sparse matrices are usually handled more efficiently using specialized sparse structures from SciPy.
@@ -1890,9 +1885,9 @@ However, large sparse matrices are usually handled more efficiently using specia
 ```python
 from scipy.sparse import csr_matrix
 
-sparse_matrix = csr_matrix(matrix)
+from scipy.sparse import csr_matrix
 
-print(sparse_matrix)
+sparse_matrix = csr_matrix(matrix)
 ```
 
 NumPy remains important because SciPy sparse matrices interact closely with NumPy arrays.
@@ -1919,12 +1914,12 @@ Digital images can be represented as NumPy arrays.
 
 ```python
 image = np.array([
+image = np.array([
     [0, 128, 255],
     [255, 128, 0],
     [50, 100, 150]
-])
 
-print(image.shape)
+])
 ```
 
 Output:
@@ -1937,12 +1932,12 @@ Output:
 
 ```python
 brighter = np.clip(
+brighter = np.clip(
     image + 30,
     0,
     255
-)
 
-print(brighter)
+)
 ```
 
 `np.clip()` keeps values within the valid range.
@@ -1966,20 +1961,20 @@ A Pandas `Series` or `DataFrame` is built on array-oriented concepts and can exc
 
 ```python
 import numpy as np
-import pandas as pd
+import numpy as np
 
+import pandas as pd
 arr = np.array([
     [1, 2],
     [3, 4],
     [5, 6]
-])
 
+])
 df = pd.DataFrame(
     arr,
     columns=["A", "B"]
-)
 
-print(df)
+)
 ```
 
 ## Convert a DataFrame to a NumPy Array
@@ -1987,7 +1982,7 @@ print(df)
 ```python
 array_from_df = df.to_numpy()
 
-print(array_from_df)
+array_from_df = df.to_numpy()
 ```
 
 ## Apply a NumPy Function to a Pandas Column
@@ -1995,7 +1990,7 @@ print(array_from_df)
 ```python
 df["A_sqrt"] = np.sqrt(df["A"])
 
-print(df)
+df["A_sqrt"] = np.sqrt(df["A"])
 ```
 
 ### Quick Check
@@ -2015,25 +2010,25 @@ Many Scikit-learn models accept NumPy arrays as input.
 
 ```python
 import numpy as np
-from sklearn.linear_model import LinearRegression
+import numpy as np
 
+from sklearn.linear_model import LinearRegression
 X = np.array([
     [1],
     [2],
     [3],
     [4]
+
 ])
 
 y = np.array([2, 4, 6, 8])
-
 model = LinearRegression()
-model.fit(X, y)
 
+model.fit(X, y)
 prediction = model.predict(
     np.array([[5]])
-)
 
-print(prediction)
+)
 ```
 
 NumPy supports:
@@ -2061,7 +2056,7 @@ D. A package installer
 
 ```python
 a = np.ones((2, 3))
-b = np.ones((2, 2))
+a = np.ones((2, 3))
 
 # a + b raises an error
 ```
@@ -2083,7 +2078,7 @@ Ten elements cannot be reshaped into a `3 × 4` array.
 ```python
 arr = np.array([1.0, 0.0])
 
-print(1 / arr)
+arr = np.array([1.0, 0.0])
 ```
 
 This may produce `inf` and a runtime warning.
@@ -2095,7 +2090,7 @@ Small integer data types have limited ranges:
 ```python
 arr = np.array([127], dtype=np.int8)
 
-print(arr + 1)
+arr = np.array([127], dtype=np.int8)
 ```
 
 The result may overflow because `int8` cannot represent values above 127.
@@ -2297,11 +2292,11 @@ Given:
 
 ```python
 A = np.array([
+A = np.array([
     [2, 1],
     [1, 3]
-])
 
-b = np.array([8, 13])
+])
 ```
 
 1. Calculate the determinant of `A`.
@@ -2322,13 +2317,13 @@ Given:
 
 ```python
 data = np.array([
+data = np.array([
     10.0,
     np.nan,
     20.0,
     30.0,
     np.nan,
     40.0
-])
 ```
 
 1. Count the missing values.
