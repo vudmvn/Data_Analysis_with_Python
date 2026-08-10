@@ -224,7 +224,7 @@ def scan_lectures_dir(lectures_dir):
                 is_en_file = f.endswith("-en.md") or "_en." in f
                 is_vn_file = not is_en_file
 
-                if "practice" in f or "exercise" in f or "lab" in f:
+                if any(k in f for k in ["practice", "exercise", "lab", "economics", "business"]):
                     link_html = f'💻 <a href="lectures/{folder}/{f}" target="_blank">{clean_name}</a>'
                     if is_vn_file: lab_links_vn.append(link_html)
                     if is_en_file: lab_links_en.append(link_html)
