@@ -3,9 +3,7 @@
 
 \usetheme{AnnArbor}
 \usepackage{fontspec}
-\setsansfont{DejaVu Sans}
-\setmainfont{DejaVu Serif}
-\setmonofont{DejaVu Sans Mono}
+\usepackage[vietnamese]{babel}
 \usepackage{amsmath,amssymb,booktabs,array,multicol}
 \usepackage{listings}
 \usepackage{xcolor}
@@ -49,24 +47,19 @@
 \newcommand{\quiztitle}[1]{\textbf{\textcolor{QuizOrange}{#1}}}
 \newcommand{\imageplaceholder}[2]{%
 \begin{center}
-\IfFileExists{#1}{%
-  \includegraphics[width=0.82\linewidth,height=0.55\textheight,keepaspectratio]{#1}\\[0.3em]
-  {\small\textcolor{SoftGray}{\textbf{#2}}}
-}{%
   \fcolorbox{SoftGray}{gray!5}{%
-  \begin{minipage}[c][0.50\textheight][c]{0.80\linewidth}
+  \begin{minipage}[c][0.55\textheight][c]{0.84\linewidth}
   \centering
-  {\Large\textcolor{TitleBlue}{Ảnh minh họa}}\\[0.8em]
-  {\normalsize\textbf{#2}}\\[1.0em]
-  {\footnotesize Đường dẫn nguồn trong file Markdown:}\\[0.35em]
+  {\Large\textcolor{TitleBlue}{Image Placeholder}}\\\[1.0em]
+  {\normalsize\textbf{#2}}\\\[1.2em]
+  {\footnotesize Source path in Markdown:}\\\[0.35em]
   {\small\texttt{\detokenize{#1}}}
   \end{minipage}}
-}%
 \end{center}
 }
 
-\title[Giới thiệu NumPy]{Giới thiệu về NumPy}
-\subtitle{Mảng, vector hóa, broadcasting và tính toán số trong Python}
+\title[Giới thiệu NumPy]{Giới thiệu NumPy}
+\subtitle{Mảng, vector hóa, broadcasting và tính toán số}
 \author{Duc-Minh Vu}
 \institute{SLSCM Lab -- FDA -- NEU}
 \date{\today}
@@ -81,22 +74,22 @@
 \begin{columns}[T]
 \column{0.48\linewidth}
 \begin{enumerate}
-  \item NumPy là gì?
-  \item Vì sao nên học NumPy?
+  \item NumPy là gì
+  \item Vì sao NumPy hữu ích
   \item Cài đặt và import
-  \item Tạo mảng NumPy
-  \item Thuộc tính của mảng
+  \item Tạo mảng
+  \item Thuộc tính mảng
   \item Indexing và slicing
-  \item Reshape, resize, stack, split
+  \item Reshaping, resizing, stacking, splitting
 \end{enumerate}
 \column{0.48\linewidth}
 \begin{enumerate}
   \setcounter{enumi}{7}
   \item Broadcasting
-  \item Phép toán và aggregation
+  \item Số học và tổng hợp
   \item Universal functions
-  \item Boolean operations
-  \item Đại số tuyến tính
+  \item Toán tử Boolean
+  \item Linear algebra
   \item Số ngẫu nhiên và thống kê
   \item Tích hợp và lỗi thường gặp
 \end{enumerate}
@@ -108,22 +101,22 @@
 Sau bài học này, người học có thể:
 \begin{itemize}
   \item Giải thích vai trò của NumPy trong tính toán số.
-  \item Phân biệt mảng NumPy với list thông thường của Python.
-  \item Tạo mảng một chiều và nhiều chiều.
-  \item Kiểm tra \texttt{shape}, \texttt{size}, \texttt{ndim}, và \texttt{dtype}.
+  \item Phân biệt mảng NumPy với list Python.
+  \item Tạo mảng một chiều và mảng nhiều chiều.
+  \item Kiểm tra \texttt{shape}, \texttt{size}, \texttt{ndim} và \texttt{dtype}.
   \item Sử dụng indexing, slicing, reshaping, stacking và splitting.
-  \item Áp dụng phép toán vector hóa, broadcasting, aggregation và universal functions.
-  \item Thực hiện các phép toán đại số tuyến tính và thống kê mô tả cơ bản.
-  \item Sinh số ngẫu nhiên và hiểu vai trò của seed trong tái lập kết quả.
-  \item Hiểu cách NumPy kết nối với Pandas, SciPy và Scikit-learn.
+  \item Áp dụng số học vector hóa, broadcasting, tổng hợp và universal functions.
+  \item Thực hiện đại số tuyến tính cơ bản và thống kê mô tả.
+  \item Sinh giá trị ngẫu nhiên và hiểu tính tái lập kết quả.
+  \item Giải thích cách NumPy kết nối với Pandas, SciPy và Scikit-learn.
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Yêu cầu chuẩn bị và cài đặt}
-\begin{block}{Nền tảng nên có}
+\begin{frame}[fragile]{Điều kiện tiên quyết và cài đặt}
+\begin{block}{Kiến thức nền khuyến nghị}
 \begin{itemize}
-  \item Biến, list, vòng lặp và hàm trong Python.
-  \item Môi trường: Jupyter Notebook, JupyterLab, Google Colab hoặc Python IDE.
+  \item Biến, list, vòng lặp và hàm cơ bản trong Python.
+  \item Một môi trường Python có thể chạy được: Jupyter Lưu ýbook, JupyterLab, Google Colab hoặc tương tự.
 \end{itemize}
 \end{block}
 \begin{block}{Cài đặt và import}
@@ -137,21 +130,78 @@ print(np.__version__)
 \end{block}
 \end{frame}
 
+
+\begin{frame}{Cách đọc các câu lệnh NumPy}
+\small
+Hầu hết câu lệnh NumPy có cùng một mẫu:
+\[
+\texttt{np.function(input, option1=value1, option2=value2)}
+\]
+\begin{itemize}
+  \item \texttt{np}: bí danh chuẩn của thư viện NumPy.
+  \item \texttt{function}: phép toán ta muốn NumPy thực hiện.
+  \item \texttt{input}: mảng, list, shape hoặc giá trị số được truyền vào hàm.
+  \item \texttt{option=value}: đối số có tên dùng để điều khiển hành vi của câu lệnh.
+\end{itemize}
+\begin{block}{Ví dụ}
+\texttt{np.arange(0, 10, 2)} tạo các giá trị bắt đầu từ 0, dừng trước 10, với bước nhảy 2.
+\end{block}
+\end{frame}
+
+\begin{frame}{Mẫu câu lệnh: đối tượng, thuộc tính, phương thức, hàm}
+\small
+\begin{tabular}{p{0.26\linewidth}p{0.62\linewidth}}
+\toprule
+\textbf{Dạng} & \textbf{Ý nghĩa} \\
+\midrule
+\texttt{np.array([1,2,3])} & Gọi một hàm NumPy để tạo mảng. \\
+\texttt{arr.shape} & Đọc một thuộc tính mô tả mảng. \\
+\texttt{arr.reshape(2,3)} & Gọi một phương thức gắn với đối tượng mảng hiện có. \\
+\texttt{np.mean(arr)} & Gọi một hàm NumPy để tóm tắt mảng. \\
+\texttt{arr.mean()} & Phiên bản gọi theo kiểu phương thức, tương đương với nhiều phép toán phổ biến. \\
+\bottomrule
+\end{tabular}
+\vspace{0.5em}
+\begin{alertblock}{Teaching note}
+Sinh viên nên xác định ba thành phần trong mỗi câu lệnh: đầu vào, phép toán và đầu ra.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{Ví dụ ngắn: giải thích từng dòng}
+\small
+\begin{lstlisting}[style=py]
+import numpy as np
+
+scores = np.array([7, 8, 6, 9])
+bonus = scores + 1
+average = scores.mean()
+print(bonus)
+print(average)
+\end{lstlisting}
+\begin{itemize}
+  \item \texttt{import numpy as np}: nạp NumPy và đặt tên ngắn là \texttt{np}.
+  \item \texttt{np.array([...])}: chuyển list Python thành mảng NumPy.
+  \item \texttt{scores + 1}: cộng 1 vào mọi phần tử bằng vector hóa.
+  \item \texttt{scores.mean()}: tính giá trị trung bình của mảng.
+  \item \texttt{print(...)}: hiển thị kết quả.
+\end{itemize}
+\end{frame}
+
 \section{NumPy là gì?}
 
 \begin{frame}{NumPy là gì?}
 \small
-\key{NumPy}, viết tắt của \key{Numerical Python}, là thư viện Python cốt lõi cho tính toán số nhanh và hiệu quả.
+\key{NumPy}, viết tắt của \key{Numerical Python}, là thư viện Python cốt lõi cho tính toán số nhanh.
 \vspace{0.4em}
 
-Đối tượng trung tâm của NumPy là \key{mảng N chiều}, gọi là \texttt{ndarray}. Một mảng NumPy có thể biểu diễn:
+Đối tượng trung tâm của nó là \key{N-dimensional array}, called \texttt{ndarray}. Một mảng NumPy có thể biểu diễn:
 \begin{itemize}
-  \item Vector một chiều.
-  \item Ma trận hai chiều.
-  \item Tensor ba chiều.
-  \item Các cấu trúc số nhiều chiều hơn.
+  \item Một vectơ một chiều.
+  \item Một ma trận hai chiều.
+  \item Một tensor ba chiều.
+  \item Các cấu trúc số có số chiều cao hơn.
 \end{itemize}
-\begin{block}{Ý tưởng chính}
+\begin{block}{Vì sao quan trọng}
 NumPy lưu trữ dữ liệu đồng nhất hiệu quả và hỗ trợ phép toán nhanh trên toàn bộ mảng.
 \end{block}
 \end{frame}
@@ -161,162 +211,164 @@ NumPy lưu trữ dữ liệu đồng nhất hiệu quả và hỗ trợ phép to
 \begin{columns}[T]
 \column{0.47\linewidth}
 \begin{itemize}
-  \item Phép toán nhanh trên mảng.
+  \item Các phép toán mảng nhanh.
   \item Tính toán vector hóa.
   \item Broadcasting.
-  \item Hàm đại số tuyến tính.
+  \item Các hàm đại số tuyến tính.
 \end{itemize}
 \column{0.47\linewidth}
 \begin{itemize}
-  \item Hàm thống kê.
+  \item Các hàm thống kê.
   \item Sinh số ngẫu nhiên.
   \item Tích hợp với Pandas, SciPy, Matplotlib và Scikit-learn.
-  \item Nền tảng cho nhiều quy trình khoa học dữ liệu.
 \end{itemize}
 \end{columns}
-% \imageplaceholder{numpy_linear_algebra.webp}{Tổng quan NumPy và đại số tuyến tính}
+\vspace{0.7em}
+% \imageplaceholder{numpy\_linear\_algebra.webp}{NumPy linear algebra overview}
 \end{frame}
 
 \begin{frame}{Các đặc trưng chính}
-\small
-\begin{block}{\texttt{ndarray}}
-Cấu trúc dữ liệu trung tâm, lưu trữ phần tử cùng kiểu trong mảng nhiều chiều.
-\end{block}
-\begin{block}{Vector hóa và broadcasting}
-Vector hóa áp dụng phép tính lên toàn bộ mảng; broadcasting cho phép thao tác giữa các hình dạng tương thích.
-\end{block}
-\begin{block}{Đại số tuyến tính và thống kê}
-NumPy hỗ trợ nhân ma trận, định thức, nghịch đảo, trị riêng, trung bình, trung vị, phương sai và phân vị.
-\end{block}
+\scriptsize
+\begin{tabular}{p{0.26\linewidth}p{0.66\linewidth}}
+\toprule
+\textbf{Đặc trưng} & \textbf{Ý nghĩa} \\\\
+\midrule
+\texttt{ndarray} & Mảng nhiều chiều hiệu quả với một kiểu dữ liệu chung. \\\\
+Vectorization & Áp dụng phép tính lên toàn bộ mảng mà không cần vòng lặp Python tường minh. \\\\
+Broadcasting & Thực hiện phép toán trên các mảng có shape khác nhau nhưng tương thích. \\\\
+Linear algebra & Nhân ma trận, định thức, nghịch đảo, trị riêng và tích vectơ. \\\\
+Statistics & Trung bình, trung vị, phương sai, độ lệch chuẩn, percentile và quantile. \\\\
+Integration & Làm việc với Pandas, SciPy, Matplotlib, Scikit-learn và Statsmodels. \\\\
+\bottomrule
+\end{tabular}
 \end{frame}
 
-\begin{frame}{Quick Check: NumPy là gì?}
+\begin{frame}{Kiểm tra nhanh: NumPy là gì?}
 \small
 \quiztitle{Câu 1.} Cấu trúc dữ liệu chính trong NumPy là gì?
-\begin{enumerate}[A.]
-  \item \texttt{DataFrame}
-  \item \texttt{ndarray}
-  \item \texttt{dictionary}
-  \item \texttt{tuple}
-\end{enumerate}
-\vspace{0.5em}
-\quiztitle{Câu 2.} Đúng hay sai? NumPy được thiết kế chủ yếu cho tính toán số.
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \texttt{DataFrame}
+  \item B. \texttt{ndarray}
+  \item C. \texttt{dictionary}
+  \item D. \texttt{tuple}
+\end{itemize}
+\end{multicols}
+\vspace{0.8em}
+\quiztitle{Câu 2. Đúng hay sai?} NumPy được thiết kế chủ yếu cho tính toán số.
 \end{frame}
 
-\section{Vì sao nên học NumPy?}
+\section{Tại sao nên học NumPy?}
 
-\begin{frame}{Vì sao nên học NumPy?}
+\begin{frame}{Tại sao nên học NumPy?}
 \small
-NumPy là nền tảng hiệu quả cho tính toán số trong Python.
+NumPy cung cấp nền tảng hiệu quả cho công việc tính toán số trong Python.
 \begin{itemize}
-  \item Nhanh hơn nhiều vòng lặp Python trong nhiều tác vụ số nhờ vector hóa.
-  \item Lưu trữ dữ liệu đồng nhất gọn hơn list Python.
-  \item Cung cấp hàm tối ưu cho ma trận, đại số tuyến tính và thống kê.
-  \item Cho phép biểu diễn công thức phức tạp bằng lệnh ngắn gọn.
-  \item Là nền tảng cho Pandas, SciPy, Scikit-learn và nhiều thư viện dữ liệu khác.
+  \item Thực hiện phép toán vector hóa nhanh hơn nhiều vòng lặp Python thông thường.
+  \item Lưu trữ dữ liệu số đồng nhất gọn hơn list Python chuẩn.
+  \item Cung cấp hàm tối ưu cho ma trận, đại số tuyến tính và biến đổi.
+  \item Hỗ trợ sinh số ngẫu nhiên và phân tích thống kê.
+  \item Biểu diễn phép toán toán học phức tạp bằng cú pháp ngắn gọn.
+  \item Là nền tảng tính toán số cho nhiều thư viện khoa học dữ liệu.
 \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]{List Python và mảng NumPy}
-\small
 \begin{columns}[T]
 \column{0.48\linewidth}
-\begin{block}{List Python}
+\textbf{List Python: các đối tượng hỗn hợp}
 \begin{lstlisting}[style=py]
 values = [10, 2.5, "Python", True]
 \end{lstlisting}
 \begin{itemize}
-  \item Có thể chứa nhiều kiểu dữ liệu.
-  \item Thao tác số thường cần vòng lặp.
+  \item Cấu trúc chứa đối tượng linh hoạt.
+  \item Không tối ưu cho mảng số lớn.
 \end{itemize}
-\end{block}
 \column{0.48\linewidth}
-\begin{block}{Mảng NumPy}
+\textbf{NumPy array: các giá trị đồng nhất}
 \begin{lstlisting}[style=py]
 import numpy as np
 values = np.array([10, 20, 30, 40])
 \end{lstlisting}
 \begin{itemize}
-  \item Thường chứa một kiểu dữ liệu chung.
-  \item Hỗ trợ phép toán số vector hóa.
+  \item Cấu trúc đều đặn.
+  \item Tính toán số hiệu quả.
 \end{itemize}
-\end{block}
 \end{columns}
 \end{frame}
 
-\begin{frame}[fragile]{Ví dụ: nhân toàn bộ giá trị}
-\small
+\begin{frame}[fragile]{Ví dụ: nhân các giá trị}
 \begin{columns}[T]
 \column{0.48\linewidth}
-\begin{block}{Dùng list Python}
+\textbf{List Python}
 \begin{lstlisting}[style=py]
 values = [1, 2, 3, 4]
 result = []
+
 for value in values:
     result.append(value * 10)
+
 print(result)
+# [10, 20, 30, 40]
 \end{lstlisting}
-\end{block}
 \column{0.48\linewidth}
-\begin{block}{Dùng NumPy}
+\textbf{Vector hóa NumPy}
 \begin{lstlisting}[style=py]
 import numpy as np
 values = np.array([1, 2, 3, 4])
+
 result = values * 10
 print(result)
+# [10 20 30 40]
 \end{lstlisting}
-\end{block}
 \end{columns}
-\vspace{0.4em}
-\begin{alertblock}{Điểm cần nhớ}
-Trong NumPy, \texttt{values * 10} được áp dụng cho toàn bộ mảng mà không cần vòng lặp tường minh.
-\end{alertblock}
+\begin{block}{Ý tưởng chính}
+Cùng một phép toán được áp dụng cho tất cả phần tử cùng lúc.
+\end{block}
 \end{frame}
 
-\begin{frame}{Quick Check: Vì sao NumPy hiệu quả?}
+\begin{frame}{Kiểm tra nhanh: tại sao học NumPy?}
 \small
 \quiztitle{Câu 1.} Vì sao mảng NumPy hiệu quả cho tính toán số?
-\begin{enumerate}[A.]
-  \item Vì luôn chứa văn bản
-  \item Vì sử dụng cấu trúc đồng nhất và được tối ưu
-  \item Vì không dùng bộ nhớ
-  \item Vì tự động kết nối Internet
-\end{enumerate}
-\vspace{0.5em}
-\quiztitle{Câu 2.} Biểu thức nào nhân mọi phần tử của mảng \texttt{a} với 10?
-\begin{enumerate}[A.]
-  \item \texttt{a * 10}
-  \item \texttt{a.append(10)}
-  \item \texttt{a.add("10")}
-  \item \texttt{a.sort(10)}
-\end{enumerate}
+\begin{itemize}
+  \item A. Chúng luôn chứa văn bản
+  \item B. Chúng dùng cấu trúc mảng đồng nhất và được tối ưu
+  \item C. Chúng không dùng bộ nhớ
+  \item D. Chúng tự động kết nối internet
+\end{itemize}
+\vspace{0.6em}
+\quiztitle{Câu 2.} Biểu thức nào nhân mọi phần tử của mảng NumPy \texttt{a} by 10?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \texttt{a * 10}
+  \item B. \texttt{a.append(10)}
+  \item C. \texttt{a.add("10")}
+  \item D. \texttt{a.sort(10)}
+\end{itemize}
+\end{multicols}
 \end{frame}
 
-\section{Tạo mảng NumPy}
+\section{Tạo mảng}
 
-\begin{frame}[fragile]{Tạo mảng NumPy từ list}
+\begin{frame}[fragile]{Tạo mảng NumPy}
 \small
+Mảng NumPy có thể được tạo từ list, tuple, range của Python hoặc các hàm dựng sẵn của NumPy.
 \begin{lstlisting}[style=py]
 import numpy as np
 
 a = [9, 3, 3, 5]
 arr = np.array(a)
 print(arr)
+# [9 3 3 5]
 \end{lstlisting}
-\begin{block}{Kết quả}
-\texttt{[9 3 3 5]}
-\end{block}
-\begin{itemize}
-  \item \texttt{np.array()} chuyển list Python thành mảng NumPy.
-  \item Mảng một chiều thường được dùng để biểu diễn vector.
-\end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Mảng nhiều chiều}
-\small
+\vspace{0.2em}
 \begin{columns}[T]
-\column{0.48\linewidth}
-\begin{block}{Mảng hai chiều}
+\column{0.5\linewidth}
+\begin{lstlisting}[style=py]
+arr = np.array([10, 20, 30, 40])
+print(arr)
+\end{lstlisting}
+\column{0.5\linewidth}
 \begin{lstlisting}[style=py]
 matrix = np.array([
     [1, 2, 3],
@@ -324,25 +376,31 @@ matrix = np.array([
 ])
 print(matrix)
 \end{lstlisting}
-\end{block}
-\column{0.48\linewidth}
-\begin{block}{Mảng ba chiều}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Mảng nhiều chiều}
+\small
+Mảng ba chiều có thể biểu diễn các ma trận xếp chồng hoặc tensor.
 \begin{lstlisting}[style=py]
 tensor = np.array([
-    [[1, 2], [3, 4]],
-    [[5, 6], [7, 8]]
+    [
+        [1, 2],
+        [3, 4]
+    ],
+    [
+        [5, 6],
+        [7, 8]
+    ]
 ])
 print(tensor)
 \end{lstlisting}
+\begin{block}{Diễn giải}
+Các chiều thường tương ứng với quan sát, đặc trưng, thời gian, kênh hoặc kịch bản.
 \end{block}
-\end{columns}
-\begin{itemize}
-  \item Mảng hai chiều thường là ma trận.
-  \item Mảng ba chiều có thể xem như tập nhiều ma trận hoặc tensor.
-\end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Các hàm tạo mảng thông dụng}
+\begin{frame}[fragile]{Các hàm tạo mảng thường dùng}
 \small
 \begin{columns}[T]
 \column{0.48\linewidth}
@@ -355,251 +413,397 @@ np.full((2, 3), 7)
 \column{0.48\linewidth}
 \begin{lstlisting}[style=py]
 np.arange(0, 10, 2)
+# [0 2 4 6 8]
+
 np.linspace(0, 1, 5)
+# [0.   0.25 0.5  0.75 1.]
+
 np.eye(3)
 \end{lstlisting}
 \end{columns}
-\vspace{0.5em}
-\begin{block}{Ý nghĩa}
-\begin{itemize}
-  \item \texttt{arange}: tạo dãy theo bước nhảy.
-  \item \texttt{linspace}: tạo số lượng điểm cách đều giữa hai đầu mút.
-  \item \texttt{eye}: tạo ma trận đơn vị.
-\end{itemize}
-\end{block}
 \end{frame}
 
-\begin{frame}{Quick Check: Tạo mảng}
+\begin{frame}{Các lệnh chính: tạo mảng}
+\small
+\begin{tabular}{p{0.28\linewidth}p{0.61\linewidth}}
+\toprule
+\textbf{Lệnh} & \textbf{Ý nghĩa và khi nào dùng} \\
+\midrule
+\texttt{np.array(data)} & Chuyển list, tuple hoặc chuỗi lồng nhau thành \texttt{ndarray}. \\
+\texttt{np.zeros(shape)} & Tạo mảng toàn số 0; hữu ích khi khởi tạo. \\
+\texttt{np.ones(shape)} & Tạo mảng toàn số 1; hữu ích cho mask, trọng số hoặc khởi tạo. \\
+\texttt{np.full(shape, value)} & Tạo mảng được lấp đầy bằng một giá trị cho trước. \\
+\texttt{np.arange(start, stop, step)} & Sinh giá trị cách đều; \texttt{stop} không được lấy. \\
+\texttt{np.linspace(start, stop, n)} & Sinh đúng \texttt{n} giá trị cách đều, mặc định bao gồm hai đầu mút. \\
+\texttt{np.eye(n)} & Tạo ma trận đơn vị \(n\times n\). \\
+\bottomrule
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Kiểm tra nhanh: tạo mảng}
 \small
 \quiztitle{Câu 1.} Hàm nào chuyển list Python thành mảng NumPy?
-\begin{enumerate}[A.]
-  \item \texttt{np.array()}
-  \item \texttt{np.list()}
-  \item \texttt{np.convert()}
-  \item \texttt{np.ndarray\_list()}
-\end{enumerate}
-\vspace{0.5em}
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \texttt{np.array()}
+  \item B. \texttt{np.list()}
+  \item C. \texttt{np.convert()}
+  \item D. \texttt{np.ndarray\_list()}
+\end{itemize}
+\end{multicols}
+\vspace{0.4em}
 \quiztitle{Câu 2.} Hàm nào tạo các giá trị cách đều giữa hai đầu mút?
-\begin{enumerate}[A.]
-  \item \texttt{np.linspace()}
-  \item \texttt{np.stack()}
-  \item \texttt{np.split()}
-  \item \texttt{np.mean()}
-\end{enumerate}
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \texttt{np.linspace()}
+  \item B. \texttt{np.stack()}
+  \item C. \texttt{np.split()}
+  \item D. \texttt{np.mean()}
+\end{itemize}
+\end{multicols}
 \end{frame}
 
-\section{Thuộc tính, Indexing, Slicing}
+\section{Thuộc tính mảng}
 
-\begin{frame}[fragile]{Thuộc tính của mảng}
+\begin{frame}[fragile]{Thuộc tính mảng: quan sát một mảng}
 \small
 \begin{lstlisting}[style=py]
 arr = np.array([
     [1, 2, 3],
     [4, 5, 6]
 ])
-print(arr.ndim)
-print(arr.shape)
-print(arr.size)
+
+print(arr.ndim)     # 2
+print(arr.shape)    # (2, 3)
+print(arr.size)     # 6
 print(arr.dtype)
 print(arr.itemsize)
 \end{lstlisting}
-\begin{center}
-\begin{tabular}{ll}
+\begin{block}{How to read these commands}
+Mỗi câu lệnh yêu cầu NumPy mô tả mảng: số chiều, shape, tổng số phần tử, kiểu dữ liệu và bộ nhớ mỗi phần tử.
+\end{block}
+\end{frame}
+
+\begin{frame}{Thuộc tính mảng: ý nghĩa từng thuộc tính}
+\small
+\begin{tabular}{p{0.22\linewidth}p{0.68\linewidth}}
 \toprule
-Thuộc tính & Ý nghĩa \\
+\textbf{Thuộc tính} & \textbf{Ý nghĩa} \\
 \midrule
-\texttt{ndim} & Số chiều \\
-\texttt{shape} & Kích thước theo từng chiều \\
-\texttt{size} & Tổng số phần tử \\
-\texttt{dtype} & Kiểu dữ liệu \\
-\texttt{itemsize} & Số byte cho mỗi phần tử \\
+\texttt{ndim} & Số chiều. Vectơ có 1 chiều; ma trận có 2 chiều. \\
+\texttt{shape} & Kích thước theo từng chiều. Ví dụ, \texttt{(2, 3)} nghĩa là 2 hàng và 3 cột. \\
+\texttt{size} & Tổng số phần tử trong mảng. \\
+\texttt{dtype} & Kiểu dữ liệu lưu trong mảng, chẳng hạn số nguyên hoặc số thực. \\
+\texttt{itemsize} & Số byte dùng cho mỗi phần tử. \\
 \bottomrule
 \end{tabular}
-\end{center}
 \end{frame}
 
-\begin{frame}{Quick Check: Thuộc tính mảng}
+\begin{frame}{Các lệnh chính: kiểm tra thuộc tính mảng}
 \small
-\quiztitle{Câu 1.} Thuộc tính nào trả về hình dạng của mảng?
-\begin{enumerate}[A.]
-  \item \texttt{shape}
-  \item \texttt{mean}
-  \item \texttt{append}
-  \item \texttt{index}
-\end{enumerate}
-\vspace{0.5em}
+\begin{tabular}{p{0.25\linewidth}p{0.64\linewidth}}
+\toprule
+\textbf{Thuộc tính} & \textbf{Nó cho biết điều gì} \\
+\midrule
+\texttt{arr.ndim} & Số trục/số chiều của mảng. \\
+\texttt{arr.shape} & Độ dài của mảng theo từng trục; ví dụ, \texttt{(3,4)} means 3 rows and 4 columns. \\
+\texttt{arr.size} & Tổng số phần tử được lưu trữ. \\
+\texttt{arr.dtype} & Kiểu dùng để lưu mỗi phần tử, chẳng hạn \texttt{int64} or \texttt{float64}. \\
+\texttt{arr.itemsize} & Number of bytes used by one element. \\
+\texttt{arr.nbytes} & Tổng số byte dùng bởi tất cả phần tử mảng. \\
+\bottomrule
+\end{tabular}
+\begin{block}{Thói quen hữu ích}
+Trước khi reshape, broadcasting hoặc mô hình hóa, hãy kiểm tra \texttt{shape} and \texttt{dtype}; nhiều lỗi NumPy bắt nguồn từ shape hoặc kiểu dữ liệu không như mong đợi.
+\end{block}
+\end{frame}
+
+\begin{frame}{Kiểm tra nhanh: thuộc tính mảng}
+\small
+\quiztitle{Câu 1.} Thuộc tính nào trả về kích thước của mảng?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \texttt{shape}
+  \item B. \texttt{mean}
+  \item C. \texttt{append}
+  \item D. \texttt{index}
+\end{itemize}
+\end{multicols}
+\vspace{0.4em}
 \quiztitle{Câu 2.} Thuộc tính nào trả về tổng số phần tử?
-\begin{enumerate}[A.]
-  \item \texttt{size}
-  \item \texttt{dtype}
-  \item \texttt{ndim}
-  \item \texttt{itemsize}
-\end{enumerate}
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \texttt{size}
+  \item B. \texttt{dtype}
+  \item C. \texttt{ndim}
+  \item D. \texttt{itemsize}
+\end{itemize}
+\end{multicols}
 \end{frame}
 
-\begin{frame}[fragile]{Indexing trong NumPy}
-\small
+\section{Indexing và slicing}
+
+\begin{frame}[fragile]{Indexing mảng}
 \begin{columns}[T]
 \column{0.48\linewidth}
-\begin{block}{Mảng một chiều}
+\textbf{Indexing một chiều}
 \begin{lstlisting}[style=py]
 arr = np.array([10, 20, 30, 40])
+
 print(arr[0])   # 10
 print(arr[2])   # 30
 print(arr[-1])  # 40
 \end{lstlisting}
-\end{block}
 \column{0.48\linewidth}
-\begin{block}{Mảng hai chiều}
+\textbf{Indexing hai chiều}
 \begin{lstlisting}[style=py]
 matrix = np.array([
     [1, 2, 3],
     [4, 5, 6]
 ])
+
 print(matrix[0, 1])  # 2
 print(matrix[1, 2])  # 6
 \end{lstlisting}
-\end{block}
 \end{columns}
+\begin{block}{Quy ước indexing}
+Python và NumPy dùng chỉ số bắt đầu từ 0.
+\end{block}
 \end{frame}
 
-\begin{frame}[fragile]{Slicing trong NumPy}
-\small
+\begin{frame}[fragile]{Slicing mảng}
+\begin{columns}[T]
+\column{0.48\linewidth}
+\textbf{Slicing một chiều}
 \begin{lstlisting}[style=py]
 arr = np.array([10, 20, 30, 40, 50])
-print(arr[1:4])   # [20 30 40]
-print(arr[::2])   # [10 30 50]
+
+print(arr[1:4])
+# [20 30 40]
+
+print(arr[::2])
+# [10 30 50]
 \end{lstlisting}
+\column{0.48\linewidth}
+\textbf{Slicing hai chiều}
 \begin{lstlisting}[style=py]
 matrix = np.array([
     [1, 2, 3],
     [4, 5, 6],
     [7, 8, 9]
 ])
+
 print(matrix[0:2, 1:3])
+# [[2 3]
+#  [5 6]]
 \end{lstlisting}
-\begin{block}{Quy tắc}
-\texttt{start:stop} lấy từ \texttt{start} đến trước \texttt{stop}. Slicing hai chiều dùng cú pháp \texttt{rows, columns}.
-\end{block}
+\end{columns}
 \end{frame}
 
-\begin{frame}[fragile]{View và Copy}
+\begin{frame}[fragile]{View và bản sao}
 \small
-Nhiều phép slicing trả về \key{view}, tức là có thể dùng chung bộ nhớ với mảng gốc.
+Nhiều phép slicing của NumPy trả về \key{view} của mảng gốc thay vì một bản sao độc lập.
 \begin{lstlisting}[style=py]
 arr = np.array([10, 20, 30, 40])
+
 view = arr[1:3]
 view[0] = 999
+
 print(arr)
+# [ 10 999  30  40]
 \end{lstlisting}
-\begin{block}{Kết quả}
-\texttt{[ 10 999  30  40]}
-\end{block}
-Tạo bản sao độc lập bằng:
+Tạo bản sao độc lập khi cần:
 \begin{lstlisting}[style=py]
 copy = arr[1:3].copy()
 \end{lstlisting}
+\begin{alertblock}{Quan trọng}
+Thay đổi một view có thể làm thay đổi mảng gốc.
+\end{alertblock}
 \end{frame}
 
-\begin{frame}{Quick Check: Indexing và Slicing}
+\begin{frame}{Các lệnh chính: indexing và slicing}
 \small
-\quiztitle{Câu 1.} \texttt{arr[0]} trả về gì?
-\begin{enumerate}[A.]
-  \item Phần tử đầu tiên
-  \item Phần tử cuối cùng
-  \item Hình dạng mảng
-  \item Kích thước mảng
-\end{enumerate}
-\vspace{0.5em}
-\quiztitle{Câu 2.} Đúng hay sai? Một lát cắt NumPy có thể dùng chung bộ nhớ với mảng gốc.
+\begin{tabular}{p{0.28\linewidth}p{0.61\linewidth}}
+\toprule
+\textbf{Cú pháp} & \textbf{Ý nghĩa} \\
+\midrule
+\texttt{arr[i]} & Chọn phần tử ở vị trí \texttt{i}; chỉ số âm đếm từ cuối mảng. \\
+\texttt{arr[a:b]} & Chọn các vị trí \texttt{a} through \texttt{b-1}. \\
+\texttt{arr[a:b:s]} & Slice with step size \texttt{s}. \\
+\texttt{matrix[i,j]} & Select row \texttt{i}, column \texttt{j}. \\
+\texttt{matrix[r1:r2,c1:c2]} & Trích xuất một mảng con hình chữ nhật. \\
+\texttt{arr[mask]} & Boolean indexing: retain values where \texttt{mask} is \texttt{True}. \\
+\texttt{arr.copy()} & Make independent data when a view should not modify the original. \\
+\bottomrule
+\end{tabular}
 \end{frame}
 
-\section{Reshape, Stack, Split}
-
-\begin{frame}[fragile]{Reshaping Arrays}
+\begin{frame}{Kiểm tra nhanh: indexing và slicing}
 \small
+\quiztitle{Câu 1.} Điều gì diễn ra khi \texttt{arr[0]} trả về gì?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. The first element
+  \item B. The last element
+  \item C. The array shape
+  \item D. Kích thước mảng
+\end{itemize}
+\end{multicols}
+\quiztitle{Câu 2.} In a two-dimensional array, \texttt{matrix[1, 2]} refers to:
+\begin{itemize}
+  \item A. Row index 1 and column index 2
+  \item B. Row 1 only
+  \item C. Column 2 only
+  \item D. The array dimensions
+\end{itemize}
+\quiztitle{Câu 3. Đúng hay sai?} Một lát cắt NumPy có thể dùng chung bộ nhớ với mảng gốc.
+\end{frame}
+
+\section{Reshaping, stacking, splitting}
+
+\begin{frame}[fragile]{Đổi hình dạng mảng}
+\small
+Reshape thay đổi kích thước/chiều của mảng mà không thay đổi dữ liệu.
 \begin{lstlisting}[style=py]
 arr = np.arange(12)
 matrix = arr.reshape(3, 4)
 print(matrix)
+# [[ 0  1  2  3]
+#  [ 4  5  6  7]
+#  [ 8  9 10 11]]
 \end{lstlisting}
-\begin{block}{Dùng \texttt{-1}}
+Dùng \texttt{-1} để suy ra một chiều:
 \begin{lstlisting}[style=py]
 matrix = arr.reshape(2, -1)
 \end{lstlisting}
-NumPy tự suy ra chiều còn thiếu nếu tổng số phần tử phù hợp.
-\end{block}
-\begin{itemize}
-  \item \texttt{flatten()} thường trả về bản sao.
-  \item \texttt{ravel()} thường trả về view nếu có thể.
-\end{itemize}
+Làm phẳng mảng:
+\begin{lstlisting}[style=py]
+flat = ma trận.flatten()
+flat_view = ma trận.ravel()
+\end{lstlisting}
+\smallnote{\texttt{flatten()} trả về bản sao; \texttt{ravel()} thường trả về view nếu có thể.}
 \end{frame}
 
-\begin{frame}[fragile]{Resize, Stack và Split}
+\begin{frame}[fragile]{Thay đổi kích thước mảng}
 \small
-\begin{columns}[T]
-\column{0.50\linewidth}
-\begin{block}{Resize}
+\texttt{resize()} thay đổi shape và có thể thay đổi số phần tử.
 \begin{lstlisting}[style=py]
 arr = np.array([1, 2, 3, 4])
-np.resize(arr, (2, 3))
+resized = np.resize(arr, (2, 3))
+print(resized)
+# [[1 2 3]
+#  [4 1 2]]
 \end{lstlisting}
-\smallnote{Nếu kích thước mới lớn hơn, giá trị có thể được lặp lại.}
+\begin{block}{So sánh}
+\begin{itemize}
+  \item \texttt{reshape()} yêu cầu tổng số phần tử phải tương thích.
+  \item \texttt{resize()} có thể tạo tổng kích thước khác bằng cách lặp lại giá trị.
+\end{itemize}
 \end{block}
-\begin{block}{Stack}
+\end{frame}
+
+\begin{frame}[fragile]{Ghép mảng}
+\begin{columns}[T]
+\column{0.5\linewidth}
 \begin{lstlisting}[style=py]
+a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
+
 np.vstack((a, b))
+# [[1 2 3]
+#  [4 5 6]]
+\end{lstlisting}
+\column{0.5\linewidth}
+\begin{lstlisting}[style=py]
 np.hstack((a, b))
+# [1 2 3 4 5 6]
+
 np.stack((a, b), axis=0)
 \end{lstlisting}
+\end{columns}
+\begin{block}{Mục đích}
+Stacking ghép các mảng thành mảng lớn hơn theo một trục được chọn.
 \end{block}
-\column{0.45\linewidth}
-\begin{block}{Split}
+\end{frame}
+
+\begin{frame}[fragile]{Tách mảng}
+\small
+Splitting chia mảng thành các mảng nhỏ hơn.
 \begin{lstlisting}[style=py]
-arr = np.array([1,2,3,4,5,6])
+arr = np.array([1, 2, 3, 4, 5, 6])
 parts = np.split(arr, 3)
+print(parts)
+# [array([1, 2]), array([3, 4]), array([5, 6])]
 \end{lstlisting}
+Đối với mảng nhiều chiều:
 \begin{lstlisting}[style=py]
+matrix = np.array([
+    [1, 2, 3, 4],
+    [5, 6, 7, 8]
+])
+
 left, right = np.hsplit(matrix, 2)
 \end{lstlisting}
-\end{block}
-\end{columns}
 \end{frame}
 
-\begin{frame}{Quick Check: Reshape và Stack}
-\small
-\quiztitle{Câu 1.} Phương thức nào đổi hình dạng mảng?
-\begin{enumerate}[A.]
-  \item \texttt{reshape()}
-  \item \texttt{mean()}
-  \item \texttt{split()}
-  \item \texttt{sort\_index()}
-\end{enumerate}
-\vspace{0.5em}
-\quiztitle{Câu 2.} Hàm nào ghép mảng theo chiều dọc?
-\begin{enumerate}[A.]
-  \item \texttt{np.vstack()}
-  \item \texttt{np.mean()}
-  \item \texttt{np.split()}
-  \item \texttt{np.random()}
-\end{enumerate}
+\begin{frame}{Các lệnh chính: reshape, stack và split}
+\scriptsize
+\begin{tabular}{p{0.29\linewidth}p{0.60\linewidth}}
+\toprule
+\textbf{Lệnh} & \textbf{Ý nghĩa} \\
+\midrule
+\texttt{arr.reshape(r,c)} & Sắp xếp lại cùng các phần tử vào shape mới tương thích. \\
+\texttt{arr.reshape(...,-1)} & Yêu cầu NumPy tự suy ra một chiều. \\
+\texttt{arr.flatten()} & Trả về dạng phẳng 1-D \emph{copy}. \\
+\texttt{arr.ravel()} & Trả về view phẳng khi có thể. \\
+\texttt{np.resize(arr, shape)} & Thay đổi tổng kích thước nếu cần; giá trị có thể lặp lại. \\
+\texttt{np.vstack((a,b))} & Ghép mảng theo chiều dọc (hướng hàng). \\
+\texttt{np.hstack((a,b))} & Ghép mảng theo chiều ngang. \\
+\texttt{np.stack((a,b), axis=k)} & Thêm trục mới và ghép theo trục đó. \\
+\texttt{np.split(arr,n)} & Chia mảng thành \texttt{n} phần bằng nhau khi có thể. \\
+\texttt{np.hsplit(matrix,n)} & Chia ma trận theo chiều cột. \\
+\bottomrule
+\end{tabular}
 \end{frame}
 
-\section{Broadcasting và phép toán}
-
-\begin{frame}[fragile]{Broadcasting là gì?}
+\begin{frame}{Kiểm tra nhanh: reshaping và splitting}
 \small
-Broadcasting cho phép NumPy thực hiện phép toán giữa các mảng có hình dạng khác nhau nhưng tương thích.
-\begin{block}{Broadcasting với số vô hướng}
+\quiztitle{Câu 1.} Phương thức nào đổi mảng từ shape này sang shape khác?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \texttt{reshape()}
+  \item B. \texttt{mean()}
+  \item C. \texttt{split()}
+  \item D. \texttt{sort\_index()}
+\end{itemize}
+\end{multicols}
+\quiztitle{Câu 2.} Điều gì diễn ra khi \texttt{-1} nghĩa là gì trong \texttt{reshape()}?
+\begin{itemize}
+  \item A. NumPy nên tự suy ra chiều đó
+  \item B. Xóa một chiều
+  \item C. Đảo ngược mảng
+  \item D. Chuyển giá trị thành số âm
+\end{itemize}
+\quiztitle{Câu 3.} Hàm nào ghép mảng theo chiều dọc? \texttt{np.vstack()}, \texttt{np.mean()}, \texttt{np.split()}, or \texttt{np.random()}?
+\end{frame}
+
+\section{Broadcasting và số học}
+
+\begin{frame}[fragile]{Broadcasting: ý tưởng cốt lõi}
+\small
+Broadcasting cho phép NumPy thực hiện phép toán giữa các mảng có shape tương thích.
 \begin{lstlisting}[style=py]
 arr = np.array([1, 2, 3, 4])
 result = arr + 10
 print(result)
+# [11 12 13 14]
 \end{lstlisting}
-\texttt{[11 12 13 14]}
-\end{block}
 \begin{block}{Quy tắc cơ bản}
-So sánh từ chiều ngoài cùng bên phải. Hai chiều tương thích nếu chúng bằng nhau hoặc một trong hai bằng \texttt{1}.
+Bắt đầu từ các chiều ngoài cùng bên phải, hai chiều tương thích khi:
+\begin{itemize}
+  \item chúng bằng nhau; hoặc
+  \item một trong chúng là \texttt{1}.
+\end{itemize}
 \end{block}
 \end{frame}
 
@@ -610,39 +814,25 @@ matrix = np.array([
     [1, 2, 3],
     [4, 5, 6]
 ])
+
 row = np.array([10, 20, 30])
 result = matrix + row
 print(result)
+# [[11 22 33]
+#  [14 25 36]]
 \end{lstlisting}
-\begin{block}{Kết quả}
-\texttt{[[11 22 33]\ [14 25 36]]}
-\end{block}
-\begin{alertblock}{Lỗi hình dạng}
-Nếu hai mảng không tương thích, ví dụ \texttt{(2,3)} và \texttt{(2,2)}, NumPy phát sinh lỗi broadcasting.
+\begin{alertblock}{Shape không tương thích}
+\begin{lstlisting}[style=py]
+a = np.ones((2, 3))
+b = np.ones((2, 2))
+# a + b gây lỗi broadcasting
+\end{lstlisting}
 \end{alertblock}
 \end{frame}
 
-\begin{frame}{Quick Check: Broadcasting}
+\begin{frame}[fragile]{Các phép toán số học cơ bản}
 \small
-\quiztitle{Câu 1.} Broadcasting cho phép điều gì?
-\begin{enumerate}[A.]
-  \item Phép toán giữa các mảng có hình dạng khác nhau nhưng tương thích
-  \item Truyền dữ liệu tự động qua Internet
-  \item Chuyển mảng thành file
-  \item Xóa mọi chiều của mảng
-\end{enumerate}
-\vspace{0.5em}
-\quiztitle{Câu 2.} Hai chiều tương thích nếu bằng nhau hoặc:
-\begin{enumerate}[A.]
-  \item Một trong hai bằng 1
-  \item Cả hai đều âm
-  \item Cả hai là văn bản
-  \item Tổng của chúng bằng 0
-\end{enumerate}
-\end{frame}
-
-\begin{frame}[fragile]{Phép toán số học cơ bản}
-\small
+NumPy hỗ trợ số học theo từng phần tử.
 \begin{lstlisting}[style=py]
 a = np.array([1, 2, 3])
 b = np.array([4, 5, 6])
@@ -652,103 +842,219 @@ print(a - b)   # [-3 -3 -3]
 print(a * b)   # [ 4 10 18]
 print(a / b)
 print(a ** 2)  # [1 4 9]
+print(b % a)
 \end{lstlisting}
-\begin{alertblock}{Phân biệt quan trọng}
-Toán tử \texttt{*} là nhân theo từng phần tử, không phải nhân ma trận.
+\begin{block}{Phân biệt quan trọng}
+\texttt{\*} thực hiện nhân theo từng phần tử, không phải nhân ma trận.
+\end{block}
+\end{frame}
+
+\begin{frame}{Các lệnh chính: số học và broadcasting}
+\small
+\begin{tabular}{p{0.28\linewidth}p{0.61\linewidth}}
+\toprule
+\textbf{Biểu thức} & \textbf{Ý nghĩa} \\
+\midrule
+\texttt{a + b}, \texttt{a - b} & Cộng và trừ theo từng phần tử. \\
+\texttt{a * b} & Nhân theo từng phần tử. \\
+\texttt{a / b} & Chia theo từng phần tử. \\
+\texttt{a ** p} & Nâng mọi phần tử lên lũy thừa \texttt{p}. \\
+\texttt{a \% b} & Phần dư theo từng phần tử. \\
+\texttt{array + scalar} & Broadcast số vô hướng đến mọi phần tử. \\
+\texttt{matrix + row} & Broadcast một hàng 1-D tương thích qua các hàng của ma trận. \\
+\bottomrule
+\end{tabular}
+\begin{alertblock}{Kiểm tra shape trước}
+Broadcasting so sánh các chiều từ phải sang trái. Các chiều phải bằng nhau hoặc một trong chúng phải bằng 1.
 \end{alertblock}
 \end{frame}
 
-\begin{frame}[fragile]{Aggregation Functions}
+\begin{frame}{Kiểm tra nhanh: broadcasting và số học}
 \small
-\begin{columns}[T]
-\column{0.48\linewidth}
+\quiztitle{Câu 1.} Broadcasting cho phép điều gì?
+\begin{itemize}
+  \item A. Phép toán trên các mảng có shape khác nhau nhưng tương thích
+  \item B. Truyền dữ liệu tự động qua internet
+  \item C. Chuyển mảng thành tệp
+  \item D. Loại bỏ mọi chiều
+\end{itemize}
+\quiztitle{Câu 2.} Hai chiều tương thích broadcasting khi chúng bằng nhau hoặc:
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. Một trong chúng bằng 1
+  \item B. Cả hai đều âm
+  \item C. Cả hai là văn bản
+  \item D. Tổng của chúng bằng 0
+\end{itemize}
+\end{multicols}
+\quiztitle{Câu 3.} Điều gì diễn ra khi \texttt{a * b} làm gì với các mảng cùng shape?
+\end{frame}
+
+\section{Tổng hợp và universal functions}
+
+\begin{frame}[fragile]{Các hàm tổng hợp}
+\small
+Các hàm tổng hợp tóm tắt một mảng.
 \begin{lstlisting}[style=py]
 arr = np.array([9, 3, 3, 5])
-print(arr.sum())
-print(arr.mean())
+
+print(arr.sum())   # 20
+print(arr.mean())  # 5.0
 print(arr.min())
 print(arr.max())
 print(np.median(arr))
+print(np.var(arr))
+print(np.std(arr))
 \end{lstlisting}
-\column{0.48\linewidth}
+\begin{block}{Cách dùng điển hình}
+Aggregation biến mảng thô thành thống kê tóm tắt.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Tổng hợp theo trục}
+\small
 \begin{lstlisting}[style=py]
 matrix = np.array([
     [1, 2, 3],
     [4, 5, 6]
 ])
-print(matrix.sum(axis=0))
-print(matrix.sum(axis=1))
+
+print(ma trận.sum(axis=0))
+# [5 7 9]
+
+print(ma trận.sum(axis=1))
+# [ 6 15]
 \end{lstlisting}
-\end{columns}
 \begin{itemize}
-  \item \texttt{axis=0}: tổng hợp theo hàng, trả kết quả theo cột.
-  \item \texttt{axis=1}: tổng hợp theo cột, trả kết quả theo hàng.
+  \item \texttt{axis=0}: tổng hợp theo chiều hàng, tạo kết quả theo cột.
+  \item \texttt{axis=1}: tổng hợp theo chiều cột, tạo kết quả theo hàng.
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Quick Check: Phép toán và aggregation}
+\begin{frame}[fragile]{Universal functions}
 \small
-\quiztitle{Câu 1.} \texttt{a * b} làm gì với hai mảng cùng hình dạng?
-\begin{enumerate}[A.]
-  \item Nhân theo từng phần tử
-  \item Nghịch đảo ma trận
-  \item Sắp xếp
-  \item Ghép mảng
-\end{enumerate}
-\vspace{0.5em}
-\quiztitle{Câu 2.} Hàm nào tính trung bình số học?
-\begin{enumerate}[A.]
-  \item \texttt{np.mean()}
-  \item \texttt{np.stack()}
-  \item \texttt{np.dot()}
-  \item \texttt{np.reshape()}
-\end{enumerate}
-\end{frame}
-
-\section{Ufuncs, Boolean, Linear Algebra}
-
-\begin{frame}[fragile]{Universal Functions}
-\small
-\key{Universal function} hay \key{ufunc} thực hiện phép toán theo từng phần tử trên mảng.
+Universal function, hay \key{ufunc}, thực hiện phép toán theo từng phần tử trên mảng.
 \begin{columns}[T]
 \column{0.48\linewidth}
 \begin{lstlisting}[style=py]
 arr = np.array([1, 4, 9, 16])
 print(np.sqrt(arr))
+# [1. 2. 3. 4.]
+
 print(np.exp(np.array([0, 1, 2])))
 \end{lstlisting}
 \column{0.48\linewidth}
 \begin{lstlisting}[style=py]
-values = np.array([-3, -1, 2, 4])
-print(np.abs(values))
-print(np.round([1.234, 5.678], 2))
+values = np.array([1, np.e, np.e**2])
+print(np.log(values))
+
+angles = np.array([0, np.pi / 2, np.pi])
+print(np.sin(angles))
 \end{lstlisting}
 \end{columns}
-\begin{block}{Ví dụ khác}
-\texttt{np.log()}, \texttt{np.sin()}, \texttt{np.cos()}, \texttt{np.tan()}.
-\end{block}
+\vspace{0.4em}
+Các ví dụ khác: \texttt{np.abs()}, \texttt{np.round()}.
 \end{frame}
+
+\begin{frame}{Các lệnh chính: tổng hợp và universal functions}
+\scriptsize
+\begin{tabular}{p{0.29\linewidth}p{0.60\linewidth}}
+\toprule
+\textbf{Lệnh} & \textbf{Ý nghĩa} \\
+\midrule
+\texttt{arr.sum()}, \texttt{arr.mean()} & Tổng và trung bình số học. \\
+\texttt{arr.min()}, \texttt{arr.max()} & Giá trị nhỏ nhất và lớn nhất. \\
+\texttt{np.median(arr)} & Trung vị. \\
+\texttt{np.var(arr)}, \texttt{np.std(arr)} & Phương sai và độ lệch chuẩn. \\
+\texttt{func(..., axis=0)} & Tổng hợp theo chiều hàng, tạo một kết quả cho mỗi cột. \\
+\texttt{func(..., axis=1)} & Tổng hợp theo chiều cột, tạo một kết quả cho mỗi hàng. \\
+\texttt{np.sqrt(arr)} & Căn bậc hai theo từng phần tử. \\
+\texttt{np.exp(arr)}, \texttt{np.log(arr)} & Hàm mũ và log tự nhiên theo từng phần tử. \\
+\texttt{np.sin(arr)} & Hàm sin theo từng phần tử; góc tính bằng radian. \\
+\texttt{np.abs(arr)}, \texttt{np.round(arr)} & Giá trị tuyệt đối và làm tròn. \\
+\bottomrule
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Kiểm tra nhanh: tổng hợp và ufunc}
+\small
+\quiztitle{Câu 1.} Hàm nào tính trung bình số học?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \texttt{np.mean()}
+  \item B. \texttt{np.stack()}
+  \item C. \texttt{np.dot()}
+  \item D. \texttt{np.reshape()}
+\end{itemize}
+\end{multicols}
+\quiztitle{Câu 2.} Trong mảng hai chiều, \texttt{axis=0} thường tổng hợp theo chiều nào?
+\begin{itemize}
+  \item A. Theo hàng, tạo kết quả theo cột
+  \item B. Theo cột, tạo kết quả theo hàng
+  \item C. Tên tệp
+  \item D. Kiểu dữ liệu
+\end{itemize}
+\quiztitle{Câu 3.} Hàm nào tính căn bậc hai theo từng phần tử?
+\end{frame}
+
+\section{Toán tử Boolean}
 
 \begin{frame}[fragile]{So sánh và lọc Boolean}
 \small
+NumPy hỗ trợ so sánh theo từng phần tử.
 \begin{lstlisting}[style=py]
 arr = np.array([10, 20, 30, 40])
 print(arr > 20)
+# [False False  True  True]
+
 selected = arr[arr > 20]
 print(selected)
+# [30 40]
 \end{lstlisting}
+Kết hợp điều kiện:
 \begin{lstlisting}[style=py]
 selected = arr[(arr >= 20) & (arr <= 30)]
 print(selected)
+# [20 30]
 \end{lstlisting}
-\begin{itemize}
-  \item \texttt{\&}: AND theo từng phần tử.
-  \item \texttt{|}: OR theo từng phần tử.
-  \item \texttt{\textasciitilde}: NOT theo từng phần tử.
-\end{itemize}
+Dùng \texttt{\&} cho AND, \texttt{|} cho OR và \texttt{\textasciitilde} cho NOT.
 \end{frame}
 
-\begin{frame}[fragile]{Đại số tuyến tính trong NumPy}
+\begin{frame}{Các lệnh chính: toán tử Boolean}
+\small
+\begin{tabular}{p{0.31\linewidth}p{0.58\linewidth}}
+\toprule
+\textbf{Biểu thức} & \textbf{Ý nghĩa} \\
+\midrule
+\texttt{arr > value} & Tạo mảng Boolean từ phép so sánh theo từng phần tử. \\
+\texttt{arr[arr > value]} & Lọc và chỉ trả về các giá trị thỏa điều kiện. \\
+\texttt{(cond1) \& (cond2)} & AND logic theo từng phần tử. \\
+\texttt{(cond1) | (cond2)} & OR logic theo từng phần tử. \\
+\texttt{\textasciitilde mask} & NOT logic theo từng phần tử. \\
+\texttt{np.where(cond,a,b)} & Chọn \texttt{a} nơi điều kiện đúng và \texttt{b} trong trường hợp ngược lại. \\
+\bottomrule
+\end{tabular}
+\begin{block}{Cú pháp quan trọng}
+Dùng dấu ngoặc quanh các phép so sánh kết hợp vì \texttt{\&} and \texttt{|} có độ ưu tiên khác với toán tử so sánh.
+\end{block}
+\end{frame}
+
+\begin{frame}{Kiểm tra nhanh: toán tử Boolean}
+\small
+\quiztitle{Câu 1.} Điều gì diễn ra khi \texttt{arr[arr > 20]} trả về gì?
+\begin{itemize}
+  \item A. Các phần tử lớn hơn 20
+  \item B. Kích thước mảng
+  \item C. Kiểu dữ liệu của mảng
+  \item D. Tất cả phần tử được chuyển thành giá trị Boolean
+\end{itemize}
+\vspace{0.8em}
+\quiztitle{Thảo luận.} Vì sao lọc Boolean hữu ích trong phân tích dữ liệu?
+\end{frame}
+
+\section{Đại số tuyến tính}
+
+\begin{frame}[fragile]{Nhân ma trận}
 \small
 \begin{lstlisting}[style=py]
 A = np.array([
@@ -756,94 +1062,172 @@ A = np.array([
     [3, 4]
 ])
 
-print(np.dot(A, A))
-print(A @ A)
-print(A.T)
-print(np.linalg.det(A))
-print(np.linalg.inv(A))
+result = np.dot(A, A)
+print(result)
+# [[ 7 10]
+#  [15 22]]
+
+result = A @ A
 \end{lstlisting}
-\begin{block}{Ghi nhớ}
-\texttt{A * A} là nhân theo từng phần tử; \texttt{A @ A} là nhân ma trận.
+\begin{block}{Nhân theo từng phần tử và nhân ma trận}
+\begin{itemize}
+  \item \texttt{A \* A}: nhân theo từng phần tử.
+  \item \texttt{A @ A}: nhân ma trận.
+\end{itemize}
 \end{block}
 \end{frame}
 
-\begin{frame}[fragile]{Giải hệ tuyến tính và trị riêng}
+\begin{frame}[fragile]{Các phép toán ma trận}
 \small
 \begin{columns}[T]
 \column{0.48\linewidth}
-\begin{block}{Giải hệ \(Ax=b\)}
 \begin{lstlisting}[style=py]
-A = np.array([[2, 1], [1, 3]])
+print(A.T)
+
+determinant = np.linalg.det(A)
+print(determinant)
+
+inverse = np.linalg.inv(A)
+print(inverse)
+\end{lstlisting}
+\column{0.48\linewidth}
+\begin{lstlisting}[style=py]
+A = np.array([
+    [2, 1],
+    [1, 3]
+])
+
 b = np.array([8, 13])
-x = np.linalg.solve(A, b)
+x = np.linalg.giải(A, b)
 print(x)
 \end{lstlisting}
+\end{columns}
+\begin{block}{Điều kiện}
+Nghịch đảo chỉ tồn tại với ma trận vuông không suy biến.
 \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Trị riêng và tích vectơ}
+\small
+\begin{columns}[T]
 \column{0.48\linewidth}
-\begin{block}{Trị riêng và vector riêng}
 \begin{lstlisting}[style=py]
 eigenvalues, eigenvectors = np.linalg.eig(A)
+
 print(eigenvalues)
 print(eigenvectors)
 \end{lstlisting}
-\end{block}
+\column{0.48\linewidth}
+\begin{lstlisting}[style=py]
+a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
+
+print(np.inner(a, b))
+print(np.outer(a, b))
+print(np.dot(a, b))
+print(np.vdot(a, b))
+\end{lstlisting}
 \end{columns}
-\begin{itemize}
-  \item \texttt{np.inner()} và \texttt{np.outer()} cho tích trong và tích ngoài.
-  \item \texttt{np.vdot()} xử lý liên hợp phức.
-\end{itemize}
+\smallnote{Với mảng một chiều thực, \texttt{dot} and \texttt{vdot} thường giống nhau. \texttt{vdot} cũng xử lý liên hợp phức.}
 \end{frame}
 
-\begin{frame}{Quick Check: Ufuncs và Linear Algebra}
+\begin{frame}{Các lệnh chính: đại số tuyến tính}
+\scriptsize
+\begin{tabular}{p{0.29\linewidth}p{0.60\linewidth}}
+\toprule
+\textbf{Lệnh} & \textbf{Ý nghĩa} \\
+\midrule
+\texttt{A @ B} & Nhân ma trận; cú pháp dễ đọc được ưu tiên. \\
+\texttt{np.dot(A,B)} & Tích vô hướng / tích ma trận tùy theo số chiều. \\
+\texttt{A.T} & Chuyển vị mảng. \\
+\texttt{np.linalg.det(A)} & Tính định thức của ma trận vuông. \\
+\texttt{np.linalg.inv(A)} & Tính nghịch đảo của ma trận vuông không suy biến. \\
+\texttt{np.linalg.giải(A,b)} & Solve \(Ax=b\) trực tiếp; thường tốt hơn việc tính \(A^{-1}b\). \\
+\texttt{np.linalg.eig(A)} & Trả về trị riêng và vectơ riêng. \\
+\texttt{np.inner(a,b)} & Tích trong. \\
+\texttt{np.outer(a,b)} & Tích ngoài. \\
+\texttt{np.vdot(a,b)} & Tích vô hướng vectơ có liên hợp phức khi cần. \\
+\bottomrule
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Kiểm tra nhanh: đại số tuyến tính}
 \small
-\quiztitle{Câu 1.} Hàm nào tính căn bậc hai theo từng phần tử?
-\begin{enumerate}[A.]
-  \item \texttt{np.sqrt()}
-  \item \texttt{np.split()}
-  \item \texttt{np.stack()}
-  \item \texttt{np.size()}
-\end{enumerate}
-\vspace{0.5em}
-\quiztitle{Câu 2.} Toán tử nào thực hiện nhân ma trận?
-\begin{enumerate}[A.]
-  \item \texttt{@}
-  \item \texttt{\%}
-  \item \texttt{//}
-  \item \texttt{\&}
-\end{enumerate}
+\quiztitle{Câu 1.} Toán tử nào thực hiện nhân ma trận?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \texttt{@}
+  \item B. \texttt{\%}
+  \item C. \texttt{//}
+  \item D. \texttt{\&}
+\end{itemize}
+\end{multicols}
+\quiztitle{Câu 2.} Hàm nào tính nghịch đảo ma trận?
+\begin{itemize}
+  \item A. \texttt{np.linalg.inv()}
+  \item B. \texttt{np.mean()}
+  \item C. \texttt{np.resize()}
+  \item D. \texttt{np.random()}
+\end{itemize}
+\quiztitle{Câu 3.} Giải thích sự khác nhau giữa \texttt{A * B} and \texttt{A @ B}.
 \end{frame}
 
-\section{Random, Statistics, Missing Values}
+\section{Số ngẫu nhiên và thống kê}
 
 \begin{frame}[fragile]{Sinh số ngẫu nhiên}
 \small
-Trong mã mới, nên dùng bộ sinh số ngẫu nhiên hiện đại:
+Với mã mới, NumPy thường dùng một đối tượng sinh số ngẫu nhiên.
 \begin{lstlisting}[style=py]
-rng = np.random.default_rng(42)
+rng = np.random.default_rng()
 \end{lstlisting}
 \begin{columns}[T]
 \column{0.48\linewidth}
 \begin{lstlisting}[style=py]
-rng.integers(1, 10, size=5)
-rng.uniform(0, 1, size=5)
-rng.normal(0, 1, size=5)
+rng = np.random.default_rng(42)
+values = rng.integers(
+    low=1,
+    high=10,
+    size=5
+)
+print(values)
 \end{lstlisting}
 \column{0.48\linewidth}
 \begin{lstlisting}[style=py]
+values = rng.normal(
+    loc=0,
+    scale=1,
+    size=5
+)
+print(values)
+\end{lstlisting}
+\end{columns}
+\begin{alertblock}{Lưu ý}
+Bộ sinh số ngẫu nhiên của NumPy dùng cho tính toán số và thống kê; không nên xem là bộ sinh bảo mật mật mã.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{Các phân phối thường dùng}
+\small
+\begin{lstlisting}[style=py]
+rng = np.random.default_rng(42)
+
+rng.uniform(low=0, high=1, size=5)
+rng.normal(loc=0, scale=1, size=5)
 rng.binomial(n=10, p=0.5, size=5)
 rng.poisson(lam=3, size=5)
 rng.exponential(scale=2, size=5)
+rng.chisquare(df=4, size=5)
 \end{lstlisting}
-\end{columns}
-\begin{alertblock}{Seed}
-Dùng cùng seed giúp tái lập chuỗi giả ngẫu nhiên trong môi trường tương thích.
-\end{alertblock}
+\begin{block}{Tính tái lập}
+Dùng cùng seed giúp tái tạo cùng chuỗi giả ngẫu nhiên trong môi trường tương thích.
+\end{block}
 \end{frame}
 
 \begin{frame}[fragile]{Các hàm thống kê}
 \small
 \begin{lstlisting}[style=py]
 data = np.array([12, 15, 18, 20, 25])
+
 print(np.mean(data))
 print(np.median(data))
 print(np.var(data))
@@ -851,104 +1235,191 @@ print(np.std(data))
 print(np.percentile(data, 25))
 print(np.quantile(data, 0.75))
 \end{lstlisting}
-\begin{block}{Tổng thể và mẫu}
-Theo mặc định, \texttt{np.var()} và \texttt{np.std()} dùng \texttt{ddof=0}. Với quy ước mẫu chia cho \(N-1\), dùng \texttt{ddof=1}.
+\begin{block}{Quy ước tổng thể và mẫu}
+Mặc định, \texttt{np.var()} and \texttt{np.std()} use \texttt{ddof=0}. Với quy ước mẫu thường dùng, hãy dùng \texttt{ddof=1}.
 \end{block}
 \end{frame}
 
-\begin{frame}[fragile]{Giá trị thiếu và \texttt{NaN}}
+\begin{frame}[fragile]{Giá trị số bị thiếu}
 \small
 NumPy thường biểu diễn giá trị số bị thiếu bằng \texttt{np.nan}.
 \begin{lstlisting}[style=py]
 data = np.array([10.0, 20.0, np.nan, 40.0])
-print(np.mean(data))      # nan
+print(np.mean(data))
+# nan
+
 print(np.nanmean(data))
 print(np.nanmedian(data))
+print(np.nanstd(data))
+
 print(np.isnan(data))
 clean_data = data[~np.isnan(data)]
 \end{lstlisting}
-\begin{block}{Lưu ý}
-NumPy hỗ trợ xử lý thiếu cơ bản. Quy trình dữ liệu bảng phức tạp thường dùng Pandas.
-\end{block}
+\smallnote{Các quy trình xử lý dữ liệu thiếu đầy đủ hơn thường được thực hiện bằng Pandas.}
 \end{frame}
 
-\begin{frame}{Quick Check: Random và Statistics}
-\small
-\quiztitle{Câu 1.} Phương thức nào tạo bộ sinh số ngẫu nhiên hiện đại?
-\begin{enumerate}[A.]
-  \item \texttt{np.random.default\_rng()}
-  \item \texttt{np.random.file()}
-  \item \texttt{np.create\_random\_array()}
-  \item \texttt{np.random.text()}
-\end{enumerate}
-\vspace{0.5em}
-\quiztitle{Câu 2.} Hàm nào tính trung bình nhưng bỏ qua \texttt{NaN}?
-\begin{enumerate}[A.]
-  \item \texttt{np.nanmean()}
-  \item \texttt{np.mean\_text()}
-  \item \texttt{np.ignore()}
-  \item \texttt{np.dropna()}
-\end{enumerate}
+\begin{frame}{Các lệnh chính: số ngẫu nhiên và thống kê}
+\scriptsize
+\begin{tabular}{p{0.32\linewidth}p{0.57\linewidth}}
+\toprule
+\textbf{Lệnh} & \textbf{Ý nghĩa} \\
+\midrule
+\texttt{np.random.default\_rng(seed)} & Tạo bộ sinh số ngẫu nhiên hiện đại; seed hỗ trợ tái lập. \\
+\texttt{rng.integers(low,high,size)} & Sinh số nguyên ngẫu nhiên; \texttt{high} không được lấy. \\
+\texttt{rng.uniform(...)} & Lấy mẫu từ phân phối đều. \\
+\texttt{rng.normal(loc,scale,size)} & Lấy mẫu từ phân phối chuẩn với trung bình \texttt{loc} and độ lệch chuẩn \texttt{scale}. \\
+\texttt{rng.binomial(...)} / \texttt{poisson(...)} & Lấy mẫu từ các phân phối rời rạc phổ biến. \\
+\texttt{np.percentile(data,q)} & Trả về percentile \texttt{q} trên thang 0--100. \\
+\texttt{np.quantile(data,q)} & Trả về quantile \texttt{q} trên thang 0--1. \\
+\texttt{np.std(data,ddof=1)} & Quy ước độ lệch chuẩn mẫu. \\
+\texttt{np.isnan(data)} & Xác định \texttt{NaN} giá trị. \\
+\texttt{np.nanmean(data)} & Trung bình khi bỏ qua \texttt{NaN}. \\
+\bottomrule
+\end{tabular}
 \end{frame}
 
-\section{Hiệu năng, Memory, Integration}
-
-\begin{frame}[fragile]{Vectorization và hiệu năng}
+\begin{frame}{Kiểm tra nhanh: số ngẫu nhiên và thống kê}
 \small
-Vector hóa áp dụng một phép toán lên toàn bộ mảng cùng lúc.
+\quiztitle{Câu 1.} Phương thức nào tạo bộ sinh số ngẫu nhiên hiện đại của NumPy?
+\begin{itemize}
+  \item A. \texttt{np.random.default\_rng()}
+  \item B. \texttt{np.random.file()}
+  \item C. \texttt{np.create\_random\_array()}
+  \item D. \texttt{np.random.text()}
+\end{itemize}
+\quiztitle{Câu 2.} Vì sao seed hữu ích?
+\begin{itemize}
+  \item A. Nó giúp tái tạo chuỗi giả ngẫu nhiên
+  \item B. Nó làm cho giá trị thực sự không thể dự đoán
+  \item C. Nó loại bỏ mọi giá trị ngẫu nhiên
+  \item D. Nó chuyển dữ liệu thành chuỗi
+\end{itemize}
+\quiztitle{Câu 3.} Tham số nào cho quy ước độ lệch chuẩn mẫu thường dùng? \texttt{ddof=1}, \texttt{axis=-100}, \texttt{dtype="sample"}, or \texttt{copy=False}?
+\end{frame}
+
+\section{Vector hóa và hiệu năng}
+
+\begin{frame}[fragile]{Các phép toán vector hóa}
+\small
+Vectorization áp dụng phép toán lên toàn bộ mảng cùng lúc.
+\begin{columns}[T]
+\column{0.48\linewidth}
 \begin{lstlisting}[style=py]
 a = np.arange(5)
 result = a * 10
 print(result)
+# [ 0 10 20 30 40]
 \end{lstlisting}
-\begin{block}{Ưu điểm}
-\begin{itemize}
-  \item Mã ngắn hơn và dễ đọc hơn.
-  \item Nhanh hơn với mảng số lớn.
-  \item Phù hợp với phân tích dữ liệu và tính toán khoa học.
-\end{itemize}
-\end{block}
+\column{0.48\linewidth}
 \begin{lstlisting}[style=py]
-labels = np.where(arr >= 30, "high", "low")
+a = list(range(5))
+result = []
+for value in a:
+    result.append(value * 10)
+print(result)
 \end{lstlisting}
+\end{columns}
+\begin{block}{Lợi ích điển hình}
+Mã ngắn hơn, dễ đọc hơn, nhanh hơn với mảng số lớn và phù hợp hơn với quy trình khoa học.
+\end{block}
 \end{frame}
 
-\begin{frame}[fragile]{Bộ nhớ và kiểu dữ liệu}
+\begin{frame}[fragile]{Logic điều kiện vector hóa}
 \small
+\begin{lstlisting}[style=py]
+arr = np.array([10, 20, 30, 40])
+
+labels = np.where(
+    arr >= 30,
+    "high",
+    "low"
+)
+
+print(labels)
+# ['low' 'low' 'high' 'high']
+\end{lstlisting}
+\begin{block}{Diễn giải}
+Điều kiện vector hóa hữu ích cho gán nhãn, sàng lọc, lọc và biến đổi dữ liệu.
+\end{block}
+\end{frame}
+
+\begin{frame}{Các lệnh chính: vector hóa}
+\small
+\begin{tabular}{p{0.30\linewidth}p{0.59\linewidth}}
+\toprule
+\textbf{Mẫu lệnh} & \textbf{Ý nghĩa} \\
+\midrule
+\texttt{arr * scalar} & Áp dụng phép toán số học cho mọi phần tử mà không cần vòng lặp Python tường minh. \\
+\texttt{np.sqrt(arr)} & Áp dụng ufunc theo từng phần tử trong mã NumPy đã tối ưu. \\
+\texttt{arr >= threshold} & Đánh giá điều kiện cho toàn mảng cùng lúc. \\
+\texttt{np.where(cond,a,b)} & Biến đổi điều kiện theo kiểu vector hóa. \\
+\bottomrule
+\end{tabular}
+\begin{block}{Ý tưởng cốt lõi}
+Vectorization mô tả \emph{cách ta biểu diễn tính toán}: phép toán được viết cho mảng thay vì lặp thủ công qua từng phần tử.
+\end{block}
+\end{frame}
+
+\begin{frame}{Kiểm tra nhanh: vector hóa}
+\small
+\quiztitle{Câu 1.} Ưu điểm chính của vector hóa là gì?
+\begin{itemize}
+  \item A. Nó áp dụng phép toán mảng mà không cần vòng lặp Python tường minh
+  \item B. Nó chuyển mọi mảng thành văn bản
+  \item C. Nó loại bỏ nhu cầu dùng bộ nhớ
+  \item D. Nó ngăn mọi lỗi
+\end{itemize}
+\vspace{0.8em}
+\quiztitle{Thảo luận.} Khi nào mã vector hóa dễ bảo trì hơn mã dựa trên vòng lặp?
+\end{frame}
+
+\section{Bộ nhớ, sắp xếp, ảnh}
+
+\begin{frame}[fragile]{Lưu ý về bộ nhớ}
+\small
+Mảng NumPy thường lưu giá trị đồng nhất trong bố cục bộ nhớ đều đặn.
 \begin{lstlisting}[style=py]
 arr = np.array([1, 2, 3, 4], dtype=np.int32)
 print(arr.nbytes)
-\end{lstlisting}
-\begin{lstlisting}[style=py]
+
 small_values = np.array([1, 2, 3, 4], dtype=np.int8)
-print(small_values.dtype)
-print(small_values.nbytes)
+print(small_giá trị.dtype)
+print(small_giá trị.nbytes)
 \end{lstlisting}
+\begin{block}{Lựa chọn kiểu dữ liệu}
+Kiểu dữ liệu nhỏ hơn có thể giảm bộ nhớ, nhưng phải biểu diễn được miền giá trị và độ chính xác cần thiết.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Chuyển đổi kiểu dữ liệu}
+\small
 \begin{lstlisting}[style=py]
 arr = np.array([1.2, 2.8, 3.5])
 integers = arr.astype(np.int32)
 print(integers)
+# [1 2 3]
 \end{lstlisting}
-\begin{alertblock}{Lưu ý}
-Chọn kiểu dữ liệu nhỏ giúp tiết kiệm bộ nhớ nhưng phải đủ phạm vi và độ chính xác.
+\begin{alertblock}{Quan trọng}
+Chuyển số thực sang số nguyên sẽ loại bỏ phần thập phân.
 \end{alertblock}
 \end{frame}
 
-\begin{frame}[fragile]{Sắp xếp, tìm kiếm và giá trị duy nhất}
+\begin{frame}[fragile]{Sắp xếp và tìm kiếm}
 \small
 \begin{lstlisting}[style=py]
 arr = np.array([9, 3, 7, 1])
 sorted_arr = np.sort(arr)
 print(sorted_arr)
-\end{lstlisting}
-\begin{lstlisting}[style=py]
+# [1 3 7 9]
+
 arr = np.array([10, 20, 30, 40])
 indices = np.where(arr > 20)
 print(indices)
-\end{lstlisting}
-\begin{lstlisting}[style=py]
+
 arr = np.array([1, 2, 2, 3, 3, 3])
 values, counts = np.unique(arr, return_counts=True)
+print(values)
+print(counts)
 \end{lstlisting}
 \end{frame}
 
@@ -957,7 +1428,7 @@ values, counts = np.unique(arr, return_counts=True)
 Ảnh số có thể được biểu diễn bằng mảng NumPy.
 \begin{itemize}
   \item Ảnh xám: mảng hai chiều.
-  \item Ảnh màu: mảng ba chiều gồm chiều cao, chiều rộng và kênh màu.
+  \item Ảnh màu: mảng ba chiều chứa chiều cao, chiều rộng và kênh màu.
 \end{itemize}
 \begin{lstlisting}[style=py]
 image = np.array([
@@ -966,157 +1437,267 @@ image = np.array([
     [50, 100, 150]
 ])
 print(image.shape)
+# (3, 3)
+
 brighter = np.clip(image + 30, 0, 255)
 \end{lstlisting}
+\smallnote{\texttt{np.clip()} giữ các giá trị trong khoảng hợp lệ.}
 \end{frame}
 
-\begin{frame}[fragile]{Tích hợp với Pandas và Scikit-learn}
+\begin{frame}{Các lệnh chính: bộ nhớ, kiểu dữ liệu, sắp xếp và tìm kiếm}
+\scriptsize
+\begin{tabular}{p{0.30\linewidth}p{0.59\linewidth}}
+\toprule
+\textbf{Lệnh} & \textbf{Ý nghĩa} \\
+\midrule
+\texttt{arr.nbytes} & Tổng bộ nhớ dùng bởi phần tử mảng. \\
+\texttt{arr.astype(dtype)} & Chuyển giá trị mảng sang kiểu dữ liệu mới. \\
+\texttt{np.sort(arr)} & Trả về giá trị đã sắp xếp. \\
+\texttt{np.where(condition)} & Trả về chỉ số thỏa điều kiện khi chỉ cung cấp điều kiện. \\
+\texttt{np.unique(arr)} & Trả về giá trị duy nhất. \\
+\texttt{np.unique(arr, return\_counts=True)} & Trả về giá trị duy nhất và tần suất. \\
+\texttt{np.clip(arr,low,high)} & Giới hạn mọi giá trị trong khoảng chỉ định; hữu ích cho cường độ ảnh. \\
+\bottomrule
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Kiểm tra nhanh: bộ nhớ, tìm kiếm, ảnh}
 \small
-\begin{columns}[T]
-\column{0.48\linewidth}
-\begin{block}{Pandas}
+\quiztitle{Câu 1.} Thuộc tính nào trả về số byte dùng bởi phần tử mảng?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \texttt{nbytes}
+  \item B. \texttt{ndim}
+  \item C. \texttt{mean}
+  \item D. \texttt{shape}
+\end{itemize}
+\end{multicols}
+\quiztitle{Câu 2.} Hàm nào trả về các giá trị duy nhất của mảng?
+\begin{itemize}
+  \item A. \texttt{np.unique()}
+  \item B. \texttt{np.reshape()}
+  \item C. \texttt{np.random()}
+  \item D. \texttt{np.outer()}
+\end{itemize}
+\quiztitle{Câu 3.} Ảnh xám thường được biểu diễn bằng loại mảng nào?
+\end{frame}
+
+\section{Tích hợp và lỗi}
+
+\begin{frame}[fragile]{Tích hợp với Pandas}
+\small
+Một Pandas \texttt{Series} or \texttt{DataFrame} có thể trao đổi dữ liệu với NumPy.
 \begin{lstlisting}[style=py]
-arr = np.array([[1, 2], [3, 4]])
+import numpy as np
+import pandas as pd
+
+arr = np.array([
+    [1, 2],
+    [3, 4],
+    [5, 6]
+])
+
 df = pd.DataFrame(arr, columns=["A", "B"])
 array_from_df = df.to_numpy()
+
 df["A_sqrt"] = np.sqrt(df["A"])
 \end{lstlisting}
-\end{block}
-\column{0.48\linewidth}
-\begin{block}{Scikit-learn}
+\end{frame}
+
+\begin{frame}[fragile]{Tích hợp với Scikit-learn}
+\small
+Nhiều mô hình Scikit-learn chấp nhận mảng NumPy làm đầu vào.
 \begin{lstlisting}[style=py]
+from sklearn.linear_model import LinearRegression
+
 X = np.array([[1], [2], [3], [4]])
 y = np.array([2, 4, 6, 8])
+
 model = LinearRegression()
 model.fit(X, y)
-model.predict(np.array([[5]]))
+
+prediction = model.predict(np.array([[5]]))
+print(prediction)
 \end{lstlisting}
-\end{block}
-\end{columns}
+NumPy hỗ trợ ma trận đặc trưng, vectơ mục tiêu, dự đoán mô hình, tiền xử lý số và phép tính đánh giá.
 \end{frame}
-
-\begin{frame}{Quick Check: Hiệu năng và tích hợp}
-\small
-\quiztitle{Câu 1.} Ưu điểm chính của vector hóa là gì?
-\begin{enumerate}[A.]
-  \item Áp dụng phép toán lên mảng mà không cần vòng lặp Python tường minh
-  \item Chuyển mọi mảng thành văn bản
-  \item Loại bỏ nhu cầu bộ nhớ
-  \item Ngăn chặn mọi lỗi
-\end{enumerate}
-\vspace{0.5em}
-\quiztitle{Câu 2.} Trong học máy, mảng NumPy hai chiều thường biểu diễn:
-\begin{enumerate}[A.]
-  \item Ma trận đặc trưng
-  \item Tên file
-  \item Tiêu đề biểu đồ
-  \item Trình cài đặt gói
-\end{enumerate}
-\end{frame}
-
-\section{Lỗi thường gặp và thực hành tốt}
 
 \begin{frame}[fragile]{Các lỗi NumPy thường gặp}
 \small
-\begin{block}{Không khớp hình dạng}
+\begin{columns}[T]
+\column{0.48\linewidth}
+\textbf{Shape không khớp}
 \begin{lstlisting}[style=py]
 a = np.ones((2, 3))
 b = np.ones((2, 2))
 # a + b raises an error
 \end{lstlisting}
-\end{block}
-\begin{block}{Reshape không hợp lệ}
+\textbf{Reshape không hợp lệ}
 \begin{lstlisting}[style=py]
 arr = np.arange(10)
 # arr.reshape(3, 4) raises an error
 \end{lstlisting}
-\end{block}
-\begin{itemize}
-  \item Chia cho 0 có thể tạo \texttt{inf}.
-  \item Kiểu số nguyên nhỏ có thể bị tràn.
-  \item View có thể làm thay đổi mảng gốc ngoài ý muốn.
-\end{itemize}
+\column{0.48\linewidth}
+\textbf{Chia cho 0}
+\begin{lstlisting}[style=py]
+arr = np.array([1.0, 0.0])
+print(1 / arr)
+\end{lstlisting}
+\textbf{Tràn số nguyên}
+\begin{lstlisting}[style=py]
+arr = np.array([127], dtype=np.int8)
+print(arr + 1)
+\end{lstlisting}
+\end{columns}
 \end{frame}
 
-\begin{frame}{Thực hành tốt khi dùng NumPy}
+\begin{frame}{Thực hành tốt}
 \small
 \begin{itemize}
   \item Import NumPy bằng \texttt{import numpy as np}.
-  \item Ưu tiên vector hóa thay vì vòng lặp khi phù hợp.
-  \item Kiểm tra \texttt{shape}, \texttt{ndim}, và \texttt{dtype} trước phép toán phức tạp.
-  \item Chỉ dùng broadcasting khi hiểu rõ hành vi hình dạng.
-  \item Phân biệt \texttt{*} và \texttt{@}.
+  \item Dùng phép toán vector hóa thay cho vòng lặp Python khi phù hợp.
+  \item Check \texttt{shape}, \texttt{ndim}, and \texttt{dtype} trước các phép toán phức tạp.
+  \item Chỉ dùng broadcasting khi hành vi shape mong muốn đã rõ.
+  \item Phân biệt nhân theo phần tử với nhân ma trận.
   \item Dùng \texttt{.copy()} khi cần mảng độc lập.
-  \item Chọn \texttt{dtype} phù hợp với phạm vi, độ chính xác và bộ nhớ.
-  \item Dùng seed cố định khi cần tái lập kết quả.
-  \item Xử lý rõ \texttt{NaN}, \texttt{inf} và tràn số.
+  \item Chọn kiểu dữ liệu cẩn thận để cân bằng miền giá trị, độ chính xác và bộ nhớ.
+  \item Dùng seed cố định khi tính tái lập quan trọng.
+  \item Treat \texttt{NaN}, vô cực và tràn số một cách tường minh.
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Tóm tắt nội dung}
+\begin{frame}{Các lệnh chính: tích hợp với công cụ khoa học dữ liệu}
 \small
-\begin{center}
-\begin{tabular}{p{0.28\linewidth}p{0.58\linewidth}}
+\begin{tabular}{p{0.32\linewidth}p{0.57\linewidth}}
 \toprule
-Nội dung & Ý chính \\
+\textbf{Lệnh} & \textbf{Vai trò} \\
 \midrule
-NumPy & Thư viện cốt lõi cho tính toán số \\
-\texttt{ndarray} & Mảng đồng nhất N chiều \\
-Vector hóa & Phép toán mảng không cần vòng lặp tường minh \\
-Broadcasting & Phép toán giữa các hình dạng tương thích \\
-Indexing/Slicing & Truy cập và trích xuất phần tử \\
-Aggregation & Tổng, trung bình, min, max \\
-Linear algebra & Nhân ma trận, nghịch đảo, định thức, trị riêng \\
-Statistics & Trung bình, trung vị, phương sai, độ lệch chuẩn \\
-Integration & Kết nối Pandas, SciPy, Scikit-learn \\
+\texttt{pd.DataFrame(arr,...)} & Tạo DataFrame Pandas từ mảng NumPy. \\
+\texttt{df.to\_numpy()} & Trích xuất giá trị DataFrame thành mảng NumPy. \\
+\texttt{np.sqrt(df["A"])} & Áp dụng ufunc NumPy cho dữ liệu Pandas tương thích. \\
+\texttt{model.fit(X,y)} & Huấn luyện mô hình Scikit-learn bằng dữ liệu đặc trưng và mục tiêu dạng mảng. \\
+\texttt{model.predict(Xnew)} & Tạo dự đoán cho quan sát mới dạng mảng. \\
 \bottomrule
 \end{tabular}
-\end{center}
+\begin{block}{Mối liên hệ}
+Mảng NumPy là định dạng trao đổi dữ liệu số phổ biến giữa Pandas, SciPy, Matplotlib và Scikit-learn.
+\end{block}
 \end{frame}
 
-\begin{frame}{Bài tập thực hành: Tạo mảng và slicing}
+\begin{frame}{Kiểm tra nhanh: tích hợp và lỗi}
 \small
-\begin{block}{Bài 1. Tạo mảng}
+\quiztitle{Câu 1.} Phương thức Pandas nào chuyển DataFrame thành mảng NumPy?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \texttt{to\_numpy()}
+  \item B. \texttt{to\_list\_only()}
+  \item C. \texttt{as\_matrix\_text()}
+  \item D. \texttt{convert\_numpy\_file()}
+\end{itemize}
+\end{multicols}
+\quiztitle{Câu 2.} Trong học máy, mảng NumPy hai chiều thường biểu diễn:
+\begin{itemize}
+  \item A. Ma trận đặc trưng
+  \item B. Tên tệp
+  \item C. Tiêu đề biểu đồ
+  \item D. Trình cài đặt package
+\end{itemize}
+\quiztitle{Câu 3.} Vì sao \texttt{np.arange(10).reshape(3, 4)} bị lỗi?
+\end{frame}
+
+\section{Tóm tắt và thực hành}
+
+\begin{frame}{Tóm tắt nội dung I}
+\small
+\begin{tabular}{p{0.25\linewidth}p{0.66\linewidth}}
+\toprule
+\textbf{Chủ đề} & \textbf{Ý chính} \\
+\midrule
+NumPy & Thư viện Python cốt lõi cho tính toán số. \\
+\texttt{ndarray} & Mảng đồng nhất N chiều. \\
+Vectorization & Phép toán mảng không cần vòng lặp Python tường minh. \\
+Broadcasting & Phép toán trên các shape khác nhau nhưng tương thích. \\
+Indexing và slicing & Truy cập và trích xuất phần tử mảng. \\
+Reshaping & Thay đổi số chiều/kích thước mảng. \\
+\bottomrule
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Tóm tắt nội dung II}
+\small
+\begin{tabular}{p{0.25\linewidth}p{0.66\linewidth}}
+\toprule
+\textbf{Chủ đề} & \textbf{Ý chính} \\
+\midrule
+Aggregation & Tổng, trung bình, nhỏ nhất, lớn nhất, phương sai và độ lệch chuẩn. \\
+Universal functions & Các hàm toán học nhanh theo từng phần tử. \\
+Linear algebra & Nhân ma trận, nghịch đảo, định thức và trị riêng. \\
+Random generation & Sinh giá trị từ các phân phối xác suất. \\
+Statistics & Trung bình, trung vị, phương sai, độ lệch chuẩn và percentile. \\
+Integration & Làm việc chặt chẽ với Pandas, SciPy và Scikit-learn. \\
+\bottomrule
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Thực hành: tạo mảng}
+\small
+\begin{block}{Bài tập 1}
 \begin{enumerate}
   \item Tạo mảng chứa các giá trị từ 1 đến 20.
-  \item Reshape thành ma trận \(4 \times 5\).
-  \item In \texttt{shape}, \texttt{ndim}, \texttt{size}, và \texttt{dtype}.
+  \item Reshape nó thành \(4 \times 5\) ma trận.
+  \item In shape, số chiều, size và kiểu dữ liệu.
 \end{enumerate}
 \end{block}
-\begin{block}{Bài 2. Indexing và slicing}
-Với ma trận \(4 \times 5\), trích hàng đầu, cột cuối, khối trung tâm \(2 \times 3\), và các giá trị chẵn bằng Boolean filtering.
-\end{block}
-\end{frame}
-
-\begin{frame}{Bài tập thực hành: Statistics và broadcasting}
-\small
-\begin{block}{Bài 3. Thống kê}
-Tạo mảng 10 giá trị và tính mean, median, variance, sample standard deviation, min, max, và các phân vị 25\%, 50\%, 75\%.
-\end{block}
-\begin{block}{Bài 4. Broadcasting}
-Tạo ma trận \(3 \times 4\), tạo vector một chiều gồm 4 giá trị, cộng vector vào từng hàng và giải thích vì sao broadcasting hợp lệ.
-\end{block}
-\end{frame}
-
-\begin{frame}{Bài tập thực hành: Linear Algebra và Missing Values}
-\small
-\begin{block}{Bài 5. Đại số tuyến tính}
-Cho \(A=\begin{bmatrix}2&1\\1&3\end{bmatrix}\), \(b=[8,13]\). Tính định thức, nghịch đảo, giải \(Ax=b\), và kiểm tra bằng \texttt{A @ x}.
-\end{block}
-\begin{block}{Bài 6. Dữ liệu thiếu}
-Với mảng có \texttt{np.nan}, đếm giá trị thiếu, tính mean bỏ qua \texttt{NaN}, loại bỏ \texttt{NaN}, và thay \texttt{NaN} bằng median.
-\end{block}
-\end{frame}
-
-\begin{frame}{Phản tư cuối bài}
-\small
+\begin{block}{Bài tập 2}
+Sử dụng \(4 \times 5\) matrix:
 \begin{enumerate}
-  \item Khi nào nên dùng NumPy thay vì list Python?
-  \item Vì sao \texttt{shape} rất quan trọng khi thao tác với mảng?
-  \item Sự khác nhau giữa \texttt{*} và \texttt{@} là gì?
-  \item Broadcasting giúp viết code ngắn hơn như thế nào?
-  \item Vì sao cần cẩn thận với view, copy, \texttt{NaN} và \texttt{dtype}?
+  \item Trích xuất hàng đầu tiên.
+  \item Trích xuất cột cuối cùng.
+  \item Trích xuất phần trung tâm \(2 \times 3\) .
+  \item Chọn tất cả giá trị chẵn bằng lọc Boolean.
 \end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}{Thực hành: thống kê và broadcasting}
+\small
+\begin{block}{Bài tập 3: Statistics}
+Tạo mảng gồm mười giá trị số và tính trung bình, trung vị, phương sai, độ lệch chuẩn mẫu, nhỏ nhất, lớn nhất và các percentile 25, 50, 75.
+\end{block}
+\begin{block}{Bài tập 4: Broadcasting}
+\begin{enumerate}
+  \item Tạo một ma trận \(3 \times 4\).
+  \item Tạo một mảng một chiều với bốn giá trị.
+  \item Cộng mảng một chiều vào từng hàng của ma trận.
+  \item Giải thích vì sao broadcasting hợp lệ.
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}{Thực hành: đại số tuyến tính và giá trị thiếu}
+\small
+\begin{block}{Bài tập 5: Linear algebra}
+Given
+\[
+A=\begin{bmatrix}2&1\\ 1&3\end{bmatrix},\quad b=\begin{bmatrix}8\\ 13\end{bmatrix},
+\]
+tính định thức của \(A\), nghịch đảo của \(A\), giải \(Ax=b\), và kiểm tra bằng \texttt{A @ x}.
+\end{block}
+\begin{block}{Bài tập 6: Missing values}
+Given \texttt{[10.0, np.nan, 20.0, 30.0, np.nan, 40.0]}, đếm giá trị thiếu, tính trung bình khi bỏ qua giá trị thiếu, loại bỏ giá trị thiếu và thay thế giá trị thiếu bằng trung vị.
+\end{block}
+\end{frame}
+
+\begin{frame}{Câu hỏi suy ngẫm cuối bài}
+\small
+\begin{itemize}
+  \item Chủ đề NumPy nào quan trọng nhất cho quy trình phân tích dữ liệu?
+  \item Khi nào nên kiểm tra \texttt{shape} trước khi chạy phép toán?
+  \item Vectorization và broadcasting giảm vòng lặp thủ công như thế nào?
+  \item Vì sao cần phân biệt view và bản sao?
+  \item Khi nào nên dùng \texttt{ddof=1} thay cho mặc định?
+  \item Lỗi NumPy thường gặp nào bạn dễ gặp nhất trong thực hành?
+\end{itemize}
 \end{frame}
 
 \end{document}

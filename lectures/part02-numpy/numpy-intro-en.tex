@@ -50,9 +50,9 @@
   \fcolorbox{SoftGray}{gray!5}{%
   \begin{minipage}[c][0.55\textheight][c]{0.84\linewidth}
   \centering
-  {\Large\textcolor{TitleBlue}{Image Placeholder}}\\[1.0em]
-  {\normalsize\textbf{#2}}\\[1.2em]
-  {\footnotesize Source path in Markdown:}\\[0.35em]
+  {\Large\textcolor{TitleBlue}{Image Placeholder}}\\\[1.0em]
+  {\normalsize\textbf{#2}}\\\[1.2em]
+  {\footnotesize Source path in Markdown:}\\\[0.35em]
   {\small\texttt{\detokenize{#1}}}
   \end{minipage}}
 \end{center}
@@ -130,6 +130,63 @@ print(np.__version__)
 \end{block}
 \end{frame}
 
+
+\begin{frame}{How to Read NumPy Commands}
+\small
+Most NumPy commands follow the same pattern:
+\[
+\texttt{np.function(input, option1=value1, option2=value2)}
+\]
+\begin{itemize}
+  \item \texttt{np}: the standard alias for the NumPy package.
+  \item \texttt{function}: the operation we want NumPy to perform.
+  \item \texttt{input}: the array, list, shape, or numerical values passed to the function.
+  \item \texttt{option=value}: named arguments that control the behavior of the command.
+\end{itemize}
+\begin{block}{Example}
+\texttt{np.arange(0, 10, 2)} creates values starting at 0, stopping before 10, with step size 2.
+\end{block}
+\end{frame}
+
+\begin{frame}{Command Pattern: Object, Attribute, Method, Function}
+\small
+\begin{tabular}{p{0.26\linewidth}p{0.62\linewidth}}
+\toprule
+\textbf{Form} & \textbf{Meaning} \\
+\midrule
+\texttt{np.array([1,2,3])} & Calls a NumPy function to create an array. \\
+\texttt{arr.shape} & Reads an attribute that describes the array. \\
+\texttt{arr.reshape(2,3)} & Calls a method attached to an existing array object. \\
+\texttt{np.mean(arr)} & Calls a NumPy function that summarizes an array. \\
+\texttt{arr.mean()} & Equivalent method-style version for many common operations. \\
+\bottomrule
+\end{tabular}
+\vspace{0.5em}
+\begin{alertblock}{Teaching note}
+Students should identify three things in every command: input, operation, and output.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{Mini Example: Explain Each Line}
+\small
+\begin{lstlisting}[style=py]
+import numpy as np
+
+scores = np.array([7, 8, 6, 9])
+bonus = scores + 1
+average = scores.mean()
+print(bonus)
+print(average)
+\end{lstlisting}
+\begin{itemize}
+  \item \texttt{import numpy as np}: loads NumPy and gives it the short name \texttt{np}.
+  \item \texttt{np.array([...])}: converts a Python list into a NumPy array.
+  \item \texttt{scores + 1}: adds 1 to every element using vectorization.
+  \item \texttt{scores.mean()}: calculates the average value of the array.
+  \item \texttt{print(...)}: displays the result.
+\end{itemize}
+\end{frame}
+
 \section{What Is NumPy?}
 
 \begin{frame}{What Is NumPy?}
@@ -167,21 +224,21 @@ NumPy stores homogeneous data efficiently and supports fast operations over whol
 \end{itemize}
 \end{columns}
 \vspace{0.7em}
-% \imageplaceholder{numpy_linear_algebra.webp}{NumPy linear algebra overview}
+% \imageplaceholder{numpy\_linear\_algebra.webp}{NumPy linear algebra overview}
 \end{frame}
 
 \begin{frame}{Main Features}
-\small
+\scriptsize
 \begin{tabular}{p{0.26\linewidth}p{0.66\linewidth}}
 \toprule
-\textbf{Feature} & \textbf{Meaning} \\
+\textbf{Feature} & \textbf{Meaning} \\\\
 \midrule
-\texttt{ndarray} & Efficient multidimensional array with one common data type. \\
-Vectorization & Apply calculations to entire arrays without explicit Python loops. \\
-Broadcasting & Operate on compatible arrays with different shapes. \\
-Linear algebra & Matrix multiplication, determinants, inverses, eigenvalues, and vector products. \\
-Statistics & Mean, median, variance, standard deviation, percentiles, and quantiles. \\
-Integration & Works with Pandas, SciPy, Matplotlib, Scikit-learn, and Statsmodels. \\
+\texttt{ndarray} & Efficient multidimensional array with one common data type. \\\\
+Vectorization & Apply calculations to entire arrays without explicit Python loops. \\\\
+Broadcasting & Operate on compatible arrays with different shapes. \\\\
+Linear algebra & Matrix multiplication, determinants, inverses, eigenvalues, and vector products. \\\\
+Statistics & Mean, median, variance, standard deviation, percentiles, and quantiles. \\\\
+Integration & Works with Pandas, SciPy, Matplotlib, Scikit-learn, and Statsmodels. \\\\
 \bottomrule
 \end{tabular}
 \end{frame}
@@ -366,6 +423,23 @@ np.eye(3)
 \end{columns}
 \end{frame}
 
+\begin{frame}{Key Commands: Creating Arrays}
+\small
+\begin{tabular}{p{0.28\linewidth}p{0.61\linewidth}}
+\toprule
+\textbf{Command} & \textbf{Meaning and when to use it} \\
+\midrule
+\texttt{np.array(data)} & Convert a Python list, tuple, or nested sequence into an \texttt{ndarray}. \\
+\texttt{np.zeros(shape)} & Create an array of zeros; useful for initialization. \\
+\texttt{np.ones(shape)} & Create an array of ones; useful for masks, weights, or initialization. \\
+\texttt{np.full(shape, value)} & Create an array filled with one chosen value. \\
+\texttt{np.arange(start, stop, step)} & Generate regularly spaced values; \texttt{stop} is excluded. \\
+\texttt{np.linspace(start, stop, n)} & Generate exactly \texttt{n} evenly spaced values, including endpoints by default. \\
+\texttt{np.eye(n)} & Create an \(n\times n\) identity matrix. \\
+\bottomrule
+\end{tabular}
+\end{frame}
+
 \begin{frame}{Quick Check: Creating Arrays}
 \small
 \quiztitle{Question 1.} Which function converts a Python list into a NumPy array?
@@ -391,7 +465,7 @@ np.eye(3)
 
 \section{Array Properties}
 
-\begin{frame}[fragile]{Array Properties}
+\begin{frame}[fragile]{Array Properties: Inspecting an Array}
 \small
 \begin{lstlisting}[style=py]
 arr = np.array([
@@ -405,17 +479,43 @@ print(arr.size)     # 6
 print(arr.dtype)
 print(arr.itemsize)
 \end{lstlisting}
+\begin{block}{How to read these commands}
+Each command asks NumPy to describe the array: number of dimensions, shape, total size, data type, and memory per element.
+\end{block}
+\end{frame}
+
+\begin{frame}{Array Properties: Meaning of Each Attribute}
+\small
 \begin{tabular}{p{0.22\linewidth}p{0.68\linewidth}}
 \toprule
 \textbf{Attribute} & \textbf{Meaning} \\
 \midrule
-\texttt{ndim} & Number of dimensions. \\
-\texttt{shape} & Size along each dimension. \\
-\texttt{size} & Total number of elements. \\
-\texttt{dtype} & Data type. \\
+\texttt{ndim} & Number of dimensions. A vector has 1 dimension; a matrix has 2 dimensions. \\
+\texttt{shape} & Size along each dimension. For example, \texttt{(2, 3)} means 2 rows and 3 columns. \\
+\texttt{size} & Total number of elements in the array. \\
+\texttt{dtype} & Data type stored in the array, such as integer or floating-point number. \\
 \texttt{itemsize} & Number of bytes used by each element. \\
 \bottomrule
 \end{tabular}
+\end{frame}
+
+\begin{frame}{Key Commands: Inspecting Array Properties}
+\small
+\begin{tabular}{p{0.25\linewidth}p{0.64\linewidth}}
+\toprule
+\textbf{Attribute} & \textbf{What it tells us} \\
+\midrule
+\texttt{arr.ndim} & Number of axes/dimensions in the array. \\
+\texttt{arr.shape} & Length of the array along each axis; e.g., \texttt{(3,4)} means 3 rows and 4 columns. \\
+\texttt{arr.size} & Total number of stored elements. \\
+\texttt{arr.dtype} & Type used to store each element, such as \texttt{int64} or \texttt{float64}. \\
+\texttt{arr.itemsize} & Number of bytes used by one element. \\
+\texttt{arr.nbytes} & Total bytes used by all array elements. \\
+\bottomrule
+\end{tabular}
+\begin{block}{Useful habit}
+Before reshaping, broadcasting, or modeling, inspect \texttt{shape} and \texttt{dtype}; many NumPy errors originate from unexpected shapes or types.
+\end{block}
 \end{frame}
 
 \begin{frame}{Quick Check: Array Properties}
@@ -519,6 +619,23 @@ copy = arr[1:3].copy()
 \begin{alertblock}{Important}
 Modifying a view may modify the original array.
 \end{alertblock}
+\end{frame}
+
+\begin{frame}{Key Commands: Indexing and Slicing}
+\small
+\begin{tabular}{p{0.28\linewidth}p{0.61\linewidth}}
+\toprule
+\textbf{Syntax} & \textbf{Meaning} \\
+\midrule
+\texttt{arr[i]} & Select the element at position \texttt{i}; negative indices count from the end. \\
+\texttt{arr[a:b]} & Select positions \texttt{a} through \texttt{b-1}. \\
+\texttt{arr[a:b:s]} & Slice with step size \texttt{s}. \\
+\texttt{matrix[i,j]} & Select row \texttt{i}, column \texttt{j}. \\
+\texttt{matrix[r1:r2,c1:c2]} & Extract a rectangular subarray. \\
+\texttt{arr[mask]} & Boolean indexing: retain values where \texttt{mask} is \texttt{True}. \\
+\texttt{arr.copy()} & Make independent data when a view should not modify the original. \\
+\bottomrule
+\end{tabular}
 \end{frame}
 
 \begin{frame}{Quick Check: Indexing and Slicing}
@@ -629,6 +746,26 @@ left, right = np.hsplit(matrix, 2)
 \end{lstlisting}
 \end{frame}
 
+\begin{frame}{Key Commands: Reshape, Stack, and Split}
+\scriptsize
+\begin{tabular}{p{0.29\linewidth}p{0.60\linewidth}}
+\toprule
+\textbf{Command} & \textbf{Meaning} \\
+\midrule
+\texttt{arr.reshape(r,c)} & Reorganize the same elements into a new compatible shape. \\
+\texttt{arr.reshape(...,-1)} & Ask NumPy to infer one dimension automatically. \\
+\texttt{arr.flatten()} & Return a flattened 1-D \emph{copy}. \\
+\texttt{arr.ravel()} & Return a flattened view when possible. \\
+\texttt{np.resize(arr, shape)} & Change total size if needed; values may repeat. \\
+\texttt{np.vstack((a,b))} & Stack arrays vertically (row direction). \\
+\texttt{np.hstack((a,b))} & Stack arrays horizontally. \\
+\texttt{np.stack((a,b), axis=k)} & Add a new axis and stack along that axis. \\
+\texttt{np.split(arr,n)} & Divide an array into \texttt{n} equal parts when possible. \\
+\texttt{np.hsplit(matrix,n)} & Split a matrix along the column direction. \\
+\bottomrule
+\end{tabular}
+\end{frame}
+
 \begin{frame}{Quick Check: Reshaping and Splitting}
 \small
 \quiztitle{Question 1.} Which method changes an array from one shape to another?
@@ -708,8 +845,28 @@ print(a ** 2)  # [1 4 9]
 print(b % a)
 \end{lstlisting}
 \begin{block}{Important distinction}
-\texttt{*} performs element-wise multiplication, not matrix multiplication.
+\texttt{\*} performs element-wise multiplication, not matrix multiplication.
 \end{block}
+\end{frame}
+
+\begin{frame}{Key Commands: Arithmetic and Broadcasting}
+\small
+\begin{tabular}{p{0.28\linewidth}p{0.61\linewidth}}
+\toprule
+\textbf{Expression} & \textbf{Meaning} \\
+\midrule
+\texttt{a + b}, \texttt{a - b} & Element-wise addition and subtraction. \\
+\texttt{a * b} & Element-wise multiplication. \\
+\texttt{a / b} & Element-wise division. \\
+\texttt{a ** p} & Raise every element to power \texttt{p}. \\
+\texttt{a \% b} & Element-wise remainder. \\
+\texttt{array + scalar} & Broadcast a scalar to every element. \\
+\texttt{matrix + row} & Broadcast a compatible 1-D row across matrix rows. \\
+\bottomrule
+\end{tabular}
+\begin{alertblock}{Check shapes first}
+Broadcasting compares dimensions from right to left. Dimensions must be equal or one of them must be 1.
+\end{alertblock}
 \end{frame}
 
 \begin{frame}{Quick Check: Broadcasting and Arithmetic}
@@ -799,6 +956,26 @@ print(np.sin(angles))
 Other examples: \texttt{np.abs()}, \texttt{np.round()}.
 \end{frame}
 
+\begin{frame}{Key Commands: Aggregation and Universal Functions}
+\scriptsize
+\begin{tabular}{p{0.29\linewidth}p{0.60\linewidth}}
+\toprule
+\textbf{Command} & \textbf{Meaning} \\
+\midrule
+\texttt{arr.sum()}, \texttt{arr.mean()} & Sum and arithmetic mean. \\
+\texttt{arr.min()}, \texttt{arr.max()} & Minimum and maximum. \\
+\texttt{np.median(arr)} & Median. \\
+\texttt{np.var(arr)}, \texttt{np.std(arr)} & Variance and standard deviation. \\
+\texttt{func(..., axis=0)} & Aggregate down rows, producing one result per column. \\
+\texttt{func(..., axis=1)} & Aggregate across columns, producing one result per row. \\
+\texttt{np.sqrt(arr)} & Square root element by element. \\
+\texttt{np.exp(arr)}, \texttt{np.log(arr)} & Exponential and natural logarithm element by element. \\
+\texttt{np.sin(arr)} & Sine element by element; angles are in radians. \\
+\texttt{np.abs(arr)}, \texttt{np.round(arr)} & Absolute value and rounding. \\
+\bottomrule
+\end{tabular}
+\end{frame}
+
 \begin{frame}{Quick Check: Aggregation and Ufuncs}
 \small
 \quiztitle{Question 1.} Which function calculates the arithmetic mean?
@@ -843,6 +1020,25 @@ print(selected)
 Use \texttt{\&} for AND, \texttt{|} for OR, and \texttt{\textasciitilde} for NOT.
 \end{frame}
 
+\begin{frame}{Key Commands: Boolean Operations}
+\small
+\begin{tabular}{p{0.31\linewidth}p{0.58\linewidth}}
+\toprule
+\textbf{Expression} & \textbf{Meaning} \\
+\midrule
+\texttt{arr > value} & Produce a Boolean array from an element-wise comparison. \\
+\texttt{arr[arr > value]} & Filter and return only matching values. \\
+\texttt{(cond1) \& (cond2)} & Element-wise logical AND. \\
+\texttt{(cond1) | (cond2)} & Element-wise logical OR. \\
+\texttt{\textasciitilde mask} & Element-wise logical NOT. \\
+\texttt{np.where(cond,a,b)} & Choose \texttt{a} where condition is true and \texttt{b} otherwise. \\
+\bottomrule
+\end{tabular}
+\begin{block}{Important syntax}
+Use parentheses around combined comparisons because \texttt{\&} and \texttt{|} have different precedence from comparison operators.
+\end{block}
+\end{frame}
+
 \begin{frame}{Quick Check: Boolean Operations}
 \small
 \quiztitle{Question 1.} What does \texttt{arr[arr > 20]} return?
@@ -875,7 +1071,7 @@ result = A @ A
 \end{lstlisting}
 \begin{block}{Element-wise vs. matrix multiplication}
 \begin{itemize}
-  \item \texttt{A * A}: element-wise multiplication.
+  \item \texttt{A \* A}: element-wise multiplication.
   \item \texttt{A @ A}: matrix multiplication.
 \end{itemize}
 \end{block}
@@ -933,6 +1129,26 @@ print(np.vdot(a, b))
 \end{lstlisting}
 \end{columns}
 \smallnote{For real one-dimensional arrays, \texttt{dot} and \texttt{vdot} are often the same. \texttt{vdot} also handles complex conjugation.}
+\end{frame}
+
+\begin{frame}{Key Commands: Linear Algebra}
+\scriptsize
+\begin{tabular}{p{0.29\linewidth}p{0.60\linewidth}}
+\toprule
+\textbf{Command} & \textbf{Meaning} \\
+\midrule
+\texttt{A @ B} & Matrix multiplication; preferred readable syntax. \\
+\texttt{np.dot(A,B)} & Dot product / matrix product depending on dimensions. \\
+\texttt{A.T} & Transpose an array. \\
+\texttt{np.linalg.det(A)} & Compute determinant of a square matrix. \\
+\texttt{np.linalg.inv(A)} & Compute inverse of a nonsingular square matrix. \\
+\texttt{np.linalg.solve(A,b)} & Solve \(Ax=b\) directly; usually preferable to computing \(A^{-1}b\). \\
+\texttt{np.linalg.eig(A)} & Return eigenvalues and eigenvectors. \\
+\texttt{np.inner(a,b)} & Inner product. \\
+\texttt{np.outer(a,b)} & Outer product. \\
+\texttt{np.vdot(a,b)} & Vector dot product with complex conjugation when needed. \\
+\bottomrule
+\end{tabular}
 \end{frame}
 
 \begin{frame}{Quick Check: Linear Algebra}
@@ -1042,6 +1258,26 @@ clean_data = data[~np.isnan(data)]
 \smallnote{More complete missing-data workflows are commonly handled with Pandas.}
 \end{frame}
 
+\begin{frame}{Key Commands: Random Numbers and Statistics}
+\scriptsize
+\begin{tabular}{p{0.32\linewidth}p{0.57\linewidth}}
+\toprule
+\textbf{Command} & \textbf{Meaning} \\
+\midrule
+\texttt{np.random.default\_rng(seed)} & Create a modern random-number generator; a seed supports reproducibility. \\
+\texttt{rng.integers(low,high,size)} & Generate random integers; \texttt{high} is excluded. \\
+\texttt{rng.uniform(...)} & Sample from a uniform distribution. \\
+\texttt{rng.normal(loc,scale,size)} & Sample from a normal distribution with mean \texttt{loc} and SD \texttt{scale}. \\
+\texttt{rng.binomial(...)} / \texttt{poisson(...)} & Sample from common discrete distributions. \\
+\texttt{np.percentile(data,q)} & Return percentile \texttt{q} on a 0--100 scale. \\
+\texttt{np.quantile(data,q)} & Return quantile \texttt{q} on a 0--1 scale. \\
+\texttt{np.std(data,ddof=1)} & Sample-standard-deviation convention. \\
+\texttt{np.isnan(data)} & Identify \texttt{NaN} values. \\
+\texttt{np.nanmean(data)} & Mean while ignoring \texttt{NaN}. \\
+\bottomrule
+\end{tabular}
+\end{frame}
+
 \begin{frame}{Quick Check: Random Numbers and Statistics}
 \small
 \quiztitle{Question 1.} Which method creates a modern NumPy random-number generator?
@@ -1104,6 +1340,23 @@ print(labels)
 \end{lstlisting}
 \begin{block}{Interpretation}
 Vectorized conditions are useful for labeling, screening, filtering, and transforming datasets.
+\end{block}
+\end{frame}
+
+\begin{frame}{Key Commands: Vectorization}
+\small
+\begin{tabular}{p{0.30\linewidth}p{0.59\linewidth}}
+\toprule
+\textbf{Pattern} & \textbf{Meaning} \\
+\midrule
+\texttt{arr * scalar} & Apply the arithmetic operation to every element without an explicit Python loop. \\
+\texttt{np.sqrt(arr)} & Apply a ufunc element by element in compiled NumPy code. \\
+\texttt{arr >= threshold} & Evaluate a condition for the whole array at once. \\
+\texttt{np.where(cond,a,b)} & Vectorized conditional transformation. \\
+\bottomrule
+\end{tabular}
+\begin{block}{Core idea}
+Vectorization describes \emph{how we express computation}: operations are written for arrays rather than manually iterating over individual elements.
 \end{block}
 \end{frame}
 
@@ -1189,6 +1442,23 @@ print(image.shape)
 brighter = np.clip(image + 30, 0, 255)
 \end{lstlisting}
 \smallnote{\texttt{np.clip()} keeps values inside a valid range.}
+\end{frame}
+
+\begin{frame}{Key Commands: Memory, Types, Sorting, and Search}
+\scriptsize
+\begin{tabular}{p{0.30\linewidth}p{0.59\linewidth}}
+\toprule
+\textbf{Command} & \textbf{Meaning} \\
+\midrule
+\texttt{arr.nbytes} & Total memory used by the array elements. \\
+\texttt{arr.astype(dtype)} & Convert array values to a new data type. \\
+\texttt{np.sort(arr)} & Return sorted values. \\
+\texttt{np.where(condition)} & Return indices satisfying a condition when only the condition is supplied. \\
+\texttt{np.unique(arr)} & Return unique values. \\
+\texttt{np.unique(arr, return\_counts=True)} & Return unique values and their frequencies. \\
+\texttt{np.clip(arr,low,high)} & Limit every value to a specified range; useful for image intensities. \\
+\bottomrule
+\end{tabular}
 \end{frame}
 
 \begin{frame}{Quick Check: Memory, Search, Images}
@@ -1296,6 +1566,24 @@ print(arr + 1)
 \end{itemize}
 \end{frame}
 
+\begin{frame}{Key Commands: Integration with Data-Science Tools}
+\small
+\begin{tabular}{p{0.32\linewidth}p{0.57\linewidth}}
+\toprule
+\textbf{Command} & \textbf{Role} \\
+\midrule
+\texttt{pd.DataFrame(arr,...)} & Build a Pandas DataFrame from a NumPy array. \\
+\texttt{df.to\_numpy()} & Extract DataFrame values as a NumPy array. \\
+\texttt{np.sqrt(df["A"])} & Apply a NumPy ufunc to compatible Pandas data. \\
+\texttt{model.fit(X,y)} & Train a Scikit-learn model using array-like feature and target data. \\
+\texttt{model.predict(Xnew)} & Produce predictions for new array-like observations. \\
+\bottomrule
+\end{tabular}
+\begin{block}{Connection}
+NumPy arrays are a common numerical interchange format across Pandas, SciPy, Matplotlib, and Scikit-learn.
+\end{block}
+\end{frame}
+
 \begin{frame}{Quick Check: Integration and Errors}
 \small
 \quiztitle{Question 1.} Which Pandas method converts a DataFrame to a NumPy array?
@@ -1319,8 +1607,8 @@ print(arr + 1)
 
 \section{Summary and Practice}
 
-\begin{frame}{Content Summary}
-\scriptsize
+\begin{frame}{Content Summary I}
+\small
 \begin{tabular}{p{0.25\linewidth}p{0.66\linewidth}}
 \toprule
 \textbf{Topic} & \textbf{Main idea} \\
@@ -1331,6 +1619,16 @@ Vectorization & Array operations without explicit Python loops. \\
 Broadcasting & Operations on compatible different shapes. \\
 Indexing and slicing & Access and extract array elements. \\
 Reshaping & Change array dimensions. \\
+\bottomrule
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Content Summary II}
+\small
+\begin{tabular}{p{0.25\linewidth}p{0.66\linewidth}}
+\toprule
+\textbf{Topic} & \textbf{Main idea} \\
+\midrule
 Aggregation & Sums, means, minima, maxima, variance, and standard deviation. \\
 Universal functions & Fast element-wise mathematical functions. \\
 Linear algebra & Matrix multiplication, inverse, determinant, and eigenvalues. \\
@@ -1381,7 +1679,7 @@ Create an array of ten numerical values and calculate mean, median, variance, sa
 \begin{block}{Exercise 5: Linear algebra}
 Given
 \[
-A=\begin{bmatrix}2&1\\1&3\end{bmatrix},\quad b=\begin{bmatrix}8\\13\end{bmatrix},
+A=\begin{bmatrix}2&1\\ 1&3\end{bmatrix},\quad b=\begin{bmatrix}8\\ 13\end{bmatrix},
 \]
 calculate the determinant of \(A\), inverse of \(A\), solve \(Ax=b\), and verify with \texttt{A @ x}.
 \end{block}
