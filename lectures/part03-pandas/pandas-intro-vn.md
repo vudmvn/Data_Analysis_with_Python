@@ -1,16 +1,15 @@
 # Giới thiệu Pandas
 **Ngôn ngữ:** Tiếng Việt  
-
 **Chủ đề:** Thao tác, làm sạch, phân tích và xử lý dữ liệu dạng bảng với Pandas
 
 ---
 
 ## 1. Giới thiệu bài học
-**Pandas** là một thư viện Python mã nguồn mở được thiết kế cho **thao tác và phân tích dữ liệu**. Pandas được xây dựng trên NumPy và cung cấp các cấu trúc dữ liệu cùng các hàm cấp cao để làm việc hiệu quả với dữ liệu có cấu trúc và dữ liệu dạng bảng.
+**Pandas** is an open-source Python library designed for **data manipulation and analysis**. It is built on top of NumPy and provides high-level data structures and functions for working efficiently with structured and tabular data.
 
 Pandas đặc biệt hữu ích cho các công việc như:
 
-- đọc dữ liệu từ các file CSV, Excel, JSON và văn bản;
+- đọc dữ liệu từ file CSV, Excel, JSON và văn bản;
 - làm sạch và chuẩn bị tập dữ liệu;
 - lọc và lựa chọn các quan sát;
 - xử lý giá trị thiếu;
@@ -18,14 +17,14 @@ Pandas đặc biệt hữu ích cho các công việc như:
 - nhóm và tổng hợp dữ liệu;
 - merge và join nhiều tập dữ liệu;
 - reshape dữ liệu;
-- tính các thống kê mô tả;
+- tính thống kê mô tả;
 - phân tích dữ liệu chuỗi thời gian;
 - tạo trực quan hóa nhanh.
 
 Pandas xoay quanh hai cấu trúc dữ liệu chính:
 
-- **Series**: mảng một chiều có nhãn;
-- **DataFrame**: cấu trúc dạng bảng hai chiều có nhãn.
+- **Series**: a one-dimensional labeled array;
+- **DataFrame**: a two-dimensional labeled tabular structure.
 
 Về mặt khái niệm, DataFrame tương tự một bảng tính Excel hoặc một bảng trong cơ sở dữ liệu, với các hàng và cột có thể có nhãn.
 
@@ -59,26 +58,26 @@ Sau khi hoàn thành bài học này, người học có thể:
 ## 3. Cấu trúc bài học
 Bài học được tổ chức theo các phần chính sau:
 
-1. Kiến thức cơ bản
+1. Basics
 2. DataFrame
 3. Series
-4. Nhập và xuất dữ liệu (I/O)
-5. Làm sạch dữ liệu
-6. Các thao tác
-7. Các thao tác nâng cao
-8. Câu hỏi ôn tập
-9. Bài tập thực hành
-10. Đáp án và gợi ý trả lời
+4. Data Input and Output (I/O)
+5. Data Cleaning
+6. Operations
+7. Advanced Operations
+8. Review Câus
+9. Practical Exercises
+10. Answers and Suggested Responses
 
 ---
 
 ## 4. Điều kiện tiên quyết
 Người học nên có:
 
-- Kiến thức Python cơ bản.
-- Quen thuộc với biến, list, dictionary, vòng lặp và hàm.
-- Hiểu biết cơ bản về mảng NumPy.
-- Có môi trường như Jupyter Notebook, JupyterLab, Google Colab, VS Code hoặc tương tự.
+- Basic Python knowledge.
+- Familiarity with variables, lists, dictionaries, loops, and functions.
+- Basic understanding of NumPy arrays.
+- Access to Jupyter Notebook, JupyterLab, Google Colab, VS Code, or a similar environment.
 
 ---
 
@@ -93,15 +92,15 @@ Tên **Pandas** được bắt nguồn từ thuật ngữ **panel data**, thư�
 ## 1.2. Vì sao Pandas hữu ích?
 Pandas thường được sử dụng để:
 
-- đọc và ghi dữ liệu;
-- làm sạch tập dữ liệu;
+- reading and writing data;
+- cleaning datasets;
 - xử lý giá trị thiếu;
-- lựa chọn và lọc các quan sát;
-- biến đổi biến;
-- merge các tập dữ liệu;
-- nhóm các quan sát;
-- tính thống kê tổng hợp;
-- chuẩn bị dữ liệu cho trực quan hóa và học máy.
+- selecting and filtering observations;
+- transforming variables;
+- merging datasets;
+- grouping observations;
+- calculating summary statistics;
+- preparing data for visualization and machine learning.
 
 ## 1.3. Cài đặt và import
 Cài đặt Pandas bằng:
@@ -124,6 +123,17 @@ import pandas as pd
 print(pd.__version__)
 ```
 
+### Bài tập ngắn — `pd.__version__`
+
+Hoàn thiện lệnh để in phiên bản Pandas đã cài đặt.
+
+```python
+# version = ...
+# print(version)
+```
+
+**Gợi ý:** sử dụng `pd.__version__`.
+
 ## 1.4. Những điểm quan trọng
 - **DataFrame** là cấu trúc hai chiều có nhãn, gồm hàng và cột.
 - **Series** là mảng một chiều có nhãn.
@@ -131,14 +141,14 @@ print(pd.__version__)
 - Có thể xử lý giá trị thiếu bằng các phương thức như `.dropna()` và `.fillna()`.
 
 ## 1.5. Kiểm tra nhanh
-**Câu 1.** Bí danh nào thường được sử dụng cho Pandas?
+**Câu 1.** Which alias is conventionally used for Pandas?
 
 A. `pn`  
 B. `pd`  
 C. `ps`  
 D. `pa`
 
-**Câu 2.** Cấu trúc Pandas nào là hai chiều?
+**Câu 2.** Which Pandas structure is two-dimensional?
 
 A. `Series`  
 B. `tuple`  
@@ -146,7 +156,7 @@ C. `DataFrame`  
 D. `ndarray`
 
 ## Bài tập
-### Bài tập 1.1. Kiểm tra môi trường
+### Bài tập 1.1. Check Your Environment
 Run:
 
 ```python
@@ -161,7 +171,7 @@ Record:
 2. the standard Pandas alias;
 3. one reason Pandas is useful in data analysis.
 
-### Bài tập 1.2. Series hay DataFrame?
+### Bài tập 1.2. Series or DataFrame?
 Decide whether each case is more naturally represented by a Series or DataFrame:
 
 1. a list of monthly sales values;
@@ -193,18 +203,34 @@ df = pd.DataFrame(data)
 print(df)
 ```
 
+### Bài tập ngắn — `pd.DataFrame()`
+
+Tạo DataFrame tên `products` với các cột `Product`, `Price` và `Stock`.
+
+```python
+# products = pd.DataFrame({
+#     "Product": [...],
+#     "Price": [...],
+#     "Stock": [...]
+# })
+
+# print(products)
+```
+
+**Gợi ý:** tất cả các cột phải có cùng số lượng giá trị.
+
 ## 2.2. Các lệnh chính để tạo và kiểm tra DataFrame
-| Lệnh | Ý nghĩa |
-| --- | --- |
-| `pd.DataFrame(data)` | Tạo DataFrame từ dictionary, list, mảng NumPy hoặc đối tượng tương tự. |
-| `df.head()` | Hiển thị các hàng đầu. |
-| `df.tail()` | Hiển thị các hàng cuối. |
-| `df.shape` | Trả về số hàng và số cột. |
-| `df.columns` | Trả về nhãn cột. |
-| `df.index` | Trả về nhãn hàng. |
-| `df.dtypes` | Trả về kiểu dữ liệu của các cột. |
-| `df.info()` | Hiển thị tóm tắt cấu trúc của DataFrame. |
-| `df.describe()` | Trả về thống kê mô tả cho các cột số. |
+| Command | Meaning |
+|---|---|
+| `pd.DataFrame(data)` | Create a DataFrame from a dictionary, list, NumPy array, or similar object. |
+| `df.head()` | Display the first rows. |
+| `df.tail()` | Display the last rows. |
+| `df.shape` | Return the number of rows and columns. |
+| `df.columns` | Return column labels. |
+| `df.index` | Return row labels. |
+| `df.dtypes` | Return data types of columns. |
+| `df.info()` | Display a structural summary of the DataFrame. |
+| `df.describe()` | Return descriptive statistics for numerical columns. |
 
 ## 2.3. Kiểm tra DataFrame
 ```python
@@ -215,19 +241,33 @@ print(df.index)
 print(df.dtypes)
 ```
 
-Sử dụng:
+Use:
 
 ```python
 df.info()
 ```
 
-để kiểm tra:
+### Bài tập ngắn — `head()`, `shape`, `columns`, `dtypes`, `info()`
 
-- số hàng;
-- số cột;
-- tên cột;
-- giá trị thiếu;
-- kiểu dữ liệu.
+Hoàn thiện các lệnh kiểm tra dữ liệu.
+
+```python
+# print(df.head(...))
+# print(df.shape)
+# print(df.columns)
+# print(df.dtypes)
+# df.info()
+```
+
+Sau đó cho biết số hàng và số cột.
+
+to inspect:
+
+- number of rows;
+- number of columns;
+- column names;
+- missing values;
+- data types.
 
 ## 2.4. Chỉ mục của DataFrame
 Pandas tự gán chỉ mục số nguyên mặc định nếu không cung cấp index.
@@ -235,6 +275,17 @@ Pandas tự gán chỉ mục số nguyên mặc định nếu không cung cấp 
 ```python
 print(df.index)
 ```
+
+### Bài tập ngắn — `index`
+
+Kiểm tra index của DataFrame.
+
+```python
+# current_index = ...
+# print(current_index)
+```
+
+Cho biết đây là index số nguyên mặc định hay index tùy chỉnh.
 
 Có thể chỉ định index tùy chỉnh:
 
@@ -260,18 +311,47 @@ Chọn nhiều cột:
 print(df[["Name", "GPA"]])
 ```
 
+### Bài tập ngắn — Chọn cột
+
+Chọn:
+
+1. chỉ cột `Age`;
+2. cả `Name` và `Age`.
+
+```python
+# age = df[...]
+# name_age = df[[..., ...]]
+
+# print(age)
+# print(name_age)
+```
+
 ## 2.6. Truy xuất hàng bằng `loc` và `iloc`
-`loc` selects data by **label**.
+`loc` chọn dữ liệu theo **nhãn**.
 
 ```python
 print(df.loc["S01"])
 ```
 
-`iloc` selects data by **integer position**.
+`iloc` chọn dữ liệu theo **vị trí số nguyên**.
 
 ```python
 print(df.iloc[0])
 ```
+
+### Bài tập ngắn — `loc` và `iloc`
+
+Hoàn thiện các lệnh chọn dữ liệu.
+
+```python
+# by_label = df.loc[...]
+# by_position = df.iloc[...]
+
+# print(by_label)
+# print(by_position)
+```
+
+**Câu hỏi:** Lệnh nào sử dụng nhãn và lệnh nào sử dụng vị trí số nguyên?
 
 Sự khác biệt này rất quan trọng:
 
@@ -295,13 +375,37 @@ hoặc:
 print(df.iloc[0:2, [0, 2]])
 ```
 
+### Bài tập ngắn — Slicing
+
+Chọn:
+
+1. hai hàng đầu tiên;
+2. hai hàng đầu tiên và các cột `Name`, `GPA`.
+
+```python
+# first_two = df.iloc[...]
+# subset = df.loc[..., [...]]
+
+# print(first_two)
+# print(subset)
+```
+
 ## 2.8. Lọc DataFrame
-Lọc hàng:
+Lọc các hàng:
 
 ```python
 selected = df[df["GPA"] >= 3.4]
 
 print(selected)
+```
+
+### Bài tập ngắn — Lọc Boolean
+
+Lọc các hàng có `GPA >= 3.5`.
+
+```python
+# high_gpa = df[df["GPA"] >= ...]
+# print(high_gpa)
 ```
 
 ## 2.9. Lọc với nhiều điều kiện
@@ -314,11 +418,24 @@ selected = df[
 print(selected)
 ```
 
-Sử dụng:
+### Bài tập ngắn — Nhiều điều kiện
 
-- `&` cho AND;
-- `|` cho OR;
-- `~` cho NOT.
+Lọc sinh viên có `Age >= 20` và `GPA >= 3.5`.
+
+```python
+# selected = df[
+#     (df["Age"] >= ...) &
+#     (df["GPA"] >= ...)
+# ]
+
+# print(selected)
+```
+
+Use:
+
+- `&` for AND;
+- `|` for OR;
+- `~` for NOT.
 
 Thông thường, mỗi điều kiện nên được đặt trong dấu ngoặc.
 
@@ -390,15 +507,31 @@ pivot = pd.pivot_table(
 print(pivot)
 ```
 
+### Bài tập ngắn — `pd.pivot_table()`
+
+Tạo pivot table với Revenue trung bình theo Region và Product.
+
+```python
+# pivot_mean = pd.pivot_table(
+#     sales,
+#     values="Revenue",
+#     index=...,
+#     columns=...,
+#     aggfunc=...
+# )
+
+# print(pivot_mean)
+```
+
 ## 2.13. Kiểm tra nhanh
-**Câu 1.** Lệnh nào tạo DataFrame?
+**Câu 1.** Which command creates a DataFrame?
 
 A. `pd.DataFrame()`  
 B. `pd.SeriesFrame()`  
 C. `np.DataFrame()`  
 D. `df.create()`
 
-**Câu 2.** Bộ chọn nào dựa trên nhãn?
+**Câu 2.** Which selector is label-based?
 
 A. `iloc`  
 B. `loc`  
@@ -406,8 +539,8 @@ C. `shape`  
 D. `head`
 
 ## Bài tập
-### Bài tập 2.1. Tạo DataFrame sinh viên
-Tạo DataFrame với các cột:
+### Bài tập 2.1. Create a Dữ liệu sinh viênFrame
+Create a DataFrame with columns:
 
 - `StudentID`;
 - `Name`;
@@ -418,40 +551,40 @@ Use at least five students.
 
 Then display:
 
-1. ba hàng đầu;
+1. the first three rows;
 2. the DataFrame shape;
 3. the column names;
 4. the column data types.
 
-### Bài tập 2.2. `loc` và `iloc`
-Sử dụng DataFrame sinh viên:
+### Bài tập 2.2. `loc` and `iloc`
+Using the student DataFrame:
 
 1. select the first row using `iloc`;
 2. set `StudentID` as the index;
 3. select one student using `loc`;
 4. select only `Name` and `GPA`.
 
-### Bài tập 2.3. Lọc dữ liệu
+### Bài tập 2.3. Filtering
 Filter students who:
 
 1. have GPA greater than or equal to 3.5;
 2. are at least 20 years old;
 3. satisfy both conditions.
 
-### Bài tập 2.4. Sắp xếp
-Sắp xếp sinh viên:
+### Bài tập 2.4. Sorting
+Sort the students:
 
 1. by GPA ascending;
 2. by GPA descending;
 3. by Age ascending and GPA descending.
 
 ### Bài tập 2.5. Merge
-Tạo một DataFrame khác gồm:
+Create another DataFrame containing:
 
 - `StudentID`;
 - `Major`.
 
-Merge nó với DataFrame sinh viên bằng `StudentID`.
+Merge it with the student DataFrame using `StudentID`.
 
 ---
 
@@ -473,6 +606,19 @@ s = pd.Series([10, 20, 30, 40])
 print(s)
 ```
 
+### Bài tập ngắn — `pd.Series()`
+
+Tạo Series chứa `[12, 18, 25]` với các nhãn `["A", "B", "C"]`.
+
+```python
+# prices = pd.Series(
+#     [...],
+#     index=[...]
+# )
+
+# print(prices)
+```
+
 Tạo Series với nhãn tùy chỉnh:
 
 ```python
@@ -485,19 +631,28 @@ print(s)
 ```
 
 ## 3.3. Các lệnh chính cho Series
-| Lệnh | Ý nghĩa |
-| --- | --- |
-| `pd.Series(data)` | Tạo Series. |
-| `s.index` | Trả về index của Series. |
-| `s.values` | Trả về các giá trị bên dưới. |
-| `s.dtype` | Trả về kiểu dữ liệu. |
-| `s.loc[label]` | Truy xuất theo nhãn. |
-| `s.iloc[position]` | Truy xuất theo vị trí số nguyên. |
+| Command | Meaning |
+|---|---|
+| `pd.Series(data)` | Create a Series. |
+| `s.index` | Return the Series index. |
+| `s.values` | Return underlying values. |
+| `s.dtype` | Return the data type. |
+| `s.loc[label]` | Access by label. |
+| `s.iloc[position]` | Access by integer position. |
 
 ## 3.4. Truy xuất phần tử
 ```python
 print(s.loc["A"])
 print(s.iloc[0])
+```
+
+### Bài tập ngắn — Series `loc` và `iloc`
+
+Truy xuất nhãn `"B"` và vị trí `2`.
+
+```python
+# value_by_label = s.loc[...]
+# value_by_position = s.iloc[...]
 ```
 
 ## 3.5. Phép toán nhị phân trên Series
@@ -515,6 +670,20 @@ b = pd.Series(
 print(a + b)
 ```
 
+### Bài tập ngắn — Căn chỉnh Series
+
+Dự đoán kết quả trước khi chạy:
+
+```python
+x = pd.Series([10, 20, 30], index=["A", "B", "C"])
+y = pd.Series([1, 2, 3], index=["B", "C", "D"])
+
+# result = x + y
+# print(result)
+```
+
+Giải thích vì sao các nhãn không khớp tạo ra giá trị thiếu.
+
 Pandas căn chỉnh Series theo nhãn index trước khi thực hiện phép toán.
 
 ## 3.6. Tạo Series từ mảng NumPy
@@ -528,14 +697,14 @@ print(s)
 ```
 
 ## 3.7. Kiểm tra nhanh
-**Câu 1.** Pandas Series là:
+**Câu 1.** A Pandas Series is:
 
 A. a two-dimensional table  
 B. a one-dimensional labeled array  
 C. a database server  
 D. a plotting package
 
-**Câu 2.** Thuộc tính nào trả về nhãn của Series?
+**Câu 2.** Which attribute returns Series labels?
 
 A. `shape`  
 B. `index`  
@@ -543,8 +712,8 @@ C. `columns`  
 D. `describe`
 
 ## Bài tập
-### Bài tập 3.1. Tạo Series
-Tạo Series gồm năm mức giá sản phẩm, sử dụng ID sản phẩm làm nhãn index.
+### Bài tập 3.1. Create a Series
+Create a Series containing five product prices with custom product IDs as index labels.
 
 Then print:
 
@@ -553,14 +722,14 @@ Then print:
 3. its values;
 4. its data type.
 
-### Bài tập 3.2. Truy xuất giá trị Series
-Sử dụng Series từ Bài tập 3.1:
+### Bài tập 3.2. Access Series Values
+Using the Series from Exercise 3.1:
 
 1. select one value using `loc`;
 2. select one value using `iloc`;
 3. explain the difference.
 
-### Bài tập 3.3. Căn chỉnh Series
+### Bài tập 3.3. Series Alignment
 Create:
 
 ```python
@@ -581,7 +750,7 @@ Calculate:
 a + b
 ```
 
-Giải thích vì sao một số vị trí chứa giá trị thiếu.
+Explain why some positions contain missing values.
 
 ---
 
@@ -602,7 +771,7 @@ Các định dạng phổ biến gồm:
 df = pd.read_csv("data.csv")
 ```
 
-Useful options:
+Một số tùy chọn hữu ích:
 
 ```python
 df = pd.read_csv(
@@ -644,6 +813,14 @@ df.to_excel(
 df = pd.read_json("data.json")
 ```
 
+### Bài tập ngắn — `pd.read_json()`
+
+Đọc `customers.json` vào `customer_df`.
+
+```python
+# customer_df = pd.read_json(...)
+```
+
 ## 4.7. Ghi file JSON
 ```python
 df.to_json(
@@ -663,24 +840,24 @@ df = pd.read_csv(
 ```
 
 ## 4.9. Các lệnh I/O chính
-| Lệnh | Vai trò |
-| --- | --- |
-| `pd.read_csv()` | Đọc file CSV hoặc file văn bản có dấu phân cách. |
-| `df.to_csv()` | Ghi file CSV. |
-| `pd.read_excel()` | Đọc file Excel. |
-| `df.to_excel()` | Ghi file Excel. |
-| `pd.read_json()` | Đọc file JSON. |
-| `df.to_json()` | Ghi file JSON. |
+| Command | Role |
+|---|---|
+| `pd.read_csv()` | Read CSV or delimited text files. |
+| `df.to_csv()` | Write CSV files. |
+| `pd.read_excel()` | Read Excel files. |
+| `df.to_excel()` | Write Excel files. |
+| `pd.read_json()` | Read JSON files. |
+| `df.to_json()` | Write JSON files. |
 
 ## 4.10. Kiểm tra nhanh
-**Câu 1.** Hàm nào đọc file CSV?
+**Câu 1.** Which function reads a CSV file?
 
 A. `pd.read_csv()`  
 B. `pd.open_csv()`  
 C. `pd.load_table_only()`  
 D. `df.csv_read()`
 
-**Câu 2.** Tham số nào thường được dùng để không xuất index của DataFrame?
+**Câu 2.** Which argument commonly prevents the DataFrame index from being exported?
 
 A. `index=False`  
 B. `index=True`  
@@ -689,7 +866,7 @@ D. `drop_index=True`
 
 ## Bài tập
 ### Bài tập 4.1. CSV
-Tạo DataFrame có ít nhất năm hàng và lưu thành:
+Create a DataFrame with at least five rows and save it as:
 
 ```text
 students.csv
@@ -721,10 +898,10 @@ Then inspect the generated structure.
 ## 5.1. Vì sao làm sạch dữ liệu quan trọng?
 Các tập dữ liệu thực tế có thể chứa:
 
-- giá trị thiếu;
-- các hàng trùng lặp;
+- missing values;
+- duplicate rows;
 - inconsistent data types;
-- các cột rỗng;
+- empty columns;
 - inconsistent text;
 - mixed data formats.
 
@@ -741,6 +918,15 @@ print(df.isna())
 print(df.isna().sum())
 ```
 
+### Bài tập ngắn — `isna()` và `isna().sum()`
+
+Đếm số giá trị thiếu theo từng cột và trong toàn bộ DataFrame.
+
+```python
+# missing_by_column = df.isna().____()
+# total_missing = df.isna().____().____()
+```
+
 ## 5.3. Loại bỏ giá trị thiếu
 Loại bỏ các hàng chứa giá trị thiếu:
 
@@ -754,6 +940,15 @@ Loại bỏ các cột chứa giá trị thiếu:
 clean_df = df.dropna(axis=1)
 ```
 
+### Bài tập ngắn — `dropna()`
+
+Tạo một DataFrame loại bỏ các hàng thiếu dữ liệu và một DataFrame khác loại bỏ các cột thiếu dữ liệu.
+
+```python
+# rows_complete = df.dropna()
+# cols_complete = df.dropna(axis=...)
+```
+
 ## 5.4. Điền giá trị thiếu
 Điền tất cả giá trị thiếu:
 
@@ -761,7 +956,7 @@ clean_df = df.dropna(axis=1)
 filled = df.fillna(0)
 ```
 
-Điền giá trị thiếu của một cột bằng trung bình:
+Điền một cột bằng giá trị trung bình:
 
 ```python
 df["Age"] = df["Age"].fillna(
@@ -769,7 +964,7 @@ df["Age"] = df["Age"].fillna(
 )
 ```
 
-Điền biến phân loại:
+Điền giá trị cho biến phân loại:
 
 ```python
 df["City"] = df["City"].fillna(
@@ -778,7 +973,7 @@ df["City"] = df["City"].fillna(
 ```
 
 ## 5.5. Loại bỏ dữ liệu trùng lặp
-Phát hiện trùng lặp:
+Phát hiện dữ liệu trùng lặp:
 
 ```python
 print(df.duplicated())
@@ -788,6 +983,14 @@ Loại bỏ các hàng trùng:
 
 ```python
 df = df.drop_duplicates()
+```
+
+### Bài tập ngắn — `duplicated()` and `drop_duplicates()`
+
+```python
+# duplicate_mask = df.duplicated()
+# duplicate_count = duplicate_mask.____()
+# clean_df = df.____()
 ```
 
 ## 5.6. Thay đổi kiểu dữ liệu
@@ -803,7 +1006,15 @@ Chuyển đổi một cột:
 df["Age"] = df["Age"].astype(int)
 ```
 
-Chuyển chuỗi thành giá trị số:
+### Bài tập ngắn — `astype()`
+
+Chuyển `Quantity` sang kiểu số nguyên.
+
+```python
+# df["Quantity"] = df["Quantity"].astype(...)
+```
+
+Chuyển chuỗi sang giá trị số:
 
 ```python
 df["Price"] = pd.to_numeric(
@@ -859,31 +1070,31 @@ df["Amount"] = pd.to_numeric(
 )
 ```
 
-Các giá trị không hợp lệ được chuyển thành `NaN`, sau đó có thể được xử lý rõ ràng.
+Các giá trị không hợp lệ được chuyển thành `NaN`, sau đó có thể xử lý rõ ràng.
 
 ## 5.10. Các lệnh làm sạch dữ liệu chính
-| Lệnh | Ý nghĩa |
-| --- | --- |
-| `df.isna()` | Phát hiện giá trị thiếu. |
-| `df.isna().sum()` | Đếm giá trị thiếu. |
-| `df.dropna()` | Loại bỏ quan sát bị thiếu. |
-| `df.fillna(value)` | Thay thế giá trị thiếu. |
-| `df.duplicated()` | Phát hiện trùng lặp. |
-| `df.drop_duplicates()` | Loại bỏ các hàng trùng lặp. |
-| `df.astype(type)` | Chuyển đổi kiểu dữ liệu. |
-| `pd.to_numeric()` | Chuyển giá trị sang dạng số. |
-| `df.drop()` | Xóa hàng hoặc cột. |
-| `Series.str.*` | Áp dụng các phương thức xử lý chuỗi. |
+| Command | Meaning |
+|---|---|
+| `df.isna()` | Detect missing values. |
+| `df.isna().sum()` | Count missing values. |
+| `df.dropna()` | Remove missing observations. |
+| `df.fillna(value)` | Replace missing values. |
+| `df.duplicated()` | Detect duplicates. |
+| `df.drop_duplicates()` | Remove duplicate rows. |
+| `df.astype(type)` | Convert data type. |
+| `pd.to_numeric()` | Convert values to numeric form. |
+| `df.drop()` | Remove rows or columns. |
+| `Series.str.*` | Apply string-processing methods. |
 
 ## 5.11. Kiểm tra nhanh
-**Câu 1.** Phương thức nào loại bỏ các hàng chứa giá trị thiếu?
+**Câu 1.** Which method removes rows containing missing values?
 
 A. `dropna()`  
 B. `fillna()`  
 C. `duplicated()`  
 D. `astype()`
 
-**Câu 2.** Phương thức nào loại bỏ các hàng trùng?
+**Câu 2.** Which method removes duplicate rows?
 
 A. `drop_duplicates()`  
 B. `dropna()`  
@@ -891,7 +1102,7 @@ C. `sort_values()`  
 D. `merge()`
 
 ## Bài tập
-### Bài tập 5.1. Giá trị thiếu
+### Bài tập 5.1. Missing Values
 Create:
 
 ```python
@@ -904,12 +1115,12 @@ df = pd.DataFrame({
 
 Do the following:
 
-1. xác định giá trị thiếu;
-2. đếm giá trị thiếu theo cột;
+1. identify missing values;
+2. count missing values by column;
 3. fill missing `Age` values using the column mean;
 4. fill missing `GPA` values using the column median.
 
-### Bài tập 5.2. Dữ liệu trùng lặp
+### Bài tập 5.2. Duplicates
 Add a duplicated row to a DataFrame.
 
 Then:
@@ -918,7 +1129,7 @@ Then:
 2. count duplicates;
 3. remove them.
 
-### Bài tập 5.3. Kiểu dữ liệu
+### Bài tập 5.3. Data Types
 Create:
 
 ```python
@@ -927,15 +1138,15 @@ df = pd.DataFrame({
 })
 ```
 
-Chuyển `Price` sang numeric bằng:
+Convert `Price` to numeric using:
 
 ```python
 pd.to_numeric(..., errors="coerce")
 ```
 
-Giải thích điều gì xảy ra với `"unknown"`.
+Explain what happens to `"unknown"`.
 
-### Bài tập 5.4. Làm sạch chuỗi
+### Bài tập 5.4. String Cleaning
 Given:
 
 ```python
@@ -967,6 +1178,15 @@ Thay đổi cột hiện có:
 
 ```python
 df["Price"] = df["Price"] * 1.1
+```
+
+### Bài tập ngắn — Calculated Column
+
+Tạo `Revenue = Quantity × Price`.
+
+```python
+# df["Revenue"] = df["Quantity"] * df["Price"]
+# total_revenue = df["Revenue"].____()
 ```
 
 ## 6.2. Áp dụng hàm
@@ -1020,6 +1240,16 @@ print(df["Sales"].max())
 print(df["Sales"].std())
 ```
 
+### Bài tập ngắn — Descriptive Statistics
+
+```python
+# sales_mean = df["Sales"].____()
+# sales_median = df["Sales"].____()
+# sales_min = df["Sales"].____()
+# sales_max = df["Sales"].____()
+# sales_std = df["Sales"].____()
+```
+
 ## 6.5. Nhóm dữ liệu bằng `groupby()`
 ```python
 summary = df.groupby(
@@ -1027,6 +1257,16 @@ summary = df.groupby(
 )["Sales"].mean()
 
 print(summary)
+```
+
+### Bài tập ngắn — `groupby()`
+
+Tính tổng Sales theo Region.
+
+```python
+# region_total = (
+#     df.groupby("Region")["Sales"].____()
+# )
 ```
 
 Nhiều phép tổng hợp:
@@ -1039,6 +1279,17 @@ summary = df.groupby(
 )
 
 print(summary)
+```
+
+### Bài tập ngắn — `agg()`
+
+Với mỗi Region, tính `count`, `sum`, `mean`, `min` và `max`.
+
+```python
+# region_stats = (
+#     df.groupby("Region")["Sales"]
+#     .agg([...])
+# )
 ```
 
 ## 6.6. Nhóm theo nhiều cột
@@ -1097,29 +1348,29 @@ table = pd.pivot_table(
 ```
 
 ## 6.10. Các thao tác chính
-| Lệnh | Ý nghĩa |
-| --- | --- |
-| `df["new"] = ...` | Tạo hoặc biến đổi cột. |
-| `Series.map()` | Ánh xạ giá trị sang giá trị mới. |
-| `Series.apply()` | Áp dụng hàm cho các phần tử Series. |
-| `df.describe()` | Thống kê mô tả. |
-| `df.groupby()` | Nhóm các quan sát. |
-| `.agg()` | Áp dụng nhiều hàm tổng hợp. |
-| `pd.merge()` | Merge các DataFrame. |
-| `pd.concat()` | Ghép nối các DataFrame. |
-| `df.pivot()` | Chuyển dữ liệu dạng long sang wide. |
-| `pd.melt()` | Chuyển dữ liệu dạng wide sang long. |
-| `pd.pivot_table()` | Tạo pivot table tổng hợp. |
+| Command | Meaning |
+|---|---|
+| `df["new"] = ...` | Create or transform a column. |
+| `Series.map()` | Map values to new values. |
+| `Series.apply()` | Apply a function to Series elements. |
+| `df.describe()` | Descriptive statistics. |
+| `df.groupby()` | Group observations. |
+| `.agg()` | Apply multiple aggregation functions. |
+| `pd.merge()` | Merge DataFrames. |
+| `pd.concat()` | Concatenate DataFrames. |
+| `df.pivot()` | Reshape long data to wide format. |
+| `pd.melt()` | Reshape wide data to long format. |
+| `pd.pivot_table()` | Create a summarized pivot table. |
 
 ## 6.11. Kiểm tra nhanh
-**Câu 1.** Phương thức nào nhóm các quan sát theo nhóm phân loại?
+**Câu 1.** Which method groups observations by categories?
 
 A. `groupby()`  
 B. `dropna()`  
 C. `astype()`  
 D. `sort_index()`
 
-**Câu 2.** Hàm nào kết hợp DataFrame bằng cột khóa?
+**Câu 2.** Which function combines DataFrames using a key column?
 
 A. `pd.merge()`  
 B. `pd.mean()`  
@@ -1127,7 +1378,7 @@ C. `pd.reshape()`  
 D. `pd.filter_rows()`
 
 ## Bài tập
-### Bài tập 6.1. Tạo cột tính toán
+### Bài tập 6.1. Create a Calculated Column
 Given:
 
 ```python
@@ -1144,14 +1395,14 @@ Create:
 Revenue = Quantity × Price
 ```
 
-### Bài tập 6.2. Chuẩn hóa dữ liệu
-Tạo một cột số và tính:
+### Bài tập 6.2. Normalize Data
+Create a numerical column and calculate:
 
 1. min-max normalization;
 2. z-score standardization.
 
-### Bài tập 6.3. Nhóm và tổng hợp
-Tạo DataFrame doanh số gồm:
+### Bài tập 6.3. Group and Aggregate
+Create a sales DataFrame containing:
 
 - Region;
 - Product;
@@ -1160,8 +1411,8 @@ Tạo DataFrame doanh số gồm:
 Calculate:
 
 1. total sales by Region;
-2. doanh số trung bình theo Region;
-3. count, sum và mean bằng `.agg()`.
+2. mean sales by Region;
+3. count, sum, and mean using `.agg()`.
 
 ### Bài tập 6.4. Merge
 Create:
@@ -1176,13 +1427,13 @@ Perform:
 1. inner merge;
 2. left merge.
 
-Giải thích sự khác nhau.
+Explain the difference.
 
 ### Bài tập 6.5. Pivot Table
-Tạo pivot table với:
+Create a pivot table showing:
 
-- hàng: Region;
-- cột: Product;
+- rows: Region;
+- columns: Product;
 - values: Sales;
 - aggregation: sum.
 
@@ -1194,7 +1445,7 @@ Tương quan đo lường mức độ liên hệ giữa các biến số.
 
 ```python
 print(df.corr(
-    numeric_only=True
+    numeric_only=Đúng
 ))
 ```
 
@@ -1272,11 +1523,27 @@ Sắp xếp theo thời gian:
 df = df.sort_index()
 ```
 
+### Bài tập ngắn — Datetime Pipeline
+
+```python
+# df["Date"] = pd.to_datetime(df["Date"])
+# df = df.set_index(...)
+# df = df.sort_index()
+```
+
 ## 7.4. Trích xuất thành phần ngày tháng
 ```python
 df["Year"] = df.index.year
 df["Month"] = df.index.month
 df["Day"] = df.index.day
+```
+
+### Bài tập ngắn — Datetime Components
+
+```python
+# df["Year"] = df.index.____
+# df["Month"] = df.index.____
+# df["Day"] = df.index.____
 ```
 
 ## 7.5. Resampling chuỗi thời gian
@@ -1308,25 +1575,25 @@ df["MovingAvg"] = (
 ```
 
 ## 7.7. Các lệnh nâng cao chính
-| Lệnh | Ý nghĩa |
-| --- | --- |
-| `df.corr()` | Tính ma trận tương quan. |
-| `Series.corr()` | Tính tương quan giữa hai Series. |
-| `df.plot()` | Tạo trực quan hóa nhanh. |
-| `pd.to_datetime()` | Chuyển giá trị sang datetime. |
-| `df.set_index()` | Đặt một cột làm index. |
-| `df.resample()` | Tổng hợp dữ liệu chuỗi thời gian theo khoảng thời gian. |
-| `Series.rolling()` | Tính thống kê theo cửa sổ rolling. |
+| Command | Meaning |
+|---|---|
+| `df.corr()` | Calculate correlation matrix. |
+| `Series.corr()` | Calculate correlation between two Series. |
+| `df.plot()` | Create quick visualizations. |
+| `pd.to_datetime()` | Convert values to datetime. |
+| `df.set_index()` | Set a column as the index. |
+| `df.resample()` | Aggregate time-series data by time intervals. |
+| `Series.rolling()` | Calculate rolling-window statistics. |
 
 ## 7.8. Kiểm tra nhanh
-**Câu 1.** Hàm nào chuyển một cột sang datetime?
+**Câu 1.** Which function converts a column to datetime?
 
 A. `pd.to_datetime()`  
 B. `pd.date_convert_only()`  
 C. `df.datetime()`  
 D. `pd.time_series()`
 
-**Câu 2.** Phương thức nào tính ma trận tương quan?
+**Câu 2.** Which method calculates a correlation matrix?
 
 A. `corr()`  
 B. `merge()`  
@@ -1334,7 +1601,7 @@ C. `dropna()`  
 D. `pivot()`
 
 ## Bài tập
-### Bài tập 7.1. Tương quan
+### Bài tập 7.1. Correlation
 Create:
 
 ```python
@@ -1346,19 +1613,19 @@ df = pd.DataFrame({
 
 Calculate:
 
-1. toàn bộ ma trận tương quan;
-2. tương quan giữa `Advertising` và `Sales`.
+1. the full correlation matrix;
+2. the correlation between `Advertising` and `Sales`.
 
-### Bài tập 7.2. Trực quan hóa
-Sử dụng DataFrame doanh số, tạo:
+### Bài tập 7.2. Visualization
+Using a sales DataFrame, create:
 
 1. a line chart;
 2. a bar chart;
 3. a histogram;
 4. a scatter plot.
 
-### Bài tập 7.3. Index chuỗi thời gian
-Tạo DataFrame với các cột:
+### Bài tập 7.3. Time-Series Index
+Create a DataFrame with columns:
 
 - `Date`;
 - `Sales`.
@@ -1370,82 +1637,82 @@ Then:
 3. sort by date.
 
 ### Bài tập 7.4. Resampling
-Sử dụng dữ liệu doanh số hằng ngày:
+Using daily sales data:
 
 1. calculate weekly total sales;
 2. calculate monthly average sales.
 
-### Bài tập 7.5. Trung bình trượt
-Tính trung bình trượt 3 kỳ cho Series `Sales`.
+### Bài tập 7.5. Moving Average
+Calculate a 3-period moving average for a `Sales` Series.
 
 ---
 
 # Phần 8. Câu hỏi ôn tập
 ## 8.1. Câu hỏi trắc nghiệm
-**Câu 1.** Mục đích chính của Pandas là gì?
+**Câu 1.** What is the main purpose of Pandas?
 
-A. Thao tác và phân tích dữ liệu  
-B. Quản trị hệ điều hành  
-C. Quản lý web server  
-D. Chỉ đồ họa máy tính
+A. Data manipulation and analysis  
+B. Operating-system administration  
+C. Web-server management  
+D. Computer graphics only
 
-**Câu 2.** Cấu trúc Pandas nào là một chiều?
+**Câu 2.** Which Pandas structure is one-dimensional?
 
 A. `DataFrame`  
 B. `Series`  
 C. `ndarray` only  
 D. `pivot`
 
-**Câu 3.** Bộ chọn nào dựa trên vị trí số nguyên?
+**Câu 3.** Which selector is based on integer position?
 
 A. `loc`  
 B. `iloc`  
 C. `index`  
 D. `columns`
 
-**Câu 4.** Hàm nào đọc file CSV?
+**Câu 4.** Which function reads a CSV file?
 
 A. `pd.read_csv()`  
 B. `pd.csv_open()`  
 C. `pd.load_csv_only()`  
 D. `df.read()`
 
-**Câu 5.** Phương thức nào thay thế giá trị thiếu?
+**Câu 5.** Which method replaces missing values?
 
 A. `fillna()`  
 B. `drop_duplicates()`  
 C. `sort_values()`  
 D. `merge()`
 
-**Câu 6.** Phương thức nào loại bỏ các hàng trùng?
+**Câu 6.** Which method removes duplicate rows?
 
 A. `drop_duplicates()`  
 B. `fillna()`  
 C. `groupby()`  
 D. `pivot()`
 
-**Câu 7.** Phương thức nào nhóm các quan sát?
+**Câu 7.** Which method groups observations?
 
 A. `groupby()`  
 B. `describe()`  
 C. `drop()`  
 D. `astype()`
 
-**Câu 8.** Hàm nào merge hai DataFrame bằng khóa chung?
+**Câu 8.** Which function merges two DataFrames using a common key?
 
 A. `pd.merge()`  
 B. `pd.mean()`  
 C. `pd.Series()`  
 D. `pd.plot()`
 
-**Câu 9.** Hàm nào chuyển giá trị sang datetime?
+**Câu 9.** Which function converts values to datetime?
 
 A. `pd.to_datetime()`  
 B. `pd.to_numeric()`  
 C. `pd.read_date()`  
 D. `pd.datetime_only()`
 
-**Câu 10.** Phương thức nào tính tương quan?
+**Câu 10.** Which method calculates correlation?
 
 A. `corr()`  
 B. `join()`  
@@ -1453,39 +1720,39 @@ C. `head()`  
 D. `fillna()`
 
 ## 8.2. Câu hỏi Đúng/Sai
-**Câu 1.** DataFrame là cấu trúc hai chiều.  
-**Câu 2.** Series là mảng một chiều có nhãn.  
-**Câu 3.** `loc` chỉ dựa trên vị trí số nguyên.  
-**Câu 4.** `iloc` dựa trên vị trí.  
-**Câu 5.** Có thể dùng `dropna()` để loại bỏ giá trị thiếu.  
-**Câu 6.** `fillna()` có thể thay thế giá trị thiếu.  
-**Câu 7.** Có thể kết hợp `groupby()` với các hàm tổng hợp.  
-**Câu 8.** `pd.merge()` có thể thực hiện inner join và left join.  
-**Câu 9.** `pd.to_datetime()` có thể chuyển ngày dạng văn bản sang datetime.  
-**Câu 10.** Tương quan tự động chứng minh quan hệ nhân quả.
+**Câu 1.** A DataFrame is two-dimensional.  
+**Câu 2.** A Series is a one-dimensional labeled array.  
+**Câu 3.** `loc` is based only on integer position.  
+**Câu 4.** `iloc` is position-based.  
+**Câu 5.** `dropna()` can be used to remove missing values.  
+**Câu 6.** `fillna()` can replace missing values.  
+**Câu 7.** `groupby()` can be followed by aggregation functions.  
+**Câu 8.** `pd.merge()` can perform inner and left joins.  
+**Câu 9.** `pd.to_datetime()` can convert text dates to datetime values.  
+**Câu 10.** Correlation automatically proves causation.
 
 ## 8.3. Câu hỏi trả lời ngắn
-**Câu 1.** Giải thích sự khác nhau giữa Series và DataFrame.
+**Câu 1.** Explain the difference between a Series and a DataFrame.
 
-**Câu 2.** Giải thích sự khác nhau giữa `loc` và `iloc`.
+**Câu 2.** Explain the difference between `loc` and `iloc`.
 
-**Câu 3.** Nêu hai phương thức xử lý giá trị thiếu.
+**Câu 3.** Give two methods for handling missing values.
 
-**Câu 4.** Giải thích sự khác nhau giữa `pd.concat()` và `pd.merge()`.
+**Câu 4.** Explain the difference between `pd.concat()` and `pd.merge()`.
 
-**Câu 5.** Mục đích của `groupby()` là gì?
+**Câu 5.** What is the purpose of `groupby()`?
 
-**Câu 6.** Vì sao chuyển đổi kiểu dữ liệu quan trọng trong làm sạch dữ liệu?
+**Câu 6.** Why is data-type conversion important in data cleaning?
 
-**Câu 7.** Giải thích chức năng của pivot table.
+**Câu 7.** Explain what a pivot table does.
 
-**Câu 8.** Nêu một ứng dụng của `pd.to_datetime()`.
+**Câu 8.** State one use of `pd.to_datetime()`.
 
 ---
 
 # Phần 9. Bài tập thực hành
-## Bài tập 1. Dữ liệu sinh viên
-Tạo DataFrame có ít nhất 10 sinh viên gồm:
+## Exercise 1. Dữ liệu sinh viên
+Create a DataFrame with at least 10 students containing:
 
 - StudentID;
 - Name;
@@ -1498,19 +1765,19 @@ Perform:
 1. inspection with `head()`, `shape`, `info()`, and `describe()`;
 2. filtering for GPA >= 3.5;
 3. sorting by GPA descending;
-4. chọn hàng bằng `loc` và `iloc`.
+4. selecting rows using `loc` and `iloc`.
 
-## Bài tập 2. Dữ liệu thiếu
-Thêm giá trị thiếu vào tập dữ liệu sinh viên.
+## Exercise 2. Dữ liệu thiếu
+Add missing values to the student dataset.
 
 Then:
 
-1. đếm giá trị thiếu;
-2. điền Age bị thiếu bằng Age trung bình;
-3. điền GPA bị thiếu bằng GPA trung vị;
-4. loại bỏ các hàng có Name bị thiếu.
+1. count missing values;
+2. fill missing Age with mean Age;
+3. fill missing GPA with median GPA;
+4. remove rows with missing Name.
 
-## Bài tập 3. CSV và Excel
+## Exercise 3. CSV và Excel
 Export the cleaned student dataset to:
 
 ```text
@@ -1518,9 +1785,9 @@ students.csv
 students.xlsx
 ```
 
-Đọc lại cả hai file bằng Pandas.
+Read both files back into Pandas.
 
-## Bài tập 4. Phân tích doanh số
+## Exercise 4. Phân tích doanh số
 Create a sales dataset containing:
 
 - Date;
@@ -1543,8 +1810,8 @@ Then calculate:
 4. average revenue by Region;
 5. a Region × Product pivot table.
 
-## Bài tập 5. Merge
-Tạo bảng khách hàng:
+## Exercise 5. Merge
+Create a customer table:
 
 ```text
 CustomerID, Name, City
@@ -1562,10 +1829,10 @@ Perform:
 2. left merge;
 3. identify customers without orders.
 
-## Bài tập 6. Làm sạch dữ liệu
-Tạo tập dữ liệu chưa sạch gồm:
+## Exercise 6. Data Cleaning
+Create a messy dataset containing:
 
-- giá trị thiếu;
+- missing values;
 - duplicate records;
 - spaces in names;
 - mixed numeric/text values.
@@ -1579,8 +1846,8 @@ Clean the dataset using:
 - `.str.strip()`;
 - `pd.to_numeric()`.
 
-## Bài tập 7. Chuỗi thời gian
-Tạo dữ liệu doanh số hằng ngày trong ít nhất 30 ngày.
+## Exercise 7. Chuỗi thời gian
+Create daily sales data for at least 30 days.
 
 Then:
 
@@ -1647,26 +1914,26 @@ Then:
 10. Sai
 
 ## Gợi ý trả lời ngắn
-**Câu 1.** Series là mảng một chiều có nhãn, trong khi DataFrame là bảng hai chiều có nhãn gồm hàng và cột.
+**Câu 1.** A Series is a one-dimensional labeled array, while a DataFrame is a two-dimensional labeled table with rows and columns.
 
-**Câu 2.** `loc` chọn các quan sát bằng nhãn, trong khi `iloc` chọn bằng vị trí số nguyên.
+**Câu 2.** `loc` selects observations using labels, while `iloc` selects observations using integer positions.
 
-**Câu 3.** Có thể loại bỏ giá trị thiếu bằng `dropna()` hoặc thay thế bằng `fillna()`.
+**Câu 3.** Missing values can be removed using `dropna()` or replaced using `fillna()`.
 
-**Câu 4.** `pd.concat()` kết hợp DataFrame theo một trục, trong khi `pd.merge()` kết hợp chúng bằng các cột khóa khớp nhau.
+**Câu 4.** `pd.concat()` combines DataFrames along an axis, while `pd.merge()` combines them using matching key columns.
 
-**Câu 5.** `groupby()` chia dữ liệu thành các nhóm dựa trên giá trị phân loại để có thể áp dụng phép tổng hợp hoặc biến đổi cho từng nhóm.
+**Câu 5.** `groupby()` splits data into groups based on categorical values so that aggregation or transformation can be applied to each group.
 
-**Câu 6.** Kiểu dữ liệu đúng là cần thiết để thực hiện hợp lệ các phép toán số, so sánh, sắp xếp, tổng hợp và mô hình hóa.
+**Câu 6.** Correct data types are required for valid numerical operations, comparisons, sorting, aggregation, and modeling.
 
-**Câu 7.** Pivot table tóm tắt một biến số theo một hoặc nhiều chiều phân loại.
+**Câu 7.** A pivot table summarizes a numerical variable across one or more categorical dimensions.
 
-**Câu 8.** `pd.to_datetime()` chuyển chuỗi hoặc giá trị dạng ngày thành đối tượng datetime của Pandas để có thể thực hiện các thao tác theo thời gian.
+**Câu 8.** `pd.to_datetime()` converts date-like strings or values into Pandas datetime objects so that time-based operations can be performed.
 
 ---
 
 # Lời giải gợi ý cho một số bài thực hành
-## Bài tập 1. Dữ liệu sinh viên
+## Exercise 1. Dữ liệu sinh viên
 ```python
 import pandas as pd
 
@@ -1696,7 +1963,7 @@ print(high_gpa)
 print(sorted_students)
 ```
 
-## Bài tập 2. Dữ liệu thiếu
+## Exercise 2. Dữ liệu thiếu
 ```python
 students["Age"] = students["Age"].fillna(
     students["Age"].mean()
@@ -1711,7 +1978,7 @@ students = students.dropna(
 )
 ```
 
-## Bài tập 3. CSV và Excel
+## Exercise 3. CSV và Excel
 ```python
 students.to_csv(
     "students.csv",
@@ -1732,7 +1999,7 @@ df_excel = pd.read_excel(
 )
 ```
 
-## Bài tập 4. Phân tích doanh số
+## Exercise 4. Phân tích doanh số
 ```python
 sales["Revenue"] = (
     sales["Quantity"] *
@@ -1764,7 +2031,7 @@ pivot = pd.pivot_table(
 print(pivot)
 ```
 
-## Bài tập 5. Merge
+## Exercise 5. Merge
 ```python
 inner_result = pd.merge(
     customers,
@@ -1787,7 +2054,7 @@ customers_without_orders = (
 )
 ```
 
-## Bài tập 6. Làm sạch dữ liệu
+## Exercise 6. Data Cleaning
 ```python
 print(df.isna().sum())
 
@@ -1809,7 +2076,7 @@ df["Amount"] = pd.to_numeric(
 )
 ```
 
-## Bài tập 7. Chuỗi thời gian
+## Exercise 7. Chuỗi thời gian
 ```python
 df["Date"] = pd.to_datetime(
     df["Date"]
