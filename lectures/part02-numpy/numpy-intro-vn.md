@@ -132,7 +132,7 @@ D. `ndarray`
 
 ---
 
-## Bài tập nhỏ sau phần lý thuyết
+## Bài tập thực hành
 
 **Bài 1.1. Nhận diện cấu trúc dữ liệu**
 
@@ -241,7 +241,7 @@ D. `a.append(10)`
 
 ---
 
-## Bài tập nhỏ sau phần lý thuyết
+## Bài tập thực hành
 
 **Bài 2.1. So sánh list và NumPy**
 
@@ -299,7 +299,7 @@ print(np.__version__)
 
 ---
 
-## Bài tập nhỏ sau phần lý thuyết
+## Bài tập thực hành
 
 **Bài 3.1. Kiểm tra môi trường**
 
@@ -474,7 +474,7 @@ D. `np.linspace()`
 
 ---
 
-## Bài tập nhỏ sau phần lý thuyết
+## Bài tập thực hành
 
 **Bài 4.1. Tạo các mảng cơ bản**
 
@@ -543,7 +543,7 @@ Nhiều lỗi NumPy bắt nguồn từ shape hoặc kiểu dữ liệu không nh
 
 ---
 
-## Bài tập nhỏ sau phần lý thuyết
+## Bài tập thực hành
 
 **Bài 5.1. Đọc thuộc tính mảng**
 
@@ -691,7 +691,7 @@ copy = arr[1:3].copy()
 
 ---
 
-## Bài tập nhỏ sau phần lý thuyết
+## Bài tập thực hành
 
 **Bài 6.1. Indexing**
 
@@ -828,7 +828,7 @@ Kết quả:
 
 ---
 
-## Bài tập nhỏ sau phần lý thuyết
+## Bài tập thực hành
 
 **Bài 7.1. Reshape**
 
@@ -951,7 +951,7 @@ Lưu ý: `a * b` là nhân theo từng phần tử, không phải nhân ma trậ
 
 ---
 
-## Bài tập nhỏ sau phần lý thuyết
+## Bài tập thực hành
 
 **Bài 8.1. Số học theo phần tử**
 
@@ -1077,7 +1077,7 @@ print(np.round(np.array([1.234, 5.678]), 2))
 
 ---
 
-## Bài tập nhỏ sau phần lý thuyết
+## Bài tập thực hành
 
 **Bài 9.1. Thống kê nhanh**
 
@@ -1195,7 +1195,7 @@ Kết quả:
 
 ---
 
-## Bài tập nhỏ sau phần lý thuyết
+## Bài tập thực hành
 
 **Bài 10.1. Lọc theo một điều kiện**
 
@@ -1304,7 +1304,7 @@ print(eigenvectors)
 
 ---
 
-## Bài tập nhỏ sau phần lý thuyết
+## Bài tập thực hành
 
 **Bài 11.1. Nhân theo phần tử và nhân ma trận**
 
@@ -1426,7 +1426,7 @@ print(np.isnan(data))
 
 ---
 
-## Bài tập nhỏ sau phần lý thuyết
+## Bài tập thực hành
 
 **Bài 12.1. Random integers**
 
@@ -1518,7 +1518,7 @@ Vectorized code thường:
 
 ---
 
-## Bài tập nhỏ sau phần lý thuyết
+## Bài tập thực hành
 
 **Bài 13.1. Chuyển vòng lặp thành vectorization**
 
@@ -1645,7 +1645,7 @@ brighter = np.clip(image + 30, 0, 255)
 
 ---
 
-## Bài tập nhỏ sau phần lý thuyết
+## Bài tập thực hành
 
 **Bài 14.1. Kiểu dữ liệu**
 
@@ -1734,7 +1734,7 @@ Trong học máy:
 
 ---
 
-## Bài tập nhỏ sau phần lý thuyết
+## Bài tập thực hành
 
 **Bài 15.1. NumPy → Pandas**
 
@@ -1835,7 +1835,7 @@ copy = arr[1:3].copy()
 
 ---
 
-## Bài tập nhỏ sau phần lý thuyết
+## Bài tập thực hành
 
 **Bài 16.1. Dự đoán lỗi reshape**
 
@@ -1886,7 +1886,7 @@ Viết một ví dụ ngắn cho thấy thay đổi slice làm thay đổi mản
 
 ---
 
-## Bài tập nhỏ sau phần lý thuyết
+## Bài tập thực hành
 
 **Bài 17.1. Kiểm tra mã**
 
