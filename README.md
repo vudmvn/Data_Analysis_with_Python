@@ -1,6 +1,6 @@
-# 🐍 DSAI1005 – Phân tích dữ liệu với Python (Data Analysis with Python)
+# 🐍 DSAI1005 – Phân tích dữ liệu với Python
 
-🌐 **Ngôn ngữ / Language:** 🇻🇳 **Tiếng Việt** | [🇬🇧 English Version (README-en.md)](README-en.md)
+🌐 **Ngôn ngữ:** 🇻🇳 **Tiếng Việt** | [🇬🇧 Phiên bản Tiếng Anh (README-en.md)](README-en.md)
 
 > **Giảng viên:** TS. Vũ Đức Minh (`minhvd@neu.edu.vn`)  
 > **Đơn vị phụ trách:** Khoa Khoa học dữ liệu và Trí tuệ nhân tạo – Trường Đại học Kinh tế Quốc dân (NEU)  
@@ -23,15 +23,15 @@ Học phần **Phân tích dữ liệu với Python (DSAI1005)** cung cấp ki�
 
 ---
 
-## 📚 2. Ma trận Bài giảng, Tài liệu & Bài tập Thực hành (Course Matrix)
+## 📚 2. Ma trận Bài giảng, Tài liệu & Bài tập Thực hành
 
 Bảng dưới đây tổng hợp chi tiết tài liệu học tập, bài giảng Notebook, slide, bài tập thực hành, tệp dữ liệu và đáp án cho **15 tuần học**:
 
 | Tuần | Chủ đề chính (Tiếng Việt) | Bài giảng & Bài đọc (.md / .ipynb) | Slide | Bài tập Lab | Đáp án | Trạng thái |
 |:---:|:---|:---|:---:|:---:|:---:|:---:|
 | **Tuần 01** | **Giới thiệu học phần** | • [Phân tích dữ liệu là gì?](lectures/part01-gioi-thieu-hoc-phan/phan_tich_du_lieu_la_gi.md)<br>• [Sáu bước trong quy trình phân tích dữ liệu](lectures/part01-gioi-thieu-hoc-phan/cac_buoc_cua_phan_tich_du_lieu.md)<br>• [Phân tích dữ liệu khám phá](lectures/part01-gioi-thieu-hoc-phan/phan_tich_du_lieu_kham_pha.md)<br>• [Khám phá tương quan trong Python](lectures/part01-gioi-thieu-hoc-phan/kham_pha_tuong_quan.md)<br>• [Phân tích thống kê là gì?](lectures/part01-gioi-thieu-hoc-phan/phan_tich_thong_ke.md) | <a href="lectures/part01-gioi-thieu-hoc-phan/part01_lecture_1.pdf" target="_blank">PDF (part01_lecture_1)</a><br><a href="lectures/part01-gioi-thieu-hoc-phan/part01_lecture_2.pdf" target="_blank">PDF (part01_lecture_2)</a> | - | - | ✅ *Đã sẵn sàng* |
-| **Tuần 02** | **Thư viện tính toán NumPy** | • [Giới thiệu về NumPy (VN)](lectures/part02-numpy/numpy-intro-vn.md)<br>• [Giới thiệu về NumPy (EN)](lectures/part02-numpy/numpy-intro-en.md) | <a href="lectures/part02-numpy/numpy-intro-vn.pdf" target="_blank">PDF (VN)</a><br><a href="lectures/part02-numpy/numpy-intro-en.pdf" target="_blank">PDF (EN)</a> | 💻 <a href="lectures/part02-numpy/numpy-practice-vn.ipynb" target="_blank">numpy-practice-vn</a><br>💻 <a href="lectures/part02-numpy/numpy_business_economics_exercises-vn.ipynb" target="_blank">numpy_business_economics_exercises-vn</a> | - | ✅ *Đã sẵn sàng* |
-| **Tuần 03** | **Thư viện thao tác dữ liệu Pandas** | • [Giới thiệu về Pandas (VN)](lectures/part03-pandas/pandas-intro-vn.md)<br>• [Giới thiệu về Pandas (EN)](lectures/part03-pandas/pandas-intro-en.md) | - | 💻 <a href="lectures/part03-pandas/pandas-practice-vn.md" target="_blank">pandas-practice-vn</a><br>💻 <a href="lectures/part03-pandas/pandas-practice-en.md" target="_blank">pandas-practice-en</a> | - | ✅ *Đã sẵn sàng* |
+| **Tuần 02** | **Thư viện tính toán NumPy** | • [Giới thiệu về NumPy](lectures/part02-numpy/numpy-intro-vn.md) | <a href="lectures/part02-numpy/numpy-intro-vn.pdf" target="_blank">PDF (Tiếng Việt)</a> | 💻 <a href="lectures/part02-numpy/numpy-practice-vn.ipynb" target="_blank">numpy-practice-vn</a><br>💻 <a href="lectures/part02-numpy/numpy_business_economics_exercises-vn.ipynb" target="_blank">numpy_business_economics_exercises-vn</a> | - | ✅ *Đã sẵn sàng* |
+| **Tuần 03** | **Thư viện thao tác dữ liệu Pandas** | • [Giới thiệu về Pandas](lectures/part03-pandas/pandas-intro-vn.md) | - | 💻 <a href="lectures/part03-pandas/pandas-practice-vn.md" target="_blank">pandas-practice-vn</a> | - | ✅ *Đã sẵn sàng* |
 | **Tuần 04** | Khám phá & Trực quan hóa dữ liệu | - | - | - | - | ⏳ *Đang biên soạn* |
 | **Tuần 05** | Truy xuất & Lưu trữ dữ liệu | - | - | - | - | ⏳ *Đang biên soạn* |
 | **Tuần 06** | Làm sạch & Tiền xử lý dữ liệu | - | - | - | - | ⏳ *Đang biên soạn* |
