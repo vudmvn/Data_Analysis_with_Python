@@ -1,194 +1,105 @@
 # Introduction to NumPy
 
-**language:** "en" | **date_updated:** "August 3, 2026"
+**Language:** English  
+**Aligned with:** `numpy_beamer_vietnamese_full_translation.pdf`  
+**Topic:** Arrays, vectorization, broadcasting, and numerical computing
 
-## Lesson Introduction
+---
 
-This lesson introduces **NumPy**, a core Python library for numerical computing. NumPy is designed for efficient work with large arrays, matrices, and numerical datasets. Its central data structure, the `ndarray`, supports fast mathematical operations, broadcasting, linear algebra, random-number generation, and statistical calculations.
+## 1. Lesson Introduction
 
-Compared with ordinary Python lists, NumPy arrays store homogeneous data more compactly and support vectorized operations implemented in optimized low-level code. This makes NumPy especially useful in data analysis, scientific computing, simulation, image processing, and machine learning.
+This lesson introduces **NumPy**, a core Python library for **numerical computing**. NumPy is designed for efficient work with arrays, matrices, and numerical datasets. Its central object is the **N-dimensional array**, or `ndarray`.
 
-## Learning Outcomes
+In data analysis and Data Science, NumPy is commonly used to:
+
+- store numerical data as arrays;
+- perform operations on whole arrays instead of writing explicit loops;
+- work with matrices, vectors, and linear-algebra operations;
+- generate random values for simulation and experiments;
+- calculate descriptive statistics;
+- exchange data with Pandas, SciPy, Matplotlib, and Scikit-learn.
+
+Compared with ordinary Python lists, NumPy arrays usually store **homogeneous data**, use a more regular memory layout, and support optimized vectorized operations.
+
+---
+
+## 2. Learning Outcomes
 
 After completing this lesson, learners will be able to:
 
-- Explain the purpose of NumPy in numerical computing.
-- Distinguish NumPy arrays from ordinary Python lists.
+- Explain the role of NumPy in numerical computing.
+- Distinguish NumPy arrays from Python lists.
 - Install and import NumPy.
-- Create one-dimensional and multidimensional arrays.
-- Inspect array properties such as shape, size, dimension, and data type.
+- Create one-dimensional, two-dimensional, and multidimensional arrays.
+- Inspect properties such as `shape`, `ndim`, `size`, `dtype`, `itemsize`, and `nbytes`.
 - Access elements using indexing and slicing.
 - Reshape, resize, stack, and split arrays.
-- Apply vectorized arithmetic operations.
+- Apply vectorized operations and broadcasting.
 - Use aggregation functions such as `sum()`, `mean()`, `min()`, and `max()`.
-- Explain and apply broadcasting.
-- Use common mathematical and universal functions.
-- Perform basic matrix and vector operations.
-- Generate random values from common probability distributions.
-- Calculate basic descriptive statistics.
-- Understand how NumPy integrates with Pandas, SciPy, and Scikit-learn.
+- Use universal functions such as `np.sqrt()`, `np.exp()`, `np.log()`, and `np.sin()`.
+- Perform basic linear-algebra operations.
+- Generate random values and calculate descriptive statistics.
+- Explain how NumPy integrates with Pandas and Scikit-learn.
 
-## Lesson Structure
+---
 
-The lesson covers:
+## 3. Lesson Structure
+
+The lesson is organized into the following feature groups:
 
 1. What NumPy is.
 2. Why NumPy is useful.
 3. Installation and importing.
-4. Creating NumPy arrays.
+4. Creating arrays.
 5. Array properties.
 6. Indexing and slicing.
-7. Reshaping and resizing.
-8. Stacking and splitting.
-9. Broadcasting.
-10. Mathematical and aggregation operations.
-11. Universal functions.
-12. Linear algebra.
-13. Random-number generation.
-14. Statistical functions.
-15. Vectorized operations and performance.
-16. Integration with other Python libraries.
-17. Review questions and practical exercises.
+7. Reshape, resize, stack, and split.
+8. Broadcasting and arithmetic.
+9. Aggregation and universal functions.
+10. Boolean operations.
+11. Linear algebra.
+12. Random numbers and statistics.
+13. Vectorization and performance.
+14. Memory, data types, sorting, searching, and images.
+15. Integration with Pandas and Scikit-learn.
+16. Common errors.
+17. Good practices.
+18. Content summary.
+19. Review questions.
+20. Practical exercises.
 
-## Prerequisites
+---
+
+## 4. Prerequisites
 
 Learners should have:
 
 - Basic Python knowledge.
 - Familiarity with variables, lists, loops, and functions.
-- Access to Jupyter Notebook, JupyterLab, Google Colab, or another Python environment.
+- Access to Jupyter Notebook, JupyterLab, Google Colab, VS Code, or a similar Python environment.
 
 ---
 
-# What Is NumPy?
+# Part 1. What Is NumPy?
 
-**NumPy**, short for **Numerical Python**, is a Python library designed for fast and efficient numerical computation.
+## 1.1. Concept
 
-Its main object is the **N-dimensional array**, called an `ndarray`. A NumPy array can represent:
+**NumPy**, short for **Numerical Python**, is a Python library for fast and efficient numerical computing.
 
-- A one-dimensional vector.
-- A two-dimensional matrix.
-- A three-dimensional tensor.
-- Higher-dimensional numerical structures.
+Its main object is the `ndarray`, an N-dimensional array. A NumPy array can represent:
 
-NumPy provides:
+- a one-dimensional vector;
+- a two-dimensional matrix;
+- a three-dimensional tensor;
+- higher-dimensional numerical structures.
 
-- Fast array operations.
-- Vectorized calculations.
-- Broadcasting.
-- Linear algebra functions.
-- Statistical functions.
-- Random-number generation.
-- Integration with Pandas, SciPy, Matplotlib, and Scikit-learn.
-
-## Main Features
-
-### `ndarray`
-
-The `ndarray` is NumPy's central data structure. It stores values of the same data type in an efficient multidimensional array.
-
-### Vectorized Operations
-
-Vectorized operations apply calculations to entire arrays without requiring explicit Python loops.
-
-### Broadcasting
-
-Broadcasting allows NumPy to perform operations on arrays with compatible but different shapes.
-
-### Linear Algebra
-
-NumPy supports matrix multiplication, determinants, inverses, eigenvalues, eigenvectors, and vector products.
-
-### Statistical Functions
-
-NumPy includes functions for calculating means, medians, variances, standard deviations, percentiles, and other descriptive measures.
-
-### Integration
-
-NumPy arrays are widely used by libraries such as:
-
-- Pandas.
-- SciPy.
-- Matplotlib.
-- Scikit-learn.
-- Statsmodels.
-
-
-### Quick Check
-
-**Question 1.** What is the main data structure in NumPy?
-
-A. `DataFrame`  
-B. `ndarray`  
-C. `dictionary`  
-D. `tuple`  
-
-**Question 2. True or false?** NumPy is designed mainly for numerical computing.
-
----
-
-# Why Learn NumPy?
-
-NumPy is important because it provides an efficient foundation for numerical work in Python.
-
-## Main Advantages
-
-- Executes vectorized operations much faster than ordinary Python loops in many numerical tasks.
-- Stores homogeneous numerical data more compactly than standard Python lists.
-- Provides optimized functions for matrix operations and linear algebra.
-- Supports random-number generation and statistical analysis.
-- Expresses complex mathematical operations using concise syntax.
-- Serves as the numerical foundation for many data-science libraries.
-
-## NumPy Arrays and Python Lists
-
-A Python list can contain values of different types:
-
-```python
-values = [10, 2.5, "Python", True]
-```
-
-A NumPy array usually stores values of one common data type:
+Example:
 
 ```python
 import numpy as np
 
-import numpy as np
-```
-
-Because NumPy arrays use a regular, homogeneous structure, numerical operations can be performed more efficiently.
-
-### Example: Multiplying Values
-
-Using a Python list:
-
-```python
-values = [1, 2, 3, 4]
-
-values = [1, 2, 3, 4]
-
-result = []
-for value in values:
-
-    result.append(value * 10)
-```
-
-Output:
-
-```text
-[10, 20, 30, 40]
-```
-
-Using NumPy:
-
-```python
-import numpy as np
-
-import numpy as np
-
-values = np.array([1, 2, 3, 4])
-
-result = values * 10
+arr = np.array([10, 20, 30, 40])
+print(arr)
 ```
 
 Output:
@@ -197,86 +108,239 @@ Output:
 [10 20 30 40]
 ```
 
-### Quick Check
+Here, `np.array()` converts a Python list into a NumPy array.
 
-**Question 1.** Why are NumPy arrays efficient for numerical calculations?
+## 1.2. What Does NumPy Provide?
 
-A. They always contain text  
-B. They use a homogeneous and optimized array structure  
-C. They do not use memory  
-D. They automatically connect to the internet  
+NumPy provides:
 
-**Question 2.** Which expression multiplies every element of a NumPy array `a` by 10?
+- fast array operations;
+- vectorized calculations;
+- broadcasting;
+- linear-algebra functions;
+- statistical functions;
+- random-number generation;
+- integration with Pandas, SciPy, Matplotlib, and Scikit-learn.
 
-A. `a * 10`  
-B. `a.append(10)`  
-C. `a.add("10")`  
-D. `a.sort(10)`  
+## 1.3. Quick Check
+
+**Question 1.** What is the main data structure in NumPy?
+
+A. `dictionary`  
+B. `tuple`  
+C. `DataFrame`  
+D. `ndarray`
+
+**Question 2. True or false?** NumPy is designed mainly for numerical computing.
+
+## Exercises
+
+### Exercise 1.1. Identify the Data Structure
+
+Consider:
+
+```python
+import numpy as np
+
+x = np.array([2, 4, 6, 8])
+```
+
+Answer the following:
+
+1. What type of NumPy data structure is `x`?
+2. Predict the number of dimensions of `x`.
+3. Explain why `x` is suitable for numerical computation compared with an ordinary Python list.
+
+### Exercise 1.2. Connect to Data Science
+
+Give one Data Science example in which data could be represented as:
+
+- a one-dimensional array;
+- a two-dimensional matrix;
+- a three-dimensional array.
 
 ---
 
-# Installing and Importing NumPy
+# Part 2. Why Learn NumPy?
 
-## Installation
+## 2.1. Importance in Data Analysis
 
-Install NumPy with:
+NumPy provides an efficient foundation for numerical work in Python. When data are numerical, using NumPy arrays often makes code shorter, clearer, and faster.
+
+## 2.2. Python Lists and NumPy Arrays
+
+A Python list can store values of different types:
+
+```python
+values = [10, 2.5, "Python", True]
+```
+
+A NumPy array usually stores values with one common data type:
+
+```python
+import numpy as np
+
+values = np.array([10, 20, 30, 40])
+print(values.dtype)
+```
+
+Because NumPy arrays have a regular structure, numerical operations can be implemented efficiently.
+
+## 2.3. Example: Multiplying Values
+
+### Using a Python List
+
+```python
+values = [1, 2, 3, 4]
+
+result = []
+for value in values:
+    result.append(value * 10)
+
+print(result)
+```
+
+Output:
+
+```text
+[10, 20, 30, 40]
+```
+
+### Using NumPy
+
+```python
+import numpy as np
+
+values = np.array([1, 2, 3, 4])
+result = values * 10
+
+print(result)
+```
+
+Output:
+
+```text
+[10 20 30 40]
+```
+
+NumPy allows `values * 10` to be applied to the entire array. This is a simple example of **vectorization**.
+
+## 2.4. Quick Check
+
+**Question 1.** Why are NumPy arrays efficient for numerical calculations?
+
+A. They automatically connect to the Internet.  
+B. They use a homogeneous and optimized array structure.  
+C. They do not use memory.  
+D. They always contain text.
+
+**Question 2.** Which expression multiplies every element of a NumPy array `a` by 10?
+
+A. `a.append(10)`  
+B. `a.sort(10)`  
+C. `a * 10`  
+D. `a.add("10")`
+
+## Exercises
+
+### Exercise 2.1. Compare Lists and NumPy
+
+Write two programs that multiply the values `[2, 4, 6, 8]` by 5.
+
+- Method 1: use a Python list and a loop.
+- Method 2: use NumPy.
+
+Then compare the number of lines required by the two approaches.
+
+### Exercise 2.2. Vectorization
+
+Given:
+
+```python
+a = np.array([1, 3, 5, 7])
+```
+
+Without using a loop, create new arrays in which each element is:
+
+1. increased by 10;
+2. multiplied by 2;
+3. squared.
+
+---
+
+# Part 3. Installing and Importing NumPy
+
+## 3.1. Installation
+
+Install NumPy using:
 
 ```bash
 pip install numpy
 ```
 
-In many scientific Python environments, NumPy may already be installed.
+NumPy is already installed in many environments such as Google Colab and Anaconda.
 
-## Importing NumPy
+## 3.2. Importing NumPy
 
-The standard import convention is:
+The standard convention is:
 
 ```python
 import numpy as np
 ```
 
-The alias `np` is widely used in Python code and documentation.
+The alias `np` is widely used in Python code, documentation, and teaching materials.
 
-## Check the Installed Version
+## 3.3. Check the Version
 
 ```python
 import numpy as np
 
-import numpy as np
+print(np.__version__)
 ```
 
-### Quick Check
+## Exercises
 
-**Question 1.** What is the conventional alias for NumPy?
+### Exercise 3.1. Check Your Environment
 
-A. `ny`  
-B. `np`  
-C. `num`  
-D. `py`  
+Run:
 
-**Question 2.** Which command installs NumPy?
+```python
+import numpy as np
 
-A. `pip install numpy`  
-B. `python import numpy`  
-C. `install numpy.py`  
-D. `pip numpy open`  
+print(np.__version__)
+```
+
+Record:
+
+1. the NumPy version being used;
+2. the standard NumPy alias;
+3. the attribute used to check the version.
 
 ---
 
-# NumPy Arrays
+# Part 4. Feature Group: Creating Arrays
 
-NumPy arrays can be created from Python lists, tuples, ranges, or built-in NumPy functions.
+## 4.1. Related NumPy Commands
 
-## Create an Array from a List
+| Command | Meaning |
+|---|---|
+| `np.array(data)` | Convert a list, tuple, or nested structure into an `ndarray`. |
+| `np.zeros(shape)` | Create an array filled with zeros. |
+| `np.ones(shape)` | Create an array filled with ones. |
+| `np.full(shape, value)` | Create an array filled with a specified value. |
+| `np.arange(start, stop, step)` | Create regularly spaced values; `stop` is excluded. |
+| `np.linspace(start, stop, n)` | Create exactly `n` evenly spaced values between two endpoints. |
+| `np.eye(n)` | Create an `n × n` identity matrix. |
+
+## 4.2. Create an Array from a List
 
 ```python
 import numpy as np
 
-import numpy as np
-
 a = [9, 3, 3, 5]
-
 arr = np.array(a)
+
+print(arr)
 ```
 
 Output:
@@ -285,36 +349,34 @@ Output:
 [9 3 3 5]
 ```
 
-## Create a One-Dimensional Array
+## 4.3. Create a One-Dimensional Array
 
 ```python
 arr = np.array([10, 20, 30, 40])
-
-arr = np.array([10, 20, 30, 40])
+print(arr)
 ```
 
-## Create a Two-Dimensional Array
+## 4.4. Create a Two-Dimensional Array
 
 ```python
-matrix = np.array([
 matrix = np.array([
     [1, 2, 3],
     [4, 5, 6]
-
 ])
+
+print(matrix)
 ```
 
 Output:
 
 ```text
 [[1 2 3]
-[[1 2 3]
+ [4 5 6]]
 ```
 
-## Create a Three-Dimensional Array
+## 4.5. Create a Three-Dimensional Array
 
 ```python
-tensor = np.array([
 tensor = np.array([
     [
         [1, 2],
@@ -324,36 +386,17 @@ tensor = np.array([
         [5, 6],
         [7, 8]
     ]
-
 ])
+
+print(tensor)
 ```
 
-### Quick Check
+A three-dimensional array can be interpreted as multiple matrices stacked together.
 
-**Question 1.** Which function converts a Python list into a NumPy array?
-
-A. `np.array()`  
-B. `np.list()`  
-C. `np.convert()`  
-D. `np.ndarray_list()`  
-
-**Question 2.** A two-dimensional NumPy array is commonly used to represent:
-
-A. A matrix  
-B. A string  
-C. A file path  
-D. A Boolean condition  
-
----
-
-# Common Array-Creation Functions
-
-## Create an Array of Zeros
+## 4.6. Common Array-Creation Functions
 
 ```python
-zeros = np.zeros(5)
-
-zeros = np.zeros(5)
+np.zeros(5)
 ```
 
 Output:
@@ -362,36 +405,27 @@ Output:
 [0. 0. 0. 0. 0.]
 ```
 
-Create a matrix of zeros:
-
 ```python
-zeros_matrix = np.zeros((2, 3))
-
-zeros_matrix = np.zeros((2, 3))
+np.zeros((2, 3))
 ```
 
-## Create an Array of Ones
+Output:
 
-```python
-ones = np.ones((2, 3))
-
-ones = np.ones((2, 3))
+```text
+[[0. 0. 0.]
+ [0. 0. 0.]]
 ```
 
-## Create an Array with a Constant Value
-
 ```python
-filled = np.full((2, 3), 7)
-
-filled = np.full((2, 3), 7)
+np.ones((2, 3))
 ```
 
-## Create a Sequence with `arange()`
+```python
+np.full((2, 3), 7)
+```
 
 ```python
-values = np.arange(0, 10, 2)
-
-values = np.arange(0, 10, 2)
+np.arange(0, 10, 2)
 ```
 
 Output:
@@ -400,12 +434,8 @@ Output:
 [0 2 4 6 8]
 ```
 
-## Create Evenly Spaced Values with `linspace()`
-
 ```python
-values = np.linspace(0, 1, 5)
-
-values = np.linspace(0, 1, 5)
+np.linspace(0, 1, 5)
 ```
 
 Output:
@@ -414,260 +444,235 @@ Output:
 [0.   0.25 0.5  0.75 1.  ]
 ```
 
-## Create an Identity Matrix
-
 ```python
-identity = np.eye(3)
-
-identity = np.eye(3)
+np.eye(3)
 ```
 
 Output:
 
 ```text
 [[1. 0. 0.]
-[[1. 0. 0.]
  [0. 1. 0.]
+ [0. 0. 1.]]
 ```
 
-### Quick Check
+## 4.7. Quick Check
 
-**Question 1.** Which function creates an array filled with zeros?
+**Question 1.** Which function converts a Python list into a NumPy array?
 
-A. `np.zeros()`  
-B. `np.empty_text()`  
-C. `np.null()`  
-D. `np.zero_array_only()`  
+A. `np.reshape()`  
+B. `np.array()`  
+C. `np.list()`  
+D. `np.convert()`
 
 **Question 2.** Which function creates evenly spaced values between two endpoints?
 
-A. `np.linspace()`  
-B. `np.stack()`  
+A. `np.stack()`  
+B. `np.mean()`  
 C. `np.split()`  
-D. `np.mean()`  
+D. `np.linspace()`
+
+## Exercises
+
+### Exercise 4.1. Create Basic Arrays
+
+Use NumPy to create:
+
+1. the array `[5, 10, 15, 20]`;
+2. a `3 × 4` matrix of zeros;
+3. a `2 × 5` matrix of ones;
+4. a `3 × 3` matrix filled with 7;
+5. the even numbers from 0 to 18;
+6. six evenly spaced values from 0 to 1.
+
+### Exercise 4.2. Identity Matrix
+
+Create a `4 × 4` identity matrix and explain where the values equal to 1 appear.
 
 ---
 
-# Array Properties
+# Part 5. Feature Group: Array Properties
 
-NumPy arrays provide several useful attributes.
-
-```python
-arr = np.array([
-arr = np.array([
-    [1, 2, 3],
-    [4, 5, 6]
-```
-
-## Number of Dimensions
-
-```python
-print(arr.ndim)
-```
-
-Output:
-
-```text
-2
-```
-
-## Shape
-
-```python
-print(arr.shape)
-```
-
-Output:
-
-```text
-(2, 3)
-```
-
-The array has two rows and three columns.
-
-## Total Number of Elements
-
-```python
-print(arr.size)
-```
-
-Output:
-
-```text
-6
-```
-
-## Data Type
-
-```python
-print(arr.dtype)
-```
-
-The exact output depends on the platform and the values stored in the array.
-
-## Number of Bytes per Element
-
-```python
-print(arr.itemsize)
-```
-
-### Summary
+## 5.1. Related Attributes
 
 | Attribute | Meaning |
 |---|---|
-| `ndim` | Number of dimensions |
-| `shape` | Size along each dimension |
-| `size` | Total number of elements |
-| `dtype` | Data type |
-| `itemsize` | Number of bytes used by each element |
+| `arr.ndim` | Number of dimensions. |
+| `arr.shape` | Size along each dimension. |
+| `arr.size` | Total number of elements. |
+| `arr.dtype` | Data type of the elements. |
+| `arr.itemsize` | Number of bytes per element. |
+| `arr.nbytes` | Total number of bytes used by the array elements. |
 
-### Quick Check
+## 5.2. Example
 
-**Question 1.** Which attribute returns the dimensions of an array?
+```python
+arr = np.array([
+    [1, 2, 3],
+    [4, 5, 6]
+])
 
-A. `shape`  
-B. `mean`  
-C. `append`  
-D. `index`  
+print(arr.ndim)
+print(arr.shape)
+print(arr.size)
+print(arr.dtype)
+print(arr.itemsize)
+print(arr.nbytes)
+```
 
-**Question 2.** Which attribute returns the total number of elements?
+Interpretation:
 
-A. `size`  
-B. `dtype`  
-C. `ndim`  
-D. `itemsize`  
+- `arr.ndim = 2`: the array has two dimensions.
+- `arr.shape = (2, 3)`: the array has two rows and three columns.
+- `arr.size = 6`: the array has six elements in total.
+- `arr.dtype`: reports the element data type.
+- `arr.itemsize`: reports bytes per element.
+- `arr.nbytes`: reports total memory used by the elements.
+
+## 5.3. Good Habit
+
+Before reshaping, broadcasting, or passing data to a machine-learning model, inspect:
+
+```python
+print(arr.shape)
+print(arr.dtype)
+```
+
+Many NumPy errors are caused by unexpected shapes or data types.
+
+## Exercises
+
+### Exercise 5.1. Read Array Properties
+
+Given:
+
+```python
+A = np.array([
+    [1, 2, 3, 4],
+    [5, 6, 7, 8],
+    [9, 10, 11, 12]
+])
+```
+
+Before running the code, predict:
+
+1. `A.ndim`;
+2. `A.shape`;
+3. `A.size`.
+
+Then run the code and check your predictions.
+
+### Exercise 5.2. Data Types and Memory
+
+Create two arrays containing `[1, 2, 3, 4]`, one with `int64` and one with `int8`.
+
+Compare:
+
+```python
+arr.dtype
+arr.itemsize
+arr.nbytes
+```
 
 ---
 
-# Array Indexing
+# Part 6. Feature Group: Indexing and Slicing
 
-Indexing is used to access individual elements.
+## 6.1. Related Syntax
 
-## One-Dimensional Indexing
+| Syntax | Meaning |
+|---|---|
+| `arr[i]` | Select the element at position `i`. |
+| `arr[-1]` | Select the last element. |
+| `arr[a:b]` | Select elements from index `a` up to, but not including, `b`. |
+| `arr[::step]` | Select elements using a specified step. |
+| `matrix[i, j]` | Select the element at row `i`, column `j`. |
+| `matrix[r1:r2, c1:c2]` | Select a two-dimensional slice. |
+| `arr.copy()` | Create an independent copy. |
+
+## 6.2. One-Dimensional Indexing
 
 ```python
 arr = np.array([10, 20, 30, 40])
 
-arr = np.array([10, 20, 30, 40])
 print(arr[0])
-```
-
-Output:
-
-```text
-10
-10
-```
-
-Negative indexing accesses elements from the end:
-
-```python
+print(arr[2])
 print(arr[-1])
 ```
 
 Output:
 
 ```text
+10
+30
 40
 ```
 
-## Two-Dimensional Indexing
+## 6.3. Two-Dimensional Indexing
 
 ```python
-matrix = np.array([
 matrix = np.array([
     [1, 2, 3],
     [4, 5, 6]
-
 ])
+
 print(matrix[0, 1])
+print(matrix[1, 2])
 ```
 
 Output:
 
 ```text
 2
-2
+6
 ```
 
-### Quick Check
-
-**Question 1.** What does `arr[0]` return?
-
-A. The first element  
-B. The last element  
-C. The array shape  
-D. The array size  
-
-**Question 2.** In a two-dimensional array, `matrix[1, 2]` refers to:
-
-A. Row index 1 and column index 2  
-B. Row 1 only  
-C. Column 2 only  
-D. The array dimensions  
-
----
-
-# Array Slicing
-
-Slicing extracts part of an array.
-
-## One-Dimensional Slicing
+## 6.4. One-Dimensional Slicing
 
 ```python
 arr = np.array([10, 20, 30, 40, 50])
 
-arr = np.array([10, 20, 30, 40, 50])
-```
-
-Output:
-
-```text
-[20 30 40]
-```
-
-## Slicing with a Step
-
-```python
+print(arr[1:4])
 print(arr[::2])
 ```
 
 Output:
 
 ```text
+[20 30 40]
 [10 30 50]
 ```
 
-## Two-Dimensional Slicing
+## 6.5. Two-Dimensional Slicing
 
 ```python
-matrix = np.array([
 matrix = np.array([
     [1, 2, 3],
     [4, 5, 6],
     [7, 8, 9]
-
 ])
+
+print(matrix[0:2, 1:3])
 ```
 
 Output:
 
 ```text
 [[2 3]
-[[2 3]
+ [5 6]]
 ```
 
-## Important Note: Views and Copies
+## 6.6. Views and Copies
 
-Many NumPy slices return a **view** of the original array rather than an independent copy. Modifying the slice may therefore modify the original data.
+Many NumPy slices return a **view**, which may share memory with the original array.
 
 ```python
 arr = np.array([10, 20, 30, 40])
 
-arr = np.array([10, 20, 30, 40])
 view = arr[1:3]
-
 view[0] = 999
+
+print(arr)
 ```
 
 Output:
@@ -682,184 +687,134 @@ Create an independent copy with:
 copy = arr[1:3].copy()
 ```
 
-### Quick Check
+## Exercises
 
-**Question 1.** What does `arr[1:4]` include?
+### Exercise 6.1. Indexing
 
-A. Elements at indices 1, 2, and 3  
-B. Elements at indices 1 through 4, including 4  
-C. Only the element at index 4  
-D. Every second element  
+Given:
 
-**Question 2. True or false?** A NumPy slice may share memory with the original array.
+```python
+arr = np.array([10, 20, 30, 40, 50])
+```
+
+Extract:
+
+1. the first element;
+2. the third element;
+3. the last element.
+
+### Exercise 6.2. Slicing
+
+Given:
+
+```python
+A = np.array([
+    [1, 2, 3, 4],
+    [5, 6, 7, 8],
+    [9, 10, 11, 12]
+])
+```
+
+Extract:
+
+1. the first two rows;
+2. the last two columns;
+3. the submatrix consisting of rows 2–3 and columns 2–4;
+4. the last row.
+
+### Exercise 6.3. View or Copy?
+
+Create a slice, modify one element of the slice, and inspect the original array. Repeat the experiment using `.copy()` and compare the results.
 
 ---
 
-# Reshaping Arrays
+# Part 7. Feature Group: Reshape, Resize, Stack, and Split
 
-Reshaping changes the dimensions of an array without changing its data.
+## 7.1. Related Commands
+
+| Command | Meaning |
+|---|---|
+| `arr.reshape(r, c)` | Change the shape if the number of elements is compatible. |
+| `arr.reshape(..., -1)` | Let NumPy infer one dimension automatically. |
+| `arr.flatten()` | Flatten the array and return a copy. |
+| `arr.ravel()` | Flatten the array and often return a view when possible. |
+| `np.resize(arr, shape)` | Change the total size; values may be repeated. |
+| `np.vstack((a, b))` | Stack arrays vertically. |
+| `np.hstack((a, b))` | Stack arrays horizontally. |
+| `np.stack((a, b), axis=k)` | Stack arrays along a new axis. |
+| `np.split(arr, n)` | Split an array into `n` equal parts when possible. |
+| `np.hsplit(matrix, n)` | Split a matrix along columns. |
+
+## 7.2. Reshape
 
 ```python
 arr = np.arange(12)
-
-arr = np.arange(12)
-
 matrix = arr.reshape(3, 4)
+
+print(matrix)
 ```
 
 Output:
 
 ```text
-[[ 0  1  2  3]
 [[ 0  1  2  3]
  [ 4  5  6  7]
+ [ 8  9 10 11]]
 ```
 
-## Use `-1` to Infer a Dimension
+Use `-1` to let NumPy infer one dimension:
 
 ```python
 matrix = arr.reshape(2, -1)
-
-matrix = arr.reshape(2, -1)
+print(matrix.shape)
 ```
 
-NumPy automatically calculates the missing dimension.
-
-## Flatten an Array
+## 7.3. Flatten and Ravel
 
 ```python
 flat = matrix.flatten()
-
-flat = matrix.flatten()
-```
-
-## Use `ravel()`
-
-```python
-flat_view = matrix.ravel()
-
 flat_view = matrix.ravel()
 ```
 
-`flatten()` returns a copy, while `ravel()` often returns a view when possible.
+- `flatten()` returns a copy.
+- `ravel()` often returns a view when possible.
 
-### Quick Check
-
-**Question 1.** Which method changes an array from one shape to another?
-
-A. `reshape()`  
-B. `mean()`  
-C. `split()`  
-D. `sort_index()`  
-
-**Question 2.** What does `-1` mean in `reshape()`?
-
-A. NumPy should infer that dimension  
-B. Delete one dimension  
-C. Reverse the array  
-D. Convert values to negative numbers  
-
----
-
-# Resizing Arrays
-
-`resize()` changes the shape of an array and may change the number of elements.
+## 7.4. Resize
 
 ```python
 arr = np.array([1, 2, 3, 4])
-
-arr = np.array([1, 2, 3, 4])
-
 resized = np.resize(arr, (2, 3))
+
+print(resized)
 ```
 
 Output:
 
 ```text
 [[1 2 3]
-[[1 2 3]
+ [4 1 2]]
 ```
 
-When the new array is larger, values may be repeated.
+`np.resize()` may repeat values when the requested shape contains more positions than the original array.
 
-> **Note:** `reshape()` requires the total number of elements to remain compatible. `resize()` can create a different total size.
-
-### Quick Check
-
-**Question 1.** Which operation normally preserves the total number of elements?
-
-A. `reshape()`  
-B. `np.resize()` in every case  
-C. `np.delete()`  
-D. `np.append()`  
-
----
-
-# Stacking Arrays
-
-Stacking combines arrays.
-
-## Vertical Stacking
+## 7.5. Stacking
 
 ```python
 a = np.array([1, 2, 3])
-a = np.array([1, 2, 3])
-
 b = np.array([4, 5, 6])
 
-result = np.vstack((a, b))
+print(np.vstack((a, b)))
+print(np.hstack((a, b)))
+print(np.stack((a, b), axis=0))
 ```
 
-Output:
-
-```text
-[[1 2 3]
-[[1 2 3]
-```
-
-## Horizontal Stacking
-
-```python
-result = np.hstack((a, b))
-
-result = np.hstack((a, b))
-```
-
-Output:
-
-```text
-[1 2 3 4 5 6]
-```
-
-## General Stacking
-
-```python
-result = np.stack((a, b), axis=0)
-
-result = np.stack((a, b), axis=0)
-```
-
-### Quick Check
-
-**Question 1.** Which function stacks arrays vertically?
-
-A. `np.vstack()`  
-B. `np.mean()`  
-C. `np.split()`  
-D. `np.random()`  
-
----
-
-# Splitting Arrays
-
-Splitting divides an array into smaller arrays.
+## 7.6. Splitting
 
 ```python
 arr = np.array([1, 2, 3, 4, 5, 6])
-
-arr = np.array([1, 2, 3, 4, 5, 6])
-
 parts = np.split(arr, 3)
+
+print(parts)
 ```
 
 Output:
@@ -868,43 +823,72 @@ Output:
 [array([1, 2]), array([3, 4]), array([5, 6])]
 ```
 
-## Horizontal and Vertical Splitting
+## Exercises
+
+### Exercise 7.1. Reshape
+
+Create:
 
 ```python
-matrix = np.array([
-matrix = np.array([
-    [1, 2, 3, 4],
-    [5, 6, 7, 8]
-
-])
-
-left, right = np.hsplit(matrix, 2)
-print(left)
+arr = np.arange(1, 13)
 ```
 
-### Quick Check
+Reshape it into:
 
-**Question 1.** Which function divides an array into equal parts?
+1. a `3 × 4` matrix;
+2. a `2 × 6` matrix;
+3. a matrix with 4 rows and let NumPy infer the number of columns using `-1`.
 
-A. `np.split()`  
-B. `np.join()`  
-C. `np.mean()`  
-D. `np.dot()`  
+### Exercise 7.2. Flatten and Ravel
+
+From a `3 × 4` matrix, create:
+
+```python
+flat1 = matrix.flatten()
+flat2 = matrix.ravel()
+```
+
+Print the `shape` of both results and explain the important difference between the two commands.
+
+### Exercise 7.3. Stack and Split
+
+Given:
+
+```python
+a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
+```
+
+Do the following:
+
+1. stack vertically;
+2. stack horizontally;
+3. use `np.stack()` with `axis=0`;
+4. create the values 1 through 8 and split them into four equal parts.
 
 ---
 
-# Broadcasting
+# Part 8. Feature Group: Broadcasting and Arithmetic
 
-Broadcasting allows NumPy to perform operations between arrays of compatible shapes.
+## 8.1. Related Expressions
 
-## Scalar Broadcasting
+| Expression | Meaning |
+|---|---|
+| `a + b`, `a - b` | Element-wise addition and subtraction. |
+| `a * b` | Element-wise multiplication. |
+| `a / b` | Element-wise division. |
+| `a ** p` | Raise each element to power `p`. |
+| `a % b` | Element-wise remainder. |
+| `array + scalar` | Broadcast a scalar to all elements. |
+| `matrix + row` | Broadcast a compatible one-dimensional row across matrix rows. |
+
+## 8.2. Broadcasting with a Scalar
 
 ```python
 arr = np.array([1, 2, 3, 4])
-
-arr = np.array([1, 2, 3, 4])
-
 result = arr + 10
+
+print(result)
 ```
 
 Output:
@@ -915,250 +899,157 @@ Output:
 
 The scalar `10` is conceptually applied to every element.
 
-## Broadcasting Between Arrays
+## 8.3. Broadcasting Between Arrays
 
 ```python
 matrix = np.array([
-matrix = np.array([
     [1, 2, 3],
     [4, 5, 6]
-
 ])
 
 row = np.array([10, 20, 30])
-
 result = matrix + row
+
+print(result)
 ```
 
 Output:
 
 ```text
 [[11 22 33]
-[[11 22 33]
+ [14 25 36]]
 ```
 
-## Basic Broadcasting Rule
+## 8.4. Basic Broadcasting Rule
 
-Starting from the rightmost dimensions, two dimensions are compatible when:
+Starting from the rightmost dimensions, two dimensions are compatible if:
 
-- They are equal; or
-- One of them is `1`.
+- they are equal; or
+- one of them is `1`.
 
-If the shapes are incompatible, NumPy raises an error.
+If shapes are incompatible, NumPy raises an error.
 
-### Example of Incompatible Shapes
-
-```python
-a = np.ones((2, 3))
-a = np.ones((2, 3))
-
-# a + b raises a broadcasting error
-```
-
-### Quick Check
-
-**Question 1.** What does broadcasting allow?
-
-A. Operations on arrays with compatible different shapes  
-B. Automatic internet transmission  
-C. Conversion of arrays into files  
-D. Removal of all dimensions  
-
-**Question 2.** Two dimensions are broadcasting-compatible when they are equal or:
-
-A. One of them is 1  
-B. Both are negative  
-C. Both are text  
-D. Their sum is zero  
-
----
-
-# Basic Arithmetic Operations
-
-NumPy supports element-wise arithmetic.
+## 8.5. Basic Arithmetic Operations
 
 ```python
 a = np.array([1, 2, 3])
-a = np.array([1, 2, 3])
-```
+b = np.array([4, 5, 6])
 
-## Addition
-
-```python
 print(a + b)
-```
-
-Output:
-
-```text
-[5 7 9]
-```
-
-## Subtraction
-
-```python
 print(a - b)
-```
-
-Output:
-
-```text
-[-3 -3 -3]
-```
-
-## Multiplication
-
-```python
 print(a * b)
-```
-
-Output:
-
-```text
-[ 4 10 18]
-```
-
-## Division
-
-```python
 print(a / b)
-```
-
-## Exponentiation
-
-```python
 print(a ** 2)
-```
-
-Output:
-
-```text
-[1 4 9]
-```
-
-## Modulo
-
-```python
 print(b % a)
 ```
 
-### Important Distinction
+Remember: `a * b` performs element-wise multiplication, not matrix multiplication.
 
-The `*` operator performs **element-wise multiplication**, not matrix multiplication.
+## Exercises
 
-### Quick Check
+### Exercise 8.1. Element-Wise Arithmetic
 
-**Question 1.** What does `a * b` do for two arrays of the same shape?
+Given:
 
-A. Element-wise multiplication  
-B. Matrix inversion  
-C. Sorting  
-D. Stacking  
+```python
+a = np.array([2, 4, 6])
+b = np.array([1, 2, 3])
+```
+
+Calculate:
+
+1. `a + b`;
+2. `a - b`;
+3. `a * b`;
+4. `a / b`;
+5. `a ** 2`.
+
+### Exercise 8.2. Broadcasting with a Scalar
+
+Given:
+
+```python
+scores = np.array([7, 8, 6, 9])
+```
+
+Add 1 point to every score without using a loop.
+
+### Exercise 8.3. Broadcasting with a Vector
+
+Given:
+
+```python
+A = np.array([
+    [1, 2, 3],
+    [4, 5, 6]
+])
+
+row = np.array([10, 20, 30])
+```
+
+Calculate `A + row`, then explain why broadcasting is valid.
 
 ---
 
-# Aggregation Functions
+# Part 9. Feature Group: Aggregation and Universal Functions
 
-Aggregation functions summarize an array.
+## 9.1. Related Commands
+
+| Command | Meaning |
+|---|---|
+| `arr.sum()`, `arr.mean()` | Sum and arithmetic mean. |
+| `arr.min()`, `arr.max()` | Minimum and maximum. |
+| `np.median(arr)` | Median. |
+| `np.var(arr)`, `np.std(arr)` | Variance and standard deviation. |
+| `func(..., axis=0)` | Aggregate by column. |
+| `func(..., axis=1)` | Aggregate by row. |
+| `np.sqrt(arr)` | Square root element by element. |
+| `np.exp(arr)`, `np.log(arr)` | Exponential and natural logarithm element by element. |
+| `np.sin(arr)` | Sine element by element. |
+| `np.abs(arr)`, `np.round(arr)` | Absolute value and rounding. |
+
+## 9.2. Aggregation
 
 ```python
 arr = np.array([9, 3, 3, 5])
-```
 
-## Sum
-
-```python
 print(arr.sum())
-```
-
-Output:
-
-```text
-20
-```
-
-## Mean
-
-```python
 print(arr.mean())
-```
-
-Output:
-
-```text
-5.0
-```
-
-## Minimum and Maximum
-
-```python
 print(arr.min())
-print(arr.min())
-```
-
-## Median
-
-```python
+print(arr.max())
 print(np.median(arr))
+print(np.var(arr))
+print(np.std(arr))
 ```
 
-## Variance and Standard Deviation
+## 9.3. Aggregation Along an Axis
 
 ```python
-print(np.var(arr))
-print(np.var(arr))
-```
-
-## Aggregation Along an Axis
-
-```python
-matrix = np.array([
 matrix = np.array([
     [1, 2, 3],
     [4, 5, 6]
-
 ])
+
 print(matrix.sum(axis=0))
+print(matrix.sum(axis=1))
 ```
 
 Output:
 
 ```text
 [5 7 9]
-[5 7 9]
+[ 6 15]
 ```
 
-- `axis=0` aggregates down the rows, producing one value per column.
-- `axis=1` aggregates across the columns, producing one value per row.
+- `axis=0`: aggregate down the rows, producing one result per column.
+- `axis=1`: aggregate across columns, producing one result per row.
 
-### Quick Check
-
-**Question 1.** Which function calculates the arithmetic mean?
-
-A. `np.mean()`  
-B. `np.stack()`  
-C. `np.dot()`  
-D. `np.reshape()`  
-
-**Question 2.** In a two-dimensional array, what does `axis=0` generally aggregate over?
-
-A. Rows, producing column-wise results  
-B. Columns, producing row-wise results  
-C. File names  
-D. Data types  
-
----
-
-# Universal Functions
-
-A **universal function**, or **ufunc**, performs element-wise operations on arrays.
-
-## Square Root
+## 9.4. Universal Functions
 
 ```python
 arr = np.array([1, 4, 9, 16])
 
-arr = np.array([1, 4, 9, 16])
+print(np.sqrt(arr))
 ```
 
 Output:
@@ -1167,63 +1058,84 @@ Output:
 [1. 2. 3. 4.]
 ```
 
-## Exponential
+Other examples:
 
 ```python
 print(np.exp(np.array([0, 1, 2])))
+print(np.log(np.array([1, np.e, np.e**2])))
+print(np.sin(np.array([0, np.pi / 2, np.pi])))
+print(np.abs(np.array([-3, -1, 2, 4])))
+print(np.round(np.array([1.234, 5.678]), 2))
 ```
 
-## Natural Logarithm
+## Exercises
+
+### Exercise 9.1. Quick Statistics
+
+Given:
 
 ```python
-values = np.array([1, np.e, np.e**2])
-
-values = np.array([1, np.e, np.e**2])
+x = np.array([4, 8, 6, 10, 12])
 ```
 
-## Trigonometric Functions
+Calculate:
+
+1. sum;
+2. mean;
+3. minimum;
+4. maximum;
+5. median;
+6. standard deviation.
+
+### Exercise 9.2. Axis
+
+Given:
 
 ```python
-angles = np.array([0, np.pi / 2, np.pi])
-
-angles = np.array([0, np.pi / 2, np.pi])
+A = np.array([
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+])
 ```
 
-## Absolute Value
+Calculate:
+
+1. the sum of each column;
+2. the sum of each row;
+3. the mean of each column.
+
+### Exercise 9.3. Ufunc
+
+Given:
 
 ```python
-values = np.array([-3, -1, 2, 4])
-
-values = np.array([-3, -1, 2, 4])
+x = np.array([1, 4, 9, 16])
 ```
 
-## Rounding
-
-```python
-values = np.array([1.234, 5.678])
-
-values = np.array([1.234, 5.678])
-```
-
-### Quick Check
-
-**Question 1.** Which function calculates square roots element by element?
-
-A. `np.sqrt()`  
-B. `np.split()`  
-C. `np.stack()`  
-D. `np.size()`  
+Apply `np.sqrt()` and explain the output.
 
 ---
 
-# Comparison and Boolean Operations
+# Part 10. Feature Group: Boolean Operations
 
-NumPy supports element-wise comparisons.
+## 10.1. Related Commands
+
+| Expression | Meaning |
+|---|---|
+| `arr > value` | Create a Boolean array from a comparison. |
+| `arr[arr > value]` | Filter elements satisfying a condition. |
+| `(cond1) & (cond2)` | Element-wise AND. |
+| `(cond1) \| (cond2)` | Element-wise OR. |
+| `~mask` | Element-wise NOT. |
+| `np.where(cond, a, b)` | Choose `a` when the condition is true and `b` otherwise. |
+
+## 10.2. Comparison and Boolean Filtering
 
 ```python
 arr = np.array([10, 20, 30, 40])
 
-arr = np.array([10, 20, 30, 40])
+print(arr > 20)
 ```
 
 Output:
@@ -1232,12 +1144,9 @@ Output:
 [False False  True  True]
 ```
 
-## Boolean Filtering
-
 ```python
 selected = arr[arr > 20]
-
-selected = arr[arr > 20]
+print(selected)
 ```
 
 Output:
@@ -1246,12 +1155,11 @@ Output:
 [30 40]
 ```
 
-## Combine Conditions
+## 10.3. Combine Conditions
 
 ```python
 selected = arr[(arr >= 20) & (arr <= 30)]
-
-selected = arr[(arr >= 20) & (arr <= 30)]
+print(selected)
 ```
 
 Output:
@@ -1260,483 +1168,15 @@ Output:
 [20 30]
 ```
 
-Use:
+When combining multiple comparisons, place each condition inside parentheses.
 
-- `&` for element-wise AND.
-- `|` for element-wise OR.
-- `~` for element-wise NOT.
-
-### Quick Check
-
-**Question 1.** What does `arr[arr > 20]` return?
-
-A. Elements greater than 20  
-B. The array size  
-C. The array data type  
-D. All elements converted to Boolean values  
-
----
-
-# Linear Algebra
-
-NumPy provides linear-algebra functions through `numpy.linalg` and matrix multiplication operators.
-
-## Matrix Multiplication
-
-```python
-import numpy as np
-
-import numpy as np
-A = np.array([
-    [1, 2],
-    [3, 4]
-
-])
-
-result = np.dot(A, A)
-```
-
-Output:
-
-```text
-[[ 7 10]
-[[ 7 10]
-```
-
-The `@` operator can also be used:
-
-```python
-result = A @ A
-
-result = A @ A
-```
-
-## Element-Wise vs. Matrix Multiplication
-
-```python
-print(A * A)
-print(A * A)
-```
-
-- `A * A` performs element-wise multiplication.
-- `A @ A` performs matrix multiplication.
-
-## Matrix Transpose
-
-```python
-print(A.T)
-```
-
-## Determinant
-
-```python
-determinant = np.linalg.det(A)
-
-determinant = np.linalg.det(A)
-```
-
-## Matrix Inverse
-
-```python
-inverse = np.linalg.inv(A)
-
-inverse = np.linalg.inv(A)
-```
-
-An inverse exists only for a square, nonsingular matrix.
-
-## Solve a Linear System
-
-For the system \(Ax=b\):
-
-```python
-A = np.array([
-A = np.array([
-    [2, 1],
-    [1, 3]
-
-])
-
-b = np.array([8, 13])
-
-x = np.linalg.solve(A, b)
-```
-
-## Eigenvalues and Eigenvectors
-
-```python
-eigenvalues, eigenvectors = np.linalg.eig(A)
-
-eigenvalues, eigenvectors = np.linalg.eig(A)
-print(eigenvalues)
-```
-
-## Inner Product
-
-```python
-a = np.array([1, 2, 3])
-a = np.array([1, 2, 3])
-
-b = np.array([4, 5, 6])
-```
-
-## Outer Product
-
-```python
-print(np.outer(a, b))
-```
-
-## Dot and Vector Dot Products
-
-```python
-print(np.dot(a, b))
-print(np.dot(a, b))
-```
-
-For real one-dimensional arrays, these results are often the same. `vdot()` also handles complex conjugation.
-
-### Quick Check
-
-**Question 1.** Which operator performs matrix multiplication?
-
-A. `@`  
-B. `%`  
-C. `//`  
-D. `&`  
-
-**Question 2.** Which function calculates a matrix inverse?
-
-A. `np.linalg.inv()`  
-B. `np.mean()`  
-C. `np.resize()`  
-D. `np.random()`  
-
----
-
-# Random-Number Generation
-
-NumPy provides tools for generating random values used in simulation, statistical experiments, and machine-learning workflows.
-
-For new code, NumPy commonly uses a random-number generator object:
-
-```python
-import numpy as np
-
-import numpy as np
-```
-
-> **Note:** NumPy's random-number generators are intended for numerical and statistical work. They should not be treated as cryptographically secure generators.
-
-## Random Integers
-
-```python
-rng = np.random.default_rng(42)
-
-rng = np.random.default_rng(42)
-values = rng.integers(
-    low=1,
-    high=10,
-    size=5
-
-)
-```
-
-## Uniform Distribution
-
-```python
-values = rng.uniform(
-values = rng.uniform(
-    low=0,
-    high=1,
-    size=5
-
-)
-```
-
-## Normal Distribution
-
-```python
-values = rng.normal(
-values = rng.normal(
-    loc=0,
-    scale=1,
-    size=5
-
-)
-```
-
-## Binomial Distribution
-
-```python
-values = rng.binomial(
-values = rng.binomial(
-    n=10,
-    p=0.5,
-    size=5
-
-)
-```
-
-## Poisson Distribution
-
-```python
-values = rng.poisson(
-values = rng.poisson(
-    lam=3,
-    size=5
-
-)
-```
-
-## Exponential Distribution
-
-```python
-values = rng.exponential(
-values = rng.exponential(
-    scale=2,
-    size=5
-
-)
-```
-
-## Chi-Square Distribution
-
-```python
-values = rng.chisquare(
-values = rng.chisquare(
-    df=4,
-    size=5
-
-)
-```
-
-## Reproducibility with a Seed
-
-```python
-rng = np.random.default_rng(42)
-```
-
-Using the same seed helps reproduce the same pseudorandom sequence.
-
-### Example
-
-```python
-import numpy as np
-
-import numpy as np
-
-rng = np.random.default_rng(42)
-
-a = rng.normal(0, 1, 5)
-print("Data:", a)
-```
-
-The exact values depend on the generator and NumPy version, but a fixed seed makes a run reproducible within a compatible environment.
-
-### Quick Check
-
-**Question 1.** Which method creates a modern NumPy random-number generator?
-
-A. `np.random.default_rng()`  
-B. `np.random.file()`  
-C. `np.create_random_array()`  
-D. `np.random.text()`  
-
-**Question 2.** Why is a seed useful?
-
-A. It helps reproduce a pseudorandom sequence  
-B. It makes values truly unpredictable  
-C. It removes every random value  
-D. It converts data into strings  
-
----
-
-# Statistical Functions
-
-NumPy supports common descriptive statistics.
-
-```python
-data = np.array([12, 15, 18, 20, 25])
-```
-
-## Mean
-
-```python
-print(np.mean(data))
-```
-
-## Median
-
-```python
-print(np.median(data))
-```
-
-## Variance
-
-```python
-print(np.var(data))
-```
-
-## Standard Deviation
-
-```python
-print(np.std(data))
-```
-
-## Percentiles
-
-```python
-print(np.percentile(data, 25))
-print(np.percentile(data, 25))
-print(np.percentile(data, 50))
-```
-
-## Quantiles
-
-```python
-print(np.quantile(data, 0.25))
-print(np.quantile(data, 0.25))
-print(np.quantile(data, 0.50))
-```
-
-## Range
-
-```python
-data_range = np.max(data) - np.min(data)
-
-data_range = np.max(data) - np.min(data)
-```
-
-### Population and Sample Conventions
-
-By default, `np.var()` and `np.std()` use `ddof=0`, corresponding to division by \(N\).
-
-For a sample estimate using division by \(N-1\):
-
-```python
-sample_variance = np.var(data, ddof=1)
-sample_variance = np.var(data, ddof=1)
-
-sample_std = np.std(data, ddof=1)
-print(sample_variance)
-```
-
-### Quick Check
-
-**Question 1.** Which parameter can be used to obtain the usual sample standard deviation?
-
-A. `ddof=1`  
-B. `axis=-100`  
-C. `dtype="sample"`  
-D. `copy=False`  
-
----
-
-# Missing and Invalid Numerical Values
-
-NumPy commonly represents missing numerical values with `np.nan`.
-
-```python
-data = np.array([10.0, 20.0, np.nan, 40.0])
-
-data = np.array([10.0, 20.0, np.nan, 40.0])
-```
-
-## Standard Mean
-
-```python
-print(np.mean(data))
-```
-
-This returns `nan` because the array contains a missing value.
-
-## Ignore `NaN` Values
-
-```python
-print(np.nanmean(data))
-print(np.nanmean(data))
-print(np.nanmedian(data))
-```
-
-## Detect Missing Values
-
-```python
-print(np.isnan(data))
-```
-
-## Remove Missing Values
-
-```python
-clean_data = data[~np.isnan(data)]
-
-clean_data = data[~np.isnan(data)]
-```
-
-> **Note:** NumPy provides basic support for missing numerical values. More complete missing-data workflows are commonly handled with Pandas.
-
-### Quick Check
-
-**Question 1.** Which function calculates the mean while ignoring `NaN` values?
-
-A. `np.nanmean()`  
-B. `np.mean_text()`  
-C. `np.ignore()`  
-D. `np.dropna()`  
-
----
-
-# Vectorized Operations
-
-Vectorization applies an operation to an entire array at once.
-
-```python
-import numpy as np
-
-import numpy as np
-
-a = np.arange(5)
-
-result = a * 10
-```
-
-Output:
-
-```text
-[ 0 10 20 30 40]
-```
-
-Without NumPy, a loop might be required:
-
-```python
-a = list(range(5))
-
-a = list(range(5))
-
-result = []
-for value in a:
-
-    result.append(value * 10)
-```
-
-Vectorized code is often:
-
-- Shorter.
-- Easier to read.
-- Faster for large numerical arrays.
-- Better suited to scientific and data-analysis workflows.
-
-## Vectorized Conditional Logic
+## 10.4. Vectorized Conditional Logic with `np.where()`
 
 ```python
 arr = np.array([10, 20, 30, 40])
 
-arr = np.array([10, 20, 30, 40])
-labels = np.where(
-    arr >= 30,
-    "high",
-    "low"
-
-)
+labels = np.where(arr >= 30, "high", "low")
+print(labels)
 ```
 
 Output:
@@ -1745,53 +1185,385 @@ Output:
 ['low' 'low' 'high' 'high']
 ```
 
-### Quick Check
+## Exercises
 
-**Question 1.** What is a major advantage of vectorization?
+### Exercise 10.1. Filter with One Condition
 
-A. It applies array operations without explicit Python loops  
-B. It converts every array into text  
-C. It eliminates the need for memory  
-D. It prevents all errors  
+Given:
+
+```python
+scores = np.array([4, 7, 8, 5, 9, 6])
+```
+
+Filter:
+
+1. scores greater than or equal to 7;
+2. scores below 6.
+
+### Exercise 10.2. Combine Conditions
+
+Filter scores from 6 through 8, including both endpoints.
+
+### Exercise 10.3. Create Labels
+
+Use `np.where()` to create:
+
+- `"Pass"` when the score is `>= 5`;
+- `"Fail"` when the score is `< 5`.
 
 ---
 
-# Memory Considerations
+# Part 11. Feature Group: Linear Algebra
 
-NumPy arrays are efficient because they usually store homogeneous values in a regular memory layout.
+## 11.1. Related Commands
 
-## Check Memory Usage
+| Command | Meaning |
+|---|---|
+| `A @ B` | Matrix multiplication. |
+| `np.dot(A, B)` | Dot product or matrix product depending on dimensions. |
+| `A.T` | Transpose. |
+| `np.linalg.det(A)` | Determinant. |
+| `np.linalg.inv(A)` | Inverse of a nonsingular square matrix. |
+| `np.linalg.solve(A, b)` | Solve `Ax=b`. |
+| `np.linalg.eig(A)` | Eigenvalues and eigenvectors. |
+| `np.inner(a, b)` | Inner product. |
+| `np.outer(a, b)` | Outer product. |
+| `np.vdot(a, b)` | Vector dot product with complex conjugation when needed. |
+
+## 11.2. Matrix Multiplication
+
+```python
+A = np.array([
+    [1, 2],
+    [3, 4]
+])
+
+print(np.dot(A, A))
+print(A @ A)
+```
+
+Output:
+
+```text
+[[ 7 10]
+ [15 22]]
+```
+
+## 11.3. Element-Wise vs. Matrix Multiplication
+
+```python
+print(A * A)
+print(A @ A)
+```
+
+- `A * A`: element-wise multiplication.
+- `A @ A`: matrix multiplication.
+
+## 11.4. Transpose, Determinant, and Inverse
+
+```python
+print(A.T)
+print(np.linalg.det(A))
+print(np.linalg.inv(A))
+```
+
+An inverse exists only for a square, nonsingular matrix.
+
+## 11.5. Solve a Linear System
+
+```python
+A = np.array([
+    [2, 1],
+    [1, 3]
+])
+
+b = np.array([8, 13])
+
+x = np.linalg.solve(A, b)
+print(x)
+print(A @ x)
+```
+
+## 11.6. Eigenvalues and Eigenvectors
+
+```python
+eigenvalues, eigenvectors = np.linalg.eig(A)
+
+print(eigenvalues)
+print(eigenvectors)
+```
+
+## Exercises
+
+### Exercise 11.1. Element-Wise and Matrix Multiplication
+
+Given:
+
+```python
+A = np.array([
+    [1, 2],
+    [3, 4]
+])
+
+B = np.array([
+    [2, 0],
+    [1, 2]
+])
+```
+
+Calculate and compare:
+
+```python
+A * B
+A @ B
+```
+
+### Exercise 11.2. Determinant and Transpose
+
+Calculate:
+
+```python
+A.T
+np.linalg.det(A)
+```
+
+### Exercise 11.3. Solve a System
+
+Given:
+
+```python
+A = np.array([
+    [2, 1],
+    [1, 3]
+])
+
+b = np.array([8, 13])
+```
+
+Solve `Ax=b` using `np.linalg.solve()` and verify the result using `A @ x`.
+
+---
+
+# Part 12. Feature Group: Random Numbers and Statistics
+
+## 12.1. Related Commands
+
+| Command | Meaning |
+|---|---|
+| `np.random.default_rng(seed)` | Create a modern random-number generator. |
+| `rng.integers(low, high, size)` | Generate random integers; `high` is excluded. |
+| `rng.uniform(...)` | Sample from a uniform distribution. |
+| `rng.normal(loc, scale, size)` | Sample from a normal distribution. |
+| `rng.binomial(...)` | Sample from a binomial distribution. |
+| `rng.poisson(...)` | Sample from a Poisson distribution. |
+| `np.percentile(data, q)` | Calculate percentile `q` on a 0–100 scale. |
+| `np.quantile(data, q)` | Calculate quantile `q` on a 0–1 scale. |
+| `np.isnan(data)` | Identify `NaN` values. |
+| `np.nanmean(data)` | Calculate the mean while ignoring `NaN`. |
+
+## 12.2. Create a Random-Number Generator
+
+```python
+rng = np.random.default_rng(42)
+```
+
+The seed `42` supports reproducibility in a compatible environment.
+
+## 12.3. Generate Random Values
+
+```python
+print(rng.integers(low=1, high=10, size=5))
+print(rng.uniform(low=0, high=1, size=5))
+print(rng.normal(loc=0, scale=1, size=5))
+print(rng.binomial(n=10, p=0.5, size=5))
+print(rng.poisson(lam=3, size=5))
+```
+
+## 12.4. Descriptive Statistics
+
+```python
+data = np.array([12, 15, 18, 20, 25])
+
+print(np.mean(data))
+print(np.median(data))
+print(np.var(data))
+print(np.std(data))
+print(np.percentile(data, 25))
+print(np.quantile(data, 0.75))
+```
+
+By default, `np.var()` and `np.std()` use `ddof=0`, corresponding to division by `N`.
+
+For the common sample convention, divide by `N-1` using:
+
+```python
+print(np.var(data, ddof=1))
+print(np.std(data, ddof=1))
+```
+
+## 12.5. Missing Values
+
+```python
+data = np.array([10.0, 20.0, np.nan, 40.0])
+
+print(np.mean(data))
+print(np.nanmean(data))
+print(np.nanmedian(data))
+print(np.isnan(data))
+```
+
+`np.mean(data)` returns `nan` when the array contains a missing value. Functions such as `np.nanmean()` ignore `NaN`.
+
+## Exercises
+
+### Exercise 12.1. Random Integers
+
+Create:
+
+```python
+rng = np.random.default_rng(42)
+```
+
+Then generate 10 random integers from 1 to 100.
+
+### Exercise 12.2. Normal Distribution
+
+Generate 1,000 values from a normal distribution with:
+
+- mean = 0;
+- standard deviation = 1.
+
+Calculate the sample mean and standard deviation.
+
+### Exercise 12.3. Percentile and Quantile
+
+Given:
+
+```python
+data = np.array([10, 20, 30, 40, 50])
+```
+
+Calculate:
+
+1. the 25th percentile;
+2. the 50th percentile;
+3. the 0.75 quantile.
+
+### Exercise 12.4. NaN
+
+Given:
+
+```python
+data = np.array([10.0, np.nan, 20.0, 30.0])
+```
+
+Do the following:
+
+1. identify the location of `NaN`;
+2. calculate the mean while ignoring `NaN`;
+3. remove the `NaN` value.
+
+---
+
+# Part 13. Feature Group: Vectorization and Performance
+
+## 13.1. Core Idea
+
+Vectorization means expressing an operation at the array level rather than iterating manually through elements with a Python loop.
+
+## 13.2. Example
+
+```python
+a = np.arange(5)
+result = a * 10
+
+print(result)
+```
+
+Output:
+
+```text
+[ 0 10 20 30 40]
+```
+
+Without NumPy:
+
+```python
+a = list(range(5))
+
+result = []
+for value in a:
+    result.append(value * 10)
+
+print(result)
+```
+
+Vectorized code is often:
+
+- shorter;
+- easier to read;
+- faster for large numerical arrays;
+- better suited to data-analysis workflows.
+
+## Exercises
+
+### Exercise 13.1. Convert a Loop to Vectorization
+
+Rewrite the following code using NumPy without an explicit loop:
+
+```python
+values = [1, 2, 3, 4, 5]
+result = []
+
+for x in values:
+    result.append(x * 3 + 1)
+```
+
+### Exercise 13.2. Vectorized Condition
+
+Given:
+
+```python
+sales = np.array([80, 120, 95, 150, 60])
+```
+
+Use `np.where()` to label each value as:
+
+- `"High"` if sales are `>= 100`;
+- `"Low"` otherwise.
+
+---
+
+# Part 14. Feature Group: Memory, Data Types, Sorting, Searching, and Images
+
+## 14.1. Related Commands
+
+| Command | Meaning |
+|---|---|
+| `arr.nbytes` | Total bytes used by the array elements. |
+| `arr.astype(dtype)` | Convert values to another data type. |
+| `np.sort(arr)` | Return sorted values. |
+| `np.where(condition)` | Return indices satisfying a condition. |
+| `np.unique(arr)` | Return unique values. |
+| `np.unique(arr, return_counts=True)` | Return unique values and their frequencies. |
+| `np.clip(arr, low, high)` | Restrict values to a specified interval. |
+
+## 14.2. Check Memory Use
 
 ```python
 arr = np.array([1, 2, 3, 4], dtype=np.int32)
 
-arr = np.array([1, 2, 3, 4], dtype=np.int32)
+print(arr.nbytes)
+print(arr.dtype)
 ```
 
-`nbytes` returns the total number of bytes used by the array elements.
-
-## Select a Suitable Data Type
-
-```python
-small_values = np.array(
-small_values = np.array(
-    [1, 2, 3, 4],
-    dtype=np.int8
-
-)
-print(small_values.dtype)
-```
-
-Choosing a smaller data type may reduce memory usage, but the selected type must be able to represent the required value range and precision.
-
-## Convert Data Types
+## 14.3. Convert Data Types
 
 ```python
 arr = np.array([1.2, 2.8, 3.5])
-
-arr = np.array([1.2, 2.8, 3.5])
-
 integers = arr.astype(np.int32)
+
+print(integers)
 ```
 
 Output:
@@ -1800,29 +1572,15 @@ Output:
 [1 2 3]
 ```
 
-Conversion from floating-point values to integers removes the fractional part.
+Converting floating-point values to integers removes the fractional part.
 
-### Quick Check
-
-**Question 1.** Which attribute returns the number of bytes used by array elements?
-
-A. `nbytes`  
-B. `ndim`  
-C. `mean`  
-D. `shape`  
-
----
-
-# Sorting and Searching
-
-## Sort an Array
+## 14.4. Sorting and Searching
 
 ```python
 arr = np.array([9, 3, 7, 1])
-
-arr = np.array([9, 3, 7, 1])
-
 sorted_arr = np.sort(arr)
+
+print(sorted_arr)
 ```
 
 Output:
@@ -1831,239 +1589,190 @@ Output:
 [1 3 7 9]
 ```
 
-## Find Indices Matching a Condition
-
 ```python
 arr = np.array([10, 20, 30, 40])
-
-arr = np.array([10, 20, 30, 40])
-
 indices = np.where(arr > 20)
-```
 
-## Find Unique Values
+print(indices)
+```
 
 ```python
 arr = np.array([1, 2, 2, 3, 3, 3])
+values, counts = np.unique(arr, return_counts=True)
 
-arr = np.array([1, 2, 2, 3, 3, 3])
-values, counts = np.unique(
-    arr,
-    return_counts=True
-
-)
 print(values)
+print(counts)
 ```
 
-### Quick Check
+## 14.5. Working with Images
 
-**Question 1.** Which function returns unique array values?
+Digital images can be represented as NumPy arrays:
 
-A. `np.unique()`  
-B. `np.reshape()`  
-C. `np.random()`  
-D. `np.outer()`  
+- a grayscale image can be represented by a two-dimensional array;
+- a color image can be represented by a three-dimensional array containing height, width, and color channels.
 
----
-
-# Sparse Matrices
-
-A sparse matrix contains many zero values.
-
-NumPy can represent a sparse matrix as an ordinary dense array:
+Example:
 
 ```python
-matrix = np.array([
-matrix = np.array([
-    [0, 0, 3],
-    [0, 0, 0],
-    [4, 0, 0]
-```
-
-However, large sparse matrices are usually handled more efficiently using specialized sparse structures from SciPy.
-
-```python
-from scipy.sparse import csr_matrix
-
-from scipy.sparse import csr_matrix
-
-sparse_matrix = csr_matrix(matrix)
-```
-
-NumPy remains important because SciPy sparse matrices interact closely with NumPy arrays.
-
-### Quick Check
-
-**Question 1.** Which library commonly provides specialized sparse-matrix structures?
-
-A. SciPy  
-B. pathlib  
-C. tkinter  
-D. Flask  
-
----
-
-# Working with Images
-
-Digital images can be represented as NumPy arrays.
-
-- A grayscale image may be represented by a two-dimensional array.
-- A color image may be represented by a three-dimensional array containing height, width, and color channels.
-
-## Simple Example
-
-```python
-image = np.array([
 image = np.array([
     [0, 128, 255],
     [255, 128, 0],
     [50, 100, 150]
+])
 
+print(image.shape)
+```
+
+Increase brightness:
+
+```python
+brighter = np.clip(image + 30, 0, 255)
+```
+
+`np.clip()` keeps values in the valid interval, such as 0 through 255 for image intensities.
+
+## Exercises
+
+### Exercise 14.1. Data Types
+
+Create:
+
+```python
+x = np.array([1.2, 2.8, 3.5])
+```
+
+Convert `x` to `int32` and inspect the result.
+
+### Exercise 14.2. Sorting and Unique Values
+
+Given:
+
+```python
+x = np.array([4, 2, 4, 1, 2, 2, 5])
+```
+
+Do the following:
+
+1. sort the array;
+2. return the unique values;
+3. count the frequency of each value.
+
+### Exercise 14.3. Digital Image
+
+Given:
+
+```python
+image = np.array([
+    [0, 100, 240],
+    [50, 200, 255]
 ])
 ```
 
-Output:
-
-```text
-(3, 3)
-```
-
-## Adjust Brightness
-
-```python
-brighter = np.clip(
-brighter = np.clip(
-    image + 30,
-    0,
-    255
-
-)
-```
-
-`np.clip()` keeps values within the valid range.
-
-### Quick Check
-
-**Question 1.** A grayscale image is commonly represented as:
-
-A. A two-dimensional numerical array  
-B. A dictionary only  
-C. A text file only  
-D. A Boolean value  
+Increase brightness by 30 while ensuring all values remain within `[0, 255]`.
 
 ---
 
-# Integration with Pandas
+# Part 15. Integration with Pandas and Scikit-learn
 
-A Pandas `Series` or `DataFrame` is built on array-oriented concepts and can exchange data with NumPy.
-
-## Convert a NumPy Array to a DataFrame
+## 15.1. Integration with Pandas
 
 ```python
 import numpy as np
-import numpy as np
-
 import pandas as pd
+
 arr = np.array([
     [1, 2],
     [3, 4],
     [5, 6]
-
 ])
-df = pd.DataFrame(
-    arr,
-    columns=["A", "B"]
 
-)
-```
-
-## Convert a DataFrame to a NumPy Array
-
-```python
+df = pd.DataFrame(arr, columns=["A", "B"])
 array_from_df = df.to_numpy()
-
-array_from_df = df.to_numpy()
-```
-
-## Apply a NumPy Function to a Pandas Column
-
-```python
-df["A_sqrt"] = np.sqrt(df["A"])
 
 df["A_sqrt"] = np.sqrt(df["A"])
 ```
 
-### Quick Check
+Interpretation:
 
-**Question 1.** Which Pandas method converts a DataFrame to a NumPy array?
+- `pd.DataFrame(arr, columns=...)`: create a DataFrame from a NumPy array.
+- `df.to_numpy()`: convert a DataFrame to a NumPy array.
+- `np.sqrt(df["A"])`: apply a NumPy function to a Pandas column.
 
-A. `to_numpy()`  
-B. `to_list_only()`  
-C. `as_matrix_text()`  
-D. `convert_numpy_file()`  
-
----
-
-# Integration with Scikit-learn
-
-Many Scikit-learn models accept NumPy arrays as input.
+## 15.2. Integration with Scikit-learn
 
 ```python
-import numpy as np
-import numpy as np
-
 from sklearn.linear_model import LinearRegression
-X = np.array([
-    [1],
-    [2],
-    [3],
-    [4]
 
-])
-
+X = np.array([[1], [2], [3], [4]])
 y = np.array([2, 4, 6, 8])
+
 model = LinearRegression()
-
 model.fit(X, y)
-prediction = model.predict(
-    np.array([[5]])
 
-)
+prediction = model.predict(np.array([[5]]))
+print(prediction)
 ```
 
-NumPy supports:
+In machine learning:
 
-- Feature matrices.
-- Target vectors.
-- Model predictions.
-- Numerical preprocessing.
-- Evaluation calculations.
+- `X` is commonly a feature matrix;
+- `y` is a target vector;
+- NumPy arrays are a common array-like format for model input.
 
-### Quick Check
+## Exercises
 
-**Question 1.** In machine learning, a two-dimensional NumPy array commonly represents:
+### Exercise 15.1. NumPy to Pandas
 
-A. A feature matrix  
-B. A filename  
-C. A chart title  
-D. A package installer  
+Create:
+
+```python
+arr = np.array([
+    [1, 10],
+    [2, 20],
+    [3, 30]
+])
+```
+
+Convert it to a DataFrame with columns `"ID"` and `"Value"`.
+
+### Exercise 15.2. Pandas to NumPy
+
+Convert the DataFrame back to a NumPy array using `to_numpy()` and inspect its `shape`.
+
+### Exercise 15.3. Feature Matrix
+
+Given:
+
+```python
+X = np.array([
+    [20, 1],
+    [25, 2],
+    [30, 3]
+])
+```
+
+Explain:
+
+1. what `X.shape` means;
+2. what the rows represent;
+3. what the columns represent in a machine-learning context.
 
 ---
 
-# Common NumPy Errors
+# Part 16. Common NumPy Errors
 
-## Shape Mismatch
+## 16.1. Shape Mismatch
 
 ```python
 a = np.ones((2, 3))
-a = np.ones((2, 3))
+b = np.ones((2, 2))
 
-# a + b raises an error
+# a + b raises a broadcasting error
 ```
 
-The shapes are not broadcasting-compatible.
+The two shapes are not broadcasting-compatible.
 
-## Invalid Reshape
+## 16.2. Invalid Reshape
 
 ```python
 arr = np.arange(10)
@@ -2071,252 +1780,313 @@ arr = np.arange(10)
 # arr.reshape(3, 4) raises an error
 ```
 
-Ten elements cannot be reshaped into a `3 × 4` array.
+Ten elements cannot be reshaped into a `3 × 4` array because that shape requires 12 elements.
 
-## Division by Zero
+## 16.3. Division by Zero
 
 ```python
 arr = np.array([1.0, 0.0])
 
-arr = np.array([1.0, 0.0])
+print(1 / arr)
 ```
 
 This may produce `inf` and a runtime warning.
 
-## Integer Overflow
-
-Small integer data types have limited ranges:
+## 16.4. Integer Overflow
 
 ```python
 arr = np.array([127], dtype=np.int8)
 
-arr = np.array([127], dtype=np.int8)
+print(arr + 1)
 ```
 
-The result may overflow because `int8` cannot represent values above 127.
+`int8` cannot represent values larger than 127, so overflow may occur.
 
-## Unexpected Changes Through Views
+## 16.5. Unexpected Changes Through Views
 
-A slice may share data with the original array. Use `.copy()` when an independent array is required.
+```python
+arr = np.array([10, 20, 30, 40])
 
-### Quick Check
+view = arr[1:3]
+view[0] = 999
 
-**Question 1.** Why does `np.arange(10).reshape(3, 4)` fail?
+print(arr)
+```
 
-A. The total number of elements is incompatible  
-B. NumPy cannot create matrices  
-C. `reshape()` works only with strings  
-D. The values must be negative  
+Use `.copy()` when an independent array is required:
+
+```python
+copy = arr[1:3].copy()
+```
+
+## Exercises
+
+### Exercise 16.1. Predict Reshape Errors
+
+Given:
+
+```python
+x = np.arange(10)
+```
+
+Which of the following commands are valid?
+
+```python
+x.reshape(2, 5)
+x.reshape(5, 2)
+x.reshape(3, 4)
+x.reshape(1, 10)
+```
+
+Explain your answer using the total number of elements.
+
+### Exercise 16.2. Predict Broadcasting
+
+Consider the following shape pairs:
+
+1. `(3, 4)` and `(4,)`;
+2. `(3, 4)` and `(1, 4)`;
+3. `(3, 4)` and `(3, 1)`;
+4. `(3, 4)` and `(2, 4)`.
+
+Predict which pairs are broadcasting-compatible.
+
+### Exercise 16.3. View
+
+Write a short example showing that modifying a slice can modify the original array, then fix the issue using `.copy()`.
 
 ---
 
-# Good Practices
+# Part 17. Good Practices
 
 - Import NumPy using `import numpy as np`.
-- Use vectorized operations instead of Python loops when practical.
+- Prefer vectorized operations over Python loops when practical.
 - Check `shape`, `ndim`, and `dtype` before complex operations.
 - Use broadcasting only when the intended shape behavior is clear.
-- Distinguish element-wise multiplication from matrix multiplication.
+- Distinguish `A * B` from `A @ B`.
 - Use `.copy()` when an independent array is required.
 - Choose data types carefully to balance range, precision, and memory.
-- Use a fixed random seed when reproducibility is important.
-- Treat `NaN`, infinity, and overflow explicitly.
-- Use Pandas for richer labeled-table and missing-data workflows.
-- Use SciPy for specialized scientific routines and sparse matrices.
+- Use a fixed seed when reproducibility is important.
+- Handle `NaN`, `inf`, division by zero, and overflow explicitly.
+
+## Exercises
+
+### Exercise 17.1. Inspect the Code
+
+Consider:
+
+```python
+A = np.arange(12).reshape(3, 4)
+b = np.array([10, 20, 30])
+result = A + b
+```
+
+Do the following:
+
+1. inspect `A.shape` and `b.shape`;
+2. predict whether the code runs successfully;
+3. if it fails, modify `b` so broadcasting becomes valid.
+
+### Exercise 17.2. Choose the Better NumPy Style
+
+Compare:
+
+```python
+result = []
+for x in arr:
+    result.append(np.sqrt(x))
+```
+
+and:
+
+```python
+result = np.sqrt(arr)
+```
+
+Which style is more appropriate for NumPy, and why?
 
 ---
 
-# Content Summary
+# Part 18. Content Summary
 
 | Topic | Main idea |
 |---|---|
-| **NumPy** | Core Python library for numerical computing |
-| **`ndarray`** | N-dimensional homogeneous array |
-| **Vectorization** | Array operations without explicit Python loops |
-| **Broadcasting** | Operations on compatible different shapes |
-| **Indexing and slicing** | Access and extract array elements |
-| **Reshaping** | Change array dimensions |
-| **Aggregation** | Calculate sums, means, minima, and maxima |
-| **Universal functions** | Fast element-wise mathematical functions |
-| **Linear algebra** | Matrix multiplication, inverse, determinant, and eigenvalues |
-| **Random generation** | Generate values from probability distributions |
-| **Statistics** | Mean, median, variance, standard deviation, and percentiles |
-| **Integration** | Works closely with Pandas, SciPy, and Scikit-learn |
+| NumPy | Core Python library for numerical computing. |
+| `ndarray` | Homogeneous N-dimensional array. |
+| Vectorization | Array operations without explicit Python loops. |
+| Broadcasting | Operations on differently shaped but compatible arrays. |
+| Indexing and slicing | Access and extract array elements. |
+| Reshaping | Change array dimensions. |
+| Aggregation | Calculate sums, means, minima, maxima, variance, and standard deviation. |
+| Universal functions | Fast element-wise mathematical functions. |
+| Linear algebra | Matrix multiplication, inverse, determinant, eigenvalues, and linear-system solving. |
+| Random generation | Generate values from probability distributions. |
+| Statistics | Mean, median, variance, standard deviation, percentiles, and quantiles. |
+| Integration | Exchange data with Pandas, SciPy, Matplotlib, and Scikit-learn. |
 
 ---
 
-# End-of-Lesson Review
+# Part 19. Review Questions
 
-## Part A. Multiple-Choice Questions
+## 19.1. Multiple-Choice Questions
 
 **Question 1.** What is NumPy primarily used for?
 
-A. Numerical computing  
-B. Web-page design  
-C. Sending emails  
-D. Word processing  
+A. Sending emails  
+B. Numerical computing  
+C. Word processing  
+D. Web-page design
 
 **Question 2.** What is the central NumPy data structure?
 
-A. `ndarray`  
-B. `DataFrame`  
-C. `set`  
-D. `class`  
+A. `set`  
+B. `ndarray`  
+C. `class`  
+D. `DataFrame`
 
 **Question 3.** Which function creates an array from a Python list?
 
 A. `np.array()`  
-B. `np.list()`  
-C. `np.frame()`  
-D. `np.convert_list()`  
+B. `np.frame()`  
+C. `np.convert_list()`  
+D. `np.list()`
 
 **Question 4.** Which attribute returns an array's shape?
 
 A. `shape`  
-B. `size()`  
-C. `mean`  
-D. `type()`  
+B. `mean`  
+C. `type()`  
+D. `size()`
 
 **Question 5.** Which expression performs matrix multiplication?
 
 A. `A @ B`  
 B. `A % B`  
-C. `A // B`  
-D. `A | B`  
+C. `A | B`  
+D. `A // B`
 
 **Question 6.** Which function calculates a mean while ignoring `NaN` values?
 
-A. `np.nanmean()`  
+A. `np.dropna()`  
 B. `np.mean_without_missing()`  
-C. `np.dropna()`  
-D. `np.ignore_mean()`  
+C. `np.nanmean()`  
+D. `np.ignore_mean()`
 
-**Question 7.** Which function is used for an identity matrix?
+**Question 7.** Which function creates an identity matrix?
 
-A. `np.eye()`  
-B. `np.identity_text()`  
-C. `np.ones_like_text()`  
-D. `np.reshape()`  
+A. `np.reshape()`  
+B. `np.ones_like_text()`  
+C. `np.identity_text()`  
+D. `np.eye()`
 
 **Question 8.** Which statement about broadcasting is correct?
 
-A. It supports operations between compatible shapes  
-B. It converts every array to one dimension  
-C. It removes all duplicate values  
-D. It always changes the original array  
+A. It removes all duplicate values.  
+B. It always changes the original array.  
+C. It supports operations between compatible shapes.  
+D. It converts every array to one dimension.
 
-**Question 9.** What does `axis=0` usually mean in a two-dimensional aggregation?
+**Question 9.** In a two-dimensional aggregation, what does `axis=0` usually mean?
 
-A. Aggregate down rows and return column-wise values  
-B. Aggregate across columns and return row-wise values  
-C. Convert the matrix into a scalar only  
-D. Reverse all values  
+A. Reverse all values.  
+B. Convert the matrix into one scalar only.  
+C. Aggregate down rows and return column-wise values.  
+D. Aggregate across columns and return row-wise values.
 
 **Question 10.** Which object is recommended for modern NumPy random-number generation?
 
-A. `np.random.default_rng()`  
+A. `np.array.randomize_text()`  
 B. `np.random.file_reader()`  
 C. `np.random.secure_password()`  
-D. `np.array.randomize_text()`  
+D. `np.random.default_rng()`
 
-## Part B. True/False Questions
+## 19.2. True/False Questions
 
-**Question 1.** NumPy arrays usually contain elements of one common data type.
-
-**Question 2.** Vectorized NumPy operations always require an explicit Python loop.
-
-**Question 3.** `A * B` and `A @ B` always perform the same operation.
-
-**Question 4.** NumPy slices may share memory with the original array.
-
-**Question 5.** Broadcasting requires array dimensions to be compatible.
-
-**Question 6.** `np.std(data, ddof=1)` can be used for the usual sample-standard-deviation convention.
-
-**Question 7.** NumPy random-number generation should be assumed to be cryptographically secure.
-
+**Question 1.** NumPy arrays usually contain elements of one common data type.  
+**Question 2.** Vectorized NumPy operations always require an explicit Python loop.  
+**Question 3.** `A * B` and `A @ B` always perform the same operation.  
+**Question 4.** NumPy slices may share memory with the original array.  
+**Question 5.** Broadcasting requires array dimensions to be compatible.  
+**Question 6.** `np.std(data, ddof=1)` can be used for the usual sample-standard-deviation convention.  
+**Question 7.** NumPy random-number generation should be assumed to be cryptographically secure.  
 **Question 8.** NumPy arrays can be used as inputs to Scikit-learn models.
 
-## Part C. Short-Answer Questions
+## 19.3. Short-Answer Questions
 
-**Question 1.** Explain two differences between a Python list and a NumPy array.
-
-**Question 2.** Explain vectorization and state one advantage.
-
-**Question 3.** Explain the difference between element-wise and matrix multiplication.
-
-**Question 4.** State the basic broadcasting compatibility rule.
-
-**Question 5.** Explain the difference between a view and a copy.
-
+**Question 1.** State two differences between a Python list and a NumPy array.  
+**Question 2.** Explain vectorization and state one advantage.  
+**Question 3.** Explain the difference between element-wise and matrix multiplication.  
+**Question 4.** State the basic broadcasting compatibility rule.  
+**Question 5.** Explain the difference between a view and a copy.  
 **Question 6.** Name four statistical functions available in NumPy.
 
-## Part D. Practical Exercises
+---
 
-### Exercise 1. Array Creation
+# Part 20. Practical Exercises
 
-1. Create an array containing the values from 1 to 20.
+## Exercise 1. Array Creation
+
+1. Create an array containing values from 1 to 20.
 2. Reshape it into a `4 × 5` matrix.
-3. Print its shape, number of dimensions, size, and data type.
+3. Print its `shape`, `ndim`, `size`, and `dtype`.
 
-### Exercise 2. Indexing and Slicing
+## Exercise 2. Indexing and Slicing
 
-Using a `4 × 5` matrix:
+Using the `4 × 5` matrix from Exercise 1:
 
 1. Extract the first row.
 2. Extract the last column.
 3. Extract the central `2 × 3` section.
 4. Select all even values using Boolean filtering.
 
-### Exercise 3. Statistics
+## Exercise 3. Statistics
 
 Create an array of ten numerical values and calculate:
 
-1. Mean.
-2. Median.
-3. Variance.
-4. Sample standard deviation.
-5. Minimum and maximum.
-6. The 25th, 50th, and 75th percentiles.
+1. mean;
+2. median;
+3. variance;
+4. sample standard deviation;
+5. minimum and maximum;
+6. the 25th, 50th, and 75th percentiles.
 
-### Exercise 4. Broadcasting
+## Exercise 4. Broadcasting
 
 1. Create a `3 × 4` matrix.
 2. Create a one-dimensional array with four values.
 3. Add the one-dimensional array to each row of the matrix.
 4. Explain why broadcasting is valid.
 
-### Exercise 5. Linear Algebra
+## Exercise 5. Linear Algebra
 
 Given:
 
 ```python
 A = np.array([
-A = np.array([
     [2, 1],
     [1, 3]
-
 ])
+
+b = np.array([8, 13])
 ```
 
 1. Calculate the determinant of `A`.
 2. Calculate the inverse of `A`.
-3. Solve \(Ax=b\).
-4. Verify the solution by calculating `A @ x`.
+3. Solve `Ax=b`.
+4. Verify the solution using `A @ x`.
 
-### Exercise 6. Random Data
+## Exercise 6. Random Data
 
 1. Create a random-number generator with seed `42`.
 2. Generate 1,000 values from a standard normal distribution.
 3. Calculate the mean and standard deviation.
 4. Compare the sample results with the theoretical values.
 
-### Exercise 7. Missing Values
+## Exercise 7. Missing Values
 
 Given:
 
 ```python
-data = np.array([
 data = np.array([
     10.0,
     np.nan,
@@ -2324,6 +2094,7 @@ data = np.array([
     30.0,
     np.nan,
     40.0
+])
 ```
 
 1. Count the missing values.
@@ -2335,192 +2106,156 @@ data = np.array([
 
 # Answers and Suggested Responses
 
-<details>
-<summary><strong>Click to show answers</strong></summary>
-
 ## Quick Check Answers
 
-### What Is NumPy?
+1. D — What is the main data structure in NumPy?  
+2. B — Why are NumPy arrays efficient for numerical calculations?  
+3. C — Which expression multiplies every element of a NumPy array `a` by 10?  
+4. B — Which function converts a Python list into a NumPy array?  
+5. D — Which function creates evenly spaced values between two endpoints?
 
-1. B. `ndarray`.  
-2. True.
+## Multiple-Choice Answers
 
-### Why Learn NumPy?
-
-1. B. They use a homogeneous and optimized array structure.  
-2. A. `a * 10`.
-
-### Installation and Importing
-
-1. B. `np`.  
-2. A. `pip install numpy`.
-
-### NumPy Arrays
-
-1. A. `np.array()`.  
-2. A. A matrix.
-
-### Array-Creation Functions
-
-1. A. `np.zeros()`.  
-2. A. `np.linspace()`.
-
-### Array Properties
-
-1. A. `shape`.  
-2. A. `size`.
-
-### Indexing
-
-1. A. The first element.  
-2. A. Row index 1 and column index 2.
-
-### Slicing
-
-1. A. Elements at indices 1, 2, and 3.  
-2. True.
-
-### Reshaping
-
-1. A. `reshape()`.  
-2. A. NumPy should infer that dimension.
-
-### Resizing
-
-1. A. `reshape()`.
-
-### Stacking
-
-1. A. `np.vstack()`.
-
-### Splitting
-
-1. A. `np.split()`.
-
-### Broadcasting
-
-1. A. Operations on arrays with compatible different shapes.  
-2. A. One of them is 1.
-
-### Arithmetic
-
-1. A. Element-wise multiplication.
-
-### Aggregation
-
-1. A. `np.mean()`.  
-2. A. Rows, producing column-wise results.
-
-### Universal Functions
-
-1. A. `np.sqrt()`.
-
-### Boolean Operations
-
-1. A. Elements greater than 20.
-
-### Linear Algebra
-
-1. A. `@`.  
-2. A. `np.linalg.inv()`.
-
-### Random Numbers
-
-1. A. `np.random.default_rng()`.  
-2. A. It helps reproduce a pseudorandom sequence.
-
-### Statistical Functions
-
-1. A. `ddof=1`.
-
-### Missing Values
-
-1. A. `np.nanmean()`.
-
-### Vectorization
-
-1. A. It applies array operations without explicit Python loops.
-
-### Memory
-
-1. A. `nbytes`.
-
-### Sorting and Searching
-
-1. A. `np.unique()`.
-
-### Sparse Matrices
-
-1. A. SciPy.
-
-### Images
-
-1. A. A two-dimensional numerical array.
-
-### Pandas Integration
-
-1. A. `to_numpy()`.
-
-### Scikit-learn Integration
-
-1. A. A feature matrix.
-
-### Common Errors
-
-1. A. The total number of elements is incompatible.
-
-## Part A. Multiple-Choice Answers
-
-1. A  
-2. A  
+1. B  
+2. B  
 3. A  
 4. A  
 5. A  
-6. A  
-7. A  
-8. A  
-9. A  
-10. A  
+6. C  
+7. D  
+8. C  
+9. C  
+10. D
 
-## Part B. True/False Answers
+## True/False Answers
 
-1. True.  
-2. False.  
-3. False.  
-4. True.  
-5. True.  
-6. True.  
-7. False.  
-8. True.  
+1. True  
+2. False  
+3. False  
+4. True  
+5. True  
+6. True  
+7. False  
+8. True
 
-## Part C. Suggested Responses
+## Suggested Short Answers
 
-### Question 1
+**Question 1.** A Python list can store mixed data types, while a NumPy array usually stores homogeneous data and is optimized for numerical computation.
 
-A NumPy array usually stores homogeneous values in a regular multidimensional structure, while a Python list can store mixed object types. NumPy arrays also support vectorized numerical operations.
+**Question 2.** Vectorization applies an operation to an entire array without writing an explicit Python loop. It often makes code shorter, clearer, and faster.
 
-### Question 2
+**Question 3.** `A * B` multiplies corresponding elements. `A @ B` performs matrix multiplication according to linear-algebra rules.
 
-Vectorization applies an operation to an entire array without writing an explicit Python loop. It often improves readability and execution speed for large numerical tasks.
+**Question 4.** Starting from the rightmost dimension, two dimensions are compatible if they are equal or if one of them is 1.
 
-### Question 3
+**Question 5.** A view may share memory with the original array, while a copy has independent memory.
 
-Element-wise multiplication multiplies corresponding elements, as in `A * B`. Matrix multiplication combines rows and columns according to linear-algebra rules, as in `A @ B`.
+**Question 6.** Examples include `np.mean()`, `np.median()`, `np.var()`, `np.std()`, `np.percentile()`, and `np.quantile()`.
 
-### Question 4
+## Suggested Solutions to Practical Exercises
 
-Starting from the rightmost dimension, dimensions are compatible when they are equal or when one of them is 1.
+### Exercise 1
 
-### Question 5
+```python
+arr = np.arange(1, 21)
+matrix = arr.reshape(4, 5)
 
-A view may share memory with the original array, so modifying it may change the original data. A copy has independent memory.
+print(matrix)
+print(matrix.shape)
+print(matrix.ndim)
+print(matrix.size)
+print(matrix.dtype)
+```
 
-### Question 6
+### Exercise 2
 
-Examples include `np.mean()`, `np.median()`, `np.var()`, `np.std()`, `np.percentile()`, and `np.quantile()`.
+```python
+print(matrix[0, :])
+print(matrix[:, -1])
+print(matrix[1:3, 1:4])
+print(matrix[matrix % 2 == 0])
+```
 
-## Part D
+### Exercise 3
 
-The practical exercises are open coding tasks. A complete submission should include source code, output, and a short explanation of the result.
+```python
+data = np.array([12, 15, 18, 20, 25, 28, 30, 35, 40, 50])
 
-</details>
+print(np.mean(data))
+print(np.median(data))
+print(np.var(data))
+print(np.std(data, ddof=1))
+print(np.min(data))
+print(np.max(data))
+print(np.percentile(data, [25, 50, 75]))
+```
+
+### Exercise 4
+
+```python
+matrix = np.arange(12).reshape(3, 4)
+row = np.array([10, 20, 30, 40])
+
+result = matrix + row
+print(result)
+```
+
+Broadcasting is valid because `matrix.shape` is `(3, 4)` and `row.shape` is `(4,)`. NumPy treats the one-dimensional array as a compatible row and broadcasts it across the three rows of the matrix.
+
+### Exercise 5
+
+```python
+A = np.array([
+    [2, 1],
+    [1, 3]
+])
+
+b = np.array([8, 13])
+
+det_A = np.linalg.det(A)
+inv_A = np.linalg.inv(A)
+x = np.linalg.solve(A, b)
+
+print(det_A)
+print(inv_A)
+print(x)
+print(A @ x)
+```
+
+### Exercise 6
+
+```python
+rng = np.random.default_rng(42)
+
+values = rng.normal(loc=0, scale=1, size=1000)
+
+print(np.mean(values))
+print(np.std(values, ddof=1))
+```
+
+The sample mean should be close to 0 and the sample standard deviation should be close to 1, although they will not necessarily be exactly 0 and 1.
+
+### Exercise 7
+
+```python
+data = np.array([
+    10.0,
+    np.nan,
+    20.0,
+    30.0,
+    np.nan,
+    40.0
+])
+
+missing_count = np.isnan(data).sum()
+mean_ignore_nan = np.nanmean(data)
+clean_data = data[~np.isnan(data)]
+median_value = np.nanmedian(data)
+
+filled_data = np.where(np.isnan(data), median_value, data)
+
+print(missing_count)
+print(mean_ignore_nan)
+print(clean_data)
+print(filled_data)
+```

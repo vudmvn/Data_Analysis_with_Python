@@ -1,172 +1,197 @@
-# Giới thiệu về NumPy
+# Giới thiệu NumPy
 
-**Cập nhật lần cuối:** 02 tháng 08 năm 2026
+**Ngôn ngữ:** Tiếng Việt  
+**Cập nhật theo slide:** `numpy_beamer_vietnamese_full_translation.pdf`  
+**Chủ đề:** Mảng, vector hóa, broadcasting và tính toán số
 
-## Giới thiệu bài học
+---
 
-Bài học này giới thiệu **NumPy**, một thư viện cốt lõi của Python dành cho tính toán số. NumPy được thiết kế để làm việc hiệu quả với các mảng lớn, ma trận và tập dữ liệu số. Cấu trúc dữ liệu trung tâm của NumPy là `ndarray`, hỗ trợ các phép toán nhanh, broadcasting, đại số tuyến tính, sinh số ngẫu nhiên và tính toán thống kê.
+## 1. Giới thiệu bài học
 
-So với danh sách Python thông thường, mảng NumPy lưu trữ dữ liệu đồng nhất theo cấu trúc bộ nhớ hiệu quả hơn và hỗ trợ các phép toán vector hóa được triển khai bằng mã mức thấp đã tối ưu. Vì vậy, NumPy đặc biệt hữu ích trong phân tích dữ liệu, tính toán khoa học, mô phỏng, xử lý ảnh và học máy.
+Bài học này giới thiệu **NumPy**, một thư viện Python cốt lõi cho **tính toán số**. NumPy được thiết kế để làm việc hiệu quả với mảng, ma trận và các tập dữ liệu số. Đối tượng trung tâm của NumPy là **mảng N chiều**, hay `ndarray`.
 
-## Kiến thức và kỹ năng sẽ đạt được
+Trong phân tích dữ liệu và khoa học dữ liệu, NumPy thường được dùng để:
 
-Sau khi hoàn thành bài học, người học có thể:
+- lưu trữ dữ liệu số dưới dạng mảng;
+- thực hiện phép toán trên toàn bộ mảng thay vì viết vòng lặp thủ công;
+- xử lý ma trận, vector và các phép đại số tuyến tính;
+- sinh số ngẫu nhiên cho mô phỏng và thực nghiệm;
+- tính toán các thống kê mô tả;
+- trao đổi dữ liệu với Pandas, SciPy, Matplotlib và Scikit-learn.
+
+So với `list` thông thường trong Python, mảng NumPy thường lưu dữ liệu **đồng nhất về kiểu dữ liệu**, có cấu trúc bộ nhớ đều đặn hơn và hỗ trợ các phép toán vector hóa được tối ưu hóa.
+
+---
+
+## 2. Mục tiêu học tập
+
+Sau bài học này, người học có thể:
 
 - Giải thích vai trò của NumPy trong tính toán số.
-- Phân biệt mảng NumPy với danh sách Python thông thường.
-- Cài đặt và nhập thư viện NumPy.
-- Tạo mảng một chiều và mảng nhiều chiều.
-- Kiểm tra các thuộc tính như hình dạng, kích thước, số chiều và kiểu dữ liệu.
+- Phân biệt mảng NumPy với `list` Python.
+- Cài đặt và import NumPy.
+- Tạo mảng một chiều, hai chiều và nhiều chiều.
+- Kiểm tra các thuộc tính như `shape`, `ndim`, `size`, `dtype`, `itemsize`, `nbytes`.
 - Truy cập phần tử bằng indexing và slicing.
-- Thay đổi hình dạng, thay đổi kích thước, ghép và tách mảng.
-- Thực hiện các phép toán số học theo hướng vector hóa.
-- Sử dụng các hàm tổng hợp như `sum()`, `mean()`, `min()` và `max()`.
-- Giải thích và áp dụng broadcasting.
-- Sử dụng các hàm toán học và universal functions.
-- Thực hiện các phép toán cơ bản với ma trận và vector.
-- Sinh dữ liệu ngẫu nhiên từ các phân phối xác suất thông dụng.
-- Tính các thống kê mô tả cơ bản.
-- Hiểu cách NumPy tích hợp với Pandas, SciPy và Scikit-learn.
+- Reshape, resize, stack và split mảng.
+- Áp dụng phép toán vector hóa và broadcasting.
+- Dùng các hàm tổng hợp như `sum()`, `mean()`, `min()`, `max()`.
+- Dùng các universal functions như `np.sqrt()`, `np.exp()`, `np.log()`, `np.sin()`.
+- Thực hiện các phép đại số tuyến tính cơ bản.
+- Sinh số ngẫu nhiên và tính các thống kê mô tả.
+- Hiểu cách NumPy tích hợp với Pandas và Scikit-learn.
 
-## Cấu trúc bài học
+---
 
-Bài học gồm các nội dung chính sau:
+## 3. Cấu trúc bài học
+
+Bài học được tổ chức theo các nhóm tính năng, đúng với cấu trúc của slide:
 
 1. NumPy là gì?
 2. Vì sao nên học NumPy?
-3. Cài đặt và nhập thư viện.
-4. Tạo mảng NumPy.
-5. Các thuộc tính của mảng.
+3. Cài đặt và import.
+4. Tạo mảng.
+5. Thuộc tính của mảng.
 6. Indexing và slicing.
-7. Thay đổi hình dạng và kích thước.
-8. Ghép và tách mảng.
-9. Broadcasting.
-10. Các phép toán số học và phép tổng hợp.
-11. Universal functions.
-12. Đại số tuyến tính.
-13. Sinh số ngẫu nhiên.
-14. Các hàm thống kê.
-15. Vector hóa và hiệu năng.
-16. Tích hợp với các thư viện Python khác.
+7. Reshape, resize, stack và split.
+8. Broadcasting và số học.
+9. Aggregation và universal functions.
+10. Toán tử Boolean.
+11. Đại số tuyến tính.
+12. Số ngẫu nhiên và thống kê.
+13. Vector hóa và hiệu năng.
+14. Bộ nhớ, kiểu dữ liệu, sắp xếp, tìm kiếm.
+15. Tích hợp với Pandas và Scikit-learn.
+16. Lỗi thường gặp.
 17. Câu hỏi ôn tập và bài tập thực hành.
 
-## Yêu cầu chuẩn bị
+---
+
+## 4. Điều kiện tiên quyết
 
 Người học nên có:
 
 - Kiến thức Python cơ bản.
-- Hiểu biết về biến, danh sách, vòng lặp và hàm.
-- Môi trường Jupyter Notebook, JupyterLab, Google Colab hoặc môi trường Python tương đương.
+- Biết sử dụng biến, list, vòng lặp và hàm.
+- Có môi trường chạy Python như Jupyter Notebook, JupyterLab, Google Colab hoặc VS Code.
 
 ---
 
-# NumPy là gì?
+# Phần 1. NumPy là gì?
 
-**NumPy**, viết tắt của **Numerical Python**, là thư viện Python được thiết kế để thực hiện các phép tính số nhanh và hiệu quả.
+## 1.1. Khái niệm
 
-Đối tượng quan trọng nhất của NumPy là **mảng N chiều**, được gọi là `ndarray`. Một mảng NumPy có thể biểu diễn:
+**NumPy**, viết tắt của **Numerical Python**, là thư viện Python dùng cho tính toán số nhanh và hiệu quả.
 
-- Vector một chiều.
-- Ma trận hai chiều.
-- Tensor ba chiều.
-- Các cấu trúc số nhiều chiều hơn.
+Đối tượng chính của NumPy là `ndarray`, tức là mảng N chiều. Một mảng NumPy có thể biểu diễn:
+
+- vector một chiều;
+- ma trận hai chiều;
+- tensor ba chiều;
+- các cấu trúc số có nhiều chiều hơn.
+
+Ví dụ:
+
+```python
+import numpy as np
+
+arr = np.array([10, 20, 30, 40])
+print(arr)
+```
+
+Kết quả:
+
+```text
+[10 20 30 40]
+```
+
+Ở đây, `np.array()` chuyển một list Python thành mảng NumPy.
+
+## 1.2. NumPy cung cấp gì?
 
 NumPy cung cấp:
 
-- Các phép toán nhanh trên mảng.
-- Tính toán vector hóa.
-- Broadcasting.
-- Các hàm đại số tuyến tính.
-- Các hàm thống kê.
-- Công cụ sinh số ngẫu nhiên.
-- Khả năng tích hợp với Pandas, SciPy, Matplotlib và Scikit-learn.
+- thao tác mảng nhanh;
+- tính toán vector hóa;
+- broadcasting;
+- hàm đại số tuyến tính;
+- hàm thống kê;
+- sinh số ngẫu nhiên;
+- tích hợp với Pandas, SciPy, Matplotlib, Scikit-learn.
 
-## Các đặc trưng chính
+## 1.3. Kiểm tra nhanh
 
-### `ndarray`
-
-`ndarray` là cấu trúc dữ liệu trung tâm của NumPy. Nó lưu trữ các phần tử có cùng kiểu dữ liệu trong một mảng nhiều chiều được tổ chức hiệu quả.
-
-### Phép toán vector hóa
-
-Phép toán vector hóa cho phép áp dụng phép tính lên toàn bộ mảng mà không cần viết vòng lặp Python tường minh.
-
-### Broadcasting
-
-Broadcasting cho phép NumPy thực hiện phép toán giữa các mảng có hình dạng khác nhau nhưng tương thích.
-
-### Đại số tuyến tính
-
-NumPy hỗ trợ nhân ma trận, định thức, ma trận nghịch đảo, trị riêng, vector riêng và các tích vector.
-
-### Hàm thống kê
-
-NumPy có các hàm tính trung bình, trung vị, phương sai, độ lệch chuẩn, phân vị và nhiều thống kê mô tả khác.
-
-### Khả năng tích hợp
-
-Mảng NumPy được sử dụng rộng rãi trong:
-
-- Pandas.
-- SciPy.
-- Matplotlib.
-- Scikit-learn.
-- Statsmodels.
-
-
-### Câu hỏi nhanh
-
-**Câu 1.** Cấu trúc dữ liệu trung tâm của NumPy là gì?
+**Câu 1.** Cấu trúc dữ liệu chính trong NumPy là gì?
 
 A. `DataFrame`  
-B. `ndarray`  
+B. `tuple`  
 C. `dictionary`  
-D. `tuple`  
+D. `ndarray`  
 
 **Câu 2. Đúng hay sai?** NumPy được thiết kế chủ yếu cho tính toán số.
 
 ---
 
-# Vì sao nên học NumPy?
+## Bài tập nhỏ sau phần lý thuyết
 
-NumPy quan trọng vì nó cung cấp nền tảng hiệu quả cho các bài toán tính toán số trong Python.
+**Bài 1.1. Nhận diện cấu trúc dữ liệu**
 
-## Ưu điểm chính
+Cho đoạn mã:
 
-- Thực hiện các phép toán vector hóa nhanh hơn đáng kể so với vòng lặp Python trong nhiều bài toán số.
-- Lưu trữ dữ liệu số đồng nhất gọn hơn danh sách Python.
-- Cung cấp các hàm tối ưu cho đại số tuyến tính và thao tác ma trận.
-- Hỗ trợ sinh số ngẫu nhiên và phân tích thống kê.
-- Biểu diễn các công thức phức tạp bằng cú pháp ngắn gọn.
-- Là nền tảng số học cho nhiều thư viện khoa học dữ liệu.
+```python
+import numpy as np
 
-## So sánh mảng NumPy và danh sách Python
+x = np.array([2, 4, 6, 8])
+```
 
-Danh sách Python có thể chứa nhiều kiểu dữ liệu khác nhau:
+Hãy:
+
+1. Cho biết `x` là kiểu cấu trúc dữ liệu gì trong NumPy.
+2. Dự đoán số chiều của `x`.
+3. Giải thích vì sao `x` phù hợp cho tính toán số hơn một list Python thông thường.
+
+**Bài 1.2. Liên hệ ứng dụng**
+
+Nêu một ví dụ trong Data Science mà dữ liệu có thể được biểu diễn bằng:
+
+- mảng một chiều;
+- ma trận hai chiều;
+- mảng ba chiều.
+
+
+# Phần 2. Vì sao nên học NumPy?
+
+## 2.1. Ý nghĩa trong phân tích dữ liệu
+
+NumPy quan trọng vì nó là nền tảng cho rất nhiều công việc tính toán trong Python. Khi dữ liệu là số, việc dùng mảng NumPy thường giúp mã ngắn hơn, rõ hơn và nhanh hơn.
+
+## 2.2. List Python và mảng NumPy
+
+Một list Python có thể chứa nhiều kiểu dữ liệu khác nhau:
 
 ```python
 values = [10, 2.5, "Python", True]
 ```
 
-Mảng NumPy thường lưu trữ các phần tử có cùng kiểu dữ liệu:
+Một mảng NumPy thường chứa dữ liệu cùng kiểu:
 
 ```python
 import numpy as np
 
 values = np.array([10, 20, 30, 40])
+print(values.dtype)
 ```
 
-Nhờ cấu trúc đồng nhất, NumPy có thể thực hiện các phép toán số hiệu quả hơn.
+Mảng NumPy có cấu trúc đều đặn hơn, nhờ đó các phép toán số có thể được thực hiện hiệu quả hơn.
 
-### Ví dụ: Nhân toàn bộ phần tử
+## 2.3. Ví dụ: nhân các giá trị
 
-Sử dụng danh sách Python:
+### Cách dùng list Python
 
 ```python
 values = [1, 2, 3, 4]
 
 result = []
-
 for value in values:
     result.append(value * 10)
 
@@ -179,13 +204,12 @@ Kết quả:
 [10, 20, 30, 40]
 ```
 
-Sử dụng NumPy:
+### Cách dùng NumPy
 
 ```python
 import numpy as np
 
 values = np.array([1, 2, 3, 4])
-
 result = values * 10
 
 print(result)
@@ -197,47 +221,75 @@ Kết quả:
 [10 20 30 40]
 ```
 
-### Câu hỏi nhanh
+Điểm khác biệt là NumPy cho phép viết `values * 10` để áp dụng phép nhân cho toàn bộ mảng. Đây là ví dụ đơn giản của **vectorization**.
 
-**Câu 1.** Vì sao mảng NumPy hiệu quả trong tính toán số?
+## 2.4. Kiểm tra nhanh
 
-A. Vì luôn chứa dữ liệu văn bản  
-B. Vì sử dụng cấu trúc mảng đồng nhất và được tối ưu  
-C. Vì không sử dụng bộ nhớ  
-D. Vì tự động kết nối Internet  
+**Câu 1.** Vì sao mảng NumPy hiệu quả cho tính toán số?
 
-**Câu 2.** Biểu thức nào nhân mọi phần tử của mảng `a` với 10?
+A. Vì nó tự động kết nối Internet.  
+B. Vì nó dùng cấu trúc mảng đồng nhất và được tối ưu.  
+C. Vì nó không sử dụng bộ nhớ.  
+D. Vì nó luôn chứa văn bản.  
 
-A. `a * 10`  
-B. `a.append(10)`  
-C. `a.add("10")`  
-D. `a.sort(10)`  
+**Câu 2.** Biểu thức nào nhân mọi phần tử của mảng NumPy `a` với 10?
+
+A. `a.sort(10)`  
+B. `a.add("10")`  
+C. `a * 10`  
+D. `a.append(10)`  
 
 ---
 
-# Cài đặt và nhập NumPy
+## Bài tập nhỏ sau phần lý thuyết
 
-## Cài đặt
+**Bài 2.1. So sánh list và NumPy**
 
-Có thể cài NumPy bằng lệnh:
+Viết hai đoạn mã thực hiện cùng nhiệm vụ: nhân các giá trị `[2, 4, 6, 8]` với 5.
+
+- Cách 1: dùng list và vòng lặp.
+- Cách 2: dùng NumPy.
+
+Sau đó so sánh số dòng mã của hai cách.
+
+**Bài 2.2. Vectorization**
+
+Cho:
+
+```python
+a = np.array([1, 3, 5, 7])
+```
+
+Không dùng vòng lặp, hãy tạo mảng mới sao cho mỗi phần tử được:
+
+1. cộng thêm 10;
+2. nhân với 2;
+3. bình phương.
+
+
+# Phần 3. Cài đặt và import NumPy
+
+## 3.1. Cài đặt
+
+Cài đặt NumPy bằng lệnh:
 
 ```bash
 pip install numpy
 ```
 
-Trong nhiều môi trường khoa học dữ liệu, NumPy có thể đã được cài sẵn.
+Trong Google Colab hoặc Anaconda, NumPy thường đã được cài sẵn.
 
-## Nhập thư viện
+## 3.2. Import NumPy
 
-Quy ước phổ biến là:
+Quy ước chuẩn là:
 
 ```python
 import numpy as np
 ```
 
-Bí danh `np` được sử dụng rộng rãi trong mã nguồn và tài liệu NumPy.
+Bí danh `np` được dùng rộng rãi trong tài liệu, bài giảng và mã nguồn Python.
 
-## Kiểm tra phiên bản
+## 3.3. Kiểm tra phiên bản
 
 ```python
 import numpy as np
@@ -245,35 +297,47 @@ import numpy as np
 print(np.__version__)
 ```
 
-### Câu hỏi nhanh
-
-**Câu 1.** Bí danh thông dụng của NumPy là gì?
-
-A. `ny`  
-B. `np`  
-C. `num`  
-D. `py`  
-
-**Câu 2.** Lệnh nào dùng để cài NumPy?
-
-A. `pip install numpy`  
-B. `python import numpy`  
-C. `install numpy.py`  
-D. `pip numpy open`  
-
 ---
 
-# Mảng NumPy
+## Bài tập nhỏ sau phần lý thuyết
 
-Mảng NumPy có thể được tạo từ danh sách, tuple, dãy số hoặc các hàm dựng sẵn.
+**Bài 3.1. Kiểm tra môi trường**
 
-## Tạo mảng từ danh sách
+Chạy:
+
+```python
+import numpy as np
+
+print(np.__version__)
+```
+
+Hãy ghi lại:
+
+1. phiên bản NumPy đang sử dụng;
+2. bí danh chuẩn của NumPy;
+3. tên hàm hoặc thuộc tính vừa dùng để kiểm tra phiên bản.
+
+
+# Phần 4. Nhóm tính năng: Tạo mảng
+
+## 4.1. Các lệnh NumPy liên quan
+
+| Lệnh | Ý nghĩa |
+|---|---|
+| `np.array(data)` | Chuyển list, tuple hoặc cấu trúc lồng nhau thành `ndarray`. |
+| `np.zeros(shape)` | Tạo mảng toàn số 0. |
+| `np.ones(shape)` | Tạo mảng toàn số 1. |
+| `np.full(shape, value)` | Tạo mảng được lấp đầy bởi một giá trị. |
+| `np.arange(start, stop, step)` | Tạo dãy cách đều; `stop` không được lấy. |
+| `np.linspace(start, stop, n)` | Tạo đúng `n` giá trị cách đều giữa hai đầu mút. |
+| `np.eye(n)` | Tạo ma trận đơn vị kích thước `n × n`. |
+
+## 4.2. Tạo mảng từ list
 
 ```python
 import numpy as np
 
 a = [9, 3, 3, 5]
-
 arr = np.array(a)
 
 print(arr)
@@ -285,15 +349,14 @@ Kết quả:
 [9 3 3 5]
 ```
 
-## Tạo mảng một chiều
+## 4.3. Tạo mảng một chiều
 
 ```python
 arr = np.array([10, 20, 30, 40])
-
 print(arr)
 ```
 
-## Tạo mảng hai chiều
+## 4.4. Tạo mảng hai chiều
 
 ```python
 matrix = np.array([
@@ -311,7 +374,7 @@ Kết quả:
  [4 5 6]]
 ```
 
-## Tạo mảng ba chiều
+## 4.5. Tạo mảng ba chiều
 
 ```python
 tensor = np.array([
@@ -328,32 +391,12 @@ tensor = np.array([
 print(tensor)
 ```
 
-### Câu hỏi nhanh
+Mảng ba chiều có thể được hiểu như nhiều ma trận được xếp chồng lên nhau.
 
-**Câu 1.** Hàm nào chuyển danh sách Python thành mảng NumPy?
-
-A. `np.array()`  
-B. `np.list()`  
-C. `np.convert()`  
-D. `np.ndarray_list()`  
-
-**Câu 2.** Mảng hai chiều thường được dùng để biểu diễn:
-
-A. Ma trận  
-B. Chuỗi ký tự  
-C. Đường dẫn tệp  
-D. Điều kiện Boolean  
-
----
-
-# Các hàm tạo mảng thông dụng
-
-## Mảng toàn số 0
+## 4.6. Các hàm tạo mảng thường dùng
 
 ```python
-zeros = np.zeros(5)
-
-print(zeros)
+np.zeros(5)
 ```
 
 Kết quả:
@@ -362,36 +405,27 @@ Kết quả:
 [0. 0. 0. 0. 0.]
 ```
 
-Tạo ma trận số 0:
-
 ```python
-zeros_matrix = np.zeros((2, 3))
-
-print(zeros_matrix)
+np.zeros((2, 3))
 ```
 
-## Mảng toàn số 1
+Kết quả:
 
-```python
-ones = np.ones((2, 3))
-
-print(ones)
+```text
+[[0. 0. 0.]
+ [0. 0. 0.]]
 ```
 
-## Mảng chứa một giá trị cố định
-
 ```python
-filled = np.full((2, 3), 7)
-
-print(filled)
+np.ones((2, 3))
 ```
 
-## Tạo dãy bằng `arange()`
+```python
+np.full((2, 3), 7)
+```
 
 ```python
-values = np.arange(0, 10, 2)
-
-print(values)
+np.arange(0, 10, 2)
 ```
 
 Kết quả:
@@ -400,12 +434,8 @@ Kết quả:
 [0 2 4 6 8]
 ```
 
-## Tạo các giá trị cách đều bằng `linspace()`
-
 ```python
-values = np.linspace(0, 1, 5)
-
-print(values)
+np.linspace(0, 1, 5)
 ```
 
 Kết quả:
@@ -414,12 +444,8 @@ Kết quả:
 [0.   0.25 0.5  0.75 1.  ]
 ```
 
-## Tạo ma trận đơn vị
-
 ```python
-identity = np.eye(3)
-
-print(identity)
+np.eye(3)
 ```
 
 Kết quả:
@@ -430,126 +456,150 @@ Kết quả:
  [0. 0. 1.]]
 ```
 
-### Câu hỏi nhanh
+## 4.7. Kiểm tra nhanh
 
-**Câu 1.** Hàm nào tạo mảng toàn số 0?
+**Câu 1.** Hàm nào chuyển list Python thành mảng NumPy?
 
-A. `np.zeros()`  
-B. `np.empty_text()`  
-C. `np.null()`  
-D. `np.zero_array_only()`  
+A. `np.ndarray_list()`  
+B. `np.array()`  
+C. `np.convert()`  
+D. `np.list()`  
 
 **Câu 2.** Hàm nào tạo các giá trị cách đều giữa hai đầu mút?
 
-A. `np.linspace()`  
-B. `np.stack()`  
+A. `np.stack()`  
+B. `np.mean()`  
 C. `np.split()`  
-D. `np.mean()`  
+D. `np.linspace()`  
 
 ---
 
-# Thuộc tính của mảng
+## Bài tập nhỏ sau phần lý thuyết
 
-Xét mảng:
+**Bài 4.1. Tạo các mảng cơ bản**
+
+Hãy dùng NumPy để tạo:
+
+1. mảng `[5, 10, 15, 20]`;
+2. ma trận toàn số 0 kích thước `3 × 4`;
+3. ma trận toàn số 1 kích thước `2 × 5`;
+4. ma trận `3 × 3` toàn giá trị 7;
+5. dãy số chẵn từ 0 đến 18;
+6. 6 giá trị cách đều từ 0 đến 1.
+
+**Bài 4.2. Ma trận đơn vị**
+
+Tạo ma trận đơn vị kích thước `4 × 4` và giải thích vị trí của các phần tử bằng 1.
+
+
+# Phần 5. Nhóm tính năng: Thuộc tính của mảng
+
+## 5.1. Các thuộc tính liên quan
+
+| Thuộc tính | Ý nghĩa |
+|---|---|
+| `arr.ndim` | Số chiều của mảng. |
+| `arr.shape` | Kích thước theo từng chiều. |
+| `arr.size` | Tổng số phần tử. |
+| `arr.dtype` | Kiểu dữ liệu của phần tử. |
+| `arr.itemsize` | Số byte cho mỗi phần tử. |
+| `arr.nbytes` | Tổng số byte của toàn bộ mảng. |
+
+## 5.2. Ví dụ
 
 ```python
 arr = np.array([
     [1, 2, 3],
     [4, 5, 6]
 ])
-```
 
-## Số chiều
-
-```python
 print(arr.ndim)
+print(arr.shape)
+print(arr.size)
+print(arr.dtype)
+print(arr.itemsize)
+print(arr.nbytes)
 ```
 
-Kết quả:
+Diễn giải:
 
-```text
-2
-```
+- `arr.ndim = 2`: mảng có 2 chiều.
+- `arr.shape = (2, 3)`: mảng có 2 hàng và 3 cột.
+- `arr.size = 6`: tổng cộng có 6 phần tử.
+- `arr.dtype`: cho biết kiểu dữ liệu.
+- `arr.itemsize`: số byte cho mỗi phần tử.
+- `arr.nbytes`: tổng bộ nhớ mà các phần tử chiếm.
 
-## Hình dạng
+## 5.3. Ghi nhớ
+
+Trước khi reshape, broadcasting hoặc đưa dữ liệu vào mô hình học máy, nên kiểm tra:
 
 ```python
 print(arr.shape)
-```
-
-Kết quả:
-
-```text
-(2, 3)
-```
-
-Mảng có hai hàng và ba cột.
-
-## Tổng số phần tử
-
-```python
-print(arr.size)
-```
-
-Kết quả:
-
-```text
-6
-```
-
-## Kiểu dữ liệu
-
-```python
 print(arr.dtype)
 ```
 
-Kết quả cụ thể phụ thuộc vào nền tảng và các giá trị trong mảng.
-
-## Số byte cho mỗi phần tử
-
-```python
-print(arr.itemsize)
-```
-
-### Bảng tóm tắt
-
-| Thuộc tính | Ý nghĩa |
-|---|---|
-| `ndim` | Số chiều |
-| `shape` | Kích thước theo từng chiều |
-| `size` | Tổng số phần tử |
-| `dtype` | Kiểu dữ liệu |
-| `itemsize` | Số byte của mỗi phần tử |
-
-### Câu hỏi nhanh
-
-**Câu 1.** Thuộc tính nào trả về hình dạng của mảng?
-
-A. `shape`  
-B. `mean`  
-C. `append`  
-D. `index`  
-
-**Câu 2.** Thuộc tính nào trả về tổng số phần tử?
-
-A. `size`  
-B. `dtype`  
-C. `ndim`  
-D. `itemsize`  
+Nhiều lỗi NumPy bắt nguồn từ shape hoặc kiểu dữ liệu không như mong đợi.
 
 ---
 
-# Indexing trong mảng
+## Bài tập nhỏ sau phần lý thuyết
 
-Indexing được dùng để truy cập từng phần tử.
+**Bài 5.1. Đọc thuộc tính mảng**
 
-## Indexing mảng một chiều
+Cho:
+
+```python
+A = np.array([
+    [1, 2, 3, 4],
+    [5, 6, 7, 8],
+    [9, 10, 11, 12]
+])
+```
+
+Không chạy mã trước, hãy dự đoán:
+
+1. `A.ndim`;
+2. `A.shape`;
+3. `A.size`.
+
+Sau đó chạy mã để kiểm tra.
+
+**Bài 5.2. Kiểu dữ liệu và bộ nhớ**
+
+Tạo hai mảng cùng nội dung `[1, 2, 3, 4]`, một mảng dùng `int64`, một mảng dùng `int8`.
+
+So sánh:
+
+```python
+arr.dtype
+arr.itemsize
+arr.nbytes
+```
+
+
+# Phần 6. Nhóm tính năng: Indexing và slicing
+
+## 6.1. Các cú pháp liên quan
+
+| Cú pháp | Ý nghĩa |
+|---|---|
+| `arr[i]` | Lấy phần tử tại vị trí `i`. |
+| `arr[-1]` | Lấy phần tử cuối cùng. |
+| `arr[a:b]` | Lấy các phần tử từ chỉ số `a` đến trước `b`. |
+| `arr[::step]` | Lấy phần tử theo bước nhảy. |
+| `matrix[i, j]` | Lấy phần tử ở hàng `i`, cột `j`. |
+| `matrix[r1:r2, c1:c2]` | Lấy lát cắt hai chiều. |
+| `arr.copy()` | Tạo bản sao độc lập. |
+
+## 6.2. Indexing một chiều
 
 ```python
 arr = np.array([10, 20, 30, 40])
 
 print(arr[0])
 print(arr[2])
+print(arr[-1])
 ```
 
 Kết quả:
@@ -557,21 +607,10 @@ Kết quả:
 ```text
 10
 30
-```
-
-Chỉ số âm truy cập từ cuối mảng:
-
-```python
-print(arr[-1])
-```
-
-Kết quả:
-
-```text
 40
 ```
 
-## Indexing mảng hai chiều
+## 6.3. Indexing hai chiều
 
 ```python
 matrix = np.array([
@@ -590,55 +629,23 @@ Kết quả:
 6
 ```
 
-### Câu hỏi nhanh
-
-**Câu 1.** `arr[0]` trả về gì?
-
-A. Phần tử đầu tiên  
-B. Phần tử cuối cùng  
-C. Hình dạng của mảng  
-D. Kích thước mảng  
-
-**Câu 2.** Trong mảng hai chiều, `matrix[1, 2]` chỉ:
-
-A. Hàng chỉ số 1 và cột chỉ số 2  
-B. Chỉ hàng 1  
-C. Chỉ cột 2  
-D. Số chiều của mảng  
-
----
-
-# Slicing trong mảng
-
-Slicing dùng để trích một phần của mảng.
-
-## Slicing mảng một chiều
+## 6.4. Slicing một chiều
 
 ```python
 arr = np.array([10, 20, 30, 40, 50])
 
 print(arr[1:4])
-```
-
-Kết quả:
-
-```text
-[20 30 40]
-```
-
-## Slicing với bước nhảy
-
-```python
 print(arr[::2])
 ```
 
 Kết quả:
 
 ```text
+[20 30 40]
 [10 30 50]
 ```
 
-## Slicing mảng hai chiều
+## 6.5. Slicing hai chiều
 
 ```python
 matrix = np.array([
@@ -657,9 +664,9 @@ Kết quả:
  [5 6]]
 ```
 
-## Lưu ý: view và copy
+## 6.6. View và copy
 
-Nhiều phép slicing trong NumPy trả về một **view** của mảng gốc thay vì tạo bản sao độc lập. Vì vậy, thay đổi view có thể làm thay đổi dữ liệu gốc.
+Nhiều lát cắt trong NumPy trả về **view**, tức là dữ liệu có thể vẫn chia sẻ bộ nhớ với mảng gốc.
 
 ```python
 arr = np.array([10, 20, 30, 40])
@@ -676,32 +683,75 @@ Kết quả:
 [ 10 999  30  40]
 ```
 
-Tạo bản sao độc lập bằng:
+Nếu cần bản sao độc lập, dùng:
 
 ```python
 copy = arr[1:3].copy()
 ```
 
-### Câu hỏi nhanh
-
-**Câu 1.** `arr[1:4]` chứa các phần tử nào?
-
-A. Các phần tử tại chỉ số 1, 2 và 3  
-B. Các phần tử từ chỉ số 1 đến 4, gồm cả 4  
-C. Chỉ phần tử tại chỉ số 4  
-D. Mọi phần tử cách một vị trí  
-
-**Câu 2. Đúng hay sai?** Một lát cắt NumPy có thể dùng chung bộ nhớ với mảng gốc.
-
 ---
 
-# Thay đổi hình dạng mảng
+## Bài tập nhỏ sau phần lý thuyết
 
-`reshape()` thay đổi hình dạng mà không thay đổi dữ liệu.
+**Bài 6.1. Indexing**
+
+Cho:
+
+```python
+arr = np.array([10, 20, 30, 40, 50])
+```
+
+Hãy lấy:
+
+1. phần tử đầu tiên;
+2. phần tử thứ ba;
+3. phần tử cuối cùng.
+
+**Bài 6.2. Slicing**
+
+Cho:
+
+```python
+A = np.array([
+    [1, 2, 3, 4],
+    [5, 6, 7, 8],
+    [9, 10, 11, 12]
+])
+```
+
+Hãy lấy:
+
+1. hai hàng đầu tiên;
+2. hai cột cuối cùng;
+3. khối con gồm hàng 2–3 và cột 2–4;
+4. hàng cuối cùng.
+
+**Bài 6.3. View hay copy?**
+
+Tạo một slice từ mảng, thay đổi một phần tử của slice và kiểm tra mảng gốc. Sau đó lặp lại với `.copy()` và so sánh kết quả.
+
+
+# Phần 7. Nhóm tính năng: Reshape, resize, stack và split
+
+## 7.1. Các lệnh liên quan
+
+| Lệnh | Ý nghĩa |
+|---|---|
+| `arr.reshape(r, c)` | Đổi shape của mảng nếu số phần tử tương thích. |
+| `arr.reshape(..., -1)` | Để NumPy tự suy ra một chiều. |
+| `arr.flatten()` | Làm phẳng mảng và trả về bản sao. |
+| `arr.ravel()` | Làm phẳng mảng và thường trả về view nếu có thể. |
+| `np.resize(arr, shape)` | Thay đổi tổng kích thước; có thể lặp lại giá trị. |
+| `np.vstack((a, b))` | Ghép theo chiều dọc. |
+| `np.hstack((a, b))` | Ghép theo chiều ngang. |
+| `np.stack((a, b), axis=k)` | Ghép theo một trục mới. |
+| `np.split(arr, n)` | Chia mảng thành `n` phần bằng nhau nếu có thể. |
+| `np.hsplit(matrix, n)` | Chia ma trận theo chiều cột. |
+
+## 7.2. Reshape
 
 ```python
 arr = np.arange(12)
-
 matrix = arr.reshape(3, 4)
 
 print(matrix)
@@ -715,59 +765,27 @@ Kết quả:
  [ 8  9 10 11]]
 ```
 
-## Dùng `-1` để NumPy tự suy ra một chiều
+Dùng `-1` để NumPy tự suy ra một chiều:
 
 ```python
 matrix = arr.reshape(2, -1)
-
-print(matrix)
+print(matrix.shape)
 ```
 
-NumPy tự tính kích thước còn thiếu.
-
-## Làm phẳng mảng
+## 7.3. Flatten và ravel
 
 ```python
 flat = matrix.flatten()
-
-print(flat)
-```
-
-## Dùng `ravel()`
-
-```python
 flat_view = matrix.ravel()
-
-print(flat_view)
 ```
 
-`flatten()` trả về bản sao, trong khi `ravel()` thường trả về view khi có thể.
+- `flatten()` trả về bản sao.
+- `ravel()` thường trả về view nếu có thể.
 
-### Câu hỏi nhanh
-
-**Câu 1.** Phương thức nào thay đổi hình dạng của mảng?
-
-A. `reshape()`  
-B. `mean()`  
-C. `split()`  
-D. `sort_index()`  
-
-**Câu 2.** `-1` trong `reshape()` có ý nghĩa gì?
-
-A. NumPy tự suy ra chiều đó  
-B. Xóa một chiều  
-C. Đảo ngược mảng  
-D. Chuyển các giá trị thành số âm  
-
----
-
-# Thay đổi kích thước mảng
-
-`resize()` có thể thay đổi hình dạng và số lượng phần tử.
+## 7.4. Resize
 
 ```python
 arr = np.array([1, 2, 3, 4])
-
 resized = np.resize(arr, (2, 3))
 
 print(resized)
@@ -780,83 +798,23 @@ Kết quả:
  [4 1 2]]
 ```
 
-Khi mảng mới lớn hơn, các giá trị có thể được lặp lại.
+`resize()` có thể lặp lại giá trị nếu shape mới cần nhiều phần tử hơn.
 
-> **Lưu ý:** `reshape()` yêu cầu tổng số phần tử tương thích. `resize()` có thể tạo ra kích thước tổng khác.
-
-### Câu hỏi nhanh
-
-**Câu 1.** Phép toán nào thông thường giữ nguyên tổng số phần tử?
-
-A. `reshape()`  
-B. `np.resize()` trong mọi trường hợp  
-C. `np.delete()`  
-D. `np.append()`  
-
----
-
-# Ghép mảng
-
-Ghép mảng kết hợp nhiều mảng thành một mảng lớn hơn.
-
-## Ghép theo chiều dọc
+## 7.5. Stacking
 
 ```python
 a = np.array([1, 2, 3])
 b = np.array([4, 5, 6])
 
-result = np.vstack((a, b))
-
-print(result)
+print(np.vstack((a, b)))
+print(np.hstack((a, b)))
+print(np.stack((a, b), axis=0))
 ```
 
-Kết quả:
-
-```text
-[[1 2 3]
- [4 5 6]]
-```
-
-## Ghép theo chiều ngang
-
-```python
-result = np.hstack((a, b))
-
-print(result)
-```
-
-Kết quả:
-
-```text
-[1 2 3 4 5 6]
-```
-
-## Ghép tổng quát
-
-```python
-result = np.stack((a, b), axis=0)
-
-print(result)
-```
-
-### Câu hỏi nhanh
-
-**Câu 1.** Hàm nào ghép các mảng theo chiều dọc?
-
-A. `np.vstack()`  
-B. `np.mean()`  
-C. `np.split()`  
-D. `np.random()`  
-
----
-
-# Tách mảng
-
-Tách mảng chia một mảng thành nhiều mảng nhỏ.
+## 7.6. Splitting
 
 ```python
 arr = np.array([1, 2, 3, 4, 5, 6])
-
 parts = np.split(arr, 3)
 
 print(parts)
@@ -868,40 +826,70 @@ Kết quả:
 [array([1, 2]), array([3, 4]), array([5, 6])]
 ```
 
-## Tách theo chiều ngang và chiều dọc
-
-```python
-matrix = np.array([
-    [1, 2, 3, 4],
-    [5, 6, 7, 8]
-])
-
-left, right = np.hsplit(matrix, 2)
-
-print(left)
-print(right)
-```
-
-### Câu hỏi nhanh
-
-**Câu 1.** Hàm nào chia một mảng thành các phần bằng nhau?
-
-A. `np.split()`  
-B. `np.join()`  
-C. `np.mean()`  
-D. `np.dot()`  
-
 ---
 
-# Broadcasting
+## Bài tập nhỏ sau phần lý thuyết
 
-Broadcasting cho phép NumPy thực hiện phép toán giữa các mảng có hình dạng khác nhau nhưng tương thích.
+**Bài 7.1. Reshape**
 
-## Broadcasting với số vô hướng
+Tạo:
+
+```python
+arr = np.arange(1, 13)
+```
+
+Hãy reshape thành:
+
+1. ma trận `3 × 4`;
+2. ma trận `2 × 6`;
+3. ma trận có 4 hàng và để NumPy tự suy ra số cột bằng `-1`.
+
+**Bài 7.2. Flatten và ravel**
+
+Từ ma trận `3 × 4`, tạo:
+
+```python
+flat1 = matrix.flatten()
+flat2 = matrix.ravel()
+```
+
+In `shape` của hai kết quả và cho biết điểm khác nhau quan trọng giữa hai lệnh.
+
+**Bài 7.3. Stack và split**
+
+Cho:
+
+```python
+a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
+```
+
+Hãy:
+
+1. ghép dọc;
+2. ghép ngang;
+3. dùng `np.stack()` với `axis=0`;
+4. tạo mảng từ 1 đến 8 và chia thành 4 phần bằng nhau.
+
+
+# Phần 8. Nhóm tính năng: Broadcasting và số học
+
+## 8.1. Các biểu thức liên quan
+
+| Biểu thức | Ý nghĩa |
+|---|---|
+| `a + b`, `a - b` | Cộng/trừ theo từng phần tử. |
+| `a * b` | Nhân theo từng phần tử. |
+| `a / b` | Chia theo từng phần tử. |
+| `a ** p` | Nâng từng phần tử lên lũy thừa `p`. |
+| `a % b` | Phần dư theo từng phần tử. |
+| `array + scalar` | Broadcast số vô hướng đến mọi phần tử. |
+| `matrix + row` | Broadcast hàng 1-D tương thích lên các hàng của ma trận. |
+
+## 8.2. Broadcasting với số vô hướng
 
 ```python
 arr = np.array([1, 2, 3, 4])
-
 result = arr + 10
 
 print(result)
@@ -913,9 +901,9 @@ Kết quả:
 [11 12 13 14]
 ```
 
-Số `10` được áp dụng cho từng phần tử.
+Số `10` được áp dụng cho mọi phần tử của mảng.
 
-## Broadcasting giữa các mảng
+## 8.3. Broadcasting giữa các mảng
 
 ```python
 matrix = np.array([
@@ -924,7 +912,6 @@ matrix = np.array([
 ])
 
 row = np.array([10, 20, 30])
-
 result = matrix + row
 
 print(result)
@@ -937,179 +924,114 @@ Kết quả:
  [14 25 36]]
 ```
 
-## Quy tắc broadcasting cơ bản
+## 8.4. Quy tắc broadcasting cơ bản
 
-So sánh các chiều từ phải sang trái. Hai chiều tương thích khi:
+Xét từ chiều ngoài cùng bên phải, hai chiều tương thích nếu:
 
-- Chúng bằng nhau; hoặc
-- Một trong hai chiều bằng `1`.
+- chúng bằng nhau; hoặc
+- một trong hai bằng `1`.
 
-Nếu hình dạng không tương thích, NumPy phát sinh lỗi.
+Nếu shape không tương thích, NumPy sẽ báo lỗi.
 
-### Ví dụ hình dạng không tương thích
-
-```python
-a = np.ones((2, 3))
-b = np.ones((2, 2))
-
-# a + b phát sinh lỗi broadcasting
-```
-
-### Câu hỏi nhanh
-
-**Câu 1.** Broadcasting cho phép điều gì?
-
-A. Thực hiện phép toán giữa các mảng có hình dạng tương thích  
-B. Truyền dữ liệu tự động qua Internet  
-C. Chuyển mảng thành tệp  
-D. Xóa mọi chiều của mảng  
-
-**Câu 2.** Hai chiều tương thích khi bằng nhau hoặc:
-
-A. Một trong hai bằng 1  
-B. Cả hai đều âm  
-C. Cả hai đều là văn bản  
-D. Tổng của chúng bằng 0  
-
----
-
-# Các phép toán số học cơ bản
-
-NumPy hỗ trợ phép toán theo từng phần tử.
+## 8.5. Phép toán số học cơ bản
 
 ```python
 a = np.array([1, 2, 3])
 b = np.array([4, 5, 6])
-```
 
-## Cộng
-
-```python
 print(a + b)
-```
-
-Kết quả:
-
-```text
-[5 7 9]
-```
-
-## Trừ
-
-```python
 print(a - b)
-```
-
-Kết quả:
-
-```text
-[-3 -3 -3]
-```
-
-## Nhân theo từng phần tử
-
-```python
 print(a * b)
-```
-
-Kết quả:
-
-```text
-[ 4 10 18]
-```
-
-## Chia
-
-```python
 print(a / b)
-```
-
-## Lũy thừa
-
-```python
 print(a ** 2)
-```
-
-Kết quả:
-
-```text
-[1 4 9]
-```
-
-## Chia lấy dư
-
-```python
 print(b % a)
 ```
 
-### Phân biệt quan trọng
-
-Toán tử `*` thực hiện **nhân theo từng phần tử**, không phải nhân ma trận.
-
-### Câu hỏi nhanh
-
-**Câu 1.** `a * b` thực hiện gì với hai mảng cùng hình dạng?
-
-A. Nhân theo từng phần tử  
-B. Nghịch đảo ma trận  
-C. Sắp xếp  
-D. Ghép mảng  
+Lưu ý: `a * b` là nhân theo từng phần tử, không phải nhân ma trận.
 
 ---
 
-# Các hàm tổng hợp
+## Bài tập nhỏ sau phần lý thuyết
 
-Các hàm tổng hợp tóm tắt giá trị trong mảng.
+**Bài 8.1. Số học theo phần tử**
+
+Cho:
+
+```python
+a = np.array([2, 4, 6])
+b = np.array([1, 2, 3])
+```
+
+Tính:
+
+1. `a + b`;
+2. `a - b`;
+3. `a * b`;
+4. `a / b`;
+5. `a ** 2`.
+
+**Bài 8.2. Broadcasting với scalar**
+
+Cho:
+
+```python
+scores = np.array([7, 8, 6, 9])
+```
+
+Cộng 1 điểm cho mọi phần tử mà không dùng vòng lặp.
+
+**Bài 8.3. Broadcasting với vector**
+
+Cho ma trận:
+
+```python
+A = np.array([
+    [1, 2, 3],
+    [4, 5, 6]
+])
+```
+
+và:
+
+```python
+row = np.array([10, 20, 30])
+```
+
+Hãy tính `A + row`, rồi giải thích vì sao broadcasting hợp lệ.
+
+
+# Phần 9. Nhóm tính năng: Aggregation và universal functions
+
+## 9.1. Các lệnh liên quan
+
+| Lệnh | Ý nghĩa |
+|---|---|
+| `arr.sum()`, `arr.mean()` | Tổng và trung bình. |
+| `arr.min()`, `arr.max()` | Nhỏ nhất và lớn nhất. |
+| `np.median(arr)` | Trung vị. |
+| `np.var(arr)`, `np.std(arr)` | Phương sai và độ lệch chuẩn. |
+| `func(..., axis=0)` | Tổng hợp theo cột. |
+| `func(..., axis=1)` | Tổng hợp theo hàng. |
+| `np.sqrt(arr)` | Căn bậc hai theo từng phần tử. |
+| `np.exp(arr)`, `np.log(arr)` | Hàm mũ và log tự nhiên theo từng phần tử. |
+| `np.sin(arr)` | Hàm sin theo từng phần tử. |
+| `np.abs(arr)`, `np.round(arr)` | Giá trị tuyệt đối và làm tròn. |
+
+## 9.2. Aggregation
 
 ```python
 arr = np.array([9, 3, 3, 5])
-```
 
-## Tổng
-
-```python
 print(arr.sum())
-```
-
-Kết quả:
-
-```text
-20
-```
-
-## Trung bình
-
-```python
 print(arr.mean())
-```
-
-Kết quả:
-
-```text
-5.0
-```
-
-## Giá trị nhỏ nhất và lớn nhất
-
-```python
 print(arr.min())
 print(arr.max())
-```
-
-## Trung vị
-
-```python
 print(np.median(arr))
-```
-
-## Phương sai và độ lệch chuẩn
-
-```python
 print(np.var(arr))
 print(np.std(arr))
 ```
 
-## Tổng hợp theo trục
+## 9.3. Aggregation theo trục
 
 ```python
 matrix = np.array([
@@ -1128,32 +1050,10 @@ Kết quả:
 [ 6 15]
 ```
 
-- `axis=0`: tổng hợp theo chiều dọc, tạo một giá trị cho mỗi cột.
-- `axis=1`: tổng hợp theo chiều ngang, tạo một giá trị cho mỗi hàng.
+- `axis=0`: tổng hợp theo chiều hàng, cho kết quả theo từng cột.
+- `axis=1`: tổng hợp theo chiều cột, cho kết quả theo từng hàng.
 
-### Câu hỏi nhanh
-
-**Câu 1.** Hàm nào tính trung bình số học?
-
-A. `np.mean()`  
-B. `np.stack()`  
-C. `np.dot()`  
-D. `np.reshape()`  
-
-**Câu 2.** Trong mảng hai chiều, `axis=0` thường có ý nghĩa gì?
-
-A. Tổng hợp theo các hàng để tạo kết quả theo cột  
-B. Tổng hợp theo các cột để tạo kết quả theo hàng  
-C. Tổng hợp tên tệp  
-D. Tổng hợp kiểu dữ liệu  
-
----
-
-# Universal Functions
-
-**Universal function**, thường viết là **ufunc**, thực hiện phép toán theo từng phần tử trên mảng.
-
-## Căn bậc hai
+## 9.4. Universal functions
 
 ```python
 arr = np.array([1, 4, 9, 16])
@@ -1167,58 +1067,78 @@ Kết quả:
 [1. 2. 3. 4.]
 ```
 
-## Hàm mũ
-
 ```python
 print(np.exp(np.array([0, 1, 2])))
+print(np.log(np.array([1, np.e, np.e**2])))
+print(np.sin(np.array([0, np.pi / 2, np.pi])))
+print(np.abs(np.array([-3, -1, 2, 4])))
+print(np.round(np.array([1.234, 5.678]), 2))
 ```
-
-## Logarit tự nhiên
-
-```python
-values = np.array([1, np.e, np.e**2])
-
-print(np.log(values))
-```
-
-## Hàm lượng giác
-
-```python
-angles = np.array([0, np.pi / 2, np.pi])
-
-print(np.sin(angles))
-```
-
-## Giá trị tuyệt đối
-
-```python
-values = np.array([-3, -1, 2, 4])
-
-print(np.abs(values))
-```
-
-## Làm tròn
-
-```python
-values = np.array([1.234, 5.678])
-
-print(np.round(values, 2))
-```
-
-### Câu hỏi nhanh
-
-**Câu 1.** Hàm nào tính căn bậc hai theo từng phần tử?
-
-A. `np.sqrt()`  
-B. `np.split()`  
-C. `np.stack()`  
-D. `np.size()`  
 
 ---
 
-# Phép so sánh và Boolean
+## Bài tập nhỏ sau phần lý thuyết
 
-NumPy hỗ trợ so sánh theo từng phần tử.
+**Bài 9.1. Thống kê nhanh**
+
+Cho:
+
+```python
+x = np.array([4, 8, 6, 10, 12])
+```
+
+Tính:
+
+1. tổng;
+2. trung bình;
+3. nhỏ nhất;
+4. lớn nhất;
+5. trung vị;
+6. độ lệch chuẩn.
+
+**Bài 9.2. Axis**
+
+Cho:
+
+```python
+A = np.array([
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+])
+```
+
+Tính:
+
+1. tổng theo từng cột;
+2. tổng theo từng hàng;
+3. trung bình theo từng cột.
+
+**Bài 9.3. Ufunc**
+
+Cho:
+
+```python
+x = np.array([1, 4, 9, 16])
+```
+
+Hãy áp dụng `np.sqrt()` và giải thích đầu ra.
+
+
+# Phần 10. Nhóm tính năng: Boolean operations
+
+## 10.1. Các lệnh liên quan
+
+| Biểu thức | Ý nghĩa |
+|---|---|
+| `arr > value` | Tạo mảng Boolean từ phép so sánh. |
+| `arr[arr > value]` | Lọc phần tử thỏa điều kiện. |
+| `(cond1) & (cond2)` | AND theo từng phần tử. |
+| `(cond1) | (cond2)` | OR theo từng phần tử. |
+| `~mask` | NOT theo từng phần tử. |
+| `np.where(cond, a, b)` | Chọn `a` nếu điều kiện đúng, ngược lại chọn `b`. |
+
+## 10.2. So sánh và lọc Boolean
 
 ```python
 arr = np.array([10, 20, 30, 40])
@@ -1232,11 +1152,8 @@ Kết quả:
 [False False  True  True]
 ```
 
-## Lọc bằng Boolean
-
 ```python
 selected = arr[arr > 20]
-
 print(selected)
 ```
 
@@ -1246,11 +1163,10 @@ Kết quả:
 [30 40]
 ```
 
-## Kết hợp nhiều điều kiện
+## 10.3. Kết hợp nhiều điều kiện
 
 ```python
 selected = arr[(arr >= 20) & (arr <= 30)]
-
 print(selected)
 ```
 
@@ -1260,40 +1176,79 @@ Kết quả:
 [20 30]
 ```
 
-Sử dụng:
+Khi kết hợp nhiều điều kiện, cần đặt từng điều kiện trong dấu ngoặc.
 
-- `&` cho AND theo từng phần tử.
-- `|` cho OR theo từng phần tử.
-- `~` cho NOT theo từng phần tử.
+## 10.4. Vector hóa điều kiện bằng `np.where()`
 
-### Câu hỏi nhanh
+```python
+arr = np.array([10, 20, 30, 40])
 
-**Câu 1.** `arr[arr > 20]` trả về gì?
+labels = np.where(arr >= 30, "high", "low")
+print(labels)
+```
 
-A. Các phần tử lớn hơn 20  
-B. Kích thước mảng  
-C. Kiểu dữ liệu của mảng  
-D. Toàn bộ phần tử được chuyển thành Boolean  
+Kết quả:
+
+```text
+['low' 'low' 'high' 'high']
+```
 
 ---
 
-# Đại số tuyến tính
+## Bài tập nhỏ sau phần lý thuyết
 
-NumPy cung cấp các hàm đại số tuyến tính thông qua `numpy.linalg` và các toán tử ma trận.
+**Bài 10.1. Lọc theo một điều kiện**
 
-## Nhân ma trận
+Cho:
 
 ```python
-import numpy as np
+scores = np.array([4, 7, 8, 5, 9, 6])
+```
 
+Hãy lọc:
+
+1. các điểm lớn hơn hoặc bằng 7;
+2. các điểm nhỏ hơn 6.
+
+**Bài 10.2. Kết hợp điều kiện**
+
+Lọc các điểm nằm trong khoảng từ 6 đến 8, kể cả hai đầu mút.
+
+**Bài 10.3. Gán nhãn**
+
+Dùng `np.where()` để tạo nhãn:
+
+- `"Pass"` nếu điểm `>= 5`;
+- `"Fail"` nếu điểm `< 5`.
+
+
+# Phần 11. Nhóm tính năng: Đại số tuyến tính
+
+## 11.1. Các lệnh liên quan
+
+| Lệnh | Ý nghĩa |
+|---|---|
+| `A @ B` | Nhân ma trận. |
+| `np.dot(A, B)` | Tích vô hướng hoặc tích ma trận tùy số chiều. |
+| `A.T` | Chuyển vị. |
+| `np.linalg.det(A)` | Định thức. |
+| `np.linalg.inv(A)` | Nghịch đảo ma trận vuông không suy biến. |
+| `np.linalg.solve(A, b)` | Giải hệ `Ax=b`. |
+| `np.linalg.eig(A)` | Trị riêng và vector riêng. |
+| `np.inner(a, b)` | Tích trong. |
+| `np.outer(a, b)` | Tích ngoài. |
+| `np.vdot(a, b)` | Tích vô hướng vector; xử lý liên hợp phức khi cần. |
+
+## 11.2. Nhân ma trận
+
+```python
 A = np.array([
     [1, 2],
     [3, 4]
 ])
 
-result = np.dot(A, A)
-
-print(result)
+print(np.dot(A, A))
+print(A @ A)
 ```
 
 Kết quả:
@@ -1303,15 +1258,7 @@ Kết quả:
  [15 22]]
 ```
 
-Có thể dùng toán tử `@`:
-
-```python
-result = A @ A
-
-print(result)
-```
-
-## Nhân theo từng phần tử và nhân ma trận
+## 11.3. Nhân theo phần tử và nhân ma trận
 
 ```python
 print(A * A)
@@ -1321,33 +1268,17 @@ print(A @ A)
 - `A * A`: nhân theo từng phần tử.
 - `A @ A`: nhân ma trận.
 
-## Chuyển vị ma trận
+## 11.4. Chuyển vị, định thức, nghịch đảo
 
 ```python
 print(A.T)
+print(np.linalg.det(A))
+print(np.linalg.inv(A))
 ```
 
-## Định thức
+Nghịch đảo chỉ tồn tại với ma trận vuông không suy biến.
 
-```python
-determinant = np.linalg.det(A)
-
-print(determinant)
-```
-
-## Ma trận nghịch đảo
-
-```python
-inverse = np.linalg.inv(A)
-
-print(inverse)
-```
-
-Ma trận nghịch đảo chỉ tồn tại với ma trận vuông không suy biến.
-
-## Giải hệ phương trình tuyến tính
-
-Với hệ \(Ax=b\):
+## 11.5. Giải hệ tuyến tính
 
 ```python
 A = np.array([
@@ -1358,11 +1289,11 @@ A = np.array([
 b = np.array([8, 13])
 
 x = np.linalg.solve(A, b)
-
 print(x)
+print(A @ x)
 ```
 
-## Trị riêng và vector riêng
+## 11.6. Trị riêng và vector riêng
 
 ```python
 eigenvalues, eigenvectors = np.linalg.eig(A)
@@ -1371,329 +1302,190 @@ print(eigenvalues)
 print(eigenvectors)
 ```
 
-## Tích trong
-
-```python
-a = np.array([1, 2, 3])
-b = np.array([4, 5, 6])
-
-print(np.inner(a, b))
-```
-
-## Tích ngoài
-
-```python
-print(np.outer(a, b))
-```
-
-## `dot()` và `vdot()`
-
-```python
-print(np.dot(a, b))
-print(np.vdot(a, b))
-```
-
-Với mảng một chiều thực, hai kết quả thường giống nhau. `vdot()` còn xử lý liên hợp phức.
-
-### Câu hỏi nhanh
-
-**Câu 1.** Toán tử nào thực hiện nhân ma trận?
-
-A. `@`  
-B. `%`  
-C. `//`  
-D. `&`  
-
-**Câu 2.** Hàm nào tính ma trận nghịch đảo?
-
-A. `np.linalg.inv()`  
-B. `np.mean()`  
-C. `np.resize()`  
-D. `np.random()`  
-
 ---
 
-# Sinh số ngẫu nhiên
+## Bài tập nhỏ sau phần lý thuyết
 
-NumPy cung cấp công cụ sinh dữ liệu ngẫu nhiên phục vụ mô phỏng, thí nghiệm thống kê và học máy.
+**Bài 11.1. Nhân theo phần tử và nhân ma trận**
 
-Trong mã nguồn mới, nên sử dụng đối tượng bộ sinh số ngẫu nhiên:
-
-```python
-import numpy as np
-
-rng = np.random.default_rng()
-```
-
-> **Lưu ý:** Bộ sinh số ngẫu nhiên của NumPy phù hợp cho tính toán và mô phỏng, không nên xem là bộ sinh số an toàn cho mật mã.
-
-## Sinh số nguyên ngẫu nhiên
+Cho:
 
 ```python
-rng = np.random.default_rng(42)
+A = np.array([
+    [1, 2],
+    [3, 4]
+])
 
-values = rng.integers(
-    low=1,
-    high=10,
-    size=5
-)
-
-print(values)
+B = np.array([
+    [2, 0],
+    [1, 2]
+])
 ```
 
-## Phân phối đều
+Tính và so sánh:
 
 ```python
-values = rng.uniform(
-    low=0,
-    high=1,
-    size=5
-)
-
-print(values)
+A * B
+A @ B
 ```
 
-## Phân phối chuẩn
+**Bài 11.2. Định thức và chuyển vị**
+
+Tính:
 
 ```python
-values = rng.normal(
-    loc=0,
-    scale=1,
-    size=5
-)
-
-print(values)
+A.T
+np.linalg.det(A)
 ```
 
-## Phân phối nhị thức
+**Bài 11.3. Giải hệ**
+
+Cho:
 
 ```python
-values = rng.binomial(
-    n=10,
-    p=0.5,
-    size=5
-)
+A = np.array([
+    [2, 1],
+    [1, 3]
+])
 
-print(values)
+b = np.array([8, 13])
 ```
 
-## Phân phối Poisson
+Giải `Ax=b` bằng `np.linalg.solve()` và kiểm tra lại bằng `A @ x`.
 
-```python
-values = rng.poisson(
-    lam=3,
-    size=5
-)
 
-print(values)
-```
+# Phần 12. Nhóm tính năng: Số ngẫu nhiên và thống kê
 
-## Phân phối mũ
+## 12.1. Các lệnh liên quan
 
-```python
-values = rng.exponential(
-    scale=2,
-    size=5
-)
+| Lệnh | Ý nghĩa |
+|---|---|
+| `np.random.default_rng(seed)` | Tạo bộ sinh số ngẫu nhiên hiện đại. |
+| `rng.integers(low, high, size)` | Sinh số nguyên; `high` không được lấy. |
+| `rng.uniform(...)` | Lấy mẫu từ phân phối đều. |
+| `rng.normal(loc, scale, size)` | Lấy mẫu từ phân phối chuẩn. |
+| `rng.binomial(...)` | Lấy mẫu từ phân phối nhị thức. |
+| `rng.poisson(...)` | Lấy mẫu từ phân phối Poisson. |
+| `np.percentile(data, q)` | Tính percentile trên thang 0–100. |
+| `np.quantile(data, q)` | Tính quantile trên thang 0–1. |
+| `np.isnan(data)` | Xác định giá trị `NaN`. |
+| `np.nanmean(data)` | Tính trung bình khi bỏ qua `NaN`. |
 
-print(values)
-```
-
-## Phân phối Chi-square
-
-```python
-values = rng.chisquare(
-    df=4,
-    size=5
-)
-
-print(values)
-```
-
-## Tái lập kết quả bằng seed
+## 12.2. Tạo bộ sinh số ngẫu nhiên
 
 ```python
 rng = np.random.default_rng(42)
 ```
 
-Dùng cùng một seed giúp tái tạo cùng chuỗi giả ngẫu nhiên trong môi trường tương thích.
+Seed `42` giúp tái lập kết quả trong môi trường tương thích.
 
-### Ví dụ
+## 12.3. Sinh số ngẫu nhiên
 
 ```python
-import numpy as np
-
-rng = np.random.default_rng(42)
-
-a = rng.normal(0, 1, 5)
-
-print("Data:", a)
-print("Mean:", np.mean(a))
+print(rng.integers(low=1, high=10, size=5))
+print(rng.uniform(low=0, high=1, size=5))
+print(rng.normal(loc=0, scale=1, size=5))
+print(rng.binomial(n=10, p=0.5, size=5))
+print(rng.poisson(lam=3, size=5))
 ```
 
-Giá trị cụ thể phụ thuộc bộ sinh và phiên bản NumPy, nhưng seed cố định hỗ trợ khả năng tái lập.
-
-### Câu hỏi nhanh
-
-**Câu 1.** Phương thức nào tạo bộ sinh số ngẫu nhiên theo cách hiện đại?
-
-A. `np.random.default_rng()`  
-B. `np.random.file()`  
-C. `np.create_random_array()`  
-D. `np.random.text()`  
-
-**Câu 2.** Seed có ích vì sao?
-
-A. Giúp tái tạo một chuỗi giả ngẫu nhiên  
-B. Làm giá trị trở nên hoàn toàn không thể đoán  
-C. Xóa toàn bộ số ngẫu nhiên  
-D. Chuyển dữ liệu thành chuỗi  
-
----
-
-# Các hàm thống kê
-
-NumPy hỗ trợ nhiều thống kê mô tả.
+## 12.4. Thống kê mô tả
 
 ```python
 data = np.array([12, 15, 18, 20, 25])
-```
 
-## Trung bình
-
-```python
 print(np.mean(data))
-```
-
-## Trung vị
-
-```python
 print(np.median(data))
-```
-
-## Phương sai
-
-```python
 print(np.var(data))
-```
-
-## Độ lệch chuẩn
-
-```python
 print(np.std(data))
-```
-
-## Phân vị phần trăm
-
-```python
 print(np.percentile(data, 25))
-print(np.percentile(data, 50))
-print(np.percentile(data, 75))
-```
-
-## Quantile
-
-```python
-print(np.quantile(data, 0.25))
-print(np.quantile(data, 0.50))
 print(np.quantile(data, 0.75))
 ```
 
-## Khoảng biến thiên
+Mặc định, `np.var()` và `np.std()` dùng `ddof=0`, tương ứng với chia cho `N`.
+
+Nếu muốn dùng quy ước mẫu, chia cho `N-1`, sử dụng:
 
 ```python
-data_range = np.max(data) - np.min(data)
-
-print(data_range)
+print(np.var(data, ddof=1))
+print(np.std(data, ddof=1))
 ```
 
-### Quy ước tổng thể và mẫu
-
-Theo mặc định, `np.var()` và `np.std()` dùng `ddof=0`, tương ứng chia cho \(N\).
-
-Để dùng quy ước mẫu chia cho \(N-1\):
-
-```python
-sample_variance = np.var(data, ddof=1)
-sample_std = np.std(data, ddof=1)
-
-print(sample_variance)
-print(sample_std)
-```
-
-### Câu hỏi nhanh
-
-**Câu 1.** Tham số nào dùng cho độ lệch chuẩn mẫu thông dụng?
-
-A. `ddof=1`  
-B. `axis=-100`  
-C. `dtype="sample"`  
-D. `copy=False`  
-
----
-
-# Dữ liệu thiếu và giá trị không hợp lệ
-
-NumPy thường biểu diễn dữ liệu số bị thiếu bằng `np.nan`.
+## 12.5. Giá trị thiếu
 
 ```python
 data = np.array([10.0, 20.0, np.nan, 40.0])
 
-print(data)
-```
-
-## Tính trung bình thông thường
-
-```python
 print(np.mean(data))
-```
-
-Kết quả là `nan` vì mảng có giá trị thiếu.
-
-## Bỏ qua `NaN`
-
-```python
 print(np.nanmean(data))
 print(np.nanmedian(data))
-print(np.nanstd(data))
-```
-
-## Phát hiện giá trị thiếu
-
-```python
 print(np.isnan(data))
 ```
 
-## Loại bỏ giá trị thiếu
-
-```python
-clean_data = data[~np.isnan(data)]
-
-print(clean_data)
-```
-
-> **Lưu ý:** NumPy chỉ cung cấp hỗ trợ cơ bản cho dữ liệu thiếu. Các quy trình xử lý dữ liệu thiếu đầy đủ thường được thực hiện bằng Pandas.
-
-### Câu hỏi nhanh
-
-**Câu 1.** Hàm nào tính trung bình và bỏ qua `NaN`?
-
-A. `np.nanmean()`  
-B. `np.mean_text()`  
-C. `np.ignore()`  
-D. `np.dropna()`  
+`np.mean(data)` trả về `nan` nếu mảng có giá trị thiếu. Các hàm như `np.nanmean()` bỏ qua `NaN`.
 
 ---
 
-# Phép toán vector hóa
+## Bài tập nhỏ sau phần lý thuyết
 
-Vector hóa áp dụng một phép toán lên toàn bộ mảng cùng lúc.
+**Bài 12.1. Random integers**
+
+Tạo:
 
 ```python
-import numpy as np
+rng = np.random.default_rng(42)
+```
 
+Sau đó sinh 10 số nguyên trong khoảng từ 1 đến 100.
+
+**Bài 12.2. Normal distribution**
+
+Sinh 1,000 giá trị từ phân phối chuẩn với:
+
+- mean = 0;
+- standard deviation = 1.
+
+Tính mean và standard deviation của mẫu.
+
+**Bài 12.3. Percentile và quantile**
+
+Cho:
+
+```python
+data = np.array([10, 20, 30, 40, 50])
+```
+
+Tính:
+
+1. percentile 25;
+2. percentile 50;
+3. quantile 0.75.
+
+**Bài 12.4. NaN**
+
+Cho:
+
+```python
+data = np.array([10.0, np.nan, 20.0, 30.0])
+```
+
+Hãy:
+
+1. xác định vị trí `NaN`;
+2. tính mean khi bỏ qua `NaN`;
+3. loại bỏ `NaN`.
+
+
+# Phần 13. Nhóm tính năng: Vector hóa và hiệu năng
+
+## 13.1. Ý tưởng
+
+Vectorization nghĩa là viết phép toán ở mức toàn mảng thay vì lặp qua từng phần tử bằng vòng lặp Python.
+
+## 13.2. Ví dụ
+
+```python
 a = np.arange(5)
-
 result = a * 10
 
 print(result)
@@ -1705,90 +1497,82 @@ Kết quả:
 [ 0 10 20 30 40]
 ```
 
-Nếu không dùng NumPy, có thể phải viết vòng lặp:
+Nếu không dùng NumPy:
 
 ```python
 a = list(range(5))
 
 result = []
-
 for value in a:
     result.append(value * 10)
 
 print(result)
 ```
 
-Mã vector hóa thường:
+Vectorized code thường:
 
-- Ngắn gọn hơn.
-- Dễ đọc hơn.
-- Nhanh hơn với mảng số lớn.
-- Phù hợp với phân tích dữ liệu và tính toán khoa học.
-
-## Điều kiện vector hóa
-
-```python
-arr = np.array([10, 20, 30, 40])
-
-labels = np.where(
-    arr >= 30,
-    "high",
-    "low"
-)
-
-print(labels)
-```
-
-Kết quả:
-
-```text
-['low' 'low' 'high' 'high']
-```
-
-### Câu hỏi nhanh
-
-**Câu 1.** Ưu điểm quan trọng của vector hóa là gì?
-
-A. Thực hiện phép toán trên mảng mà không cần vòng lặp Python tường minh  
-B. Chuyển mọi mảng thành văn bản  
-C. Loại bỏ nhu cầu sử dụng bộ nhớ  
-D. Ngăn chặn mọi lỗi  
+- ngắn hơn;
+- dễ đọc hơn;
+- chạy nhanh hơn với dữ liệu số lớn;
+- phù hợp hơn với quy trình phân tích dữ liệu.
 
 ---
 
-# Quản lý bộ nhớ
+## Bài tập nhỏ sau phần lý thuyết
 
-Mảng NumPy hiệu quả vì thường lưu trữ các giá trị đồng nhất theo bố cục bộ nhớ đều đặn.
+**Bài 13.1. Chuyển vòng lặp thành vectorization**
 
-## Kiểm tra lượng bộ nhớ
+Viết lại đoạn mã sau bằng NumPy mà không dùng vòng lặp:
+
+```python
+values = [1, 2, 3, 4, 5]
+result = []
+
+for x in values:
+    result.append(x * 3 + 1)
+```
+
+**Bài 13.2. Vectorized condition**
+
+Cho:
+
+```python
+sales = np.array([80, 120, 95, 150, 60])
+```
+
+Dùng `np.where()` để gán:
+
+- `"High"` nếu doanh số `>= 100`;
+- `"Low"` nếu doanh số `< 100`.
+
+
+# Phần 14. Nhóm tính năng: Bộ nhớ, kiểu dữ liệu, sắp xếp, tìm kiếm và ảnh
+
+## 14.1. Các lệnh liên quan
+
+| Lệnh | Ý nghĩa |
+|---|---|
+| `arr.nbytes` | Tổng số byte của mảng. |
+| `arr.astype(dtype)` | Chuyển kiểu dữ liệu. |
+| `np.sort(arr)` | Trả về mảng đã sắp xếp. |
+| `np.where(condition)` | Trả về chỉ số thỏa điều kiện. |
+| `np.unique(arr)` | Trả về giá trị duy nhất. |
+| `np.unique(arr, return_counts=True)` | Trả về giá trị duy nhất và tần suất. |
+| `np.clip(arr, low, high)` | Giới hạn giá trị trong khoảng cho trước. |
+
+## 14.2. Kiểm tra bộ nhớ
 
 ```python
 arr = np.array([1, 2, 3, 4], dtype=np.int32)
 
 print(arr.nbytes)
+print(arr.dtype)
 ```
 
-`nbytes` trả về tổng số byte dùng để lưu các phần tử.
-
-## Chọn kiểu dữ liệu phù hợp
-
-```python
-small_values = np.array(
-    [1, 2, 3, 4],
-    dtype=np.int8
-)
-
-print(small_values.dtype)
-print(small_values.nbytes)
-```
-
-Kiểu dữ liệu nhỏ có thể tiết kiệm bộ nhớ, nhưng phải đủ phạm vi và độ chính xác.
-
-## Chuyển đổi kiểu dữ liệu
+## 14.3. Chuyển kiểu dữ liệu
 
 ```python
 arr = np.array([1.2, 2.8, 3.5])
-
 integers = arr.astype(np.int32)
 
 print(integers)
@@ -1800,26 +1584,12 @@ Kết quả:
 [1 2 3]
 ```
 
-Chuyển từ số thực sang số nguyên làm mất phần thập phân.
+Khi chuyển từ số thực sang số nguyên, phần thập phân bị loại bỏ.
 
-### Câu hỏi nhanh
-
-**Câu 1.** Thuộc tính nào trả về số byte dùng để lưu các phần tử?
-
-A. `nbytes`  
-B. `ndim`  
-C. `mean`  
-D. `shape`  
-
----
-
-# Sắp xếp và tìm kiếm
-
-## Sắp xếp mảng
+## 14.4. Sắp xếp và tìm kiếm
 
 ```python
 arr = np.array([9, 3, 7, 1])
-
 sorted_arr = np.sort(arr)
 
 print(sorted_arr)
@@ -1831,86 +1601,29 @@ Kết quả:
 [1 3 7 9]
 ```
 
-## Tìm chỉ số thỏa điều kiện
-
 ```python
 arr = np.array([10, 20, 30, 40])
-
 indices = np.where(arr > 20)
 
 print(indices)
 ```
 
-## Tìm giá trị duy nhất
-
 ```python
 arr = np.array([1, 2, 2, 3, 3, 3])
-
-values, counts = np.unique(
-    arr,
-    return_counts=True
-)
+values, counts = np.unique(arr, return_counts=True)
 
 print(values)
 print(counts)
 ```
 
-### Câu hỏi nhanh
+## 14.5. Làm việc với ảnh
 
-**Câu 1.** Hàm nào trả về các giá trị duy nhất?
+Ảnh số có thể được biểu diễn bằng mảng NumPy:
 
-A. `np.unique()`  
-B. `np.reshape()`  
-C. `np.random()`  
-D. `np.outer()`  
+- ảnh xám: mảng hai chiều;
+- ảnh màu: mảng ba chiều gồm chiều cao, chiều rộng và kênh màu.
 
----
-
-# Ma trận thưa
-
-Ma trận thưa là ma trận có phần lớn phần tử bằng 0.
-
-NumPy có thể biểu diễn ma trận thưa dưới dạng mảng đặc:
-
-```python
-matrix = np.array([
-    [0, 0, 3],
-    [0, 0, 0],
-    [4, 0, 0]
-])
-```
-
-Tuy nhiên, ma trận thưa lớn thường được lưu hiệu quả hơn bằng các cấu trúc chuyên dụng của SciPy.
-
-```python
-from scipy.sparse import csr_matrix
-
-sparse_matrix = csr_matrix(matrix)
-
-print(sparse_matrix)
-```
-
-NumPy vẫn đóng vai trò quan trọng vì các ma trận thưa của SciPy tương tác trực tiếp với mảng NumPy.
-
-### Câu hỏi nhanh
-
-**Câu 1.** Thư viện nào thường cung cấp cấu trúc ma trận thưa chuyên dụng?
-
-A. SciPy  
-B. pathlib  
-C. tkinter  
-D. Flask  
-
----
-
-# Làm việc với ảnh
-
-Ảnh số có thể được biểu diễn bằng mảng NumPy.
-
-- Ảnh xám có thể là mảng hai chiều.
-- Ảnh màu có thể là mảng ba chiều gồm chiều cao, chiều rộng và kênh màu.
-
-## Ví dụ đơn giản
+Ví dụ:
 
 ```python
 image = np.array([
@@ -1922,42 +1635,59 @@ image = np.array([
 print(image.shape)
 ```
 
-Kết quả:
-
-```text
-(3, 3)
-```
-
-## Tăng độ sáng
+Tăng độ sáng:
 
 ```python
-brighter = np.clip(
-    image + 30,
-    0,
-    255
-)
-
-print(brighter)
+brighter = np.clip(image + 30, 0, 255)
 ```
 
-`np.clip()` giữ các giá trị trong khoảng hợp lệ.
-
-### Câu hỏi nhanh
-
-**Câu 1.** Ảnh xám thường được biểu diễn dưới dạng:
-
-A. Mảng số hai chiều  
-B. Chỉ một dictionary  
-C. Chỉ một tệp văn bản  
-D. Một giá trị Boolean  
+`np.clip()` giữ giá trị trong khoảng hợp lệ, ví dụ từ 0 đến 255 với ảnh.
 
 ---
 
-# Tích hợp với Pandas
+## Bài tập nhỏ sau phần lý thuyết
 
-Một `Series` hoặc `DataFrame` của Pandas có thể trao đổi dữ liệu với NumPy.
+**Bài 14.1. Kiểu dữ liệu**
 
-## Chuyển mảng NumPy thành DataFrame
+Tạo:
+
+```python
+x = np.array([1.2, 2.8, 3.5])
+```
+
+Chuyển `x` sang `int32` và quan sát kết quả.
+
+**Bài 14.2. Sắp xếp và unique**
+
+Cho:
+
+```python
+x = np.array([4, 2, 4, 1, 2, 2, 5])
+```
+
+Hãy:
+
+1. sắp xếp mảng;
+2. lấy các giá trị duy nhất;
+3. đếm tần suất xuất hiện của từng giá trị.
+
+**Bài 14.3. Ảnh số**
+
+Cho:
+
+```python
+image = np.array([
+    [0, 100, 240],
+    [50, 200, 255]
+])
+```
+
+Tăng độ sáng thêm 30 nhưng đảm bảo mọi giá trị vẫn nằm trong `[0, 255]`.
+
+
+# Phần 15. Tích hợp với Pandas và Scikit-learn
+
+## 15.1. Tích hợp với Pandas
 
 ```python
 import numpy as np
@@ -1969,111 +1699,104 @@ arr = np.array([
     [5, 6]
 ])
 
-df = pd.DataFrame(
-    arr,
-    columns=["A", "B"]
-)
-
-print(df)
-```
-
-## Chuyển DataFrame thành mảng NumPy
-
-```python
+df = pd.DataFrame(arr, columns=["A", "B"])
 array_from_df = df.to_numpy()
 
-print(array_from_df)
-```
-
-## Áp dụng hàm NumPy lên cột Pandas
-
-```python
 df["A_sqrt"] = np.sqrt(df["A"])
-
-print(df)
 ```
 
-### Câu hỏi nhanh
+Diễn giải:
 
-**Câu 1.** Phương thức nào của Pandas chuyển DataFrame thành mảng NumPy?
+- `pd.DataFrame(arr, columns=...)`: tạo DataFrame từ mảng NumPy.
+- `df.to_numpy()`: chuyển DataFrame thành mảng NumPy.
+- `np.sqrt(df["A"])`: áp dụng hàm NumPy cho cột Pandas.
 
-A. `to_numpy()`  
-B. `to_list_only()`  
-C. `as_matrix_text()`  
-D. `convert_numpy_file()`  
-
----
-
-# Tích hợp với Scikit-learn
-
-Nhiều mô hình Scikit-learn nhận mảng NumPy làm đầu vào.
+## 15.2. Tích hợp với Scikit-learn
 
 ```python
-import numpy as np
 from sklearn.linear_model import LinearRegression
 
-X = np.array([
-    [1],
-    [2],
-    [3],
-    [4]
-])
-
+X = np.array([[1], [2], [3], [4]])
 y = np.array([2, 4, 6, 8])
 
 model = LinearRegression()
 model.fit(X, y)
 
-prediction = model.predict(
-    np.array([[5]])
-)
-
+prediction = model.predict(np.array([[5]]))
 print(prediction)
 ```
 
-NumPy hỗ trợ:
+Trong học máy:
 
-- Ma trận đặc trưng.
-- Vector mục tiêu.
-- Kết quả dự báo.
-- Tiền xử lý số.
-- Tính toán chỉ số đánh giá.
-
-### Câu hỏi nhanh
-
-**Câu 1.** Trong học máy, mảng NumPy hai chiều thường biểu diễn:
-
-A. Ma trận đặc trưng  
-B. Tên tệp  
-C. Tiêu đề biểu đồ  
-D. Trình cài đặt gói  
+- `X` thường là ma trận đặc trưng;
+- `y` là vector mục tiêu;
+- dữ liệu đầu vào thường có dạng array-like, trong đó mảng NumPy là định dạng phổ biến.
 
 ---
 
-# Các lỗi NumPy thường gặp
+## Bài tập nhỏ sau phần lý thuyết
 
-## Không khớp hình dạng
+**Bài 15.1. NumPy → Pandas**
+
+Tạo mảng:
+
+```python
+arr = np.array([
+    [1, 10],
+    [2, 20],
+    [3, 30]
+])
+```
+
+Chuyển thành DataFrame với hai cột `"ID"` và `"Value"`.
+
+**Bài 15.2. Pandas → NumPy**
+
+Từ DataFrame vừa tạo, chuyển lại thành mảng NumPy bằng `to_numpy()` và kiểm tra `shape`.
+
+**Bài 15.3. Feature matrix**
+
+Cho:
+
+```python
+X = np.array([
+    [20, 1],
+    [25, 2],
+    [30, 3]
+])
+```
+
+Giải thích:
+
+1. `X.shape` có ý nghĩa gì;
+2. số hàng biểu diễn gì;
+3. số cột biểu diễn gì trong ngữ cảnh machine learning.
+
+
+# Phần 16. Các lỗi NumPy thường gặp
+
+## 16.1. Shape không khớp
 
 ```python
 a = np.ones((2, 3))
 b = np.ones((2, 2))
 
-# a + b phát sinh lỗi
+# a + b gây lỗi broadcasting
 ```
 
-Hai hình dạng không tương thích với broadcasting.
+Hai shape này không tương thích để broadcasting.
 
-## `reshape()` không hợp lệ
+## 16.2. Reshape không hợp lệ
 
 ```python
 arr = np.arange(10)
 
-# arr.reshape(3, 4) phát sinh lỗi
+# arr.reshape(3, 4) gây lỗi
 ```
 
-Mười phần tử không thể chuyển thành mảng `3 × 4`.
+Lý do: 10 phần tử không thể reshape thành mảng `3 × 4`, vì shape đó cần 12 phần tử.
 
-## Chia cho 0
+## 16.3. Chia cho 0
 
 ```python
 arr = np.array([1.0, 0.0])
@@ -2081,11 +1804,9 @@ arr = np.array([1.0, 0.0])
 print(1 / arr)
 ```
 
-Kết quả có thể chứa `inf` và cảnh báo runtime.
+Có thể sinh ra `inf` và cảnh báo runtime.
 
-## Tràn số nguyên
-
-Kiểu số nguyên nhỏ có phạm vi giới hạn:
+## 16.4. Tràn số nguyên
 
 ```python
 arr = np.array([127], dtype=np.int8)
@@ -2093,200 +1814,266 @@ arr = np.array([127], dtype=np.int8)
 print(arr + 1)
 ```
 
-Kết quả có thể bị tràn vì `int8` không biểu diễn được giá trị lớn hơn 127.
+Kiểu `int8` không biểu diễn được giá trị lớn hơn 127, nên có thể xảy ra tràn số.
 
-## Thay đổi ngoài ý muốn do view
+## 16.5. Thay đổi ngoài ý muốn do view
 
-Một lát cắt có thể dùng chung bộ nhớ với mảng gốc. Hãy dùng `.copy()` khi cần mảng độc lập.
+```python
+arr = np.array([10, 20, 30, 40])
 
-### Câu hỏi nhanh
+view = arr[1:3]
+view[0] = 999
 
-**Câu 1.** Vì sao `np.arange(10).reshape(3, 4)` phát sinh lỗi?
+print(arr)
+```
 
-A. Tổng số phần tử không tương thích  
-B. NumPy không thể tạo ma trận  
-C. `reshape()` chỉ dùng cho chuỗi  
-D. Các giá trị phải là số âm  
+Nếu cần mảng độc lập, dùng:
+
+```python
+copy = arr[1:3].copy()
+```
 
 ---
 
-# Thực hành tốt khi sử dụng NumPy
+## Bài tập nhỏ sau phần lý thuyết
 
-- Nhập NumPy bằng `import numpy as np`.
-- Ưu tiên phép toán vector hóa thay cho vòng lặp Python khi phù hợp.
-- Kiểm tra `shape`, `ndim` và `dtype` trước các phép toán phức tạp.
-- Chỉ dùng broadcasting khi hiểu rõ hành vi về hình dạng.
-- Phân biệt nhân theo từng phần tử và nhân ma trận.
-- Dùng `.copy()` khi cần mảng độc lập.
-- Chọn kiểu dữ liệu phù hợp với phạm vi, độ chính xác và bộ nhớ.
+**Bài 16.1. Dự đoán lỗi reshape**
+
+Cho:
+
+```python
+x = np.arange(10)
+```
+
+Trong các lệnh sau, lệnh nào hợp lệ?
+
+```python
+x.reshape(2, 5)
+x.reshape(5, 2)
+x.reshape(3, 4)
+x.reshape(1, 10)
+```
+
+Giải thích bằng tổng số phần tử.
+
+**Bài 16.2. Dự đoán broadcasting**
+
+Cho các cặp shape:
+
+1. `(3, 4)` và `(4,)`;
+2. `(3, 4)` và `(1, 4)`;
+3. `(3, 4)` và `(3, 1)`;
+4. `(3, 4)` và `(2, 4)`.
+
+Hãy dự đoán cặp nào broadcasting được.
+
+**Bài 16.3. View**
+
+Viết một ví dụ ngắn cho thấy thay đổi slice làm thay đổi mảng gốc, sau đó sửa bằng `.copy()`.
+
+
+# Phần 17. Thực hành tốt
+
+- Import NumPy bằng `import numpy as np`.
+- Dùng vectorized operations thay vì vòng lặp Python khi phù hợp.
+- Kiểm tra `shape`, `ndim`, `dtype` trước các phép toán phức tạp.
+- Chỉ dùng broadcasting khi hiểu rõ shape sẽ hoạt động như thế nào.
+- Phân biệt `A * B` và `A @ B`.
+- Dùng `.copy()` khi cần bản sao độc lập.
+- Chọn kiểu dữ liệu phù hợp để cân bằng miền giá trị, độ chính xác và bộ nhớ.
 - Dùng seed cố định khi cần tái lập kết quả.
-- Xử lý rõ ràng `NaN`, vô cùng và tràn số.
-- Dùng Pandas cho dữ liệu bảng có nhãn và quy trình xử lý thiếu phức tạp.
-- Dùng SciPy cho thuật toán khoa học chuyên sâu và ma trận thưa.
+- Xử lý rõ ràng `NaN`, `inf`, chia cho 0 và tràn số.
 
 ---
 
-# Tóm tắt nội dung
+## Bài tập nhỏ sau phần lý thuyết
 
-| Nội dung | Ý chính |
+**Bài 17.1. Kiểm tra mã**
+
+Xem đoạn mã:
+
+```python
+A = np.arange(12).reshape(3, 4)
+b = np.array([10, 20, 30])
+result = A + b
+```
+
+Hãy:
+
+1. kiểm tra `A.shape` và `b.shape`;
+2. dự đoán mã có chạy được không;
+3. nếu lỗi, sửa `b` để phép cộng broadcasting hợp lệ.
+
+**Bài 17.2. Chọn cách viết tốt hơn**
+
+So sánh:
+
+```python
+result = []
+for x in arr:
+    result.append(np.sqrt(x))
+```
+
+và:
+
+```python
+result = np.sqrt(arr)
+```
+
+Cho biết cách nào phù hợp hơn với NumPy và vì sao.
+
+
+# Phần 18. Tóm tắt nội dung
+
+| Chủ đề | Ý chính |
 |---|---|
-| **NumPy** | Thư viện cốt lõi cho tính toán số |
-| **`ndarray`** | Mảng đồng nhất N chiều |
-| **Vector hóa** | Tính toán trên mảng không cần vòng lặp Python tường minh |
-| **Broadcasting** | Phép toán giữa các hình dạng tương thích |
-| **Indexing và slicing** | Truy cập và trích phần tử |
-| **Reshaping** | Thay đổi hình dạng mảng |
-| **Aggregation** | Tổng, trung bình, nhỏ nhất, lớn nhất |
-| **Universal functions** | Hàm toán học theo từng phần tử |
-| **Đại số tuyến tính** | Nhân ma trận, nghịch đảo, định thức và trị riêng |
-| **Sinh số ngẫu nhiên** | Sinh dữ liệu từ các phân phối xác suất |
-| **Thống kê** | Trung bình, trung vị, phương sai, độ lệch chuẩn và phân vị |
-| **Tích hợp** | Làm việc với Pandas, SciPy và Scikit-learn |
+| NumPy | Thư viện cốt lõi của Python cho tính toán số. |
+| `ndarray` | Mảng N chiều đồng nhất. |
+| Vectorization | Phép toán trên toàn mảng không cần vòng lặp Python tường minh. |
+| Broadcasting | Phép toán giữa các mảng có shape khác nhau nhưng tương thích. |
+| Indexing và slicing | Truy cập và trích xuất phần tử. |
+| Reshaping | Thay đổi hình dạng mảng. |
+| Aggregation | Tính tổng, trung bình, min, max, phương sai, độ lệch chuẩn. |
+| Ufunc | Hàm toán học nhanh theo từng phần tử. |
+| Linear algebra | Nhân ma trận, nghịch đảo, định thức, trị riêng, giải hệ. |
+| Random generation | Sinh giá trị từ phân phối xác suất. |
+| Statistics | Trung bình, trung vị, phương sai, độ lệch chuẩn, percentile. |
+| Integration | Kết nối với Pandas, SciPy, Matplotlib và Scikit-learn. |
 
 ---
 
-# Câu hỏi ôn tập cuối bài
+# Phần 19. Câu hỏi ôn tập
 
-## Phần A. Câu hỏi trắc nghiệm
+## 19.1. Trắc nghiệm
 
-**Câu 1.** NumPy chủ yếu được sử dụng cho:
+**Câu 1.** NumPy chủ yếu dùng để làm gì?
 
-A. Tính toán số  
-B. Thiết kế trang web  
-C. Gửi email  
+A. Gửi email  
+B. Tính toán số  
+C. Thiết kế trang web  
 D. Soạn thảo văn bản  
 
-**Câu 2.** Cấu trúc dữ liệu trung tâm của NumPy là:
+**Câu 2.** Cấu trúc dữ liệu trung tâm của NumPy là gì?
 
-A. `ndarray`  
-B. `DataFrame`  
-C. `set`  
+A. `set`  
+B. `ndarray`  
+C. `DataFrame`  
 D. `class`  
 
-**Câu 3.** Hàm nào tạo mảng từ danh sách Python?
+**Câu 3.** Hàm nào tạo mảng từ list Python?
 
 A. `np.array()`  
 B. `np.list()`  
-C. `np.frame()`  
-D. `np.convert_list()`  
+C. `np.convert_list()`  
+D. `np.frame()`  
 
-**Câu 4.** Thuộc tính nào trả về hình dạng của mảng?
+**Câu 4.** Thuộc tính nào trả về shape của mảng?
 
 A. `shape`  
-B. `size()`  
+B. `type()`  
 C. `mean`  
-D. `type()`  
+D. `size()`  
 
 **Câu 5.** Biểu thức nào thực hiện nhân ma trận?
 
 A. `A @ B`  
 B. `A % B`  
-C. `A // B`  
-D. `A | B`  
+C. `A | B`  
+D. `A // B`  
 
-**Câu 6.** Hàm nào tính trung bình và bỏ qua `NaN`?
+**Câu 6.** Hàm nào tính trung bình khi bỏ qua `NaN`?
 
-A. `np.nanmean()`  
-B. `np.mean_without_missing()`  
-C. `np.dropna()`  
-D. `np.ignore_mean()`  
+A. `np.ignore_mean()`  
+B. `np.dropna()`  
+C. `np.nanmean()`  
+D. `np.mean_without_missing()`  
 
 **Câu 7.** Hàm nào tạo ma trận đơn vị?
 
-A. `np.eye()`  
-B. `np.identity_text()`  
-C. `np.ones_like_text()`  
-D. `np.reshape()`  
+A. `np.reshape()`  
+B. `np.ones_like_text()`  
+C. `np.identity_text()`  
+D. `np.eye()`  
 
 **Câu 8.** Phát biểu nào đúng về broadcasting?
 
-A. Hỗ trợ phép toán giữa các hình dạng tương thích  
-B. Chuyển mọi mảng thành một chiều  
-C. Xóa mọi giá trị trùng lặp  
-D. Luôn thay đổi mảng gốc  
+A. Nó luôn thay đổi mảng gốc.  
+B. Nó xóa mọi giá trị trùng lặp.  
+C. Nó hỗ trợ phép toán giữa các shape tương thích.  
+D. Nó chuyển mọi mảng thành một chiều.  
 
-**Câu 9.** Trong phép tổng hợp mảng hai chiều, `axis=0` thường có nghĩa là:
+**Câu 9.** Trong tổng hợp mảng hai chiều, `axis=0` thường có nghĩa là gì?
 
-A. Tổng hợp theo hàng và trả kết quả theo cột  
-B. Tổng hợp theo cột và trả kết quả theo hàng  
-C. Chuyển ma trận thành một số duy nhất  
-D. Đảo ngược mọi giá trị  
+A. Chuyển ma trận thành một số duy nhất.  
+B. Đảo ngược mọi giá trị.  
+C. Tổng hợp theo chiều hàng và trả về kết quả theo từng cột.  
+D. Tổng hợp theo chiều cột và trả về kết quả theo từng hàng.  
 
-**Câu 10.** Đối tượng nào được khuyến nghị để sinh số ngẫu nhiên trong NumPy hiện đại?
+**Câu 10.** Đối tượng nào được khuyến nghị cho sinh số ngẫu nhiên hiện đại trong NumPy?
 
-A. `np.random.default_rng()`  
-B. `np.random.file_reader()`  
-C. `np.random.secure_password()`  
-D. `np.array.randomize_text()`  
+A. `np.random.file_reader()`  
+B. `np.random.secure_password()`  
+C. `np.array.randomize_text()`  
+D. `np.random.default_rng()`  
 
-## Phần B. Câu hỏi đúng/sai
+## 19.2. Đúng/Sai
 
-**Câu 1.** Mảng NumPy thường chứa các phần tử có cùng kiểu dữ liệu.
+**Câu 1.** Mảng NumPy thường chứa các phần tử cùng kiểu dữ liệu.  
+**Câu 2.** Vectorized operations luôn cần vòng lặp Python tường minh.  
+**Câu 3.** `A * B` và `A @ B` luôn thực hiện cùng một phép toán.  
+**Câu 4.** Slice của NumPy có thể chia sẻ bộ nhớ với mảng gốc.  
+**Câu 5.** Broadcasting yêu cầu các chiều của mảng phải tương thích.  
+**Câu 6.** `np.std(data, ddof=1)` có thể dùng cho quy ước độ lệch chuẩn mẫu.  
+**Câu 7.** Bộ sinh số ngẫu nhiên của NumPy nên được xem là an toàn mật mã.  
+**Câu 8.** Mảng NumPy có thể được dùng làm đầu vào cho mô hình Scikit-learn.
 
-**Câu 2.** Phép toán vector hóa luôn cần vòng lặp Python tường minh.
+## 19.3. Câu hỏi ngắn
 
-**Câu 3.** `A * B` và `A @ B` luôn thực hiện cùng một phép toán.
+**Câu 1.** Nêu hai điểm khác nhau giữa list Python và mảng NumPy.  
+**Câu 2.** Giải thích vectorization và nêu một lợi ích.  
+**Câu 3.** Phân biệt nhân theo từng phần tử và nhân ma trận.  
+**Câu 4.** Nêu quy tắc tương thích broadcasting cơ bản.  
+**Câu 5.** Phân biệt view và copy.  
+**Câu 6.** Kể tên bốn hàm thống kê trong NumPy.
 
-**Câu 4.** Lát cắt NumPy có thể dùng chung bộ nhớ với mảng gốc.
+---
 
-**Câu 5.** Broadcasting yêu cầu các chiều của mảng phải tương thích.
+# Phần 20. Bài tập thực hành
 
-**Câu 6.** `np.std(data, ddof=1)` có thể dùng cho quy ước độ lệch chuẩn mẫu thông dụng.
-
-**Câu 7.** Bộ sinh số ngẫu nhiên NumPy có thể được xem là an toàn cho mật mã.
-
-**Câu 8.** Mảng NumPy có thể làm đầu vào cho mô hình Scikit-learn.
-
-## Phần C. Câu hỏi tự luận
-
-**Câu 1.** Trình bày hai điểm khác nhau giữa danh sách Python và mảng NumPy.
-
-**Câu 2.** Giải thích vector hóa và nêu một ưu điểm.
-
-**Câu 3.** Phân biệt nhân theo từng phần tử và nhân ma trận.
-
-**Câu 4.** Trình bày quy tắc tương thích broadcasting cơ bản.
-
-**Câu 5.** Phân biệt view và copy.
-
-**Câu 6.** Nêu bốn hàm thống kê trong NumPy.
-
-## Phần D. Bài tập thực hành
-
-### Bài 1. Tạo mảng
+## Bài tập 1. Tạo mảng
 
 1. Tạo mảng chứa các giá trị từ 1 đến 20.
-2. Chuyển mảng thành ma trận `4 × 5`.
-3. In hình dạng, số chiều, số phần tử và kiểu dữ liệu.
+2. Reshape thành ma trận `4 × 5`.
+3. In ra `shape`, `ndim`, `size`, `dtype`.
 
-### Bài 2. Indexing và slicing
+## Bài tập 2. Indexing và slicing
 
-Với một ma trận `4 × 5`:
+Với ma trận `4 × 5` ở Bài tập 1:
 
-1. Trích hàng đầu tiên.
-2. Trích cột cuối cùng.
-3. Trích vùng trung tâm `2 × 3`.
-4. Chọn toàn bộ giá trị chẵn bằng lọc Boolean.
+1. Lấy hàng đầu tiên.
+2. Lấy cột cuối cùng.
+3. Lấy phần trung tâm kích thước `2 × 3`.
+4. Lọc tất cả giá trị chẵn bằng Boolean filtering.
 
-### Bài 3. Thống kê
+## Bài tập 3. Thống kê
 
-Tạo mảng gồm mười giá trị số và tính:
+Tạo một mảng gồm 10 giá trị số và tính:
 
-1. Trung bình.
-2. Trung vị.
-3. Phương sai.
-4. Độ lệch chuẩn mẫu.
-5. Giá trị nhỏ nhất và lớn nhất.
-6. Phân vị 25%, 50% và 75%.
+1. Mean.
+2. Median.
+3. Variance.
+4. Sample standard deviation.
+5. Minimum và maximum.
+6. Percentile 25, 50 và 75.
 
-### Bài 4. Broadcasting
+## Bài tập 4. Broadcasting
 
-1. Tạo ma trận `3 × 4`.
-2. Tạo mảng một chiều gồm bốn giá trị.
-3. Cộng mảng một chiều vào từng hàng của ma trận.
+1. Tạo một ma trận `3 × 4`.
+2. Tạo một mảng một chiều gồm 4 giá trị.
+3. Cộng mảng một chiều đó vào từng hàng của ma trận.
 4. Giải thích vì sao broadcasting hợp lệ.
 
-### Bài 5. Đại số tuyến tính
+## Bài tập 5. Đại số tuyến tính
 
 Cho:
 
@@ -2300,18 +2087,18 @@ b = np.array([8, 13])
 ```
 
 1. Tính định thức của `A`.
-2. Tính ma trận nghịch đảo của `A`.
-3. Giải hệ \(Ax=b\).
+2. Tính nghịch đảo của `A`.
+3. Giải hệ `Ax=b`.
 4. Kiểm tra nghiệm bằng `A @ x`.
 
-### Bài 6. Dữ liệu ngẫu nhiên
+## Bài tập 6. Dữ liệu ngẫu nhiên
 
-1. Tạo bộ sinh ngẫu nhiên với seed `42`.
-2. Sinh 1.000 giá trị từ phân phối chuẩn tắc.
-3. Tính trung bình và độ lệch chuẩn.
+1. Tạo bộ sinh số ngẫu nhiên với seed `42`.
+2. Sinh 1,000 giá trị từ phân phối chuẩn chuẩn hóa.
+3. Tính mean và standard deviation.
 4. So sánh kết quả mẫu với giá trị lý thuyết.
 
-### Bài 7. Dữ liệu thiếu
+## Bài tập 7. Giá trị thiếu
 
 Cho:
 
@@ -2327,200 +2114,163 @@ data = np.array([
 ```
 
 1. Đếm số giá trị thiếu.
-2. Tính trung bình và bỏ qua giá trị thiếu.
-3. Loại bỏ mọi giá trị thiếu.
+2. Tính trung bình khi bỏ qua giá trị thiếu.
+3. Loại bỏ tất cả giá trị thiếu.
 4. Thay giá trị thiếu bằng trung vị của các giá trị quan sát được.
 
 ---
 
-# Đáp án và gợi ý trả lời
+# Đáp án và gợi ý
 
-<details>
-<summary><strong>Nhấn để hiển thị đáp án</strong></summary>
 
-## Đáp án câu hỏi nhanh
+## Đáp án các câu kiểm tra nhanh
 
-### NumPy là gì?
+1. D — Cấu trúc dữ liệu chính trong NumPy là gì?  
+2. B — Vì sao mảng NumPy hiệu quả cho tính toán số?  
+3. C — Biểu thức nào nhân mọi phần tử của mảng NumPy `a` với 10?  
+4. B — Hàm nào chuyển list Python thành mảng NumPy?  
+5. D — Hàm nào tạo các giá trị cách đều giữa hai đầu mút?  
 
-1. B. `ndarray`.  
-2. Đúng.
+## Đáp án trắc nghiệm
 
-### Vì sao nên học NumPy?
-
-1. B. Vì sử dụng cấu trúc mảng đồng nhất và được tối ưu.  
-2. A. `a * 10`.
-
-### Cài đặt và nhập thư viện
-
-1. B. `np`.  
-2. A. `pip install numpy`.
-
-### Mảng NumPy
-
-1. A. `np.array()`.  
-2. A. Ma trận.
-
-### Các hàm tạo mảng
-
-1. A. `np.zeros()`.  
-2. A. `np.linspace()`.
-
-### Thuộc tính mảng
-
-1. A. `shape`.  
-2. A. `size`.
-
-### Indexing
-
-1. A. Phần tử đầu tiên.  
-2. A. Hàng chỉ số 1 và cột chỉ số 2.
-
-### Slicing
-
-1. A. Các phần tử tại chỉ số 1, 2 và 3.  
-2. Đúng.
-
-### Reshaping
-
-1. A. `reshape()`.  
-2. A. NumPy tự suy ra chiều đó.
-
-### Resizing
-
-1. A. `reshape()`.
-
-### Ghép mảng
-
-1. A. `np.vstack()`.
-
-### Tách mảng
-
-1. A. `np.split()`.
-
-### Broadcasting
-
-1. A. Phép toán giữa các mảng có hình dạng tương thích.  
-2. A. Một trong hai chiều bằng 1.
-
-### Số học
-
-1. A. Nhân theo từng phần tử.
-
-### Tổng hợp
-
-1. A. `np.mean()`.  
-2. A. Tổng hợp theo hàng để tạo kết quả theo cột.
-
-### Universal functions
-
-1. A. `np.sqrt()`.
-
-### Phép toán Boolean
-
-1. A. Các phần tử lớn hơn 20.
-
-### Đại số tuyến tính
-
-1. A. `@`.  
-2. A. `np.linalg.inv()`.
-
-### Số ngẫu nhiên
-
-1. A. `np.random.default_rng()`.  
-2. A. Giúp tái tạo chuỗi giả ngẫu nhiên.
-
-### Thống kê
-
-1. A. `ddof=1`.
-
-### Dữ liệu thiếu
-
-1. A. `np.nanmean()`.
-
-### Vector hóa
-
-1. A. Thực hiện phép toán trên mảng mà không cần vòng lặp Python tường minh.
-
-### Bộ nhớ
-
-1. A. `nbytes`.
-
-### Sắp xếp và tìm kiếm
-
-1. A. `np.unique()`.
-
-### Ma trận thưa
-
-1. A. SciPy.
-
-### Ảnh
-
-1. A. Mảng số hai chiều.
-
-### Tích hợp Pandas
-
-1. A. `to_numpy()`.
-
-### Tích hợp Scikit-learn
-
-1. A. Ma trận đặc trưng.
-
-### Lỗi thường gặp
-
-1. A. Tổng số phần tử không tương thích.
-
-## Đáp án phần A
-
-1. A  
-2. A  
+1. B  
+2. B  
 3. A  
 4. A  
 5. A  
-6. A  
-7. A  
-8. A  
-9. A  
-10. A  
+6. C  
+7. D  
+8. C  
+9. C  
+10. D  ## Đáp án Đúng/Sai
 
-## Đáp án phần B
+1. Đúng  
+2. Sai  
+3. Sai  
+4. Đúng  
+5. Đúng  
+6. Đúng  
+7. Sai  
+8. Đúng
 
-1. Đúng.  
-2. Sai.  
-3. Sai.  
-4. Đúng.  
-5. Đúng.  
-6. Đúng.  
-7. Sai.  
-8. Đúng.  
+## Gợi ý câu hỏi ngắn
 
-## Gợi ý phần C
+**Câu 1.** List Python có thể chứa nhiều kiểu dữ liệu khác nhau; mảng NumPy thường chứa dữ liệu đồng nhất và tối ưu cho tính toán số.
 
-### Câu 1
+**Câu 2.** Vectorization là cách áp dụng phép toán cho toàn bộ mảng mà không viết vòng lặp Python tường minh. Lợi ích là mã ngắn hơn, dễ đọc hơn và thường nhanh hơn.
 
-Mảng NumPy thường lưu trữ dữ liệu đồng nhất trong cấu trúc nhiều chiều đều đặn, trong khi danh sách Python có thể chứa nhiều kiểu đối tượng khác nhau. Mảng NumPy cũng hỗ trợ các phép toán số vector hóa.
+**Câu 3.** `A * B` nhân từng phần tử tương ứng. `A @ B` là nhân ma trận theo quy tắc đại số tuyến tính.
 
-### Câu 2
+**Câu 4.** Xét từ chiều ngoài cùng bên phải, hai chiều tương thích nếu chúng bằng nhau hoặc một trong hai bằng 1.
 
-Vector hóa là áp dụng phép toán lên toàn bộ mảng mà không viết vòng lặp Python tường minh. Cách này thường giúp mã ngắn hơn và nhanh hơn với dữ liệu số lớn.
+**Câu 5.** View có thể chia sẻ bộ nhớ với mảng gốc; copy là bản sao độc lập.
 
-### Câu 3
+**Câu 6.** Ví dụ: `np.mean()`, `np.median()`, `np.var()`, `np.std()`, `np.percentile()`, `np.quantile()`.
 
-Nhân theo từng phần tử nhân các phần tử tương ứng, ví dụ `A * B`. Nhân ma trận tuân theo quy tắc hàng–cột của đại số tuyến tính, ví dụ `A @ B`.
+## Gợi ý lời giải bài tập thực hành
 
-### Câu 4
+### Bài tập 1
 
-Khi so sánh từ chiều ngoài cùng bên phải, hai chiều tương thích nếu chúng bằng nhau hoặc một trong hai bằng 1.
+```python
+arr = np.arange(1, 21)
+matrix = arr.reshape(4, 5)
 
-### Câu 5
+print(matrix)
+print(matrix.shape)
+print(matrix.ndim)
+print(matrix.size)
+print(matrix.dtype)
+```
 
-View có thể dùng chung bộ nhớ với mảng gốc, nên thay đổi view có thể làm đổi dữ liệu gốc. Copy có bộ nhớ độc lập.
+### Bài tập 2
 
-### Câu 6
+```python
+print(matrix[0, :])
+print(matrix[:, -1])
+print(matrix[1:3, 1:4])
+print(matrix[matrix % 2 == 0])
+```
 
-Một số hàm thống kê gồm `np.mean()`, `np.median()`, `np.var()`, `np.std()`, `np.percentile()` và `np.quantile()`.
+### Bài tập 3
 
-## Phần D
+```python
+data = np.array([12, 15, 18, 20, 25, 28, 30, 35, 40, 50])
 
-Đây là các bài tập lập trình mở. Bài làm nên trình bày mã nguồn, kết quả và giải thích ngắn gọn cho từng yêu cầu.
+print(np.mean(data))
+print(np.median(data))
+print(np.var(data))
+print(np.std(data, ddof=1))
+print(np.min(data))
+print(np.max(data))
+print(np.percentile(data, [25, 50, 75]))
+```
 
-</details>
+### Bài tập 4
+
+```python
+matrix = np.arange(12).reshape(3, 4)
+row = np.array([10, 20, 30, 40])
+
+result = matrix + row
+print(result)
+```
+
+Broadcasting hợp lệ vì shape của `matrix` là `(3, 4)` và shape của `row` là `(4,)`. NumPy xem `row` như một hàng có 4 phần tử và broadcast nó qua 3 hàng của ma trận.
+
+### Bài tập 5
+
+```python
+A = np.array([
+    [2, 1],
+    [1, 3]
+])
+
+b = np.array([8, 13])
+
+det_A = np.linalg.det(A)
+inv_A = np.linalg.inv(A)
+x = np.linalg.solve(A, b)
+
+print(det_A)
+print(inv_A)
+print(x)
+print(A @ x)
+```
+
+### Bài tập 6
+
+```python
+rng = np.random.default_rng(42)
+
+values = rng.normal(loc=0, scale=1, size=1000)
+
+print(np.mean(values))
+print(np.std(values, ddof=1))
+```
+
+Mean mẫu nên gần 0 và standard deviation mẫu nên gần 1, nhưng không nhất thiết đúng bằng 0 và 1.
+
+### Bài tập 7
+
+```python
+data = np.array([
+    10.0,
+    np.nan,
+    20.0,
+    30.0,
+    np.nan,
+    40.0
+])
+
+missing_count = np.isnan(data).sum()
+mean_ignore_nan = np.nanmean(data)
+clean_data = data[~np.isnan(data)]
+median_value = np.nanmedian(data)
+
+filled_data = np.where(np.isnan(data), median_value, data)
+
+print(missing_count)
+print(mean_ignore_nan)
+print(clean_data)
+print(filled_data)
+```
