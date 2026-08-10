@@ -220,11 +220,18 @@ def scan_lectures_dir(lectures_dir):
                 except Exception:
                     pass
 
-                link_str = f"• [{doc_title}](lectures/{folder}/{f})"
-                if f.endswith("-en.md"):
-                    extra_mds_en.append(link_str)
+                clean_name = f.replace(".md", "")
+                is_en_file = f.endswith("-en.md") or "_en." in f
+                is_vn_file = not is_en_file
+
+                if "practice" in f or "exercise" in f or "lab" in f:
+                    link_html = f'💻 <a href="lectures/{folder}/{f}" target="_blank">{clean_name}</a>'
+                    if is_vn_file: lab_links_vn.append(link_html)
+                    if is_en_file: lab_links_en.append(link_html)
                 else:
-                    extra_mds_vn.append(link_str)
+                    link_str = f"• [{doc_title}](lectures/{folder}/{f})"
+                    if is_vn_file: extra_mds_vn.append(link_str)
+                    if is_en_file: extra_mds_en.append(link_str)
 
             lecture_map[week_key] = {
                 "folder": folder,
@@ -252,9 +259,9 @@ def generate_portal_readmes():
     # -------------------------------------------------------------
     # 1. TẠO FILE README.md (PHIÊN BẢN TIẾNG VIỆT CÓ DẤU CHUẨN)
     # -------------------------------------------------------------
-    vn_content = """# 🐍 DSAI1005 – Phân tích dữ liệu với Python (Data Analysis with Python)
+    vn_content = """# 🐍 DSAI1005 – Phân tích dữ liệu với Python
 
-🌐 **Ngôn ngữ / Language:** 🇻🇳 **Tiếng Việt** | [🇬🇧 English Version (README-en.md)](README-en.md)
+🌐 **Ngôn ngữ:** 🇻🇳 **Tiếng Việt** | [🇬🇧 Phiên bản Tiếng Anh (README-en.md)](README-en.md)
 
 > **Giảng viên:** TS. Vũ Đức Minh (`minhvd@neu.edu.vn`)  
 > **Đơn vị phụ trách:** Khoa Khoa học dữ liệu và Trí tuệ nhân tạo – Trường Đại học Kinh tế Quốc dân (NEU)  
@@ -277,7 +284,7 @@ Học phần **Phân tích dữ liệu với Python (DSAI1005)** cung cấp ki�
 
 ---
 
-## 📚 2. Ma trận Bài giảng, Tài liệu & Bài tập Thực hành (Course Matrix)
+## 📚 2. Ma trận Bài giảng, Tài liệu & Bài tập Thực hành
 
 Bảng dưới đây tổng hợp chi tiết tài liệu học tập, bài giảng Notebook, slide, bài tập thực hành, tệp dữ liệu và đáp án cho **15 tuần học**:
 
