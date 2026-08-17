@@ -63,32 +63,6 @@
   \titlepage
 \end{frame}
 
-\begin{frame}{Lộ trình bài học}
-\begin{columns}[T]
-\column{0.48\linewidth}
-\begin{enumerate}
-  \item Pandas là gì?
-  \item Vì sao Pandas hữu ích?
-  \item Cài đặt và import thư viện
-  \item Series và DataFrame
-  \item Tạo và kiểm tra dữ liệu
-  \item Chọn dòng và cột
-  \item Lọc và sắp xếp dữ liệu
-\end{enumerate}
-\column{0.48\linewidth}
-\begin{enumerate}
-  \setcounter{enumi}{7}
-  \item Đọc và ghi tệp dữ liệu
-  \item Làm sạch dữ liệu
-  \item Thao tác trên cột
-  \item Gom nhóm và tổng hợp
-  \item Merge, concat và pivot table
-  \item Tương quan, trực quan hóa, chuỗi thời gian
-  \item Bài tập thực hành
-\end{enumerate}
-\end{columns}
-\end{frame}
-
 \begin{frame}{Mục tiêu học tập}
 \small
 Sau khi hoàn thành bài học, người học có thể:
@@ -103,6 +77,95 @@ Sau khi hoàn thành bài học, người học có thể:
   \item Tính thống kê mô tả, tương quan và một số tổng hợp chuỗi thời gian đơn giản.
 \end{itemize}
 \end{frame}
+
+
+\begin{frame}{Lộ trình bài học}
+\begin{columns}[T]
+\column{0.48\linewidth}
+\begin{enumerate}
+  \item Vì sao cần học Pandas?
+  \item Pandas là gì?
+  \item Pandas trong quy trình Data Science
+  \item Thiết lập môi trường
+  \item DataFrame đầu tiên
+  \item Series và DataFrame
+  \item Đọc lệnh Pandas
+\end{enumerate}
+\column{0.48\linewidth}
+\begin{enumerate}
+  \setcounter{enumi}{7}
+  \item Kiểm tra, chọn, lọc và sắp xếp dữ liệu
+  \item Đọc và ghi tệp dữ liệu
+  \item Làm sạch dữ liệu
+  \item Tạo cột, gom nhóm và tổng hợp
+  \item Merge, concat và pivot table
+  \item Tương quan, trực quan hóa, chuỗi thời gian
+  \item Bài tập thực hành
+\end{enumerate}
+\end{columns}
+\end{frame}
+
+
+\section{Pandas là gì?}
+
+
+\begin{frame}{Vì sao cần học Pandas?}
+\small
+Pandas là cầu nối thực hành giữa dữ liệu thô và các mô hình khoa học dữ liệu.
+\begin{itemize}
+  \item Dữ liệu thực tế thường lộn xộn, thiếu giá trị và nằm ở nhiều định dạng khác nhau.
+  \item Pandas giúp tổ chức bản ghi thành dòng và thuộc tính thành cột.
+  \item Pandas hỗ trợ kiểm tra, làm sạch, biến đổi, tổng hợp và báo cáo dữ liệu.
+  \item Pandas làm việc tốt với NumPy, Matplotlib, Scikit-learn và Statsmodels.
+\end{itemize}
+\begin{block}{Quy trình phân tích kinh doanh}
+Dữ liệu thô $\rightarrow$ bảng dữ liệu sạch $\rightarrow$ insight tổng hợp $\rightarrow$ dữ liệu sẵn sàng cho mô hình.
+\end{block}
+\end{frame}
+
+\begin{frame}{Pandas là gì?}
+\small
+\key{Pandas} là một thư viện Python mã nguồn mở dùng cho \key{xử lý và phân tích dữ liệu}.
+Thư viện này được xây dựng trên NumPy và cung cấp các công cụ cấp cao để làm việc với dữ liệu có cấu trúc và dữ liệu dạng bảng.
+\vspace{0.4em}
+
+Pandas đặc biệt hữu ích cho:
+\begin{itemize}
+  \item đọc dữ liệu từ CSV, Excel, JSON và tệp văn bản;
+  \item làm sạch, biến đổi và chuẩn bị dữ liệu;
+  \item chọn, lọc, gom nhóm và tổng hợp các quan sát;
+  \item kết hợp nhiều tập dữ liệu;
+  \item tính thống kê mô tả và trực quan hóa nhanh.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Pandas trong quy trình Khoa học dữ liệu}
+\small
+Pandas thường nằm ở bước chuyển dữ liệu thô thành dữ liệu sạch và có thể phân tích được.
+\vspace{0.3em}
+
+\begin{center}
+\begin{tabular}{c c c}
+\fbox{CSV / Excel / Database} & $\rightarrow$ & \fbox{Pandas DataFrame} \\[0.4em]
+ & $\searrow$ & $\downarrow$ \\[0.2em]
+\fbox{Raw data} & $\rightarrow$ & \fbox{Clean table} \\[0.4em]
+ & $\searrow$ & $\downarrow$ \\[0.2em]
+\fbox{Business question} & $\rightarrow$ & \fbox{Insight / Model} \\
+\end{tabular}
+\end{center}
+
+\begin{itemize}
+  \item NumPy hỗ trợ tính toán số học hiệu quả.
+  \item Pandas tổ chức dữ liệu theo bảng: dòng, cột và chỉ số.
+  \item Matplotlib/Seaborn trực quan hóa kết quả từ DataFrame.
+  \item Scikit-learn thường nhận dữ liệu đã được xử lý từ Pandas.
+\end{itemize}
+\begin{block}{Ý tưởng chính}
+Pandas là cầu nối giữa tệp dữ liệu thực tế và phân tích dữ liệu bằng Python.
+\end{block}
+\end{frame}
+
 
 \begin{frame}[fragile]{Yêu cầu nền tảng và thiết lập môi trường}
 \begin{block}{Kiến thức nên có}
@@ -122,6 +185,90 @@ print(pd.__version__)
 \end{lstlisting}
 \end{block}
 \end{frame}
+
+\begin{frame}[fragile]{Tạo một DataFrame}
+\small
+\begin{lstlisting}[style=py]
+import pandas as pd
+
+data = {
+    "Name": ["An", "Binh", "Chi"],
+    "Age": [20, 21, 19],
+    "GPA": [3.2, 3.6, 3.4]
+}
+
+df = pd.DataFrame(data)
+print(df)
+\end{lstlisting}
+\begin{block}{Diễn giải}
+Mỗi khóa trong dictionary trở thành một cột. Mỗi list cung cấp các giá trị cho cột đó.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Kết quả chạy code: DataFrame đầu tiên}
+\small
+Khi in \cmd{df}, Pandas hiển thị bảng gồm 3 dòng và 3 cột.
+\begin{lstlisting}[style=py]
+   Name  Age  GPA
+0    An   20  3.2
+1  Binh   21  3.6
+2   Chi   19  3.4
+\end{lstlisting}
+\begin{block}{Điểm cần chú ý}
+Cột bên trái \cmd{0, 1, 2} là index mặc định do Pandas tự tạo.
+\end{block}
+\end{frame}
+
+\begin{frame}{Cấu trúc của DataFrame}
+\small
+\begin{tabular}{p{0.24\linewidth}p{0.64\linewidth}}
+\toprule
+\textbf{Thành phần} & \textbf{Ý nghĩa} \\
+\midrule
+Dòng & Bản ghi, quan sát, sinh viên, khách hàng, sản phẩm, đơn hàng. \\
+Cột & Biến, thuộc tính, trường dữ liệu, đặc trưng. \\
+Index & Nhãn dòng dùng để định danh và chọn dữ liệu. \\
+Nhãn cột & Tên dùng để truy cập các biến. \\
+Giá trị & Dữ liệu thực tế nằm bên trong bảng. \\
+\bottomrule
+\end{tabular}
+\begin{block}{Ví dụ}
+Một bảng sinh viên có thể gồm các cột \cmd{StudentID}, \cmd{Name}, \cmd{Age}, \cmd{Major} và \cmd{GPA}.
+\end{block}
+\end{frame}
+
+
+\begin{frame}[fragile]{Series và DataFrame từ ví dụ đầu tiên}
+\small
+\begin{columns}[T]
+\column{0.49\linewidth}
+\textbf{Một cột thường là Series}
+\begin{lstlisting}[style=py]
+print(sales["Price"])
+\end{lstlisting}
+\begin{lstlisting}[style=py]
+0    10
+1    20
+2     8
+Name: Price, dtype: int64
+\end{lstlisting}
+\column{0.49\linewidth}
+\textbf{Nhiều cột là DataFrame}
+\begin{lstlisting}[style=py]
+print(sales[["Product", "Price"]])
+\end{lstlisting}
+\begin{lstlisting}[style=py]
+  Product  Price
+0       A     10
+1       B     20
+2       C      8
+\end{lstlisting}
+\end{columns}
+\begin{alertblock}{Ghi nhớ}
+Một cột có nhãn chỉ số là \cmd{Series}; một bảng hai chiều là \cmd{DataFrame}.
+\end{alertblock}
+\end{frame}
+
 
 \begin{frame}{Cách đọc lệnh Pandas}
 \small
@@ -182,61 +329,17 @@ print(sales)
 \end{itemize}
 \end{frame}
 
-\section{Pandas là gì?}
-
-\begin{frame}{Pandas là gì?}
+\begin{frame}[fragile]{Kết quả chạy code: ví dụ doanh thu}
 \small
-\key{Pandas} là một thư viện Python mã nguồn mở dùng cho \key{xử lý và phân tích dữ liệu}.
-Thư viện này được xây dựng trên NumPy và cung cấp các công cụ cấp cao để làm việc với dữ liệu có cấu trúc và dữ liệu dạng bảng.
-\vspace{0.4em}
-
-Pandas đặc biệt hữu ích cho:
-\begin{itemize}
-  \item đọc dữ liệu từ CSV, Excel, JSON và tệp văn bản;
-  \item làm sạch, biến đổi và chuẩn bị dữ liệu;
-  \item chọn, lọc, gom nhóm và tổng hợp các quan sát;
-  \item kết hợp nhiều tập dữ liệu;
-  \item tính thống kê mô tả và trực quan hóa nhanh.
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Hai cấu trúc dữ liệu cốt lõi}
-\small
-\begin{columns}[T]
-\column{0.48\linewidth}
-\begin{block}{Series}
-\key{Series} là một mảng một chiều có nhãn.
-\begin{itemize}
-  \item Tương tự một cột dữ liệu.
-  \item Có giá trị và nhãn chỉ số.
-\end{itemize}
-\end{block}
-\column{0.48\linewidth}
-\begin{block}{DataFrame}
-\key{DataFrame} là một bảng dữ liệu hai chiều có nhãn.
-\begin{itemize}
-  \item Tương tự một trang tính Excel hoặc bảng trong cơ sở dữ liệu.
-  \item Có dòng, cột và nhãn.
-\end{itemize}
-\end{block}
-\end{columns}
-\vspace{0.5em}
-\begin{alertblock}{Ý chính}
-Hầu hết dữ liệu kinh doanh có thể được biểu diễn tự nhiên bằng DataFrame.
-\end{alertblock}
-\end{frame}
-
-\begin{frame}{Vì sao cần học Pandas?}
-\small
-Pandas là cầu nối thực hành giữa dữ liệu thô và các mô hình khoa học dữ liệu.
-\begin{itemize}
-  \item Dữ liệu thực tế thường lộn xộn, thiếu giá trị và nằm ở nhiều định dạng khác nhau.
-  \item Pandas giúp tổ chức bản ghi thành dòng và thuộc tính thành cột.
-  \item Pandas hỗ trợ kiểm tra, làm sạch, biến đổi, tổng hợp và báo cáo dữ liệu.
-  \item Pandas làm việc tốt với NumPy, Matplotlib, Scikit-learn và Statsmodels.
-\end{itemize}
-\begin{block}{Quy trình phân tích kinh doanh}
-Dữ liệu thô $\rightarrow$ bảng dữ liệu sạch $\rightarrow$ insight tổng hợp $\rightarrow$ dữ liệu sẵn sàng cho mô hình.
+Sau khi chạy ví dụ ở slide trước, cột \cmd{Revenue} được tạo bằng \cmd{Quantity * Price}.
+\begin{lstlisting}[style=py]
+  Product  Quantity  Price  Revenue
+0       A         2     10       20
+1       B         3     20       60
+2       C         5      8       40
+\end{lstlisting}
+\begin{block}{Cách đọc kết quả}
+Mỗi dòng là một sản phẩm. Ví dụ, sản phẩm B có \cmd{Quantity = 3}, \cmd{Price = 20}, nên \cmd{Revenue = 60}.
 \end{block}
 \end{frame}
 
@@ -265,42 +368,6 @@ Dữ liệu thô $\rightarrow$ bảng dữ liệu sạch $\rightarrow$ insight t
 
 \section{Cơ bản về DataFrame}
 
-\begin{frame}[fragile]{Tạo một DataFrame}
-\small
-\begin{lstlisting}[style=py]
-import pandas as pd
-
-data = {
-    "Name": ["An", "Binh", "Chi"],
-    "Age": [20, 21, 19],
-    "GPA": [3.2, 3.6, 3.4]
-}
-
-df = pd.DataFrame(data)
-print(df)
-\end{lstlisting}
-\begin{block}{Diễn giải}
-Mỗi khóa trong dictionary trở thành một cột. Mỗi list cung cấp các giá trị cho cột đó.
-\end{block}
-\end{frame}
-
-\begin{frame}{Cấu trúc của DataFrame}
-\small
-\begin{tabular}{p{0.24\linewidth}p{0.64\linewidth}}
-\toprule
-\textbf{Thành phần} & \textbf{Ý nghĩa} \\
-\midrule
-Dòng & Bản ghi, quan sát, sinh viên, khách hàng, sản phẩm, đơn hàng. \\
-Cột & Biến, thuộc tính, trường dữ liệu, đặc trưng. \\
-Index & Nhãn dòng dùng để định danh và chọn dữ liệu. \\
-Nhãn cột & Tên dùng để truy cập các biến. \\
-Giá trị & Dữ liệu thực tế nằm bên trong bảng. \\
-\bottomrule
-\end{tabular}
-\begin{block}{Ví dụ}
-Một bảng sinh viên có thể gồm các cột \cmd{StudentID}, \cmd{Name}, \cmd{Age}, \cmd{Major} và \cmd{GPA}.
-\end{block}
-\end{frame}
 
 \begin{frame}[fragile]{Kiểm tra nhanh DataFrame}
 \small
@@ -318,6 +385,28 @@ print(df.describe())
 Bước kiểm tra giúp trả lời các câu hỏi: có bao nhiêu dòng? có những cột nào? kiểu dữ liệu là gì? có giá trị thiếu không?
 \end{block}
 \end{frame}
+
+\begin{frame}[fragile]{Ví dụ kết quả: kiểm tra nhanh DataFrame}
+\small
+Với DataFrame sinh viên ở trên, một số lệnh kiểm tra cho kết quả như sau:
+\begin{lstlisting}[style=py]
+print(df.shape)
+# (3, 3)
+
+print(df.columns)
+# Index(['Name', 'Age', 'GPA'], dtype='object')
+
+print(df.dtypes)
+# Name     object
+# Age       int64
+# GPA     float64
+# dtype: object
+\end{lstlisting}
+\begin{block}{Cách đọc}
+\cmd{shape = (3, 3)} nghĩa là bảng có 3 dòng và 3 cột. Kiểu \cmd{object} thường dùng cho dữ liệu chuỗi.
+\end{block}
+\end{frame}
+
 
 \begin{frame}{Các lệnh chính: kiểm tra DataFrame}
 \small
@@ -355,6 +444,27 @@ print(products.dtypes)
 Tất cả các cột phải có cùng số lượng giá trị.
 \end{alertblock}
 \end{frame}
+
+\begin{frame}[fragile]{Kết quả chạy code: DataFrame sản phẩm}
+\small
+Khi chạy phần mini exercise, sinh viên có thể kỳ vọng kết quả như sau:
+\begin{lstlisting}[style=py]
+    Product  Price  Stock
+0    Laptop   1200      5
+1     Mouse     25     50
+2  Keyboard     45     30
+
+print(products.shape)
+# (3, 3)
+
+print(products.dtypes)
+# Product    object
+# Price       int64
+# Stock       int64
+# dtype: object
+\end{lstlisting}
+\end{frame}
+
 
 \begin{frame}{Quick Check: cơ bản về DataFrame}
 \small
@@ -396,6 +506,24 @@ Series giống như một cột có nhãn. Khi tính toán, Pandas căn chỉnh 
 \end{block}
 \end{frame}
 
+\begin{frame}[fragile]{Kết quả chạy code: Series}
+\small
+\begin{lstlisting}[style=py]
+A    10
+B    20
+C    30
+dtype: int64
+
+Index(['A', 'B', 'C'], dtype='object')
+[10 20 30]
+int64
+\end{lstlisting}
+\begin{block}{Cách đọc}
+Cột bên trái là nhãn index; cột bên phải là giá trị của Series.
+\end{block}
+\end{frame}
+
+
 \begin{frame}[fragile]{Căn chỉnh Series theo nhãn}
 \small
 \begin{lstlisting}[style=py]
@@ -408,6 +536,43 @@ print(result)
 \begin{block}{Ý tưởng dự kiến}
 Chỉ các nhãn khớp nhau mới được cộng trực tiếp. Các nhãn không khớp sẽ tạo ra giá trị thiếu.
 \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Kết quả chạy code: căn chỉnh Series}
+\small
+\begin{lstlisting}[style=py]
+A     NaN
+B    21.0
+C    32.0
+D     NaN
+dtype: float64
+\end{lstlisting}
+\begin{block}{Vì sao có NaN?}
+Nhãn \cmd{B} và \cmd{C} xuất hiện trong cả hai Series nên được cộng. Nhãn \cmd{A} chỉ có trong \cmd{x}, còn \cmd{D} chỉ có trong \cmd{y}, nên kết quả là \cmd{NaN}.
+\end{block}
+\end{frame}
+
+
+\begin{frame}[fragile]{Dữ liệu ví dụ cho lựa chọn, lọc và sắp xếp}
+\small
+Để các ví dụ \cmd{loc}, \cmd{iloc}, lọc và sắp xếp có kết quả rõ ràng, ta dùng bảng sinh viên sau.
+\begin{lstlisting}[style=py]
+df = pd.DataFrame({
+    "StudentID": ["S01", "S02", "S03", "S04"],
+    "Name": ["An", "Binh", "Chi", "Dung"],
+    "Age": [20, 21, 19, 22],
+    "GPA": [3.2, 3.6, 3.4, 3.8]
+})
+
+print(df)
+\end{lstlisting}
+\begin{lstlisting}[style=py]
+  StudentID  Name  Age  GPA
+0       S01    An   20  3.2
+1       S02  Binh   21  3.6
+2       S03   Chi   19  3.4
+3       S04  Dung   22  3.8
+\end{lstlisting}
 \end{frame}
 
 \begin{frame}[fragile]{Chọn cột}
@@ -431,6 +596,31 @@ Dùng một cặp ngoặc vuông để chọn một cột; dùng một list tên
 \end{block}
 \end{frame}
 
+\begin{frame}[fragile]{Kết quả chạy code: chọn cột}
+\small
+\begin{columns}[T]
+\column{0.48\linewidth}
+\textbf{Một cột: Series}
+\begin{lstlisting}[style=py]
+0      An
+1    Binh
+2     Chi
+3    Dung
+Name: Name, dtype: object
+\end{lstlisting}
+\column{0.48\linewidth}
+\textbf{Nhiều cột: DataFrame}
+\begin{lstlisting}[style=py]
+   Name  GPA
+0    An  3.2
+1  Binh  3.6
+2   Chi  3.4
+3  Dung  3.8
+\end{lstlisting}
+\end{columns}
+\end{frame}
+
+
 \begin{frame}[fragile]{Chọn dòng bằng \cmd{loc} và \cmd{iloc}}
 \small
 \begin{columns}[T]
@@ -451,6 +641,25 @@ print(df.iloc[0:2])
 \cmd{loc} dùng nhãn; \cmd{iloc} dùng vị trí số nguyên.
 \end{alertblock}
 \end{frame}
+
+\begin{frame}[fragile]{Kết quả chạy code: loc và iloc}
+\small
+Sau khi đặt \cmd{StudentID} làm index, \cmd{loc} có thể chọn theo mã sinh viên.
+\begin{lstlisting}[style=py]
+print(df.loc["S01"])
+# Name     An
+# Age      20
+# GPA     3.2
+# Name: S01, dtype: object
+
+print(df.iloc[0:2])
+#            Name  Age  GPA
+# StudentID                
+# S01          An   20  3.2
+# S02        Binh   21  3.6
+\end{lstlisting}
+\end{frame}
+
 
 \begin{frame}[fragile]{Chọn đồng thời dòng và cột}
 \small
@@ -520,6 +729,24 @@ print(high_gpa)
 \end{block}
 \end{frame}
 
+\begin{frame}[fragile]{Kết quả chạy code: lọc dữ liệu}
+\small
+Với điều kiện \cmd{GPA >= 3.5}, Pandas chỉ giữ lại các dòng thỏa mãn điều kiện.
+\begin{lstlisting}[style=py]
+high_gpa = df[df["GPA"] >= 3.5]
+print(high_gpa)
+
+#            Name  Age  GPA
+# StudentID                
+# S02        Binh   21  3.6
+# S04        Dung   22  3.8
+\end{lstlisting}
+\begin{block}{Cách đọc}
+Hai sinh viên S02 và S04 có GPA lớn hơn hoặc bằng 3.5 nên xuất hiện trong kết quả.
+\end{block}
+\end{frame}
+
+
 \begin{frame}[fragile]{Lọc với nhiều điều kiện}
 \small
 \begin{lstlisting}[style=py]
@@ -556,6 +783,28 @@ ordered = df.sort_values(
 Sắp xếp khách hàng theo doanh thu giảm dần, sau đó theo tần suất đặt hàng giảm dần.
 \end{block}
 \end{frame}
+
+\begin{frame}[fragile]{Kết quả chạy code: lọc nhiều điều kiện và sắp xếp}
+\small
+\begin{lstlisting}[style=py]
+selected = df[(df["Age"] >= 20) & (df["GPA"] >= 3.5)]
+print(selected)
+
+#            Name  Age  GPA
+# StudentID                
+# S02        Binh   21  3.6
+# S04        Dung   22  3.8
+
+print(df.sort_values("GPA", ascending=False))
+#            Name  Age  GPA
+# StudentID                
+# S04        Dung   22  3.8
+# S02        Binh   21  3.6
+# S03         Chi   19  3.4
+# S01          An   20  3.2
+\end{lstlisting}
+\end{frame}
+
 
 \begin{frame}{Các lệnh chính: lọc và sắp xếp}
 \small
@@ -726,6 +975,33 @@ Làm sạch dữ liệu giúp tăng độ chính xác, tính nhất quán và kh
 \end{block}
 \end{frame}
 
+\begin{frame}[fragile]{Ví dụ dữ liệu bẩn và kết quả kiểm tra}
+\small
+\begin{lstlisting}[style=py]
+df = pd.DataFrame({
+    "Name": [" An ", "Binh", "Chi", "Chi"],
+    "Age": [20, None, 22, 22],
+    "Price": ["10", "20", "unknown", "30"]
+})
+
+print(df)
+print(df.isna().sum())
+\end{lstlisting}
+\begin{lstlisting}[style=py]
+   Name   Age    Price
+0    An   20.0       10
+1  Binh    NaN       20
+2   Chi   22.0  unknown
+3   Chi   22.0       30
+
+Name     0
+Age      1
+Price    0
+dtype: int64
+\end{lstlisting}
+\end{frame}
+
+
 \begin{frame}[fragile]{Phát hiện giá trị thiếu}
 \small
 \begin{lstlisting}[style=py]
@@ -806,6 +1082,27 @@ df["City"] = df["City"].str.replace(
 \end{block}
 \end{frame}
 
+\begin{frame}[fragile]{Kết quả chạy code: làm sạch dữ liệu}
+\small
+\begin{lstlisting}[style=py]
+df["Age"] = df["Age"].fillna(df["Age"].mean())
+df["Name"] = df["Name"].str.strip().str.lower()
+df["Price"] = pd.to_numeric(df["Price"], errors="coerce")
+print(df)
+\end{lstlisting}
+\begin{lstlisting}[style=py]
+   Name   Age  Price
+0    an  20.0   10.0
+1  binh  21.33  20.0
+2   chi  22.0    NaN
+3   chi  22.0   30.0
+\end{lstlisting}
+\begin{block}{Cách đọc}
+\cmd{unknown} được chuyển thành \cmd{NaN}; tên được bỏ khoảng trắng và đưa về chữ thường.
+\end{block}
+\end{frame}
+
+
 \begin{frame}{Các lệnh chính: làm sạch dữ liệu}
 \small
 \begin{tabular}{p{0.32\linewidth}p{0.57\linewidth}}
@@ -850,6 +1147,28 @@ df["City"] = df["City"].str.replace(
 
 \section{Thao tác và tổng hợp dữ liệu}
 
+\begin{frame}[fragile]{Dữ liệu ví dụ cho thao tác và tổng hợp}
+\small
+\begin{lstlisting}[style=py]
+df = pd.DataFrame({
+    "Region": ["North", "North", "South", "South", "East"],
+    "Product": ["A", "B", "A", "B", "A"],
+    "Quantity": [2, 3, 5, 4, 1],
+    "Price": [10, 20, 8, 15, 12],
+    "Sales": [20, 60, 40, 60, 12]
+})
+print(df)
+\end{lstlisting}
+\begin{lstlisting}[style=py]
+  Region Product  Quantity  Price  Sales
+0  North       A         2     10     20
+1  North       B         3     20     60
+2  South       A         5      8     40
+3  South       B         4     15     60
+4   East       A         1     12     12
+\end{lstlisting}
+\end{frame}
+
 \begin{frame}[fragile]{Tạo cột tính toán}
 \small
 \begin{lstlisting}[style=py]
@@ -862,6 +1181,26 @@ print(total_revenue)
 Doanh thu, biên lợi nhuận, tỷ lệ giảm giá, giá trị vòng đời khách hàng và độ trễ giao hàng thường có thể được tạo từ các cột hiện có.
 \end{block}
 \end{frame}
+
+\begin{frame}[fragile]{Kết quả chạy code: cột tính toán}
+\small
+\begin{lstlisting}[style=py]
+df["Revenue"] = df["Quantity"] * df["Price"]
+print(df[["Product", "Quantity", "Price", "Revenue"]])
+print(df["Revenue"].sum())
+\end{lstlisting}
+\begin{lstlisting}[style=py]
+  Product  Quantity  Price  Revenue
+0       A         2     10       20
+1       B         3     20       60
+2       A         5      8       40
+3       B         4     15       60
+4       A         1     12       12
+
+192
+\end{lstlisting}
+\end{frame}
+
 
 \begin{frame}[fragile]{Áp dụng hàm}
 \small
@@ -939,6 +1278,33 @@ Pandas chia dữ liệu thành các nhóm, áp dụng phép tổng hợp cho t�
 \end{block}
 \end{frame}
 
+\begin{frame}[fragile]{Kết quả chạy code: groupby và agg}
+\small
+\begin{lstlisting}[style=py]
+region_total = df.groupby("Region")["Sales"].sum()
+print(region_total)
+\end{lstlisting}
+\begin{lstlisting}[style=py]
+Region
+East      12
+North     80
+South    100
+Name: Sales, dtype: int64
+\end{lstlisting}
+\begin{lstlisting}[style=py]
+region_stats = df.groupby("Region")["Sales"].agg(["count", "sum", "mean"])
+print(region_stats)
+\end{lstlisting}
+\begin{lstlisting}[style=py]
+        count  sum  mean
+Region                  
+East        1   12  12.0
+North       2   80  40.0
+South       2  100  50.0
+\end{lstlisting}
+\end{frame}
+
+
 \begin{frame}[fragile]{Gom nhóm theo nhiều cột}
 \small
 \begin{lstlisting}[style=py]
@@ -1004,6 +1370,30 @@ Nối dữ liệu bán hàng tháng 1 và tháng 2 khi hai bảng có cùng cấ
 \end{block}
 \end{frame}
 
+\begin{frame}[fragile]{Dữ liệu ví dụ cho merge}
+\small
+\begin{columns}[T]
+\column{0.48\linewidth}
+\begin{lstlisting}[style=py]
+customers = pd.DataFrame({
+    "CustomerID": [1, 2, 3],
+    "Name": ["An", "Binh", "Chi"]
+})
+\end{lstlisting}
+\column{0.48\linewidth}
+\begin{lstlisting}[style=py]
+orders = pd.DataFrame({
+    "OrderID": [101, 102, 103],
+    "CustomerID": [1, 1, 2],
+    "Amount": [200, 150, 300]
+})
+\end{lstlisting}
+\end{columns}
+\begin{block}{Mục tiêu}
+Ghép thông tin khách hàng với thông tin đơn hàng thông qua khóa chung \cmd{CustomerID}.
+\end{block}
+\end{frame}
+
 \begin{frame}[fragile]{Ghép bảng bằng merge}
 \small
 \begin{lstlisting}[style=py]
@@ -1022,6 +1412,24 @@ result = pd.merge(
 \end{itemize}
 \end{frame}
 
+\begin{frame}[fragile]{Kết quả chạy code: merge}
+\small
+\begin{lstlisting}[style=py]
+result = pd.merge(customers, orders, on="CustomerID", how="inner")
+print(result)
+\end{lstlisting}
+\begin{lstlisting}[style=py]
+   CustomerID  Name  OrderID  Amount
+0           1    An      101     200
+1           1    An      102     150
+2           2  Binh      103     300
+\end{lstlisting}
+\begin{block}{Cách đọc}
+Khách hàng \cmd{Chi} không xuất hiện trong \cmd{inner merge} vì không có đơn hàng khớp trong bảng \cmd{orders}.
+\end{block}
+\end{frame}
+
+
 \begin{frame}[fragile]{Pivot table}
 \small
 Pivot table tóm tắt các giá trị số theo các nhóm phân loại.
@@ -1039,6 +1447,22 @@ print(pivot)
 Các dòng là khu vực, các cột là sản phẩm, và mỗi ô chứa tổng doanh thu.
 \end{block}
 \end{frame}
+
+\begin{frame}[fragile]{Kết quả chạy code: pivot table}
+\small
+Ví dụ nếu dữ liệu có doanh thu theo khu vực và sản phẩm, pivot table có thể có dạng:
+\begin{lstlisting}[style=py]
+Product     A     B
+Region             
+East     12.0   NaN
+North    20.0  60.0
+South    40.0  60.0
+\end{lstlisting}
+\begin{block}{Cách đọc}
+Ô tại dòng \cmd{South}, cột \cmd{B} bằng 60, nghĩa là tổng doanh thu của sản phẩm B ở khu vực South là 60.
+\end{block}
+\end{frame}
+
 
 \begin{frame}[fragile]{Định dạng lại dữ liệu: pivot và melt}
 \small
@@ -1114,6 +1538,23 @@ print(
 Tương quan không tự động chứng minh quan hệ nhân quả.
 \end{alertblock}
 \end{frame}
+
+\begin{frame}[fragile]{Kết quả chạy code: tương quan và chuỗi thời gian}
+\small
+\begin{lstlisting}[style=py]
+print(df[["Sales", "Quantity", "Price"]].corr())
+\end{lstlisting}
+\begin{lstlisting}[style=py]
+             Sales  Quantity     Price
+Sales     1.000000  0.620174  0.594089
+Quantity  0.620174  1.000000 -0.272772
+Price     0.594089 -0.272772  1.000000
+\end{lstlisting}
+\begin{block}{Cách đọc}
+Ma trận tương quan đối xứng. Giá trị gần 1 biểu thị quan hệ tuyến tính dương mạnh hơn; tuy nhiên tương quan không chứng minh quan hệ nhân quả.
+\end{block}
+\end{frame}
+
 
 \begin{frame}[fragile]{Trực quan hóa nhanh bằng Pandas}
 \small

@@ -1,15 +1,17 @@
-
 \documentclass[aspectratio=169,11pt]{beamer}
 
 \usetheme{AnnArbor}
-\usepackage[utf8]{inputenc}
-\usepackage[T5]{fontenc}
-\usepackage[vietnamese]{babel}
+\usepackage{fontspec}
 \usepackage{amsmath,amssymb,booktabs,array,multicol}
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{graphicx}
 \usepackage{hyperref}
+\usepackage{ragged2e}
+
+\setmainfont{DejaVu Serif}
+\setsansfont{DejaVu Sans}
+\setmonofont{Noto Sans Mono}
 
 \definecolor{CodeBg}{RGB}{248,248,248}
 \definecolor{TitleBlue}{RGB}{38,79,129}
@@ -47,7 +49,7 @@
 \newcommand{\key}[1]{\textbf{\textcolor{AccentGreen}{#1}}}
 \newcommand{\smallnote}[1]{\vspace{0.25em}{\footnotesize\color{SoftGray}#1}}
 \newcommand{\quiztitle}[1]{\textbf{\textcolor{QuizOrange}{#1}}}
-\newcommand{\cmd}[1]{\texttt{#1}}
+\newcommand{\cmd}[1]{\texttt{\detokenize{#1}}}
 
 \title[Introduction to Pandas]{Introduction to Pandas}
 \subtitle{DataFrame, Series, Data Cleaning, Grouping, and Business Data Analysis}
@@ -61,32 +63,6 @@
   \titlepage
 \end{frame}
 
-\begin{frame}{Lesson Roadmap}
-\begin{columns}[T]
-\column{0.48\linewidth}
-\begin{enumerate}
-  \item What Pandas is
-  \item Why Pandas is useful
-  \item Installation and importing
-  \item Series and DataFrame
-  \item Creating and inspecting data
-  \item Selecting rows and columns
-  \item Filtering and sorting
-\end{enumerate}
-\column{0.48\linewidth}
-\begin{enumerate}
-  \setcounter{enumi}{7}
-  \item Reading and writing files
-  \item Data cleaning
-  \item Column operations
-  \item Grouping and aggregation
-  \item Merge, concat, and pivot tables
-  \item Correlation, visualization, time series
-  \item Practice exercises
-\end{enumerate}
-\end{columns}
-\end{frame}
-
 \begin{frame}{Learning Outcomes}
 \small
 By the end of this lesson, learners will be able to:
@@ -95,19 +71,103 @@ By the end of this lesson, learners will be able to:
   \item Distinguish between \cmd{Series} and \cmd{DataFrame}.
   \item Create, inspect, select, filter, and sort tabular data.
   \item Read and write CSV, Excel, JSON, and text-based datasets.
-  \item Detect and handle missing values, duplicates, and inconsistent types.
+  \item Detect and handle missing values, duplicate rows, and inconsistent data types.
   \item Transform columns and apply simple functions.
   \item Use \cmd{groupby()}, \cmd{agg()}, \cmd{merge()}, \cmd{concat()}, and pivot tables.
   \item Compute descriptive statistics, correlation, and simple time-series summaries.
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Prerequisites and Setup}
+\begin{frame}{Lesson Roadmap}
+\begin{columns}[T]
+\column{0.48\linewidth}
+\begin{enumerate}
+  \item Why learn Pandas?
+  \item What Pandas is
+  \item Pandas in the Data Science workflow
+  \item Environment setup
+  \item Your first DataFrame
+  \item Series and DataFrame
+  \item Reading Pandas commands
+\end{enumerate}
+\column{0.48\linewidth}
+\begin{enumerate}
+  \setcounter{enumi}{7}
+  \item Inspecting, selecting, filtering, and sorting
+  \item Reading and writing data files
+  \item Data cleaning
+  \item Columns, grouping, and aggregation
+  \item Merge, concat, and pivot tables
+  \item Correlation, visualization, time series
+  \item Practice exercises
+\end{enumerate}
+\end{columns}
+\end{frame}
+
+\section{What Is Pandas?}
+
+\begin{frame}{Why Learn Pandas?}
+\small
+Pandas is a practical bridge between raw files and data-science models.
+\begin{itemize}
+  \item Real datasets are often messy, incomplete, and stored in different formats.
+  \item Pandas helps organize records into rows and attributes into columns.
+  \item Pandas supports inspection, cleaning, transformation, aggregation, and reporting.
+  \item Pandas works well with NumPy, Matplotlib, Scikit-learn, and Statsmodels.
+\end{itemize}
+\begin{block}{Business analytics workflow}
+Raw data $\rightarrow$ clean table $\rightarrow$ summary insight $\rightarrow$ model-ready dataset.
+\end{block}
+\end{frame}
+
+\begin{frame}{What Is Pandas?}
+\small
+\key{Pandas} is an open-source Python library for \key{data manipulation and analysis}.
+It is built on top of NumPy and provides high-level tools for structured and tabular data.
+\vspace{0.4em}
+
+Pandas is especially useful for:
+\begin{itemize}
+  \item reading data from CSV, Excel, JSON, and text files;
+  \item cleaning, transforming, and preparing datasets;
+  \item selecting, filtering, grouping, and aggregating observations;
+  \item combining multiple datasets;
+  \item computing descriptive statistics and quick visualizations.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Pandas in the Data Science Workflow}
+\small
+Pandas is usually used to turn raw data into a clean, analyzable table.
+\vspace{0.3em}
+
+\begin{center}
+\begin{tabular}{c c c}
+\fbox{CSV / Excel / Database} & $\rightarrow$ & \fbox{Pandas DataFrame} \\[0.4em]
+ & $\searrow$ & $\downarrow$ \\[0.2em]
+\fbox{Raw data} & $\rightarrow$ & \fbox{Clean table} \\[0.4em]
+ & $\searrow$ & $\downarrow$ \\[0.2em]
+\fbox{Business question} & $\rightarrow$ & \fbox{Insight / Model} \\
+\end{tabular}
+\end{center}
+
+\begin{itemize}
+  \item NumPy supports efficient numerical computing.
+  \item Pandas organizes data into rows, columns, and indexes.
+  \item Matplotlib/Seaborn visualize results from DataFrames.
+  \item Scikit-learn often receives processed data from Pandas.
+\end{itemize}
+\begin{block}{Key idea}
+Pandas connects real-world data files with Python-based data analysis.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Prerequisites and Environment Setup}
 \begin{block}{Recommended background}
 \begin{itemize}
   \item Basic Python: variables, lists, dictionaries, loops, and functions.
   \item Basic NumPy knowledge is helpful.
-  \item Jupyter Notebook, JupyterLab, Google Colab, VS Code, or similar environment.
+  \item A working environment: Jupyter Notebook, JupyterLab, Google Colab, VS Code, or similar.
 \end{itemize}
 \end{block}
 \begin{block}{Installation and import}
@@ -121,6 +181,88 @@ print(pd.__version__)
 \end{block}
 \end{frame}
 
+\begin{frame}[fragile]{Creating a DataFrame}
+\small
+\begin{lstlisting}[style=py]
+import pandas as pd
+
+data = {
+    "Name": ["An", "Binh", "Chi"],
+    "Age": [20, 21, 19],
+    "GPA": [3.2, 3.6, 3.4]
+}
+
+df = pd.DataFrame(data)
+print(df)
+\end{lstlisting}
+\begin{block}{Interpretation}
+Each key in the dictionary becomes a column. Each list supplies the column values.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Code Output: First DataFrame}
+\small
+When printing \cmd{df}, Pandas displays a table with 3 rows and 3 columns.
+\begin{lstlisting}[style=py]
+   Name  Age  GPA
+0    An   20  3.2
+1  Binh   21  3.6
+2   Chi   19  3.4
+\end{lstlisting}
+\begin{block}{What to notice}
+The leftmost column \cmd{0, 1, 2} is the default index automatically created by Pandas.
+\end{block}
+\end{frame}
+
+\begin{frame}{DataFrame Structure}
+\small
+\begin{tabular}{p{0.24\linewidth}p{0.64\linewidth}}
+\toprule
+\textbf{Component} & \textbf{Meaning} \\
+\midrule
+Rows & Records, observations, students, customers, products, or orders. \\
+Columns & Variables, attributes, fields, or features. \\
+Index & Row labels used for identification and selection. \\
+Column labels & Names used to access variables. \\
+Values & The actual data stored inside the table. \\
+\bottomrule
+\end{tabular}
+\begin{block}{Example}
+A student table may contain \cmd{StudentID}, \cmd{Name}, \cmd{Age}, \cmd{Major}, and \cmd{GPA}.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Series and DataFrame from the First Example}
+\small
+\begin{columns}[T]
+\column{0.49\linewidth}
+\textbf{One column is usually a Series}
+\begin{lstlisting}[style=py]
+print(sales["Price"])
+\end{lstlisting}
+\begin{lstlisting}[style=py]
+0    10
+1    20
+2     8
+Name: Price, dtype: int64
+\end{lstlisting}
+\column{0.49\linewidth}
+\textbf{Multiple columns form a DataFrame}
+\begin{lstlisting}[style=py]
+print(sales[["Product", "Price"]])
+\end{lstlisting}
+\begin{lstlisting}[style=py]
+  Product  Price
+0       A     10
+1       B     20
+2       C      8
+\end{lstlisting}
+\end{columns}
+\begin{alertblock}{Remember}
+A labeled one-dimensional column is a \cmd{Series}; a two-dimensional table is a \cmd{DataFrame}.
+\end{alertblock}
+\end{frame}
+
 \begin{frame}{How to Read Pandas Commands}
 \small
 Most Pandas commands follow one of these patterns:
@@ -128,14 +270,14 @@ Most Pandas commands follow one of these patterns:
 \cmd{pd.function(input, option=value)} \quad \text{or} \quad \cmd{df.method(option=value)}
 \]
 \begin{itemize}
-  \item \cmd{pd}: standard alias for the Pandas package.
-  \item \cmd{df}: a variable that usually stores a DataFrame.
-  \item \cmd{function}: a package-level function, such as \cmd{pd.read\_csv()}.
+  \item \cmd{pd}: standard alias for the Pandas library.
+  \item \cmd{df}: a variable usually used to store a DataFrame.
+  \item \cmd{function}: a package-level function, such as \cmd{pd.read_csv()}.
   \item \cmd{method}: an operation attached to a DataFrame or Series.
-  \item \cmd{option=value}: named arguments controlling behavior.
+  \item \cmd{option=value}: named arguments controlling command behavior.
 \end{itemize}
 \begin{block}{Example}
-\cmd{pd.read\_csv("sales.csv")} reads a CSV file into a DataFrame.
+\cmd{pd.read_csv("sales.csv")} reads a CSV file into a DataFrame.
 \end{block}
 \end{frame}
 
@@ -146,15 +288,15 @@ Most Pandas commands follow one of these patterns:
 \textbf{Form} & \textbf{Meaning} \\
 \midrule
 \cmd{pd.DataFrame(data)} & Calls a Pandas function to create a table. \\
-\cmd{df.shape} & Reads an attribute that describes rows and columns. \\
+\cmd{df.shape} & Reads an attribute describing rows and columns. \\
 \cmd{df.head()} & Calls a method attached to an existing DataFrame. \\
-\cmd{pd.merge(left,right)} & Calls a Pandas function to combine tables. \\
+\cmd{pd.merge(left,right)} & Calls a Pandas function to combine two tables. \\
 \cmd{df["Sales"].mean()} & Selects a column, then calls a Series method. \\
 \bottomrule
 \end{tabular}
 \vspace{0.5em}
 \begin{alertblock}{Teaching note}
-Students should identify three things in every command: input, operation, and output.
+For every command, students should identify three parts: input, operation, and output.
 \end{alertblock}
 \end{frame}
 
@@ -176,65 +318,21 @@ print(sales)
   \item \cmd{pd.DataFrame(...)} creates a tabular dataset.
   \item Each dictionary key becomes a column name.
   \item \cmd{sales["Revenue"] = ...} creates a new calculated column.
-  \item Multiplication is applied row by row across the selected columns.
+  \item Multiplication is performed row by row across the selected columns.
 \end{itemize}
 \end{frame}
 
-\section{What Is Pandas?}
-
-\begin{frame}{What Is Pandas?}
+\begin{frame}[fragile]{Code Output: Revenue Example}
 \small
-\key{Pandas} is an open-source Python library for \key{data manipulation and analysis}.
-It is built on top of NumPy and provides high-level tools for structured and tabular data.
-\vspace{0.4em}
-
-Pandas is especially useful for:
-\begin{itemize}
-  \item reading data from CSV, Excel, JSON, and text files;
-  \item cleaning, transforming, and preparing datasets;
-  \item selecting, filtering, grouping, and aggregating observations;
-  \item combining multiple datasets;
-  \item calculating descriptive statistics and quick visualizations.
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Two Core Data Structures}
-\small
-\begin{columns}[T]
-\column{0.48\linewidth}
-\begin{block}{Series}
-A \key{Series} is a one-dimensional labeled array.
-\begin{itemize}
-  \item Similar to one column of data.
-  \item Has values and index labels.
-\end{itemize}
-\end{block}
-\column{0.48\linewidth}
-\begin{block}{DataFrame}
-A \key{DataFrame} is a two-dimensional labeled table.
-\begin{itemize}
-  \item Similar to an Excel worksheet or database table.
-  \item Has rows, columns, and labels.
-\end{itemize}
-\end{block}
-\end{columns}
-\vspace{0.5em}
-\begin{alertblock}{Key idea}
-Most business datasets are naturally represented as DataFrames.
-\end{alertblock}
-\end{frame}
-
-\begin{frame}{Why Learn Pandas?}
-\small
-Pandas is a practical bridge between raw files and data-science models.
-\begin{itemize}
-  \item Real datasets are often messy, incomplete, and stored in different formats.
-  \item Pandas helps organize records into rows and attributes into columns.
-  \item Pandas supports inspection, cleaning, transformation, aggregation, and reporting.
-  \item Pandas works closely with NumPy, Matplotlib, Scikit-learn, and Statsmodels.
-\end{itemize}
-\begin{block}{Business analytics workflow}
-Raw data $\rightarrow$ clean table $\rightarrow$ summary insight $\rightarrow$ model-ready dataset.
+After running the previous example, \cmd{Revenue} is created as \cmd{Quantity * Price}.
+\begin{lstlisting}[style=py]
+  Product  Quantity  Price  Revenue
+0       A         2     10       20
+1       B         3     20       60
+2       C         5      8       40
+\end{lstlisting}
+\begin{block}{Reading the result}
+Each row is one product. For example, product B has \cmd{Quantity = 3}, \cmd{Price = 20}, so \cmd{Revenue = 60}.
 \end{block}
 \end{frame}
 
@@ -263,43 +361,6 @@ Raw data $\rightarrow$ clean table $\rightarrow$ summary insight $\rightarrow$ m
 
 \section{DataFrame Basics}
 
-\begin{frame}[fragile]{Creating a DataFrame}
-\small
-\begin{lstlisting}[style=py]
-import pandas as pd
-
-data = {
-    "Name": ["An", "Binh", "Chi"],
-    "Age": [20, 21, 19],
-    "GPA": [3.2, 3.6, 3.4]
-}
-
-df = pd.DataFrame(data)
-print(df)
-\end{lstlisting}
-\begin{block}{Interpretation}
-Each key in the dictionary becomes a column. Each list supplies the column values.
-\end{block}
-\end{frame}
-
-\begin{frame}{DataFrame Structure}
-\small
-\begin{tabular}{p{0.24\linewidth}p{0.64\linewidth}}
-\toprule
-\textbf{Component} & \textbf{Meaning} \\
-\midrule
-Rows & Records, observations, students, customers, products, orders. \\
-Columns & Variables, attributes, fields, features. \\
-Index & Row labels used for identification and selection. \\
-Column labels & Names used to access variables. \\
-Values & Actual data stored inside the table. \\
-\bottomrule
-\end{tabular}
-\begin{block}{Example}
-A student table may contain columns \cmd{StudentID}, \cmd{Name}, \cmd{Age}, \cmd{Major}, and \cmd{GPA}.
-\end{block}
-\end{frame}
-
 \begin{frame}[fragile]{Inspecting a DataFrame}
 \small
 \begin{lstlisting}[style=py]
@@ -317,6 +378,27 @@ Inspection answers basic questions: How many rows? Which columns? Which data typ
 \end{block}
 \end{frame}
 
+\begin{frame}[fragile]{Example Output: Inspecting a DataFrame}
+\small
+For the student DataFrame above, some inspection commands return:
+\begin{lstlisting}[style=py]
+print(df.shape)
+# (3, 3)
+
+print(df.columns)
+# Index(['Name', 'Age', 'GPA'], dtype='object')
+
+print(df.dtypes)
+# Name     object
+# Age       int64
+# GPA     float64
+# dtype: object
+\end{lstlisting}
+\begin{block}{Reading the output}
+\cmd{shape = (3, 3)} means the table has 3 rows and 3 columns. \cmd{object} is often used for string-like data.
+\end{block}
+\end{frame}
+
 \begin{frame}{Key Commands: Inspecting DataFrames}
 \small
 \begin{tabular}{p{0.28\linewidth}p{0.61\linewidth}}
@@ -328,14 +410,14 @@ Inspection answers basic questions: How many rows? Which columns? Which data typ
 \cmd{df.shape} & Return number of rows and columns. \\
 \cmd{df.columns} & Return column labels. \\
 \cmd{df.index} & Return row labels. \\
-\cmd{df.dtypes} & Return data type of each column. \\
+\cmd{df.dtypes} & Return the data type of each column. \\
 \cmd{df.info()} & Structural summary of the DataFrame. \\
 \cmd{df.describe()} & Descriptive statistics for numerical columns. \\
 \bottomrule
 \end{tabular}
 \end{frame}
 
-\begin{frame}[fragile]{Mini Exercise: Create and Inspect}
+\begin{frame}[fragile]{Mini Exercise: Create and Inspect Data}
 \small
 Create a DataFrame named \cmd{products} with columns \cmd{Product}, \cmd{Price}, and \cmd{Stock}.
 \begin{lstlisting}[style=py]
@@ -352,6 +434,26 @@ print(products.dtypes)
 \begin{alertblock}{Check}
 All columns must contain the same number of values.
 \end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{Code Output: Product DataFrame}
+\small
+When running the mini exercise, students can expect output like this:
+\begin{lstlisting}[style=py]
+    Product  Price  Stock
+0    Laptop   1200      5
+1     Mouse     25     50
+2  Keyboard     45     30
+
+print(products.shape)
+# (3, 3)
+
+print(products.dtypes)
+# Product    object
+# Price       int64
+# Stock       int64
+# dtype: object
+\end{lstlisting}
 \end{frame}
 
 \begin{frame}{Quick Check: DataFrame Basics}
@@ -377,7 +479,7 @@ All columns must contain the same number of values.
 \end{multicols}
 \end{frame}
 
-\section{Series and Selection}
+\section{Series and Data Selection}
 
 \begin{frame}[fragile]{Creating a Series}
 \small
@@ -390,11 +492,28 @@ print(s.values)
 print(s.dtype)
 \end{lstlisting}
 \begin{block}{Interpretation}
-A Series is like one labeled column. Pandas aligns Series by index labels when performing arithmetic.
+A Series is like one labeled column. Pandas aligns Series by index labels during arithmetic operations.
 \end{block}
 \end{frame}
 
-\begin{frame}[fragile]{Series Alignment}
+\begin{frame}[fragile]{Code Output: Series}
+\small
+\begin{lstlisting}[style=py]
+A    10
+B    20
+C    30
+dtype: int64
+
+Index(['A', 'B', 'C'], dtype='object')
+[10 20 30]
+int64
+\end{lstlisting}
+\begin{block}{Reading the output}
+The left column contains index labels; the right column contains Series values.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Series Alignment by Label}
 \small
 \begin{lstlisting}[style=py]
 x = pd.Series([10, 20, 30], index=["A", "B", "C"])
@@ -406,6 +525,42 @@ print(result)
 \begin{block}{Expected idea}
 Only matching labels are added directly. Unmatched labels produce missing values.
 \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Code Output: Series Alignment}
+\small
+\begin{lstlisting}[style=py]
+A     NaN
+B    21.0
+C    32.0
+D     NaN
+dtype: float64
+\end{lstlisting}
+\begin{block}{Why NaN?}
+Labels \cmd{B} and \cmd{C} appear in both Series and are added. Label \cmd{A} appears only in \cmd{x}, and \cmd{D} appears only in \cmd{y}, so the result is \cmd{NaN}.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Example Data for Selection, Filtering, and Sorting}
+\small
+To make \cmd{loc}, \cmd{iloc}, filtering, and sorting examples clear, we use the following student table.
+\begin{lstlisting}[style=py]
+df = pd.DataFrame({
+    "StudentID": ["S01", "S02", "S03", "S04"],
+    "Name": ["An", "Binh", "Chi", "Dung"],
+    "Age": [20, 21, 19, 22],
+    "GPA": [3.2, 3.6, 3.4, 3.8]
+})
+
+print(df)
+\end{lstlisting}
+\begin{lstlisting}[style=py]
+  StudentID  Name  Age  GPA
+0       S01    An   20  3.2
+1       S02  Binh   21  3.6
+2       S03   Chi   19  3.4
+3       S04  Dung   22  3.8
+\end{lstlisting}
 \end{frame}
 
 \begin{frame}[fragile]{Selecting Columns}
@@ -429,6 +584,30 @@ Use one pair of brackets for one column; use a list of column names for multiple
 \end{block}
 \end{frame}
 
+\begin{frame}[fragile]{Code Output: Selecting Columns}
+\small
+\begin{columns}[T]
+\column{0.48\linewidth}
+\textbf{One column: Series}
+\begin{lstlisting}[style=py]
+0      An
+1    Binh
+2     Chi
+3    Dung
+Name: Name, dtype: object
+\end{lstlisting}
+\column{0.48\linewidth}
+\textbf{Multiple columns: DataFrame}
+\begin{lstlisting}[style=py]
+   Name  GPA
+0    An  3.2
+1  Binh  3.6
+2   Chi  3.4
+3  Dung  3.8
+\end{lstlisting}
+\end{columns}
+\end{frame}
+
 \begin{frame}[fragile]{Selecting Rows with \cmd{loc} and \cmd{iloc}}
 \small
 \begin{columns}[T]
@@ -450,6 +629,24 @@ print(df.iloc[0:2])
 \end{alertblock}
 \end{frame}
 
+\begin{frame}[fragile]{Code Output: loc and iloc}
+\small
+After setting \cmd{StudentID} as the index, \cmd{loc} can select by student ID.
+\begin{lstlisting}[style=py]
+print(df.loc["S01"])
+# Name     An
+# Age      20
+# GPA     3.2
+# Name: S01, dtype: object
+
+print(df.iloc[0:2])
+#            Name  Age  GPA
+# StudentID                
+# S01          An   20  3.2
+# S02        Binh   21  3.6
+\end{lstlisting}
+\end{frame}
+
 \begin{frame}[fragile]{Selecting Rows and Columns Together}
 \small
 \begin{lstlisting}[style=py]
@@ -466,7 +663,7 @@ The part before the comma selects rows; the part after the comma selects columns
 \end{block}
 \end{frame}
 
-\begin{frame}{Key Commands: Series and Selection}
+\begin{frame}{Key Commands: Series and Data Selection}
 \small
 \begin{tabular}{p{0.30\linewidth}p{0.59\linewidth}}
 \toprule
@@ -504,7 +701,7 @@ The part before the comma selects rows; the part after the comma selects columns
 \end{multicols}
 \end{frame}
 
-\section{Filtering and Sorting}
+\section{Filtering and Sorting Data}
 
 \begin{frame}[fragile]{Boolean Filtering}
 \small
@@ -518,6 +715,23 @@ print(high_gpa)
 \end{block}
 \end{frame}
 
+\begin{frame}[fragile]{Code Output: Filtering Data}
+\small
+With the condition \cmd{GPA >= 3.5}, Pandas keeps only matching rows.
+\begin{lstlisting}[style=py]
+high_gpa = df[df["GPA"] >= 3.5]
+print(high_gpa)
+
+#            Name  Age  GPA
+# StudentID                
+# S02        Binh   21  3.6
+# S04        Dung   22  3.8
+\end{lstlisting}
+\begin{block}{Reading the output}
+Students S02 and S04 have GPA greater than or equal to 3.5, so they appear in the result.
+\end{block}
+\end{frame}
+
 \begin{frame}[fragile]{Filtering with Multiple Conditions}
 \small
 \begin{lstlisting}[style=py]
@@ -528,9 +742,9 @@ selected = df[
 print(selected)
 \end{lstlisting}
 \begin{itemize}
-  \item Use \cmd{\&} for AND.
+  \item Use \cmd{&} for AND.
   \item Use \cmd{|} for OR.
-  \item Use \cmd{\textasciitilde} for NOT.
+  \item Use \cmd{~} for NOT.
   \item Put each condition inside parentheses.
 \end{itemize}
 \end{frame}
@@ -551,8 +765,29 @@ ordered = df.sort_values(
 )
 \end{lstlisting}
 \begin{block}{Business example}
-Sort customers by revenue descending and then by order frequency descending.
+Sort customers by revenue descending, then by order frequency descending.
 \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Code Output: Multiple Conditions and Sorting}
+\small
+\begin{lstlisting}[style=py]
+selected = df[(df["Age"] >= 20) & (df["GPA"] >= 3.5)]
+print(selected)
+
+#            Name  Age  GPA
+# StudentID                
+# S02        Binh   21  3.6
+# S04        Dung   22  3.8
+
+print(df.sort_values("GPA", ascending=False))
+#            Name  Age  GPA
+# StudentID                
+# S04        Dung   22  3.8
+# S02        Binh   21  3.6
+# S03         Chi   19  3.4
+# S01          An   20  3.2
+\end{lstlisting}
 \end{frame}
 
 \begin{frame}{Key Commands: Filtering and Sorting}
@@ -562,10 +797,10 @@ Sort customers by revenue descending and then by order frequency descending.
 \textbf{Command} & \textbf{Meaning} \\
 \midrule
 \cmd{df[df["x"] > a]} & Keep rows where column \cmd{x} exceeds \cmd{a}. \\
-\cmd{(cond1) \& (cond2)} & Combine conditions with AND. \\
+\cmd{(cond1) & (cond2)} & Combine conditions with AND. \\
 \cmd{(cond1) | (cond2)} & Combine conditions with OR. \\
-\cmd{\textasciitilde cond} & Negate a condition. \\
-\cmd{df.sort\_values("x")} & Sort rows by one column. \\
+\cmd{~cond} & Negate a condition. \\
+\cmd{df.sort_values("x")} & Sort rows by one column. \\
 \cmd{ascending=False} & Sort in descending order. \\
 \bottomrule
 \end{tabular}
@@ -576,12 +811,12 @@ Sort customers by revenue descending and then by order frequency descending.
 \quiztitle{Question 1.} Which expression filters rows with \cmd{GPA >= 3.5}?
 \begin{itemize}
   \item A. \cmd{df[df["GPA"] >= 3.5]}
-  \item B. \cmd{df.sort\_values("GPA")}
-  \item C. \cmd{df.read\_csv("GPA")}
+  \item B. \cmd{df.sort_values("GPA")}
+  \item C. \cmd{df.read_csv("GPA")}
   \item D. \cmd{df.merge("GPA")}
 \end{itemize}
 \vspace{0.5em}
-\quiztitle{Question 2.} Why do we use parentheses around multiple filter conditions?
+\quiztitle{Question 2.} Why should parentheses be used when combining multiple filter conditions?
 \end{frame}
 
 \section{Data Input and Output}
@@ -654,7 +889,7 @@ df.to_json(
 )
 \end{lstlisting}
 \column{0.48\linewidth}
-\textbf{Delimited text}
+\textbf{Delimited text file}
 \begin{lstlisting}[style=py]
 df = pd.read_csv(
     "data.txt",
@@ -663,7 +898,7 @@ df = pd.read_csv(
 \end{lstlisting}
 \end{columns}
 \begin{block}{Idea}
-Many structured text files can be read using \cmd{read\_csv()} by changing the separator.
+Many structured text files can be read using \cmd{read_csv()} by changing the separator.
 \end{block}
 \end{frame}
 
@@ -673,12 +908,12 @@ Many structured text files can be read using \cmd{read\_csv()} by changing the s
 \toprule
 \textbf{Command} & \textbf{Role} \\
 \midrule
-\cmd{pd.read\_csv()} & Read CSV or delimited text files. \\
-\cmd{df.to\_csv()} & Write CSV files. \\
-\cmd{pd.read\_excel()} & Read Excel files. \\
-\cmd{df.to\_excel()} & Write Excel files. \\
-\cmd{pd.read\_json()} & Read JSON files. \\
-\cmd{df.to\_json()} & Write JSON files. \\
+\cmd{pd.read_csv()} & Read CSV or delimited text files. \\
+\cmd{df.to_csv()} & Write data to a CSV file. \\
+\cmd{pd.read_excel()} & Read Excel files. \\
+\cmd{df.to_excel()} & Write data to an Excel file. \\
+\cmd{pd.read_json()} & Read JSON files. \\
+\cmd{df.to_json()} & Write data to a JSON file. \\
 \bottomrule
 \end{tabular}
 \end{frame}
@@ -688,10 +923,10 @@ Many structured text files can be read using \cmd{read\_csv()} by changing the s
 \quiztitle{Question 1.} Which function reads a CSV file?
 \begin{multicols}{2}
 \begin{itemize}
-  \item A. \cmd{pd.read\_csv()}
-  \item B. \cmd{pd.open\_csv()}
-  \item C. \cmd{pd.load\_table\_only()}
-  \item D. \cmd{df.csv\_read()}
+  \item A. \cmd{pd.read_csv()}
+  \item B. \cmd{pd.open_csv()}
+  \item C. \cmd{pd.load_table_only()}
+  \item D. \cmd{df.csv_read()}
 \end{itemize}
 \end{multicols}
 \vspace{0.6em}
@@ -701,7 +936,7 @@ Many structured text files can be read using \cmd{read\_csv()} by changing the s
   \item A. \cmd{index=False}
   \item B. \cmd{index=True}
   \item C. \cmd{header=None}
-  \item D. \cmd{drop\_index=True}
+  \item D. \cmd{drop_index=True}
 \end{itemize}
 \end{multicols}
 \end{frame}
@@ -716,12 +951,38 @@ Real-world datasets may contain:
   \item duplicate rows;
   \item inconsistent data types;
   \item empty or irrelevant columns;
-  \item inconsistent text, spaces, and capitalization;
-  \item mixed numeric and text formats.
+  \item inconsistent text, extra spaces, or inconsistent capitalization;
+  \item numeric data mixed with text.
 \end{itemize}
 \begin{block}{Goal}
 Data cleaning improves accuracy, consistency, and usability before analysis or modeling.
 \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Example of Messy Data and Inspection Output}
+\small
+\begin{lstlisting}[style=py]
+df = pd.DataFrame({
+    "Name": [" An ", "Binh", "Chi", "Chi"],
+    "Age": [20, None, 22, 22],
+    "Price": ["10", "20", "unknown", "30"]
+})
+
+print(df)
+print(df.isna().sum())
+\end{lstlisting}
+\begin{lstlisting}[style=py]
+   Name   Age    Price
+0    An   20.0       10
+1  Binh    NaN       20
+2   Chi   22.0  unknown
+3   Chi   22.0       30
+
+Name     0
+Age      1
+Price    0
+dtype: int64
+\end{lstlisting}
 \end{frame}
 
 \begin{frame}[fragile]{Detect Missing Values}
@@ -734,7 +995,7 @@ missing_by_column = df.isna().sum()
 total_missing = df.isna().sum().sum()
 \end{lstlisting}
 \begin{block}{Interpretation}
-\cmd{isna()} identifies missing entries; \cmd{sum()} counts them by column or across the full DataFrame.
+\cmd{isna()} identifies missing cells; \cmd{sum()} counts missing values by column or across the whole DataFrame.
 \end{block}
 \end{frame}
 
@@ -758,7 +1019,7 @@ df["City"] = df["City"].fillna("Unknown")
 \end{lstlisting}
 \end{columns}
 \begin{alertblock}{Decision question}
-Should missing observations be removed, imputed, or explicitly labeled? The answer depends on the analysis goal.
+Should missing values be removed, imputed, or explicitly labeled? The answer depends on the analysis goal.
 \end{alertblock}
 \end{frame}
 
@@ -766,7 +1027,7 @@ Should missing observations be removed, imputed, or explicitly labeled? The answ
 \small
 \begin{columns}[T]
 \column{0.48\linewidth}
-\textbf{Duplicates}
+\textbf{Duplicate rows}
 \begin{lstlisting}[style=py]
 duplicate_mask = df.duplicated()
 duplicate_count = duplicate_mask.sum()
@@ -800,7 +1061,27 @@ df["City"] = df["City"].str.replace(
 )
 \end{lstlisting}
 \begin{block}{Common issue}
-\cmd{" An "}, \cmd{"AN"}, and \cmd{"an"} may refer to the same name but are different strings unless cleaned.
+\cmd{" An "}, \cmd{"AN"}, and \cmd{"an"} may refer to the same name, but they are different strings unless cleaned.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Code Output: Data Cleaning}
+\small
+\begin{lstlisting}[style=py]
+df["Age"] = df["Age"].fillna(df["Age"].mean())
+df["Name"] = df["Name"].str.strip().str.lower()
+df["Price"] = pd.to_numeric(df["Price"], errors="coerce")
+print(df)
+\end{lstlisting}
+\begin{lstlisting}[style=py]
+   Name    Age  Price
+0    an  20.00   10.0
+1  binh  21.33   20.0
+2   chi  22.00    NaN
+3   chi  22.00   30.0
+\end{lstlisting}
+\begin{block}{Reading the output}
+\cmd{unknown} is converted to \cmd{NaN}; names are stripped and converted to lowercase.
 \end{block}
 \end{frame}
 
@@ -812,12 +1093,12 @@ df["City"] = df["City"].str.replace(
 \midrule
 \cmd{df.isna()} & Detect missing values. \\
 \cmd{df.isna().sum()} & Count missing values. \\
-\cmd{df.dropna()} & Remove missing observations. \\
+\cmd{df.dropna()} & Remove observations with missing data. \\
 \cmd{df.fillna(value)} & Replace missing values. \\
 \cmd{df.duplicated()} & Detect duplicate rows. \\
-\cmd{df.drop\_duplicates()} & Remove duplicate rows. \\
+\cmd{df.drop_duplicates()} & Remove duplicate rows. \\
 \cmd{df.astype(type)} & Convert data type. \\
-\cmd{pd.to\_numeric()} & Convert values to numeric form. \\
+\cmd{pd.to_numeric()} & Convert values to numeric form. \\
 \cmd{Series.str.*} & Apply string-processing methods. \\
 \bottomrule
 \end{tabular}
@@ -838,9 +1119,9 @@ df["City"] = df["City"].str.replace(
 \quiztitle{Question 2.} Which method removes duplicate rows?
 \begin{multicols}{2}
 \begin{itemize}
-  \item A. \cmd{drop\_duplicates()}
+  \item A. \cmd{drop_duplicates()}
   \item B. \cmd{dropna()}
-  \item C. \cmd{sort\_values()}
+  \item C. \cmd{sort_values()}
   \item D. \cmd{merge()}
 \end{itemize}
 \end{multicols}
@@ -848,16 +1129,55 @@ df["City"] = df["City"].str.replace(
 
 \section{Operations and Aggregation}
 
+\begin{frame}[fragile]{Example Data for Operations and Aggregation}
+\small
+\begin{lstlisting}[style=py]
+df = pd.DataFrame({
+    "Region": ["North", "North", "South", "South", "East"],
+    "Product": ["A", "B", "A", "B", "A"],
+    "Quantity": [2, 3, 5, 2, 1],
+    "Price": [10, 20, 8, 30, 12]
+})
+print(df)
+\end{lstlisting}
+\begin{lstlisting}[style=py]
+  Region Product  Quantity  Price
+0  North       A         2     10
+1  North       B         3     20
+2  South       A         5      8
+3  South       B         2     30
+4   East       A         1     12
+\end{lstlisting}
+\end{frame}
+
 \begin{frame}[fragile]{Creating Calculated Columns}
 \small
 \begin{lstlisting}[style=py]
 df["Revenue"] = df["Quantity"] * df["Price"]
 
 total_revenue = df["Revenue"].sum()
+print(df)
 print(total_revenue)
 \end{lstlisting}
 \begin{block}{Business example}
 Revenue, profit margin, discount rate, customer lifetime value, and delivery delay can often be created from existing columns.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Code Output: Calculated Column}
+\small
+\begin{lstlisting}[style=py]
+  Region Product  Quantity  Price  Revenue
+0  North       A         2     10       20
+1  North       B         3     20       60
+2  South       A         5      8       40
+3  South       B         2     30       60
+4   East       A         1     12       12
+
+192
+\end{lstlisting}
+\begin{block}{Reading the output}
+The total revenue is the sum of all row-level revenue values: 20 + 60 + 40 + 60 + 12 = 192.
 \end{block}
 \end{frame}
 
@@ -880,11 +1200,11 @@ df["Squared"] = df["Value"].apply(
 \end{lstlisting}
 \end{columns}
 \begin{alertblock}{Good practice}
-Prefer vectorized column operations when possible; use \cmd{apply()} when a custom row or element logic is needed.
+Prefer vectorized column operations when possible; use \cmd{apply()} when custom logic is needed.
 \end{alertblock}
 \end{frame}
 
-\begin{frame}[fragile]{Normalization and Standardization}
+\begin{frame}[fragile]{Normalization and Z-score Standardization}
 \small
 \begin{lstlisting}[style=py]
 # Min-max normalization
@@ -909,11 +1229,11 @@ Normalization rescales values to a fixed range; standardization expresses values
 \begin{lstlisting}[style=py]
 print(df.describe())
 
-print(df["Sales"].mean())
-print(df["Sales"].median())
-print(df["Sales"].min())
-print(df["Sales"].max())
-print(df["Sales"].std())
+print(df["Revenue"].mean())
+print(df["Revenue"].median())
+print(df["Revenue"].min())
+print(df["Revenue"].max())
+print(df["Revenue"].std())
 \end{lstlisting}
 \begin{block}{Analytical role}
 Descriptive statistics help detect scale, central tendency, variation, and possible outliers.
@@ -923,11 +1243,11 @@ Descriptive statistics help detect scale, central tendency, variation, and possi
 \begin{frame}[fragile]{Grouping with \cmd{groupby()}}
 \small
 \begin{lstlisting}[style=py]
-region_total = df.groupby("Region")["Sales"].sum()
+region_total = df.groupby("Region")["Revenue"].sum()
 print(region_total)
 
 region_stats = (
-    df.groupby("Region")["Sales"]
+    df.groupby("Region")["Revenue"]
       .agg(["count", "sum", "mean", "min", "max"])
 )
 print(region_stats)
@@ -937,11 +1257,31 @@ Pandas splits rows into groups, applies aggregation to each group, and combines 
 \end{block}
 \end{frame}
 
+\begin{frame}[fragile]{Code Output: groupby and agg}
+\small
+\begin{lstlisting}[style=py]
+Region
+East      12
+North     80
+South    100
+Name: Revenue, dtype: int64
+
+        count  sum  mean  min  max
+Region                              
+East        1   12  12.0   12   12
+North       2   80  40.0   20   60
+South       2  100  50.0   40   60
+\end{lstlisting}
+\begin{block}{Reading the output}
+South has the highest total revenue. The second table gives several summary statistics per region.
+\end{block}
+\end{frame}
+
 \begin{frame}[fragile]{Group by Multiple Columns}
 \small
 \begin{lstlisting}[style=py]
 summary = (
-    df.groupby(["Region", "Product"])["Sales"]
+    df.groupby(["Region", "Product"])["Revenue"]
       .sum()
 )
 print(summary)
@@ -976,7 +1316,7 @@ This can answer questions such as: Which product contributes the most revenue in
   \item A. \cmd{groupby()}
   \item B. \cmd{dropna()}
   \item C. \cmd{astype()}
-  \item D. \cmd{sort\_index()}
+  \item D. \cmd{sort_index()}
 \end{itemize}
 \end{multicols}
 \vspace{0.6em}
@@ -985,7 +1325,7 @@ This can answer questions such as: Which product contributes the most revenue in
 
 \section{Combining and Reshaping Data}
 
-\begin{frame}[fragile]{Concatenating DataFrames}
+\begin{frame}[fragile]{Concatenating DataFrames with concat}
 \small
 \begin{lstlisting}[style=py]
 combined = pd.concat(
@@ -1002,7 +1342,26 @@ Concatenate January sales and February sales when both tables have the same colu
 \end{block}
 \end{frame}
 
-\begin{frame}[fragile]{Merging DataFrames}
+\begin{frame}[fragile]{Example Data for merge}
+\small
+\begin{lstlisting}[style=py]
+customers = pd.DataFrame({
+    "CustomerID": ["C01", "C02", "C03"],
+    "Name": ["An", "Binh", "Chi"]
+})
+
+orders = pd.DataFrame({
+    "OrderID": ["O01", "O02", "O03"],
+    "CustomerID": ["C01", "C02", "C02"],
+    "Amount": [100, 250, 300]
+})
+\end{lstlisting}
+\begin{block}{Idea}
+\cmd{CustomerID} is the common key used to combine the two tables.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Merging Tables with merge}
 \small
 \begin{lstlisting}[style=py]
 result = pd.merge(
@@ -1011,6 +1370,7 @@ result = pd.merge(
     on="CustomerID",
     how="inner"
 )
+print(result)
 \end{lstlisting}
 \begin{itemize}
   \item \cmd{inner}: keep matching records only.
@@ -1020,12 +1380,25 @@ result = pd.merge(
 \end{itemize}
 \end{frame}
 
+\begin{frame}[fragile]{Code Output: merge}
+\small
+\begin{lstlisting}[style=py]
+  CustomerID  Name OrderID  Amount
+0        C01    An     O01     100
+1        C02  Binh     O02     250
+2        C02  Binh     O03     300
+\end{lstlisting}
+\begin{block}{Reading the output}
+Customer C02 appears twice because C02 has two orders. Customer C03 is absent in an inner merge because there is no matching order.
+\end{block}
+\end{frame}
+
 \begin{frame}[fragile]{Pivot Tables}
 \small
 A pivot table summarizes numerical values across categories.
 \begin{lstlisting}[style=py]
 pivot = pd.pivot_table(
-    sales,
+    df,
     values="Revenue",
     index="Region",
     columns="Product",
@@ -1038,7 +1411,22 @@ Rows are regions, columns are products, and cells contain total revenue.
 \end{block}
 \end{frame}
 
-\begin{frame}[fragile]{Reshaping: Pivot and Melt}
+\begin{frame}[fragile]{Code Output: pivot table}
+\small
+For the example revenue data, a pivot table may look like this:
+\begin{lstlisting}[style=py]
+Product     A     B
+Region             
+East     12.0   NaN
+North    20.0  60.0
+South    40.0  60.0
+\end{lstlisting}
+\begin{block}{Reading the output}
+The cell at row \cmd{South}, column \cmd{B} equals 60, meaning total revenue of product B in South is 60.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Reshaping Data: pivot and melt}
 \small
 \begin{columns}[T]
 \column{0.48\linewidth}
@@ -1060,7 +1448,7 @@ long = pd.melt(
 \end{lstlisting}
 \end{columns}
 \begin{block}{Idea}
-Data shape should match the analytical task: visualization, aggregation, modeling, or reporting.
+The data shape should match the analytical task: visualization, aggregation, modeling, or reporting.
 \end{block}
 \end{frame}
 
@@ -1076,7 +1464,7 @@ Data shape should match the analytical task: visualization, aggregation, modelin
 \cmd{how="left"} & Keep all records from the left table. \\
 \cmd{df.pivot()} & Reshape long data to wide format. \\
 \cmd{pd.melt()} & Reshape wide data to long format. \\
-\cmd{pd.pivot\_table()} & Create a summarized table. \\
+\cmd{pd.pivot_table()} & Create a summarized table. \\
 \bottomrule
 \end{tabular}
 \end{frame}
@@ -1089,7 +1477,7 @@ Data shape should match the analytical task: visualization, aggregation, modelin
   \item A. \cmd{pd.merge()}
   \item B. \cmd{pd.mean()}
   \item C. \cmd{pd.reshape()}
-  \item D. \cmd{pd.filter\_rows()}
+  \item D. \cmd{pd.filter_rows()}
 \end{itemize}
 \end{multicols}
 \vspace{0.6em}
@@ -1111,6 +1499,22 @@ print(
 \begin{alertblock}{Important}
 Correlation does not by itself imply causation.
 \end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{Code Output: Correlation and Time Series}
+\small
+\begin{lstlisting}[style=py]
+print(df[["Revenue", "Quantity", "Price"]].corr())
+\end{lstlisting}
+\begin{lstlisting}[style=py]
+           Revenue  Quantity     Price
+Revenue   1.000000  0.620174  0.594089
+Quantity  0.620174  1.000000 -0.272772
+Price     0.594089 -0.272772  1.000000
+\end{lstlisting}
+\begin{block}{Reading the output}
+The correlation matrix is symmetric. Values closer to 1 indicate a stronger positive linear relationship; however, correlation does not prove causation.
+\end{block}
 \end{frame}
 
 \begin{frame}[fragile]{Quick Visualization with Pandas}
@@ -1143,11 +1547,11 @@ weekly = df["Sales"].resample("W").sum()
 monthly = df["Sales"].resample("ME").sum()
 \end{lstlisting}
 \begin{block}{Time-series idea}
-After converting dates and setting the index, Pandas can aggregate by calendar periods.
+After converting the date column and setting it as the index, Pandas can aggregate data by calendar periods.
 \end{block}
 \end{frame}
 
-\begin{frame}[fragile]{Datetime Components and Rolling Statistics}
+\begin{frame}[fragile]{Datetime Components and Moving Average}
 \small
 \begin{columns}[T]
 \column{0.48\linewidth}
@@ -1176,10 +1580,10 @@ df["MovingAvg"] = (
 \textbf{Command} & \textbf{Meaning} \\
 \midrule
 \cmd{df.corr()} & Calculate correlation matrix. \\
-\cmd{Series.corr()} & Correlation between two Series. \\
+\cmd{Series.corr()} & Calculate correlation between two Series. \\
 \cmd{df.plot()} & Create quick visualizations. \\
-\cmd{pd.to\_datetime()} & Convert values to datetime. \\
-\cmd{df.set\_index()} & Set a column as the index. \\
+\cmd{pd.to_datetime()} & Convert values to datetime. \\
+\cmd{df.set_index()} & Set a column as the index. \\
 \cmd{df.resample()} & Aggregate time-series data by time intervals. \\
 \cmd{Series.rolling()} & Calculate rolling-window statistics. \\
 \bottomrule
@@ -1191,10 +1595,10 @@ df["MovingAvg"] = (
 \quiztitle{Question 1.} Which function converts a column to datetime?
 \begin{multicols}{2}
 \begin{itemize}
-  \item A. \cmd{pd.to\_datetime()}
-  \item B. \cmd{pd.date\_convert\_only()}
+  \item A. \cmd{pd.to_datetime()}
+  \item B. \cmd{pd.date_convert_only()}
   \item C. \cmd{df.datetime()}
-  \item D. \cmd{pd.time\_series()}
+  \item D. \cmd{pd.time_series()}
 \end{itemize}
 \end{multicols}
 \vspace{0.5em}
@@ -1234,9 +1638,9 @@ Filtering & Use Boolean conditions to keep relevant rows. \\
 \textbf{Topic} & \textbf{Main idea} \\
 \midrule
 Data I/O & Read and write CSV, Excel, JSON, and text files. \\
-Cleaning & Handle missing values, duplicates, types, and strings. \\
-Operations & Create calculated columns and apply transformations. \\
-Aggregation & Use \cmd{groupby()} and \cmd{agg()} for summaries. \\
+Cleaning & Handle missing values, duplicates, data types, and strings. \\
+Operations & Create calculated columns and transform data. \\
+Aggregation & Use \cmd{groupby()} and \cmd{agg()} for summary reports. \\
 Combination & Use \cmd{concat()} and \cmd{merge()} for multiple tables. \\
 Advanced & Correlation, visualization, and time-series operations. \\
 \bottomrule
@@ -1272,7 +1676,7 @@ Add missing values to the student dataset. Then:
 \end{enumerate}
 \end{block}
 \begin{block}{Exercise 3}
-Create a messy dataset containing spaces in names, duplicates, and mixed numeric/text values. Clean it using \cmd{str.strip()}, \cmd{drop\_duplicates()}, and \cmd{pd.to\_numeric()}.
+Create a messy dataset containing spaces in names, duplicate rows, and mixed numeric/text values. Clean it using \cmd{str.strip()}, \cmd{drop_duplicates()}, and \cmd{pd.to_numeric()}.
 \end{block}
 \end{frame}
 
@@ -1309,10 +1713,10 @@ Create daily sales data for at least 30 days. Convert \cmd{Date} to datetime, se
 \small
 \begin{itemize}
   \item What is the difference between a Series and a DataFrame?
-  \item When should we use \cmd{loc} and when should we use \cmd{iloc}?
+  \item When should we use \cmd{loc}, and when should we use \cmd{iloc}?
   \item Why should we inspect \cmd{shape}, \cmd{dtypes}, and missing values early?
   \item What is the difference between \cmd{concat()} and \cmd{merge()}?
-  \item Why does \cmd{groupby()} matter in business analytics?
+  \item Why is \cmd{groupby()} important in business analytics?
   \item Why does correlation not automatically prove causation?
 \end{itemize}
 \end{frame}
