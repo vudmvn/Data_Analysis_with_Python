@@ -1,0 +1,1340 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+
+\usetheme{AnnArbor}
+\usepackage{fontspec}
+\usepackage{amsmath,amssymb,booktabs,array,multicol}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{ragged2e}
+
+\setmainfont{DejaVu Serif}
+\setsansfont{DejaVu Sans}
+\setmonofont{Noto Sans Mono}
+
+\definecolor{CodeBg}{RGB}{248,248,248}
+\definecolor{TitleBlue}{RGB}{38,79,129}
+\definecolor{AccentGreen}{RGB}{35,125,93}
+\definecolor{SoftGray}{RGB}{80,80,80}
+\definecolor{QuizOrange}{RGB}{180,95,30}
+
+\setbeamercolor{title}{fg=TitleBlue}
+\setbeamercolor{frametitle}{fg=TitleBlue}
+\setbeamercolor{structure}{fg=AccentGreen}
+\setbeamercolor{block title}{fg=white,bg=TitleBlue}
+\setbeamercolor{block body}{bg=blue!3}
+\setbeamercolor{alertblock title}{fg=white,bg=QuizOrange}
+\setbeamercolor{alertblock body}{bg=orange!6}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+\setbeamertemplate{itemize item}{\raise0.15ex\hbox{\tiny$\blacktriangleright$}}
+\setbeamertemplate{itemize subitem}{\raise0.15ex\hbox{\tiny$\bullet$}}
+
+\lstdefinestyle{py}{
+  language=Python,
+  basicstyle=\ttfamily\scriptsize,
+  backgroundcolor=\color{CodeBg},
+  frame=single,
+  framerule=0.2pt,
+  rulecolor=\color{gray!35},
+  breaklines=true,
+  showstringspaces=false,
+  keywordstyle=\color{TitleBlue}\bfseries,
+  commentstyle=\color{SoftGray}\itshape,
+  stringstyle=\color{AccentGreen},
+  upquote=true
+}
+
+\newcommand{\key}[1]{\textbf{\textcolor{AccentGreen}{#1}}}
+\newcommand{\smallnote}[1]{\vspace{0.25em}{\footnotesize\color{SoftGray}#1}}
+\newcommand{\quiztitle}[1]{\textbf{\textcolor{QuizOrange}{#1}}}
+\newcommand{\cmd}[1]{\texttt{\detokenize{#1}}}
+
+\title[Giới thiệu Pandas]{Giới thiệu Pandas}
+\subtitle{DataFrame, Series, làm sạch dữ liệu, gom nhóm và phân tích dữ liệu kinh doanh}
+\author{Duc-Minh Vu}
+\institute{SLSCM Lab -- FDA -- NEU}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Lộ trình bài học}
+\begin{columns}[T]
+\column{0.48\linewidth}
+\begin{enumerate}
+  \item Pandas là gì?
+  \item Vì sao Pandas hữu ích?
+  \item Cài đặt và import thư viện
+  \item Series và DataFrame
+  \item Tạo và kiểm tra dữ liệu
+  \item Chọn dòng và cột
+  \item Lọc và sắp xếp dữ liệu
+\end{enumerate}
+\column{0.48\linewidth}
+\begin{enumerate}
+  \setcounter{enumi}{7}
+  \item Đọc và ghi tệp dữ liệu
+  \item Làm sạch dữ liệu
+  \item Thao tác trên cột
+  \item Gom nhóm và tổng hợp
+  \item Merge, concat và pivot table
+  \item Tương quan, trực quan hóa, chuỗi thời gian
+  \item Bài tập thực hành
+\end{enumerate}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Mục tiêu học tập}
+\small
+Sau khi hoàn thành bài học, người học có thể:
+\begin{itemize}
+  \item Giải thích vai trò của Pandas trong khoa học dữ liệu và phân tích kinh doanh.
+  \item Phân biệt \cmd{Series} và \cmd{DataFrame}.
+  \item Tạo, kiểm tra, chọn, lọc và sắp xếp dữ liệu dạng bảng.
+  \item Đọc và ghi dữ liệu CSV, Excel, JSON và tệp văn bản.
+  \item Phát hiện và xử lý giá trị thiếu, dòng trùng lặp và kiểu dữ liệu không nhất quán.
+  \item Biến đổi cột và áp dụng các hàm đơn giản.
+  \item Sử dụng \cmd{groupby()}, \cmd{agg()}, \cmd{merge()}, \cmd{concat()} và pivot table.
+  \item Tính thống kê mô tả, tương quan và một số tổng hợp chuỗi thời gian đơn giản.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Yêu cầu nền tảng và thiết lập môi trường}
+\begin{block}{Kiến thức nên có}
+\begin{itemize}
+  \item Python cơ bản: biến, list, dictionary, vòng lặp và hàm.
+  \item Kiến thức NumPy cơ bản là một lợi thế.
+  \item Môi trường làm việc: Jupyter Notebook, JupyterLab, Google Colab, VS Code hoặc công cụ tương tự.
+\end{itemize}
+\end{block}
+\begin{block}{Cài đặt và import}
+\begin{lstlisting}[style=py]
+pip install pandas
+\end{lstlisting}
+\begin{lstlisting}[style=py]
+import pandas as pd
+print(pd.__version__)
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}{Cách đọc lệnh Pandas}
+\small
+Phần lớn lệnh Pandas có một trong hai dạng sau:
+\[
+\cmd{pd.function(input, option=value)} \quad \text{hoặc} \quad \cmd{df.method(option=value)}
+\]
+\begin{itemize}
+  \item \cmd{pd}: bí danh chuẩn của thư viện Pandas.
+  \item \cmd{df}: biến thường dùng để lưu một DataFrame.
+  \item \cmd{function}: hàm cấp thư viện, ví dụ \cmd{pd.read_csv()}.
+  \item \cmd{method}: thao tác gắn với một DataFrame hoặc Series.
+  \item \cmd{option=value}: tham số đặt tên dùng để điều khiển hành vi của lệnh.
+\end{itemize}
+\begin{block}{Ví dụ}
+\cmd{pd.read_csv("sales.csv")} đọc tệp CSV và đưa dữ liệu vào một DataFrame.
+\end{block}
+\end{frame}
+
+\begin{frame}{Mẫu lệnh: đối tượng, thuộc tính, phương thức, hàm}
+\small
+\begin{tabular}{p{0.27\linewidth}p{0.62\linewidth}}
+\toprule
+\textbf{Dạng lệnh} & \textbf{Ý nghĩa} \\
+\midrule
+\cmd{pd.DataFrame(data)} & Gọi hàm Pandas để tạo một bảng dữ liệu. \\
+\cmd{df.shape} & Đọc thuộc tính mô tả số dòng và số cột. \\
+\cmd{df.head()} & Gọi phương thức gắn với DataFrame hiện có. \\
+\cmd{pd.merge(left,right)} & Gọi hàm Pandas để kết hợp hai bảng dữ liệu. \\
+\cmd{df["Sales"].mean()} & Chọn một cột rồi gọi phương thức của Series. \\
+\bottomrule
+\end{tabular}
+\vspace{0.5em}
+\begin{alertblock}{Ghi chú giảng dạy}
+Với mỗi lệnh, sinh viên nên xác định ba thành phần: đầu vào, thao tác và đầu ra.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{Ví dụ nhỏ: giải thích từng dòng}
+\small
+\begin{lstlisting}[style=py]
+import pandas as pd
+
+sales = pd.DataFrame({
+    "Product": ["A", "B", "C"],
+    "Quantity": [2, 3, 5],
+    "Price": [10, 20, 8]
+})
+
+sales["Revenue"] = sales["Quantity"] * sales["Price"]
+print(sales)
+\end{lstlisting}
+\begin{itemize}
+  \item \cmd{pd.DataFrame(...)} tạo một tập dữ liệu dạng bảng.
+  \item Mỗi khóa trong dictionary trở thành tên cột.
+  \item \cmd{sales["Revenue"] = ...} tạo một cột tính toán mới.
+  \item Phép nhân được thực hiện theo từng dòng trên hai cột đã chọn.
+\end{itemize}
+\end{frame}
+
+\section{Pandas là gì?}
+
+\begin{frame}{Pandas là gì?}
+\small
+\key{Pandas} là một thư viện Python mã nguồn mở dùng cho \key{xử lý và phân tích dữ liệu}.
+Thư viện này được xây dựng trên NumPy và cung cấp các công cụ cấp cao để làm việc với dữ liệu có cấu trúc và dữ liệu dạng bảng.
+\vspace{0.4em}
+
+Pandas đặc biệt hữu ích cho:
+\begin{itemize}
+  \item đọc dữ liệu từ CSV, Excel, JSON và tệp văn bản;
+  \item làm sạch, biến đổi và chuẩn bị dữ liệu;
+  \item chọn, lọc, gom nhóm và tổng hợp các quan sát;
+  \item kết hợp nhiều tập dữ liệu;
+  \item tính thống kê mô tả và trực quan hóa nhanh.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Hai cấu trúc dữ liệu cốt lõi}
+\small
+\begin{columns}[T]
+\column{0.48\linewidth}
+\begin{block}{Series}
+\key{Series} là một mảng một chiều có nhãn.
+\begin{itemize}
+  \item Tương tự một cột dữ liệu.
+  \item Có giá trị và nhãn chỉ số.
+\end{itemize}
+\end{block}
+\column{0.48\linewidth}
+\begin{block}{DataFrame}
+\key{DataFrame} là một bảng dữ liệu hai chiều có nhãn.
+\begin{itemize}
+  \item Tương tự một trang tính Excel hoặc bảng trong cơ sở dữ liệu.
+  \item Có dòng, cột và nhãn.
+\end{itemize}
+\end{block}
+\end{columns}
+\vspace{0.5em}
+\begin{alertblock}{Ý chính}
+Hầu hết dữ liệu kinh doanh có thể được biểu diễn tự nhiên bằng DataFrame.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{Vì sao cần học Pandas?}
+\small
+Pandas là cầu nối thực hành giữa dữ liệu thô và các mô hình khoa học dữ liệu.
+\begin{itemize}
+  \item Dữ liệu thực tế thường lộn xộn, thiếu giá trị và nằm ở nhiều định dạng khác nhau.
+  \item Pandas giúp tổ chức bản ghi thành dòng và thuộc tính thành cột.
+  \item Pandas hỗ trợ kiểm tra, làm sạch, biến đổi, tổng hợp và báo cáo dữ liệu.
+  \item Pandas làm việc tốt với NumPy, Matplotlib, Scikit-learn và Statsmodels.
+\end{itemize}
+\begin{block}{Quy trình phân tích kinh doanh}
+Dữ liệu thô $\rightarrow$ bảng dữ liệu sạch $\rightarrow$ insight tổng hợp $\rightarrow$ dữ liệu sẵn sàng cho mô hình.
+\end{block}
+\end{frame}
+
+\begin{frame}{Quick Check: Pandas là gì?}
+\small
+\quiztitle{Câu 1.} Bí danh chuẩn thường dùng cho Pandas là gì?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \cmd{pn}
+  \item B. \cmd{pd}
+  \item C. \cmd{ps}
+  \item D. \cmd{pa}
+\end{itemize}
+\end{multicols}
+\vspace{0.6em}
+\quiztitle{Câu 2.} Cấu trúc dữ liệu nào của Pandas là hai chiều?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \cmd{Series}
+  \item B. \cmd{tuple}
+  \item C. \cmd{DataFrame}
+  \item D. \cmd{ndarray}
+\end{itemize}
+\end{multicols}
+\end{frame}
+
+\section{Cơ bản về DataFrame}
+
+\begin{frame}[fragile]{Tạo một DataFrame}
+\small
+\begin{lstlisting}[style=py]
+import pandas as pd
+
+data = {
+    "Name": ["An", "Binh", "Chi"],
+    "Age": [20, 21, 19],
+    "GPA": [3.2, 3.6, 3.4]
+}
+
+df = pd.DataFrame(data)
+print(df)
+\end{lstlisting}
+\begin{block}{Diễn giải}
+Mỗi khóa trong dictionary trở thành một cột. Mỗi list cung cấp các giá trị cho cột đó.
+\end{block}
+\end{frame}
+
+\begin{frame}{Cấu trúc của DataFrame}
+\small
+\begin{tabular}{p{0.24\linewidth}p{0.64\linewidth}}
+\toprule
+\textbf{Thành phần} & \textbf{Ý nghĩa} \\
+\midrule
+Dòng & Bản ghi, quan sát, sinh viên, khách hàng, sản phẩm, đơn hàng. \\
+Cột & Biến, thuộc tính, trường dữ liệu, đặc trưng. \\
+Index & Nhãn dòng dùng để định danh và chọn dữ liệu. \\
+Nhãn cột & Tên dùng để truy cập các biến. \\
+Giá trị & Dữ liệu thực tế nằm bên trong bảng. \\
+\bottomrule
+\end{tabular}
+\begin{block}{Ví dụ}
+Một bảng sinh viên có thể gồm các cột \cmd{StudentID}, \cmd{Name}, \cmd{Age}, \cmd{Major} và \cmd{GPA}.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Kiểm tra nhanh DataFrame}
+\small
+\begin{lstlisting}[style=py]
+print(df.head())
+print(df.tail())
+print(df.shape)
+print(df.columns)
+print(df.index)
+print(df.dtypes)
+df.info()
+print(df.describe())
+\end{lstlisting}
+\begin{block}{Mục đích}
+Bước kiểm tra giúp trả lời các câu hỏi: có bao nhiêu dòng? có những cột nào? kiểu dữ liệu là gì? có giá trị thiếu không?
+\end{block}
+\end{frame}
+
+\begin{frame}{Các lệnh chính: kiểm tra DataFrame}
+\small
+\begin{tabular}{p{0.28\linewidth}p{0.61\linewidth}}
+\toprule
+\textbf{Lệnh} & \textbf{Ý nghĩa} \\
+\midrule
+\cmd{df.head()} & Hiển thị các dòng đầu tiên. \\
+\cmd{df.tail()} & Hiển thị các dòng cuối cùng. \\
+\cmd{df.shape} & Trả về số dòng và số cột. \\
+\cmd{df.columns} & Trả về nhãn cột. \\
+\cmd{df.index} & Trả về nhãn dòng. \\
+\cmd{df.dtypes} & Trả về kiểu dữ liệu của từng cột. \\
+\cmd{df.info()} & Tóm tắt cấu trúc DataFrame. \\
+\cmd{df.describe()} & Thống kê mô tả cho các cột số. \\
+\bottomrule
+\end{tabular}
+\end{frame}
+
+\begin{frame}[fragile]{Mini Exercise: tạo và kiểm tra dữ liệu}
+\small
+Tạo một DataFrame tên là \cmd{products} với các cột \cmd{Product}, \cmd{Price} và \cmd{Stock}.
+\begin{lstlisting}[style=py]
+products = pd.DataFrame({
+    "Product": ["Laptop", "Mouse", "Keyboard"],
+    "Price": [1200, 25, 45],
+    "Stock": [5, 50, 30]
+})
+
+print(products.head())
+print(products.shape)
+print(products.dtypes)
+\end{lstlisting}
+\begin{alertblock}{Kiểm tra}
+Tất cả các cột phải có cùng số lượng giá trị.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{Quick Check: cơ bản về DataFrame}
+\small
+\quiztitle{Câu 1.} Lệnh nào tạo một DataFrame?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \cmd{pd.DataFrame()}
+  \item B. \cmd{pd.SeriesFrame()}
+  \item C. \cmd{np.DataFrame()}
+  \item D. \cmd{df.create()}
+\end{itemize}
+\end{multicols}
+\vspace{0.6em}
+\quiztitle{Câu 2.} Lệnh nào trả về số dòng và số cột?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \cmd{df.shape}
+  \item B. \cmd{df.mean()}
+  \item C. \cmd{df.merge()}
+  \item D. \cmd{df.plot()}
+\end{itemize}
+\end{multicols}
+\end{frame}
+
+\section{Series và lựa chọn dữ liệu}
+
+\begin{frame}[fragile]{Tạo Series}
+\small
+\key{Series} là một mảng một chiều có nhãn.
+\begin{lstlisting}[style=py]
+s = pd.Series([10, 20, 30], index=["A", "B", "C"])
+print(s)
+print(s.index)
+print(s.values)
+print(s.dtype)
+\end{lstlisting}
+\begin{block}{Diễn giải}
+Series giống như một cột có nhãn. Khi tính toán, Pandas căn chỉnh các Series theo nhãn index.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Căn chỉnh Series theo nhãn}
+\small
+\begin{lstlisting}[style=py]
+x = pd.Series([10, 20, 30], index=["A", "B", "C"])
+y = pd.Series([1, 2, 3], index=["B", "C", "D"])
+
+result = x + y
+print(result)
+\end{lstlisting}
+\begin{block}{Ý tưởng dự kiến}
+Chỉ các nhãn khớp nhau mới được cộng trực tiếp. Các nhãn không khớp sẽ tạo ra giá trị thiếu.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Chọn cột}
+\small
+\begin{columns}[T]
+\column{0.48\linewidth}
+\textbf{Một cột trả về Series}
+\begin{lstlisting}[style=py]
+name = df["Name"]
+print(name)
+\end{lstlisting}
+\column{0.48\linewidth}
+\textbf{Nhiều cột trả về DataFrame}
+\begin{lstlisting}[style=py]
+subset = df[["Name", "GPA"]]
+print(subset)
+\end{lstlisting}
+\end{columns}
+\begin{block}{Ghi chú cú pháp}
+Dùng một cặp ngoặc vuông để chọn một cột; dùng một list tên cột để chọn nhiều cột.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Chọn dòng bằng \cmd{loc} và \cmd{iloc}}
+\small
+\begin{columns}[T]
+\column{0.48\linewidth}
+\textbf{Chọn theo nhãn}
+\begin{lstlisting}[style=py]
+df = df.set_index("StudentID")
+print(df.loc["S01"])
+\end{lstlisting}
+\column{0.48\linewidth}
+\textbf{Chọn theo vị trí}
+\begin{lstlisting}[style=py]
+print(df.iloc[0])
+print(df.iloc[0:2])
+\end{lstlisting}
+\end{columns}
+\begin{alertblock}{Điểm khác biệt cốt lõi}
+\cmd{loc} dùng nhãn; \cmd{iloc} dùng vị trí số nguyên.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{Chọn đồng thời dòng và cột}
+\small
+\begin{lstlisting}[style=py]
+# chọn dòng và cột theo nhãn
+selected = df.loc[["S01", "S02"], ["Name", "GPA"]]
+print(selected)
+
+# chọn dòng và cột theo vị trí
+selected = df.iloc[0:2, [0, 2]]
+print(selected)
+\end{lstlisting}
+\begin{block}{Cách đọc cú pháp}
+Phần trước dấu phẩy chọn dòng; phần sau dấu phẩy chọn cột.
+\end{block}
+\end{frame}
+
+\begin{frame}{Các lệnh chính: Series và lựa chọn dữ liệu}
+\small
+\begin{tabular}{p{0.30\linewidth}p{0.59\linewidth}}
+\toprule
+\textbf{Lệnh} & \textbf{Ý nghĩa} \\
+\midrule
+\cmd{pd.Series(data)} & Tạo mảng một chiều có nhãn. \\
+\cmd{s.index} & Trả về nhãn của Series. \\
+\cmd{s.values} & Trả về các giá trị bên trong. \\
+\cmd{df["col"]} & Chọn một cột dưới dạng Series. \\
+\cmd{df[["c1","c2"]]} & Chọn nhiều cột dưới dạng DataFrame. \\
+\cmd{df.loc[label]} & Chọn theo nhãn dòng. \\
+\cmd{df.iloc[position]} & Chọn theo vị trí số nguyên. \\
+\bottomrule
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Quick Check: Series và lựa chọn}
+\small
+\quiztitle{Câu 1.} Pandas Series là:
+\begin{itemize}
+  \item A. một bảng hai chiều
+  \item B. một mảng một chiều có nhãn
+  \item C. một máy chủ cơ sở dữ liệu
+  \item D. một thư viện vẽ biểu đồ
+\end{itemize}
+\vspace{0.5em}
+\quiztitle{Câu 2.} Bộ chọn nào dựa trên nhãn?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \cmd{iloc}
+  \item B. \cmd{loc}
+  \item C. \cmd{shape}
+  \item D. \cmd{head}
+\end{itemize}
+\end{multicols}
+\end{frame}
+
+\section{Lọc và sắp xếp dữ liệu}
+
+\begin{frame}[fragile]{Lọc dữ liệu bằng điều kiện Boolean}
+\small
+Lọc các dòng thỏa mãn một điều kiện.
+\begin{lstlisting}[style=py]
+high_gpa = df[df["GPA"] >= 3.5]
+print(high_gpa)
+\end{lstlisting}
+\begin{block}{Diễn giải}
+\cmd{df["GPA"] >= 3.5} tạo một Series Boolean. Pandas giữ lại các dòng có giá trị \cmd{True}.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Lọc với nhiều điều kiện}
+\small
+\begin{lstlisting}[style=py]
+selected = df[
+    (df["Age"] >= 20) &
+    (df["GPA"] >= 3.5)
+]
+print(selected)
+\end{lstlisting}
+\begin{itemize}
+  \item Dùng \cmd{&} cho AND.
+  \item Dùng \cmd{|} cho OR.
+  \item Dùng \cmd{~} cho NOT.
+  \item Đặt từng điều kiện trong ngoặc tròn.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Sắp xếp DataFrame}
+\small
+\begin{lstlisting}[style=py]
+# sắp xếp theo một cột
+by_gpa = df.sort_values("GPA")
+
+# sắp xếp giảm dần
+by_gpa_desc = df.sort_values("GPA", ascending=False)
+
+# sắp xếp theo nhiều cột
+ordered = df.sort_values(
+    ["Age", "GPA"],
+    ascending=[True, False]
+)
+\end{lstlisting}
+\begin{block}{Ví dụ kinh doanh}
+Sắp xếp khách hàng theo doanh thu giảm dần, sau đó theo tần suất đặt hàng giảm dần.
+\end{block}
+\end{frame}
+
+\begin{frame}{Các lệnh chính: lọc và sắp xếp}
+\small
+\begin{tabular}{p{0.33\linewidth}p{0.56\linewidth}}
+\toprule
+\textbf{Lệnh} & \textbf{Ý nghĩa} \\
+\midrule
+\cmd{df[df["x"] > a]} & Giữ các dòng trong đó cột \cmd{x} lớn hơn \cmd{a}. \\
+\cmd{(cond1) & (cond2)} & Kết hợp điều kiện bằng AND. \\
+\cmd{(cond1) | (cond2)} & Kết hợp điều kiện bằng OR. \\
+\cmd{~cond} & Phủ định một điều kiện. \\
+\cmd{df.sort_values("x")} & Sắp xếp dòng theo một cột. \\
+\cmd{ascending=False} & Sắp xếp giảm dần. \\
+\bottomrule
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Quick Check: lọc và sắp xếp}
+\small
+\quiztitle{Câu 1.} Biểu thức nào lọc các dòng có \cmd{GPA >= 3.5}?
+\begin{itemize}
+  \item A. \cmd{df[df["GPA"] >= 3.5]}
+  \item B. \cmd{df.sort_values("GPA")}
+  \item C. \cmd{df.read_csv("GPA")}
+  \item D. \cmd{df.merge("GPA")}
+\end{itemize}
+\vspace{0.5em}
+\quiztitle{Câu 2.} Vì sao cần dùng ngoặc tròn khi kết hợp nhiều điều kiện lọc?
+\end{frame}
+
+\section{Nhập và xuất dữ liệu}
+
+\begin{frame}[fragile]{Đọc và ghi tệp CSV}
+\small
+\begin{columns}[T]
+\column{0.48\linewidth}
+\textbf{Đọc CSV}
+\begin{lstlisting}[style=py]
+df = pd.read_csv("data.csv")
+
+df = pd.read_csv(
+    "data.csv",
+    sep=",",
+    header=0,
+    encoding="utf-8"
+)
+\end{lstlisting}
+\column{0.48\linewidth}
+\textbf{Ghi CSV}
+\begin{lstlisting}[style=py]
+df.to_csv(
+    "output.csv",
+    index=False
+)
+\end{lstlisting}
+\end{columns}
+\begin{alertblock}{Quan trọng}
+\cmd{index=False} giúp tránh xuất index của DataFrame thành một cột thừa.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{Đọc và ghi tệp Excel}
+\small
+\begin{columns}[T]
+\column{0.48\linewidth}
+\textbf{Đọc Excel}
+\begin{lstlisting}[style=py]
+df = pd.read_excel(
+    "data.xlsx",
+    sheet_name="Sheet1"
+)
+\end{lstlisting}
+\column{0.48\linewidth}
+\textbf{Ghi Excel}
+\begin{lstlisting}[style=py]
+df.to_excel(
+    "output.xlsx",
+    index=False
+)
+\end{lstlisting}
+\end{columns}
+\begin{block}{Ghi chú giảng dạy}
+Excel rất phổ biến trong bối cảnh kinh doanh, nhưng sau khi nhập dữ liệu vẫn cần kiểm tra kiểu dữ liệu và giá trị thiếu.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{JSON và tệp văn bản}
+\small
+\begin{columns}[T]
+\column{0.48\linewidth}
+\textbf{JSON}
+\begin{lstlisting}[style=py]
+df = pd.read_json("data.json")
+
+df.to_json(
+    "output.json",
+    orient="records"
+)
+\end{lstlisting}
+\column{0.48\linewidth}
+\textbf{Tệp văn bản có phân tách}
+\begin{lstlisting}[style=py]
+df = pd.read_csv(
+    "data.txt",
+    sep="\t"
+)
+\end{lstlisting}
+\end{columns}
+\begin{block}{Ý tưởng}
+Nhiều tệp văn bản có cấu trúc có thể được đọc bằng \cmd{read_csv()} bằng cách thay đổi ký tự phân tách.
+\end{block}
+\end{frame}
+
+\begin{frame}{Các lệnh chính: nhập và xuất dữ liệu}
+\small
+\begin{tabular}{p{0.30\linewidth}p{0.59\linewidth}}
+\toprule
+\textbf{Lệnh} & \textbf{Vai trò} \\
+\midrule
+\cmd{pd.read_csv()} & Đọc tệp CSV hoặc tệp văn bản có phân tách. \\
+\cmd{df.to_csv()} & Ghi dữ liệu ra tệp CSV. \\
+\cmd{pd.read_excel()} & Đọc tệp Excel. \\
+\cmd{df.to_excel()} & Ghi dữ liệu ra tệp Excel. \\
+\cmd{pd.read_json()} & Đọc tệp JSON. \\
+\cmd{df.to_json()} & Ghi dữ liệu ra tệp JSON. \\
+\bottomrule
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Quick Check: nhập và xuất dữ liệu}
+\small
+\quiztitle{Câu 1.} Hàm nào dùng để đọc tệp CSV?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \cmd{pd.read_csv()}
+  \item B. \cmd{pd.open_csv()}
+  \item C. \cmd{pd.load_table_only()}
+  \item D. \cmd{df.csv_read()}
+\end{itemize}
+\end{multicols}
+\vspace{0.6em}
+\quiztitle{Câu 2.} Tham số nào thường dùng để tránh xuất index ra tệp?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \cmd{index=False}
+  \item B. \cmd{index=True}
+  \item C. \cmd{header=None}
+  \item D. \cmd{drop_index=True}
+\end{itemize}
+\end{multicols}
+\end{frame}
+
+\section{Làm sạch dữ liệu}
+
+\begin{frame}{Vì sao làm sạch dữ liệu quan trọng?}
+\small
+Dữ liệu thực tế có thể chứa:
+\begin{itemize}
+  \item giá trị thiếu;
+  \item dòng trùng lặp;
+  \item kiểu dữ liệu không nhất quán;
+  \item cột rỗng hoặc không liên quan;
+  \item văn bản không thống nhất, thừa khoảng trắng hoặc khác chữ hoa/chữ thường;
+  \item dữ liệu số bị lẫn với văn bản.
+\end{itemize}
+\begin{block}{Mục tiêu}
+Làm sạch dữ liệu giúp tăng độ chính xác, tính nhất quán và khả năng sử dụng trước khi phân tích hoặc xây dựng mô hình.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Phát hiện giá trị thiếu}
+\small
+\begin{lstlisting}[style=py]
+print(df.isna())
+print(df.isna().sum())
+
+missing_by_column = df.isna().sum()
+total_missing = df.isna().sum().sum()
+\end{lstlisting}
+\begin{block}{Diễn giải}
+\cmd{isna()} nhận diện các ô bị thiếu; \cmd{sum()} đếm số lượng giá trị thiếu theo cột hoặc toàn bộ DataFrame.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Xóa hoặc điền giá trị thiếu}
+\small
+\begin{columns}[T]
+\column{0.48\linewidth}
+\textbf{Xóa giá trị thiếu}
+\begin{lstlisting}[style=py]
+rows_complete = df.dropna()
+cols_complete = df.dropna(axis=1)
+\end{lstlisting}
+\column{0.48\linewidth}
+\textbf{Điền giá trị thiếu}
+\begin{lstlisting}[style=py]
+df["Age"] = df["Age"].fillna(
+    df["Age"].mean()
+)
+
+df["City"] = df["City"].fillna("Unknown")
+\end{lstlisting}
+\end{columns}
+\begin{alertblock}{Câu hỏi quyết định}
+Nên xóa, suy diễn hay gắn nhãn riêng cho giá trị thiếu? Câu trả lời phụ thuộc vào mục tiêu phân tích.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{Dòng trùng lặp và kiểu dữ liệu}
+\small
+\begin{columns}[T]
+\column{0.48\linewidth}
+\textbf{Dòng trùng lặp}
+\begin{lstlisting}[style=py]
+duplicate_mask = df.duplicated()
+duplicate_count = duplicate_mask.sum()
+df = df.drop_duplicates()
+\end{lstlisting}
+\column{0.48\linewidth}
+\textbf{Kiểu dữ liệu}
+\begin{lstlisting}[style=py]
+print(df.dtypes)
+
+df["Quantity"] = df["Quantity"].astype(int)
+
+df["Price"] = pd.to_numeric(
+    df["Price"],
+    errors="coerce"
+)
+\end{lstlisting}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Làm sạch chuỗi văn bản}
+\small
+Các cột văn bản thường cần được chuẩn hóa.
+\begin{lstlisting}[style=py]
+df["Name"] = df["Name"].str.strip()
+df["Name"] = df["Name"].str.lower()
+
+df["City"] = df["City"].str.replace(
+    "HN",
+    "Hanoi"
+)
+\end{lstlisting}
+\begin{block}{Vấn đề thường gặp}
+\cmd{" An "}, \cmd{"AN"} và \cmd{"an"} có thể cùng chỉ một tên, nhưng là các chuỗi khác nhau nếu chưa được làm sạch.
+\end{block}
+\end{frame}
+
+\begin{frame}{Các lệnh chính: làm sạch dữ liệu}
+\small
+\begin{tabular}{p{0.32\linewidth}p{0.57\linewidth}}
+\toprule
+\textbf{Lệnh} & \textbf{Ý nghĩa} \\
+\midrule
+\cmd{df.isna()} & Phát hiện giá trị thiếu. \\
+\cmd{df.isna().sum()} & Đếm giá trị thiếu. \\
+\cmd{df.dropna()} & Xóa quan sát bị thiếu dữ liệu. \\
+\cmd{df.fillna(value)} & Thay thế giá trị thiếu. \\
+\cmd{df.duplicated()} & Phát hiện dòng trùng lặp. \\
+\cmd{df.drop_duplicates()} & Xóa dòng trùng lặp. \\
+\cmd{df.astype(type)} & Chuyển kiểu dữ liệu. \\
+\cmd{pd.to_numeric()} & Chuyển giá trị sang dạng số. \\
+\cmd{Series.str.*} & Áp dụng các phương thức xử lý chuỗi. \\
+\bottomrule
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Quick Check: làm sạch dữ liệu}
+\small
+\quiztitle{Câu 1.} Phương thức nào xóa các dòng có giá trị thiếu?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \cmd{dropna()}
+  \item B. \cmd{fillna()}
+  \item C. \cmd{duplicated()}
+  \item D. \cmd{astype()}
+\end{itemize}
+\end{multicols}
+\vspace{0.6em}
+\quiztitle{Câu 2.} Phương thức nào xóa các dòng trùng lặp?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \cmd{drop_duplicates()}
+  \item B. \cmd{dropna()}
+  \item C. \cmd{sort_values()}
+  \item D. \cmd{merge()}
+\end{itemize}
+\end{multicols}
+\end{frame}
+
+\section{Thao tác và tổng hợp dữ liệu}
+
+\begin{frame}[fragile]{Tạo cột tính toán}
+\small
+\begin{lstlisting}[style=py]
+df["Revenue"] = df["Quantity"] * df["Price"]
+
+total_revenue = df["Revenue"].sum()
+print(total_revenue)
+\end{lstlisting}
+\begin{block}{Ví dụ kinh doanh}
+Doanh thu, biên lợi nhuận, tỷ lệ giảm giá, giá trị vòng đời khách hàng và độ trễ giao hàng thường có thể được tạo từ các cột hiện có.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Áp dụng hàm}
+\small
+\begin{columns}[T]
+\column{0.48\linewidth}
+\textbf{Dùng \cmd{map()}}
+\begin{lstlisting}[style=py]
+df["Status"] = df["Score"].map(
+    lambda x: "Pass" if x >= 5 else "Fail"
+)
+\end{lstlisting}
+\column{0.48\linewidth}
+\textbf{Dùng \cmd{apply()}}
+\begin{lstlisting}[style=py]
+df["Squared"] = df["Value"].apply(
+    lambda x: x ** 2
+)
+\end{lstlisting}
+\end{columns}
+\begin{alertblock}{Thực hành tốt}
+Ưu tiên các phép toán vector hóa trên cột khi có thể; dùng \cmd{apply()} khi cần logic tùy chỉnh theo dòng hoặc theo phần tử.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{Chuẩn hóa và chuẩn hóa Z-score}
+\small
+\begin{lstlisting}[style=py]
+# Min-max normalization
+df["Normalized"] = (
+    (df["Value"] - df["Value"].min()) /
+    (df["Value"].max() - df["Value"].min())
+)
+
+# Z-score standardization
+df["Z"] = (
+    (df["Value"] - df["Value"].mean()) /
+    df["Value"].std()
+)
+\end{lstlisting}
+\begin{block}{Diễn giải}
+Min-max normalization đưa dữ liệu về một khoảng cố định; Z-score biểu diễn giá trị theo đơn vị độ lệch chuẩn.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Thống kê mô tả}
+\small
+\begin{lstlisting}[style=py]
+print(df.describe())
+
+print(df["Sales"].mean())
+print(df["Sales"].median())
+print(df["Sales"].min())
+print(df["Sales"].max())
+print(df["Sales"].std())
+\end{lstlisting}
+\begin{block}{Vai trò phân tích}
+Thống kê mô tả giúp nhận biết thang đo, xu hướng trung tâm, độ biến thiên và các giá trị bất thường có thể tồn tại.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Gom nhóm với \cmd{groupby()}}
+\small
+\begin{lstlisting}[style=py]
+region_total = df.groupby("Region")["Sales"].sum()
+print(region_total)
+
+region_stats = (
+    df.groupby("Region")["Sales"]
+      .agg(["count", "sum", "mean", "min", "max"])
+)
+print(region_stats)
+\end{lstlisting}
+\begin{block}{Split-apply-combine}
+Pandas chia dữ liệu thành các nhóm, áp dụng phép tổng hợp cho từng nhóm, sau đó kết hợp kết quả.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Gom nhóm theo nhiều cột}
+\small
+\begin{lstlisting}[style=py]
+summary = (
+    df.groupby(["Region", "Product"])["Sales"]
+      .sum()
+)
+print(summary)
+\end{lstlisting}
+\begin{block}{Diễn giải kinh doanh}
+Cách này giúp trả lời các câu hỏi như: sản phẩm nào đóng góp doanh thu lớn nhất tại từng khu vực?
+\end{block}
+\end{frame}
+
+\begin{frame}{Các lệnh chính: thao tác và tổng hợp}
+\small
+\begin{tabular}{p{0.32\linewidth}p{0.57\linewidth}}
+\toprule
+\textbf{Lệnh} & \textbf{Ý nghĩa} \\
+\midrule
+\cmd{df["new"] = ...} & Tạo hoặc biến đổi một cột. \\
+\cmd{Series.map()} & Ánh xạ giá trị sang giá trị mới. \\
+\cmd{Series.apply()} & Áp dụng hàm lên các phần tử của Series. \\
+\cmd{df.describe()} & Thống kê mô tả. \\
+\cmd{df.groupby()} & Gom nhóm quan sát. \\
+\cmd{.agg()} & Áp dụng nhiều hàm tổng hợp. \\
+\cmd{mean(), median(), std()} & Các thống kê số thường dùng. \\
+\bottomrule
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Quick Check: thao tác dữ liệu}
+\small
+\quiztitle{Câu 1.} Phương thức nào dùng để gom nhóm quan sát theo category?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \cmd{groupby()}
+  \item B. \cmd{dropna()}
+  \item C. \cmd{astype()}
+  \item D. \cmd{sort_index()}
+\end{itemize}
+\end{multicols}
+\vspace{0.6em}
+\quiztitle{Câu 2.} Hoàn thành công thức: \cmd{Revenue = Quantity ... Price}.
+\end{frame}
+
+\section{Kết hợp và định dạng lại dữ liệu}
+
+\begin{frame}[fragile]{Nối DataFrame bằng concat}
+\small
+\begin{lstlisting}[style=py]
+combined = pd.concat(
+    [df1, df2],
+    axis=0
+)
+\end{lstlisting}
+\begin{itemize}
+  \item \cmd{axis=0}: xếp chồng các dòng theo chiều dọc.
+  \item \cmd{axis=1}: ghép các cột theo chiều ngang.
+\end{itemize}
+\begin{block}{Ví dụ}
+Nối dữ liệu bán hàng tháng 1 và tháng 2 khi hai bảng có cùng cấu trúc cột.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Ghép bảng bằng merge}
+\small
+\begin{lstlisting}[style=py]
+result = pd.merge(
+    customers,
+    orders,
+    on="CustomerID",
+    how="inner"
+)
+\end{lstlisting}
+\begin{itemize}
+  \item \cmd{inner}: chỉ giữ các bản ghi khớp nhau.
+  \item \cmd{left}: giữ toàn bộ bản ghi từ bảng bên trái.
+  \item \cmd{right}: giữ toàn bộ bản ghi từ bảng bên phải.
+  \item \cmd{outer}: giữ toàn bộ bản ghi từ cả hai bảng.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Pivot table}
+\small
+Pivot table tóm tắt các giá trị số theo các nhóm phân loại.
+\begin{lstlisting}[style=py]
+pivot = pd.pivot_table(
+    sales,
+    values="Revenue",
+    index="Region",
+    columns="Product",
+    aggfunc="sum"
+)
+print(pivot)
+\end{lstlisting}
+\begin{block}{Diễn giải}
+Các dòng là khu vực, các cột là sản phẩm, và mỗi ô chứa tổng doanh thu.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Định dạng lại dữ liệu: pivot và melt}
+\small
+\begin{columns}[T]
+\column{0.48\linewidth}
+\textbf{Từ long sang wide}
+\begin{lstlisting}[style=py]
+wide = df.pivot(
+    index="Date",
+    columns="Product",
+    values="Sales"
+)
+\end{lstlisting}
+\column{0.48\linewidth}
+\textbf{Từ wide sang long}
+\begin{lstlisting}[style=py]
+long = pd.melt(
+    wide.reset_index(),
+    id_vars="Date"
+)
+\end{lstlisting}
+\end{columns}
+\begin{block}{Ý tưởng}
+Dạng dữ liệu nên phù hợp với nhiệm vụ phân tích: trực quan hóa, tổng hợp, mô hình hóa hoặc báo cáo.
+\end{block}
+\end{frame}
+
+\begin{frame}{Các lệnh chính: kết hợp và định dạng lại}
+\small
+\begin{tabular}{p{0.32\linewidth}p{0.57\linewidth}}
+\toprule
+\textbf{Lệnh} & \textbf{Ý nghĩa} \\
+\midrule
+\cmd{pd.concat()} & Kết hợp DataFrame theo một trục. \\
+\cmd{pd.merge()} & Kết hợp DataFrame dựa trên cột khóa. \\
+\cmd{how="inner"} & Chỉ giữ các bản ghi khớp. \\
+\cmd{how="left"} & Giữ toàn bộ bản ghi từ bảng trái. \\
+\cmd{df.pivot()} & Chuyển dữ liệu dạng long sang wide. \\
+\cmd{pd.melt()} & Chuyển dữ liệu dạng wide sang long. \\
+\cmd{pd.pivot_table()} & Tạo bảng tóm tắt. \\
+\bottomrule
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Quick Check: kết hợp và định dạng lại}
+\small
+\quiztitle{Câu 1.} Hàm nào kết hợp các DataFrame bằng một cột khóa?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \cmd{pd.merge()}
+  \item B. \cmd{pd.mean()}
+  \item C. \cmd{pd.reshape()}
+  \item D. \cmd{pd.filter_rows()}
+\end{itemize}
+\end{multicols}
+\vspace{0.6em}
+\quiztitle{Câu 2.} Pivot table dùng để làm gì?
+\end{frame}
+
+\section{Thao tác nâng cao}
+
+\begin{frame}[fragile]{Tương quan}
+\small
+Tương quan đo mức độ liên hệ giữa các biến số.
+\begin{lstlisting}[style=py]
+print(df.corr(numeric_only=True))
+
+print(
+    df["Advertising"].corr(df["Sales"])
+)
+\end{lstlisting}
+\begin{alertblock}{Quan trọng}
+Tương quan không tự động chứng minh quan hệ nhân quả.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{Trực quan hóa nhanh bằng Pandas}
+\small
+Các hàm vẽ của Pandas được xây dựng trên Matplotlib.
+\begin{columns}[T]
+\column{0.48\linewidth}
+\begin{lstlisting}[style=py]
+df.plot(x="Month", y="Sales", kind="line")
+
+df.plot(x="Product", y="Sales", kind="bar")
+\end{lstlisting}
+\column{0.48\linewidth}
+\begin{lstlisting}[style=py]
+df["Sales"].plot(kind="hist")
+
+df.plot(x="Advertising", y="Sales", kind="scatter")
+\end{lstlisting}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Quy trình xử lý chuỗi thời gian}
+\small
+\begin{lstlisting}[style=py]
+df["Date"] = pd.to_datetime(df["Date"])
+df = df.set_index("Date")
+df = df.sort_index()
+
+weekly = df["Sales"].resample("W").sum()
+monthly = df["Sales"].resample("ME").sum()
+\end{lstlisting}
+\begin{block}{Ý tưởng chuỗi thời gian}
+Sau khi chuyển cột ngày và đặt làm index, Pandas có thể tổng hợp dữ liệu theo các chu kỳ lịch.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Thành phần ngày tháng và trung bình trượt}
+\small
+\begin{columns}[T]
+\column{0.48\linewidth}
+\textbf{Thành phần ngày tháng}
+\begin{lstlisting}[style=py]
+df["Year"] = df.index.year
+df["Month"] = df.index.month
+df["Day"] = df.index.day
+\end{lstlisting}
+\column{0.48\linewidth}
+\textbf{Trung bình trượt}
+\begin{lstlisting}[style=py]
+df["MovingAvg"] = (
+    df["Sales"]
+      .rolling(window=3)
+      .mean()
+)
+\end{lstlisting}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Các lệnh chính: thao tác nâng cao}
+\small
+\begin{tabular}{p{0.32\linewidth}p{0.57\linewidth}}
+\toprule
+\textbf{Lệnh} & \textbf{Ý nghĩa} \\
+\midrule
+\cmd{df.corr()} & Tính ma trận tương quan. \\
+\cmd{Series.corr()} & Tính tương quan giữa hai Series. \\
+\cmd{df.plot()} & Trực quan hóa nhanh. \\
+\cmd{pd.to_datetime()} & Chuyển dữ liệu sang kiểu datetime. \\
+\cmd{df.set_index()} & Đặt một cột làm index. \\
+\cmd{df.resample()} & Tổng hợp dữ liệu chuỗi thời gian theo khoảng thời gian. \\
+\cmd{Series.rolling()} & Tính thống kê cửa sổ trượt. \\
+\bottomrule
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Quick Check: thao tác nâng cao}
+\small
+\quiztitle{Câu 1.} Hàm nào chuyển một cột sang kiểu datetime?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \cmd{pd.to_datetime()}
+  \item B. \cmd{pd.date_convert_only()}
+  \item C. \cmd{df.datetime()}
+  \item D. \cmd{pd.time_series()}
+\end{itemize}
+\end{multicols}
+\vspace{0.5em}
+\quiztitle{Câu 2.} Phương thức nào tính ma trận tương quan?
+\begin{multicols}{2}
+\begin{itemize}
+  \item A. \cmd{corr()}
+  \item B. \cmd{merge()}
+  \item C. \cmd{dropna()}
+  \item D. \cmd{pivot()}
+\end{itemize}
+\end{multicols}
+\end{frame}
+
+\section{Tóm tắt và thực hành}
+
+\begin{frame}{Tóm tắt nội dung I}
+\small
+\begin{tabular}{p{0.27\linewidth}p{0.63\linewidth}}
+\toprule
+\textbf{Chủ đề} & \textbf{Ý chính} \\
+\midrule
+Pandas & Thư viện Python để xử lý và phân tích dữ liệu có cấu trúc. \\
+Series & Mảng một chiều có nhãn. \\
+DataFrame & Bảng dữ liệu hai chiều có nhãn. \\
+Kiểm tra dữ liệu & Dùng \cmd{head()}, \cmd{shape}, \cmd{info()} và \cmd{describe()}. \\
+Lựa chọn dữ liệu & Dùng ngoặc chọn cột, \cmd{loc} và \cmd{iloc}. \\
+Lọc dữ liệu & Dùng điều kiện Boolean để giữ các dòng phù hợp. \\
+\bottomrule
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Tóm tắt nội dung II}
+\small
+\begin{tabular}{p{0.27\linewidth}p{0.63\linewidth}}
+\toprule
+\textbf{Chủ đề} & \textbf{Ý chính} \\
+\midrule
+Nhập/xuất dữ liệu & Đọc và ghi CSV, Excel, JSON và tệp văn bản. \\
+Làm sạch & Xử lý giá trị thiếu, trùng lặp, kiểu dữ liệu và chuỗi. \\
+Thao tác & Tạo cột tính toán và biến đổi dữ liệu. \\
+Tổng hợp & Dùng \cmd{groupby()} và \cmd{agg()} để tạo báo cáo tóm tắt. \\
+Kết hợp & Dùng \cmd{concat()} và \cmd{merge()} cho nhiều bảng dữ liệu. \\
+Nâng cao & Tương quan, trực quan hóa và thao tác chuỗi thời gian. \\
+\bottomrule
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Thực hành: dữ liệu sinh viên}
+\small
+\begin{block}{Bài tập 1}
+Tạo một DataFrame có ít nhất 10 sinh viên với các cột:
+\begin{itemize}
+  \item \cmd{StudentID}, \cmd{Name}, \cmd{Age}, \cmd{Major}, \cmd{GPA}.
+\end{itemize}
+Thực hiện:
+\begin{enumerate}
+  \item kiểm tra bằng \cmd{head()}, \cmd{shape}, \cmd{info()} và \cmd{describe()};
+  \item lọc các sinh viên có \cmd{GPA >= 3.5};
+  \item sắp xếp theo GPA giảm dần;
+  \item chọn dòng bằng \cmd{loc} và \cmd{iloc}.
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}{Thực hành: dữ liệu thiếu và làm sạch}
+\small
+\begin{block}{Bài tập 2}
+Thêm giá trị thiếu vào tập dữ liệu sinh viên. Sau đó:
+\begin{enumerate}
+  \item đếm số giá trị thiếu;
+  \item điền Age thiếu bằng Age trung bình;
+  \item điền GPA thiếu bằng GPA trung vị;
+  \item xóa các dòng thiếu Name.
+\end{enumerate}
+\end{block}
+\begin{block}{Bài tập 3}
+Tạo một dữ liệu lộn xộn có khoảng trắng trong tên, dòng trùng lặp và giá trị số bị lẫn văn bản. Làm sạch bằng \cmd{str.strip()}, \cmd{drop_duplicates()} và \cmd{pd.to_numeric()}.
+\end{block}
+\end{frame}
+
+\begin{frame}{Thực hành: phân tích bán hàng}
+\small
+\begin{block}{Bài tập 4}
+Tạo một tập dữ liệu bán hàng gồm \cmd{Date}, \cmd{Region}, \cmd{Product}, \cmd{Quantity} và \cmd{Price}.
+Tạo:
+\[
+\text{Revenue} = \text{Quantity} \times \text{Price}.
+\]
+Sau đó tính:
+\begin{enumerate}
+  \item tổng doanh thu;
+  \item doanh thu theo Region;
+  \item doanh thu theo Product;
+  \item doanh thu trung bình theo Region;
+  \item pivot table Region $\times$ Product.
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}{Thực hành: merge và chuỗi thời gian}
+\small
+\begin{block}{Bài tập 5: Merge}
+Tạo \cmd{customers(CustomerID, Name, City)} và \cmd{orders(OrderID, CustomerID, Amount)}. Thực hiện inner merge, left merge và xác định khách hàng chưa có đơn hàng.
+\end{block}
+\begin{block}{Bài tập 6: Chuỗi thời gian}
+Tạo dữ liệu bán hàng ngày trong ít nhất 30 ngày. Chuyển \cmd{Date} sang datetime, đặt làm index, tính tổng doanh thu theo tuần, tính trung bình trượt 7 ngày và vẽ line plot.
+\end{block}
+\end{frame}
+
+\begin{frame}{Câu hỏi phản tư cuối bài}
+\small
+\begin{itemize}
+  \item Series và DataFrame khác nhau như thế nào?
+  \item Khi nào nên dùng \cmd{loc} và khi nào nên dùng \cmd{iloc}?
+  \item Vì sao cần kiểm tra \cmd{shape}, \cmd{dtypes} và giá trị thiếu từ sớm?
+  \item \cmd{concat()} khác \cmd{merge()} như thế nào?
+  \item Vì sao \cmd{groupby()} quan trọng trong phân tích kinh doanh?
+  \item Vì sao tương quan không tự động chứng minh quan hệ nhân quả?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Đáp án gợi ý cho Quick Check}
+\small
+\begin{tabular}{p{0.42\linewidth}p{0.45\linewidth}}
+\toprule
+\textbf{Phần} & \textbf{Đáp án} \\
+\midrule
+Pandas là gì? & B; C \\
+Cơ bản về DataFrame & A; A \\
+Series và lựa chọn & B; B \\
+Nhập và xuất dữ liệu & A; A \\
+Làm sạch dữ liệu & A; A \\
+Thao tác dữ liệu & A; Revenue = Quantity $\times$ Price \\
+Kết hợp và định dạng lại & A; tóm tắt giá trị theo category \\
+Thao tác nâng cao & A; A \\
+\bottomrule
+\end{tabular}
+\end{frame}
+
+\end{document}
