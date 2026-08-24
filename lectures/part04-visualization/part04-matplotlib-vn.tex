@@ -1,0 +1,1089 @@
+\documentclass[aspectratio=169,12pt]{beamer}
+
+\usepackage{fontspec}
+\setsansfont{DejaVu Sans}
+\setmonofont{DejaVu Sans Mono}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\usetheme{AnnArbor}
+\usefonttheme{professionalfonts}
+\setbeamertemplate{navigation symbols}{}
+
+\definecolor{Navy}{HTML}{173B57}
+\definecolor{Blue}{HTML}{1F5AA6}
+\definecolor{Teal}{HTML}{2A9D8F}
+\definecolor{Orange}{HTML}{F28E2B}
+\definecolor{Red}{HTML}{D1495B}
+\definecolor{Ink}{HTML}{17202A}
+\definecolor{Muted}{HTML}{667085}
+\definecolor{Paper}{HTML}{F7F9FC}
+\definecolor{CodeBg}{HTML}{F1F4F8}
+
+\setbeamercolor{alerted text}{fg=Red}
+\setbeamerfont{frametitle}{series=\bfseries,size=\large}
+\setbeamerfont{title}{series=\bfseries,size=\LARGE}
+\setbeamerfont{subtitle}{size=\large}
+
+\lstdefinestyle{py}{
+  language=Python,
+  basicstyle=\ttfamily\fontsize{9.3}{11.2}\selectfont,
+  keywordstyle=\color{Blue}\bfseries,
+  stringstyle=\color{Teal},
+  commentstyle=\color{Muted}\itshape,
+  numberstyle=\tiny\color{Muted},
+  numbers=left,
+  numbersep=5pt,
+  backgroundcolor=\color{CodeBg},
+  frame=single,
+  rulecolor=\color{CodeBg},
+  breaklines=true,
+  showstringspaces=false,
+  columns=fullflexible,
+  keepspaces=true,
+  aboveskip=2pt,
+  belowskip=2pt
+}
+
+\newcommand{\asset}[1]{figures_annarbor/#1}
+\newcommand{\key}[1]{\textcolor{Blue}{\textbf{#1}}}
+\newcommand{\muted}[1]{\textcolor{Muted}{#1}}
+\newcommand{\good}[1]{\textcolor{Teal}{\textbf{#1}}}
+\newcommand{\bad}[1]{\textcolor{Red}{\textbf{#1}}}
+
+\newenvironment{tightitems}{\begin{itemize}\setlength\itemsep{5pt}}{\end{itemize}}
+
+\newcommand{\SectionSlide}[2]{
+\section{#1}
+\begin{frame}{#1}
+  \vfill
+  \centering
+  {\usebeamercolor[fg]{structure}\fontsize{24}{29}\selectfont\bfseries #1\par}
+  \vspace{5mm}
+  {\large #2\par}
+  \vfill
+\end{frame}}
+
+\title{Trực quan hóa dữ liệu với Matplotlib}
+\subtitle{Từ biểu đồ cơ bản đến quy trình phân tích dữ liệu có thể tái lập}
+\author{Bài giảng Data Science}
+\date{Cập nhật: 24/08/2026}
+
+\begin{document}
+
+% 1
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% 2
+\begin{frame}{Một biểu đồ tốt giúp trả lời câu hỏi, không chỉ “làm đẹp” dữ liệu}
+\begin{columns}[T,onlytextwidth]
+\column{.49\textwidth}
+\begin{block}{Bảng số liệu cho biết}
+12 giá trị doanh thu theo tháng, chính xác đến từng con số.
+\end{block}
+\begin{block}{Biểu đồ cho thấy}
+Xu hướng tăng, giai đoạn chững lại và mùa cao điểm cuối năm.
+\end{block}
+\column{.49\textwidth}
+\includegraphics[width=\linewidth]{\asset{line_revenue.png}}
+\end{columns}
+\vspace{1mm}
+\begin{center}\key{Thông điệp:} trực quan hóa nén dữ liệu thành mẫu hình mà con người nhận ra nhanh.\end{center}
+\end{frame}
+
+% 3
+\begin{frame}{Mục tiêu học tập}
+Sau bài học, người học có thể:
+\begin{tightitems}
+  \item giải thích mô hình \key{Figure--Axes} và chọn đúng API;
+  \item tạo line, bar, scatter, histogram và pie chart;
+  \item tùy biến tiêu đề, nhãn, ticks, legend, màu, marker và grid;
+  \item bố trí nhiều biểu đồ bằng \texttt{subplots};
+  \item tạo heatmap, contour, 3D và animation ở mức nhập môn;
+  \item tích hợp Matplotlib với NumPy, Pandas và Seaborn;
+  \item xuất hình chất lượng cao và tránh các lỗi trình bày gây hiểu sai.
+\end{tightitems}
+\end{frame}
+
+% 4
+\begin{frame}{Lộ trình bài học đi từ câu hỏi đến sản phẩm trực quan}
+\begin{enumerate}\setlength\itemsep{8pt}
+  \item Matplotlib là gì và nằm ở đâu trong hệ sinh thái Python?
+  \item Figure, Axes và hai phong cách viết mã.
+  \item Năm loại biểu đồ nền tảng.
+  \item Tùy biến, chú thích và bố cục nhiều biểu đồ.
+  \item Heatmap, 3D, contour, animation và tương tác.
+  \item Pandas/Seaborn, lưu hình và quy trình Data Science.
+  \item Quiz, bài tập có hướng dẫn và bài tập tự làm.
+\end{enumerate}
+\end{frame}
+
+\SectionSlide{1. Nền tảng Matplotlib}{Hiểu đúng thư viện trước khi viết mã}
+
+% 6
+\begin{frame}{Matplotlib là lớp nền trực quan hóa của hệ sinh thái Python}
+\begin{columns}[T,onlytextwidth]
+\column{.56\textwidth}
+\begin{tightitems}
+  \item Thư viện mã nguồn mở cho hình \key{tĩnh}, \key{động} và \key{tương tác}.
+  \item Làm việc tự nhiên với \texttt{NumPy ndarray} và \texttt{Pandas DataFrame}.
+  \item Kiểm soát chi tiết trục, nhãn, legend, màu, font và layout.
+  \item Xuất PNG, PDF, SVG và nhiều định dạng khác.
+  \item Có thể nhúng vào Tkinter, Qt, GTK hoặc wxPython.
+\end{tightitems}
+\column{.40\textwidth}
+\begin{block}{Vai trò thực tế}
+\textbf{Khám phá:} tìm lỗi, ngoại lệ, xu hướng.\\[2mm]
+\textbf{Giải thích:} truyền đạt kết quả phân tích.\\[2mm]
+\textbf{Sản xuất:} tạo hình cho báo cáo, dashboard và ứng dụng.
+\end{block}
+\end{columns}
+\end{frame}
+
+% 7
+\begin{frame}[fragile]{Cài đặt và kiểm tra môi trường chỉ cần vài lệnh}
+\begin{columns}[T,onlytextwidth]
+\column{.52\textwidth}
+\begin{lstlisting}[style=py,numbers=none]
+# Terminal
+python -m pip install matplotlib
+
+# Conda
+conda install matplotlib
+\end{lstlisting}
+\column{.45\textwidth}
+\begin{lstlisting}[style=py]
+import matplotlib
+import matplotlib.pyplot as plt
+
+print(matplotlib.__version__)
+\end{lstlisting}
+\end{columns}
+\vspace{3mm}
+\begin{block}{Trong Jupyter Notebook}
+Với backend inline mặc định, hình thường xuất hiện ngay dưới cell. \texttt{plt.show()} vẫn nên dùng để mã rõ ràng và chạy ổn định ngoài notebook.
+\end{block}
+\end{frame}
+
+% 8
+\begin{frame}{Một Figure chứa một hoặc nhiều Axes}
+\centering
+\begin{tikzpicture}[font=\small]
+  \draw[very thick,Navy,rounded corners] (0,0) rectangle (12.8,5.2);
+  \node[anchor=north west,Blue,font=\bfseries] at (.25,5.0) {Figure: toàn bộ “tờ giấy”};
+  \draw[thick,Teal,fill=Paper] (.65,.65) rectangle (6.0,4.3);
+  \draw[thick,Orange,fill=white] (6.75,.65) rectangle (12.1,4.3);
+  \node[Teal,font=\bfseries] at (3.3,2.55) {Axes 1};
+  \node[Orange,font=\bfseries] at (9.4,2.55) {Axes 2};
+  \draw[->,Muted] (1.1,1.05) -- (1.1,3.75);
+  \draw[->,Muted] (1.1,1.05) -- (5.55,1.05);
+  \draw[->,Muted] (7.2,1.05) -- (7.2,3.75);
+  \draw[->,Muted] (7.2,1.05) -- (11.65,1.05);
+\end{tikzpicture}
+\vspace{2mm}
+
+\muted{Axes là vùng vẽ có hệ trục; Axis là từng trục x/y. Không nên dùng lẫn hai thuật ngữ.}
+\end{frame}
+
+% 9
+\begin{frame}[fragile]{Pyplot nhanh; Object-Oriented rõ ràng và dễ mở rộng}
+\begin{columns}[T,onlytextwidth]
+\column{.48\textwidth}
+\textbf{Pyplot interface}
+\begin{lstlisting}[style=py]
+plt.plot(x, y)
+plt.title("Revenue")
+plt.xlabel("Month")
+plt.show()
+\end{lstlisting}
+\good{Phù hợp:} thử nhanh, một biểu đồ đơn giản.
+
+\column{.49\textwidth}
+\textbf{Object-Oriented API}
+\begin{lstlisting}[style=py]
+fig, ax = plt.subplots()
+ax.plot(x, y)
+ax.set(title="Revenue",
+       xlabel="Month")
+plt.show()
+\end{lstlisting}
+\good{Phù hợp:} notebook lớn, subplot, hàm tái sử dụng.
+\end{columns}
+\vspace{2mm}
+\begin{center}\key{Khuyến nghị trong bài này:} ưu tiên Object-Oriented API.\end{center}
+\end{frame}
+
+% 10
+\begin{frame}[fragile]{Quy trình vẽ ổn định gồm bốn bước}
+\begin{columns}[T,onlytextwidth]
+\column{.56\textwidth}
+\begin{enumerate}\setlength\itemsep{8pt}
+  \item Chuẩn bị dữ liệu.
+  \item Tạo \texttt{fig, ax}.
+  \item Vẽ và tùy biến trên \texttt{ax}.
+  \item Hiển thị hoặc lưu \texttt{fig}.
+\end{enumerate}
+\column{.42\textwidth}
+\begin{lstlisting}[style=py]
+x = [1, 2, 3, 4]
+y = [12, 18, 17, 25]
+
+fig, ax = plt.subplots()
+ax.plot(x, y)
+ax.set(title="Sales")
+fig.tight_layout()
+plt.show()
+\end{lstlisting}
+\end{columns}
+\end{frame}
+
+\SectionSlide{2. Năm biểu đồ nền tảng}{Chọn biểu đồ theo câu hỏi phân tích}
+
+% 12
+\begin{frame}{Loại câu hỏi quyết định loại biểu đồ}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{3.8cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+\textbf{Câu hỏi} & \textbf{Biểu đồ} & \textbf{Ví dụ} \\
+\midrule
+Thay đổi theo thời gian? & Line & Doanh thu theo tháng \\
+So sánh các nhóm? & Bar & Doanh số theo khu vực \\
+Hai biến liên hệ thế nào? & Scatter & Quảng cáo và doanh số \\
+Một biến phân bố ra sao? & Histogram/boxplot & Thời gian giao hàng \\
+Cơ cấu tổng thể? & Pie/stacked bar & Tỷ trọng kênh bán \\
+Nhiều giá trị trong ma trận? & Heatmap & Tương quan, dữ liệu thiếu \\
+\bottomrule
+\end{tabularx}
+\vspace{1mm}
+\footnotesize\muted{Không chọn biểu đồ chỉ vì “trông đẹp”; hãy bắt đầu từ câu hỏi.}
+\end{frame}
+
+% 13
+\begin{frame}[fragile]{Line chart nhấn mạnh xu hướng và thứ tự thời gian}
+\begin{columns}[T,onlytextwidth]
+\column{.43\textwidth}
+\begin{lstlisting}[style=py]
+months = range(1, 13)
+revenue = [1.8, 2.0, 2.15,
+  2.05, 2.4, 2.55, 2.7,
+  2.62, 2.95, 3.1, 3.35, 3.7]
+
+fig, ax = plt.subplots()
+ax.plot(months, revenue,
+        marker="o")
+ax.set(xlabel="Month",
+       ylabel="Billion VND")
+plt.show()
+\end{lstlisting}
+\column{.55\textwidth}
+\includegraphics[width=\linewidth]{\asset{line_revenue.png}}
+\end{columns}
+\end{frame}
+
+% 14
+\begin{frame}{Khi đọc line chart, hãy tìm bốn loại tín hiệu}
+\begin{tightitems}
+  \item \key{Mức độ:} giá trị điển hình cao hay thấp?
+  \item \key{Xu hướng:} tăng, giảm hay đi ngang?
+  \item \key{Mùa vụ:} mẫu hình có lặp lại theo chu kỳ?
+  \item \key{Bất thường:} điểm nào lệch khỏi hành vi chung?
+\end{tightitems}
+\begin{block}{Cẩn thận}
+Không nối các nhóm không có thứ tự tự nhiên. Đường nối ngầm khẳng định tính liên tục hoặc trình tự.
+\end{block}
+\end{frame}
+
+% 15
+\begin{frame}[fragile]{Bar chart giúp so sánh độ lớn giữa các nhóm}
+\begin{columns}[T,onlytextwidth]
+\column{.43\textwidth}
+\begin{lstlisting}[style=py]
+regions = ["North", "Central",
+           "South", "Online"]
+sales = [42, 27, 51, 36]
+
+fig, ax = plt.subplots()
+bars = ax.bar(regions, sales)
+ax.bar_label(bars)
+ax.set(ylabel="Billion VND")
+plt.show()
+\end{lstlisting}
+\column{.55\textwidth}
+\includegraphics[width=\linewidth]{\asset{bar_region.png}}
+\end{columns}
+\end{frame}
+
+% 16
+\begin{frame}{Bar chart nên bắt đầu trục giá trị từ 0}
+\centering\includegraphics[width=.84\textwidth]{\asset{axis_integrity.png}}
+\vspace{-2mm}
+
+\begin{itemize}
+  \item Chiều dài cột mã hóa độ lớn; cắt trục có thể phóng đại chênh lệch.
+  \item Với line chart, trục không nhất thiết bắt đầu từ 0 nếu mục tiêu là xem biến động.
+\end{itemize}
+\end{frame}
+
+% 17
+\begin{frame}[fragile]{Bar ngang hữu ích khi nhãn dài hoặc cần xếp hạng}
+\begin{columns}[T,onlytextwidth]
+\column{.50\textwidth}
+\begin{lstlisting}[style=py]
+order = np.argsort(sales)
+
+ax.barh(
+    np.array(regions)[order],
+    np.array(sales)[order]
+)
+ax.set_xlabel("Sales")
+\end{lstlisting}
+\column{.47\textwidth}
+\begin{block}{Quy tắc thực hành}
+\begin{itemize}
+  \item Sắp xếp khi muốn nhấn mạnh thứ hạng.
+  \item Giữ thứ tự thời gian hoặc thứ tự nghiệp vụ khi nó có ý nghĩa.
+  \item Hạn chế dùng quá nhiều màu nếu màu không mã hóa thông tin.
+\end{itemize}
+\end{block}
+\end{columns}
+\end{frame}
+
+% 18
+\begin{frame}[fragile]{Scatter plot làm lộ ra quan hệ, cụm và ngoại lệ}
+\begin{columns}[T,onlytextwidth]
+\column{.43\textwidth}
+\begin{lstlisting}[style=py]
+fig, ax = plt.subplots()
+sc = ax.scatter(
+    ad_spend, sales,
+    c=sales, cmap="viridis",
+    s=55, alpha=.8
+)
+ax.set(xlabel="Ad spend",
+       ylabel="Sales")
+fig.colorbar(sc, ax=ax)
+\end{lstlisting}
+\column{.55\textwidth}
+\includegraphics[width=\linewidth]{\asset{scatter_ads_sales.png}}
+\end{columns}
+\end{frame}
+
+% 19
+\begin{frame}{Scatter plot có thể mã hóa thêm biến nhưng dễ quá tải}
+\begin{itemize}\setlength\itemsep{7pt}
+  \item Vị trí x, y: hai biến số chính.
+  \item Màu \texttt{c}: nhóm hoặc biến số thứ ba.
+  \item Kích thước \texttt{s}: quy mô, doanh thu hoặc tần suất.
+  \item Độ trong suốt \texttt{alpha}: giảm hiện tượng chồng điểm.
+\end{itemize}
+\begin{block}{Nguyên tắc}
+Chỉ thêm một kênh thị giác khi người đọc có thể giải thích nó và legend/colorbar làm rõ ý nghĩa.
+\end{block}
+\end{frame}
+
+% 20
+\begin{frame}[fragile]{Histogram mô tả hình dạng của một phân phối}
+\begin{columns}[T,onlytextwidth]
+\column{.43\textwidth}
+\begin{lstlisting}[style=py]
+fig, ax = plt.subplots()
+ax.hist(delivery_days,
+        bins=18,
+        edgecolor="white")
+ax.axvline(
+    delivery_days.mean(),
+    linestyle="--"
+)
+ax.set(xlabel="Days",
+       ylabel="Orders")
+\end{lstlisting}
+\column{.55\textwidth}
+\includegraphics[width=\linewidth]{\asset{hist_delivery.png}}
+\end{columns}
+\end{frame}
+
+% 21
+\begin{frame}{Số bins thay đổi câu chuyện mà histogram kể}
+\begin{columns}[T,onlytextwidth]
+\column{.47\textwidth}
+\begin{block}{Bins quá ít}
+Che mất nhiều đỉnh, khoảng trống và ngoại lệ.
+\end{block}
+\column{.47\textwidth}
+\begin{block}{Bins quá nhiều}
+Khuếch đại nhiễu ngẫu nhiên và làm hình khó đọc.
+\end{block}
+\end{columns}
+\vspace{4mm}
+\begin{itemize}
+  \item Thử nhiều giá trị hợp lý thay vì tin một histogram duy nhất.
+  \item Có thể dùng \texttt{bins="auto"} làm điểm khởi đầu.
+  \item So sánh các nhóm cần dùng chung cạnh bins.
+\end{itemize}
+\end{frame}
+
+% 22
+\begin{frame}[fragile]{Pie chart chỉ phù hợp với cơ cấu đơn giản}
+\begin{columns}[T,onlytextwidth]
+\column{.43\textwidth}
+\begin{lstlisting}[style=py]
+sizes = [46, 28, 17, 9]
+labels = ["Website", "Store",
+          "Marketplace", "Dealer"]
+
+ax.pie(sizes, labels=labels,
+       autopct="%1.0f%%",
+       startangle=90)
+ax.set_title("Revenue share")
+\end{lstlisting}
+\column{.53\textwidth}
+\centering\includegraphics[width=.86\linewidth]{\asset{pie_channel.png}}
+\end{columns}
+\end{frame}
+
+% 23
+\begin{frame}{Pie chart mất hiệu quả khi có nhiều lát hoặc chênh lệch nhỏ}
+\begin{columns}[T,onlytextwidth]
+\column{.48\textwidth}
+\good{Có thể dùng khi}
+\begin{itemize}
+  \item tổng đúng bằng 100\%;
+  \item có ít nhóm;
+  \item các tỷ trọng khác biệt rõ.
+\end{itemize}
+\column{.48\textwidth}
+\bad{Nên đổi sang bar khi}
+\begin{itemize}
+  \item cần so sánh chính xác;
+  \item có nhiều nhóm;
+  \item có số âm hoặc tổng không rõ.
+\end{itemize}
+\end{columns}
+\vspace{4mm}
+\begin{center}\key{Con người so sánh chiều dài tốt hơn góc và diện tích.}\end{center}
+\end{frame}
+
+\SectionSlide{3. Tùy biến để biểu đồ tự giải thích}{Nhãn, màu và chú thích phải phục vụ thông điệp}
+
+% 25
+\begin{frame}[fragile]{Tiêu đề và nhãn trục là phần của phân tích}
+\begin{lstlisting}[style=py]
+fig, ax = plt.subplots(figsize=(8, 4.5))
+ax.plot(quarters, actual, marker="o", label="Actual")
+ax.plot(quarters, target, marker="s", linestyle="--", label="Plan")
+
+ax.set_title("Actual sales exceeded plan in Q4", loc="left")
+ax.set_xlabel("Quarter")
+ax.set_ylabel("Sales (billion VND)")
+ax.legend()
+\end{lstlisting}
+\vspace{2mm}
+\begin{block}{Tiêu đề tốt}
+Nêu kết luận chính khi biểu đồ dùng để trình bày; nêu biến và phạm vi khi biểu đồ dùng để khám phá.
+\end{block}
+\end{frame}
+
+% 26
+\begin{frame}[fragile]{Màu, marker và line style phân biệt chuỗi dữ liệu}
+\begin{columns}[T,onlytextwidth]
+\column{.47\textwidth}
+\begin{lstlisting}[style=py]
+ax.plot(x, y1,
+        color="#1F5AA6",
+        marker="o",
+        linewidth=2.5)
+
+ax.plot(x, y2,
+        color="#F28E2B",
+        marker="s",
+        linestyle="--")
+\end{lstlisting}
+\column{.49\textwidth}
+\begin{itemize}
+  \item Màu: nhấn mạnh hoặc mã hóa nhóm.
+  \item Marker: hỗ trợ bản in đen trắng.
+  \item Line style: phân biệt thực tế/kế hoạch.
+  \item \texttt{alpha}: xử lý chồng lấp.
+\end{itemize}
+\end{columns}
+\end{frame}
+
+% 27
+\begin{frame}[fragile]{Legend chỉ hữu ích khi người đọc cần giải mã}
+\begin{lstlisting}[style=py]
+ax.plot(x, actual, label="Actual")
+ax.plot(x, target, label="Plan")
+ax.legend(loc="upper left", ncols=2, frameon=False)
+\end{lstlisting}
+\begin{itemize}
+  \item Gán \texttt{label=} ngay khi vẽ mỗi series.
+  \item Đặt legend ở vùng trống, tránh che dữ liệu.
+  \item Nếu chỉ có một series và tiêu đề/nhãn đã rõ, có thể bỏ legend.
+  \item Gắn nhãn trực tiếp vào đường đôi khi tốt hơn legend.
+\end{itemize}
+\end{frame}
+
+% 28
+\begin{frame}[fragile]{Grid và ticks hỗ trợ đọc số nhưng không nên lấn át dữ liệu}
+\begin{columns}[T,onlytextwidth]
+\column{.48\textwidth}
+\begin{lstlisting}[style=py]
+ax.grid(axis="y", alpha=.25)
+ax.set_xticks(range(4),
+              ["Q1", "Q2", "Q3", "Q4"])
+ax.tick_params(axis="x",
+               rotation=0,
+               labelsize=11)
+\end{lstlisting}
+\column{.48\textwidth}
+\begin{block}{Tối giản có chủ đích}
+\begin{itemize}
+  \item Grid mờ và thường chỉ theo một trục.
+  \item Không hiển thị quá nhiều tick labels.
+  \item Ghi rõ đơn vị trong nhãn trục.
+  \item Dùng formatter cho tiền tệ, phần trăm, ngày tháng.
+\end{itemize}
+\end{block}
+\end{columns}
+\end{frame}
+
+% 29
+\begin{frame}[fragile]{Annotation biến một điểm dữ liệu thành thông tin hành động}
+\begin{columns}[T,onlytextwidth]
+\column{.45\textwidth}
+\begin{lstlisting}[style=py]
+ax.annotate(
+    "Above plan",
+    xy=(3, actual[3]),
+    xytext=(2.1, 124),
+    arrowprops={
+      "arrowstyle": "->"
+    }
+)
+\end{lstlisting}
+\column{.53\textwidth}
+\includegraphics[width=\linewidth]{\asset{customized_plot.png}}
+\end{columns}
+\end{frame}
+
+% 30
+\begin{frame}[fragile]{Figure size và layout quyết định khả năng đọc}
+\begin{lstlisting}[style=py]
+fig, ax = plt.subplots(figsize=(10, 5), constrained_layout=True)
+# ... plotting commands ...
+
+# Alternative for an existing figure
+fig.tight_layout()
+\end{lstlisting}
+\begin{itemize}
+  \item \texttt{figsize=(width, height)} dùng đơn vị inch.
+  \item \texttt{constrained\_layout=True} xử lý khoảng cách tự động ngay khi tạo Figure.
+  \item \texttt{tight\_layout()} hữu ích cho bố cục đơn giản.
+  \item Luôn kiểm tra hình ở kích thước thực tế của báo cáo/slide.
+\end{itemize}
+\end{frame}
+
+% 31
+\begin{frame}[fragile]{Style sheet tạo tính nhất quán với một lệnh}
+\begin{columns}[T,onlytextwidth]
+\column{.50\textwidth}
+\begin{lstlisting}[style=py]
+print(plt.style.available)
+
+plt.style.use("seaborn-v0_8-whitegrid")
+
+with plt.style.context("ggplot"):
+    fig, ax = plt.subplots()
+    ax.plot(x, y)
+\end{lstlisting}
+\column{.46\textwidth}
+\begin{block}{Cho dự án dài}
+Định nghĩa chuẩn màu, font, kích thước và grid bằng \texttt{rcParams} hoặc file \texttt{.mplstyle}; tránh tùy biến lại từng biểu đồ.
+\end{block}
+\end{columns}
+\end{frame}
+
+\SectionSlide{4. Nhiều biểu đồ và đồ thị nâng cao}{Mở rộng từ một Axes sang cấu trúc phân tích}
+
+% 33
+\begin{frame}[fragile]{Subplots cho phép so sánh nhiều góc nhìn trong cùng Figure}
+\begin{columns}[T,onlytextwidth]
+\column{.42\textwidth}
+\begin{lstlisting}[style=py]
+fig, axes = plt.subplots(
+    2, 2,
+    figsize=(10, 6),
+    constrained_layout=True
+)
+
+axes[0, 0].plot(month, revenue)
+axes[0, 1].bar(region, sales)
+axes[1, 0].hist(delivery)
+axes[1, 1].scatter(ads, sales)
+\end{lstlisting}
+\column{.56\textwidth}
+\includegraphics[width=\linewidth]{\asset{subplots_dashboard.png}}
+\end{columns}
+\end{frame}
+
+% 34
+\begin{frame}[fragile]{Chia sẻ trục giúp so sánh công bằng giữa các panels}
+\begin{lstlisting}[style=py]
+fig, axes = plt.subplots(2, 1, sharex=True, sharey=True)
+
+for ax, region in zip(axes, ["North", "South"]):
+    part = df[df["region"] == region]
+    ax.plot(part["month"], part["sales"])
+    ax.set_title(region)
+\end{lstlisting}
+\begin{itemize}
+  \item Dùng chung scale khi mục tiêu là so sánh mức độ.
+  \item Không ép chung scale nếu các đại lượng khác đơn vị hoặc khác bản chất.
+  \item Giữ thứ tự panels nhất quán với câu chuyện phân tích.
+\end{itemize}
+\end{frame}
+
+% 35
+\begin{frame}[fragile]{Heatmap giúp quét nhanh ma trận tương quan}
+\begin{columns}[T,onlytextwidth]
+\column{.41\textwidth}
+\begin{lstlisting}[style=py]
+corr = df.corr(numeric_only=True)
+
+fig, ax = plt.subplots()
+im = ax.imshow(
+    corr,
+    cmap="RdBu_r",
+    vmin=-1, vmax=1
+)
+fig.colorbar(im, ax=ax)
+\end{lstlisting}
+\column{.57\textwidth}
+\centering\includegraphics[width=.80\linewidth]{\asset{correlation_heatmap.png}}
+\end{columns}
+\end{frame}
+
+% 36
+\begin{frame}{Heatmap hỗ trợ phát hiện tương quan và cấu trúc thiếu dữ liệu}
+\begin{columns}[T,onlytextwidth]
+\column{.55\textwidth}
+\includegraphics[width=\linewidth]{\asset{missing_heatmap.png}}
+\column{.42\textwidth}
+\begin{itemize}
+  \item Cột nhiều ô thiếu: cân nhắc bỏ biến hoặc tìm nguồn thay thế.
+  \item Hàng thiếu theo cụm: kiểm tra quy trình thu thập.
+  \item Mẫu thiếu có cấu trúc: không nên mặc định là ngẫu nhiên.
+\end{itemize}
+\end{columns}
+\vspace{2mm}
+\small\muted{Heatmap giúp quét nhanh; không thay thế biểu đồ cần đọc giá trị chính xác.}
+\end{frame}
+
+% 37
+\begin{frame}[fragile]{Contour thường dễ đọc hơn surface 3D}
+\begin{columns}[T,onlytextwidth]
+\column{.42\textwidth}
+\begin{lstlisting}[style=py]
+X, Y = np.meshgrid(x, y)
+Z = f(X, Y)
+
+fig = plt.figure()
+ax3d = fig.add_subplot(
+    121, projection="3d")
+ax3d.plot_surface(X, Y, Z,
+                  cmap="viridis")
+
+ax2d = fig.add_subplot(122)
+ax2d.contourf(X, Y, Z)
+\end{lstlisting}
+\column{.56\textwidth}
+\includegraphics[width=\linewidth]{\asset{surface_contour.png}}
+\end{columns}
+\end{frame}
+
+% 38
+\begin{frame}{3D chỉ nên dùng khi chiều thứ ba thật sự quan trọng}
+\begin{columns}[T,onlytextwidth]
+\column{.48\textwidth}
+\good{Dùng 3D cho}
+\begin{itemize}
+  \item bề mặt toán học;
+  \item địa hình;
+  \item mô hình không gian;
+  \item tương tác xoay góc nhìn.
+\end{itemize}
+\column{.48\textwidth}
+\bad{Tránh 3D cho}
+\begin{itemize}
+  \item bar/pie trang trí;
+  \item so sánh chính xác;
+  \item hình tĩnh bị che khuất;
+  \item “làm biểu đồ ấn tượng”.
+\end{itemize}
+\end{columns}
+\end{frame}
+
+% 39
+\begin{frame}[fragile]{Animation mô tả trạng thái thay đổi theo thời gian}
+\begin{lstlisting}[style=py]
+from matplotlib.animation import FuncAnimation
+
+fig, ax = plt.subplots()
+line, = ax.plot([], [])
+
+def update(frame):
+    line.set_data(x[:frame], y[:frame])
+    return line,
+
+ani = FuncAnimation(fig, update, frames=len(x), interval=80)
+ani.save("trend.gif", writer="pillow")
+\end{lstlisting}
+\muted{Animation phù hợp khi chuyển động là thông tin; không nên thay một biểu đồ tĩnh rõ ràng bằng hiệu ứng.}
+\end{frame}
+
+% 40
+\begin{frame}{Widgets biến Figure thành công cụ khám phá nhỏ}
+\begin{itemize}\setlength\itemsep{7pt}
+  \item \texttt{matplotlib.widgets.Slider}: thay đổi ngưỡng hoặc tham số.
+  \item \texttt{Button}: chạy lại phép tính hoặc đổi chế độ.
+  \item \texttt{CheckButtons}: bật/tắt series.
+  \item \texttt{RangeSlider}: lọc khoảng giá trị.
+\end{itemize}
+\begin{block}{Giới hạn}
+Matplotlib có tương tác, nhưng dashboard web nhiều người dùng thường phù hợp hơn với Plotly, Bokeh, Streamlit hoặc Dash.
+\end{block}
+\end{frame}
+
+\SectionSlide{5. Pandas, Seaborn và xuất bản}{Từ phân tích nhanh đến hình dùng trong báo cáo}
+
+% 42
+\begin{frame}[fragile]{Pandas cung cấp API ngắn gọn nhưng vẫn trả về Axes}
+\begin{columns}[T,onlytextwidth]
+\column{.42\textwidth}
+\begin{lstlisting}[style=py]
+ax = df.plot(
+    y=["revenue", "cost"],
+    marker="o",
+    figsize=(8, 4)
+)
+
+ax.set_title("Revenue and cost")
+ax.set_ylabel("Billion VND")
+ax.legend(frameon=False)
+\end{lstlisting}
+\column{.56\textwidth}
+\includegraphics[width=\linewidth]{\asset{pandas_plot.png}}
+\end{columns}
+\end{frame}
+
+% 43
+\begin{frame}{Matplotlib và Seaborn bổ sung cho nhau}
+\small
+\begin{tabularx}{\textwidth}{@{}p{3.5cm}XX@{}}
+\toprule
+ & \textbf{Matplotlib} & \textbf{Seaborn} \\
+\midrule
+Mức trừu tượng & Thấp hơn, kiểm soát chi tiết & Cao hơn, thiên về thống kê \\
+Dữ liệu & Mảng, chuỗi, DataFrame & DataFrame dạng tidy \\
+Thế mạnh & Tùy biến, layout, xuất bản & Phân phối, nhóm, ước lượng \\
+Kết quả & Figure/Axes & Vẫn dựa trên Matplotlib \\
+\bottomrule
+\end{tabularx}
+\vspace{4mm}
+\begin{center}\key{Cách làm phổ biến:} Seaborn vẽ nhanh, Matplotlib hoàn thiện tiêu đề, trục và bố cục.\end{center}
+\end{frame}
+
+% 44
+\begin{frame}[fragile]{Kết hợp Seaborn và Matplotlib không làm mất quyền kiểm soát}
+\begin{lstlisting}[style=py]
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(8, 4))
+sns.boxplot(data=df, x="segment", y="order_value", ax=ax)
+ax.set(title="Order value by customer segment",
+       xlabel="Customer segment", ylabel="Order value (VND)")
+fig.tight_layout()
+\end{lstlisting}
+\begin{block}{Ghi nhớ}
+Truyền rõ \texttt{ax=ax} giúp kiểm soát Figure và tích hợp biểu đồ vào subplot.
+\end{block}
+\end{frame}
+
+% 45
+\begin{frame}[fragile]{savefig xuất hình cho slide, web và bài báo}
+\begin{lstlisting}[style=py]
+fig.savefig("revenue.png", dpi=300, bbox_inches="tight")
+fig.savefig("revenue.pdf", bbox_inches="tight")
+fig.savefig("revenue.svg", bbox_inches="tight")
+\end{lstlisting}
+\begin{columns}[T,onlytextwidth]
+\column{.31\textwidth}\textbf{PNG/JPG}\\Ảnh raster; phù hợp web, slide.
+\column{.31\textwidth}\textbf{PDF/SVG}\\Vector; nét khi phóng to, phù hợp bài báo.
+\column{.31\textwidth}\textbf{DPI}\\Quan trọng với raster; 150--300 thường đủ.
+\end{columns}
+\vspace{4mm}
+\muted{Lưu trước \texttt{plt.show()} để tránh khác biệt giữa các backend.}
+\end{frame}
+
+% 46
+\begin{frame}[fragile]{Một PDF có thể chứa nhiều Figure}
+\begin{lstlisting}[style=py]
+from matplotlib.backends.backend_pdf import PdfPages
+
+with PdfPages("report_figures.pdf") as pdf:
+    for region in regions:
+        fig, ax = plt.subplots()
+        plot_region(ax, df, region)
+        pdf.savefig(fig, bbox_inches="tight")
+        plt.close(fig)
+\end{lstlisting}
+\begin{block}{Thực hành tốt}
+Đóng Figure trong vòng lặp bằng \texttt{plt.close(fig)} để tránh tăng bộ nhớ khi tạo hàng trăm hình.
+\end{block}
+\end{frame}
+
+% 47
+\begin{frame}{Các toolkit mở rộng Matplotlib theo loại dữ liệu}
+\begin{tightitems}
+  \item \key{mplot3d:} 3D tích hợp trong Matplotlib.
+  \item \key{Seaborn:} biểu đồ thống kê cấp cao.
+  \item \key{GeoPandas:} bản đồ từ GeoDataFrame, dùng Matplotlib làm backend.
+  \item \key{Cartopy:} phép chiếu và dữ liệu địa lý chuyên sâu.
+  \item \key{mplfinance:} biểu đồ tài chính.
+\end{tightitems}
+\begin{block}{Nguyên tắc chọn công cụ}
+Dùng lớp trừu tượng cao để làm nhanh; quay về Figure/Axes khi cần kiểm soát bố cục và xuất bản.
+\end{block}
+\end{frame}
+
+\SectionSlide{6. Matplotlib trong quy trình Data Science}{Biểu đồ là công cụ kiểm tra giả định và truyền đạt kết quả}
+
+% 49
+\begin{frame}{Trực quan hóa xuất hiện xuyên suốt vòng đời phân tích}
+\centering
+\begin{tikzpicture}[node distance=1.55cm,>=stealth,font=\small]
+\tikzset{processbox/.style={draw=Blue,very thick,rounded corners,fill=Paper,minimum width=2.25cm,minimum height=1.05cm,align=center}}
+\node[processbox] (q) {Câu hỏi\\nghiệp vụ};
+\node[processbox,right of=q,xshift=1.15cm] (clean) {Làm sạch\\dữ liệu};
+\node[processbox,right of=clean,xshift=1.15cm] (eda) {Khám phá\\EDA};
+\node[processbox,below of=eda,yshift=-.45cm] (model) {Mô hình\\hóa};
+\node[processbox,left of=model,xshift=-1.15cm] (eval) {Đánh giá\\mô hình};
+\node[processbox,left of=eval,xshift=-1.15cm] (comm) {Truyền đạt\\quyết định};
+\draw[->,thick] (q)--(clean); \draw[->,thick] (clean)--(eda);
+\draw[->,thick] (eda)--(model); \draw[->,thick] (model)--(eval);
+\draw[->,thick] (eval)--(comm); \draw[->,thick] (comm)--(q);
+\end{tikzpicture}
+\vspace{5mm}
+
+\muted{EDA không phải “bước trang trí”; nó hỗ trợ phát hiện lỗi, chọn biến, biến đổi dữ liệu và hình thành giả thuyết.}
+\end{frame}
+
+% 50
+\begin{frame}{Mục tiêu học máy định hướng cách trực quan hóa}
+\small
+\begin{tabularx}{\textwidth}{@{}p{3.1cm}X@{}}
+\toprule
+\textbf{Mục tiêu} & \textbf{Cách trực quan hóa hữu ích} \\
+\midrule
+Dự báo số & Đặt target ở trục y; scatter với predictor; histogram/boxplot để xem biến đổi \\
+Phân loại & Boxplot predictor theo class; scatter tô màu theo class; confusion matrix \\
+Chuỗi thời gian & Line chart ở nhiều mức tổng hợp; zoom vào giai đoạn bất thường \\
+Không giám sát & Scatter matrix; heatmap tương quan; biểu đồ profile của cụm \\
+Chất lượng dữ liệu & Histogram, boxplot, missing-value heatmap, kiểm tra giá trị bất hợp lệ \\
+\bottomrule
+\end{tabularx}
+\end{frame}
+
+% 51
+\begin{frame}{Sáu câu hỏi kiểm tra trước khi công bố biểu đồ}
+\begin{enumerate}\setlength\itemsep{6pt}
+  \item Biểu đồ trả lời câu hỏi nào?
+  \item Kiểu biểu đồ có phù hợp kiểu dữ liệu?
+  \item Trục, đơn vị và phạm vi có trung thực?
+  \item Màu có mang ý nghĩa hay chỉ trang trí?
+  \item Người đọc có thấy thông điệp trong 5--10 giây?
+  \item Mã và dữ liệu có đủ để tái lập hình?
+\end{enumerate}
+\end{frame}
+
+% 52
+\begin{frame}{Các lỗi phổ biến làm giảm độ tin cậy}
+\begin{columns}[T,onlytextwidth]
+\column{.48\textwidth}
+\bad{Lỗi thiết kế}
+\begin{itemize}
+  \item trục bị cắt gây phóng đại;
+  \item quá nhiều màu/legend;
+  \item font và nhãn quá nhỏ;
+  \item 3D che khuất dữ liệu;
+  \item pie chart có quá nhiều lát.
+\end{itemize}
+\column{.48\textwidth}
+\bad{Lỗi kỹ thuật}
+\begin{itemize}
+  \item dùng stateful API trong code phức tạp;
+  \item quên đóng Figure trong vòng lặp;
+  \item lưu ảnh DPI thấp;
+  \item layout cắt nhãn;
+  \item không cố định seed cho dữ liệu mô phỏng.
+\end{itemize}
+\end{columns}
+\end{frame}
+
+% 53
+\begin{frame}[fragile]{Đóng gói biểu đồ thành hàm giúp tái sử dụng và kiểm thử}
+\begin{lstlisting}[style=py]
+def plot_monthly_sales(ax, data, title):
+    ax.plot(data["month"], data["sales"], marker="o")
+    ax.set(title=title, xlabel="Month", ylabel="Sales")
+    ax.grid(axis="y", alpha=.25)
+    return ax
+
+fig, ax = plt.subplots(figsize=(8, 4))
+plot_monthly_sales(ax, df, "Monthly sales")
+fig.savefig("monthly_sales.svg", bbox_inches="tight")
+\end{lstlisting}
+\muted{Hàm nhận \texttt{ax} dễ ghép vào subplot và không phụ thuộc trạng thái toàn cục.}
+\end{frame}
+
+\SectionSlide{7. Củng cố và thực hành}{Kiểm tra hiểu biết rồi áp dụng vào dữ liệu kinh doanh}
+
+% 55
+\begin{frame}{Quiz 1: Chọn biểu đồ phù hợp}
+Bạn cần so sánh phân phối giá trị đơn hàng giữa bốn phân khúc khách hàng. Biểu đồ nào phù hợp nhất?
+\begin{enumerate}[A.]\setlength\itemsep{8pt}
+  \item Line chart
+  \item Side-by-side boxplot
+  \item Pie chart
+  \item 3D surface
+\end{enumerate}
+\pause
+\begin{block}{Đáp án: B}
+Boxplot cho thấy median, quartiles, độ phân tán và ngoại lệ của từng phân khúc.
+\end{block}
+\end{frame}
+
+% 56
+\begin{frame}{Quiz 2: Figure và Axes}
+Trong lệnh \texttt{fig, ax = plt.subplots()}, phát biểu nào đúng?
+\begin{enumerate}[A.]\setlength\itemsep{7pt}
+  \item \texttt{fig} là trục x; \texttt{ax} là trục y.
+  \item \texttt{fig} là toàn bộ canvas; \texttt{ax} là vùng vẽ.
+  \item \texttt{fig} chỉ dùng để lưu PNG.
+  \item \texttt{ax} chỉ dùng khi có nhiều subplot.
+\end{enumerate}
+\pause
+\begin{block}{Đáp án: B}
+Một Figure có thể chứa một hoặc nhiều Axes; Axes vẫn được dùng ngay cả khi chỉ có một biểu đồ.
+\end{block}
+\end{frame}
+
+% 57
+\begin{frame}{Quiz 3: Phát hiện vấn đề trình bày}
+Một bar chart so sánh doanh số 98 và 100, nhưng trục y bắt đầu từ 97. Vấn đề chính là gì?
+\pause
+\begin{block}{Đáp án}
+Chiều dài cột bị diễn giải từ mốc 0, nên trục cắt làm chênh lệch 2\% trông rất lớn. Nếu cần soi biến động nhỏ, dùng dot plot hoặc line chart kèm giá trị và giải thích phạm vi trục.
+\end{block}
+\end{frame}
+
+% 58
+\begin{frame}[fragile]{Bài tập mẫu: phân tích doanh thu theo tháng}
+\textbf{Yêu cầu:} vẽ line chart, thêm marker, đường trung bình và chú thích tháng cao nhất.
+\begin{lstlisting}[style=py]
+months = np.arange(1, 13)
+revenue = np.array([18, 20, 22, 21, 24, 26, 27, 26, 30, 31, 34, 37])
+
+fig, ax = plt.subplots(figsize=(9, 4.5))
+ax.plot(months, revenue, marker="o")
+ax.axhline(revenue.mean(), linestyle="--", color="gray", label="Mean")
+i = revenue.argmax()
+ax.annotate("Peak", xy=(months[i], revenue[i]), xytext=(9, 38),
+            arrowprops={"arrowstyle": "->"})
+ax.set(xlabel="Month", ylabel="Revenue", title="Monthly revenue")
+ax.legend(); fig.tight_layout()
+\end{lstlisting}
+\end{frame}
+
+% 59
+\begin{frame}{Bài thực hành 1: Dashboard bán hàng 2×2}
+Từ DataFrame có các cột \texttt{date, region, channel, revenue, cost, orders}:
+\begin{enumerate}\setlength\itemsep{5pt}
+  \item Tính doanh thu theo tháng và vẽ line chart.
+  \item Tính doanh thu theo vùng và vẽ bar chart đã sắp xếp.
+  \item Vẽ histogram giá trị đơn hàng trung bình.
+  \item Vẽ scatter giữa chi phí và doanh thu, tô màu theo kênh.
+  \item Ghép bốn biểu đồ vào một Figure 2×2, thêm tiêu đề chung.
+  \item Lưu kết quả thành PNG 300 DPI và PDF.
+\end{enumerate}
+\textbf{Gợi ý:} \texttt{groupby}, \texttt{resample}, \texttt{plt.subplots}, \texttt{fig.suptitle}.
+\end{frame}
+
+% 60
+\begin{frame}{Bài thực hành 2: Chẩn đoán dữ liệu giao hàng}
+Với dữ liệu gồm \texttt{distance, weight, promised\_days, actual\_days, carrier}:
+\begin{enumerate}\setlength\itemsep{5pt}
+  \item Tạo biến \texttt{delay = actual\_days - promised\_days}.
+  \item Dùng histogram để xem phân phối delay.
+  \item Dùng boxplot để so sánh delay giữa các hãng vận chuyển.
+  \item Dùng scatter để khảo sát distance và actual\_days.
+  \item Chú thích ba đơn hàng trễ nhất.
+  \item Viết 3 nhận xét nghiệp vụ dựa trên biểu đồ.
+\end{enumerate}
+\end{frame}
+
+% 61
+\begin{frame}{Bài tập tự làm: sửa một biểu đồ gây hiểu sai}
+Tìm hoặc tự tạo một biểu đồ có ít nhất ba vấn đề:
+\begin{itemize}
+  \item lựa chọn loại biểu đồ chưa phù hợp;
+  \item trục hoặc đơn vị không rõ;
+  \item màu/legend dư thừa;
+  \item thiếu tiêu đề mang thông điệp;
+  \item nhãn bị chồng hoặc quá nhỏ.
+\end{itemize}
+Nộp: (1) hình ban đầu, (2) hình đã sửa, (3) đoạn giải thích 150--200 từ, (4) mã Python có thể chạy lại.
+\end{frame}
+
+% 62
+\begin{frame}{Tóm tắt: từ câu hỏi đến quyết định}
+\footnotesize
+\begin{tightitems}
+  \item \key{Figure--Axes} là mô hình tư duy cốt lõi; ưu tiên Object-Oriented API.
+  \item Line, bar, scatter và histogram giải quyết phần lớn nhu cầu EDA cơ bản.
+  \item Tùy biến chỉ có giá trị khi làm rõ dữ liệu hoặc thông điệp.
+  \item Subplots, heatmap, 3D và animation phục vụ những cấu trúc câu hỏi cụ thể.
+  \item Pandas/Seaborn giúp làm nhanh; Matplotlib giữ quyền kiểm soát cuối cùng.
+  \item Xuất bản cần kiểm tra trục, đơn vị, layout, định dạng và khả năng tái lập.
+\end{tightitems}
+\end{frame}
+
+% 63
+\begin{frame}{Tài liệu tham khảo và học tiếp}
+\small
+\begin{thebibliography}{9}
+\bibitem{mpl} Matplotlib Development Team. \emph{Matplotlib Documentation}.\\
+\url{https://matplotlib.org/stable/}
+
+\bibitem{gfg} GeeksforGeeks. \emph{Matplotlib Tutorial}, cập nhật 24/02/2026.\\
+\url{https://www.geeksforgeeks.org/python-matplotlib-an-overview/}
+
+\bibitem{shmueli} G. Shmueli, P. C. Bruce, A. V. Deokar, N. R. Patel (2023).\\
+\emph{Machine Learning for Business Analytics}, Chương 3: Data Visualization. Wiley.
+
+\bibitem{few} S. Few (2012). \emph{Show Me the Numbers}, 2nd ed. Analytics Press.
+\end{thebibliography}
+\end{frame}
+
+
+
+\end{document}

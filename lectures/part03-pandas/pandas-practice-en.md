@@ -71,8 +71,8 @@ values = [10, 20, 30, 40]
 ### Requirements
 
 1. Create a `Series` named `s` from `values`.
-2. In `s`.
-3. In `s.index`, `s.values`, `s.dtype`.
+2. Print `s`.
+3. Print `s.index`, `s.values`, and `s.dtype`.
 4. Create another `Series` with index `["A", "B", "C", "D"]`.
 5. Access the element with label `"C"` using `loc`.
 6. Access the element at position 2 using `iloc`.
@@ -80,7 +80,7 @@ values = [10, 20, 30, 40]
 
 ### Hint
 
-Hint: use `pd.Series(...)`, then inspect `.index`, `.values`, `.dtype`; use `.loc[...]` cho label and `.iloc[...]` cho position.
+Hint: use `pd.Series(...)`, then inspect `.index`, `.values`, `.dtype`; use `.loc[...]` for labels and `.iloc[...]` for positions.
 
 ### Incomplete Starter Code
 
@@ -506,8 +506,8 @@ sales = pd.DataFrame({
 ### Requirements
 
 1. Write `sales` to `sales.csv` with `index=False`.
-2. Read file ando `sales_csv`.
-3. In `sales_csv`.
+2. Read the file back into `sales_csv`.
+3. Print `sales_csv`.
 4. Compare `shape` of `sales` and `sales_csv`.
 5. Explain why `index=False` is commonly used.
 
@@ -560,7 +560,7 @@ Use the `sales` DataFrame.
 
 ### Requirements
 
-1. Write `sales` ra `sales.xlsx`.
+1. Write `sales` to `sales.xlsx`.
 2. Read the file back into `sales_excel`.
 3. Print the data.
 4. Compare it with the original DataFrame.
@@ -650,7 +650,7 @@ df = pd.DataFrame({
 
 ### Requirements
 
-1. In `df`.
+1. Print `df`.
 2. Use `isna()` to identify missing-value positions.
 3. Count missing values by column.
 4. Calculate the total number of missing values in the entire DataFrame.
@@ -701,9 +701,9 @@ Use the `df` DataFrame from Exercise 12.
 1. Create `drop_rows` by removing rows with missing values.
 2. Create `drop_cols` by removing columns with missing values.
 3. Create `filled`:
-   - `Age`: thay equal to mean;
-   - `GPA`: thay equal to median;
-   - `City`: thay equal to `"Unknown"`.
+   - `Age`: replace with mean;
+   - `GPA`: replace with median;
+   - `City`: replace with `"Unknown"`.
 4. Print the number of missing values after processing.
 5. Do not modify the original `df`.
 6. Explain when to use `dropna()` and when to use `fillna()`.
@@ -827,15 +827,15 @@ df = pd.DataFrame({
 ### Requirements
 
 1. Print `dtypes`.
-2. Convert `Price` sang numeric equal to `pd.to_numeric(..., errors="coerce")`.
-3. Convert `Quantity` sang `int`.
+2. Convert `Price` to numeric using `pd.to_numeric(..., errors="coerce")`.
+3. Convert `Quantity` to `int`.
 4. Print `dtypes` again.
 5. Check missing values in `Price`.
 6. Explain what `"unknown"` becomes and why.
 
 ### Hint
 
-Hint: use `pd.to_numeric(..., errors='coerce')` cho column has dirty data; `astype(int)` is appropriate when you are sure there are no invalid values left.
+Hint: use `pd.to_numeric(..., errors='coerce')` for columns with dirty data; `astype(int)` is appropriate when you are sure there are no invalid values left.
 
 ### Incomplete Starter Code
 
@@ -1065,7 +1065,7 @@ df = pd.DataFrame({
 3. Check that the minimum of `MinMax` equals 0.
 4. Check that the maximum of `MinMax` equals 1.
 5. Check that the mean of `ZScore` is approximately 0.
-6. Explain difference keepa min-max normalization and z-score standardization.
+6. Explain the difference between min-max normalization and z-score standardization.
 
 ### Hint
 
@@ -1327,7 +1327,7 @@ Create pivot table:
 
 Then:
 
-1. in pivot table;
+1. Print the pivot table;
 2. calculate the sum of each row;
 3. explain how the pivot table makes the data easier to read.
 
@@ -1583,8 +1583,8 @@ df2 = pd.DataFrame({
 1. Concatenate `df1` and `df2` by rows.
 2. Use `ignore_index=True`.
 3. Create another DataFrame with a `Category` column and concatenate by columns.
-4. In `shape`.
-5. Explain difference keepa `concat()` and `merge()`.
+4. Print `shape`.
+5. Explain the difference between `concat()` and `merge()`.
 
 ### Hint
 
@@ -1890,7 +1890,7 @@ Create:
 1. line chart of Sales by Month;
 2. bar chart of Sales;
 3. histogram of Sales;
-4. scatter plot keepa Advertising and Sales.
+4. Scatter plot between Advertising and Sales.
 
 Each chart should include:
 
@@ -1995,7 +1995,7 @@ Do not use a Python loop to process rows one by one:
    - `shape`;
    - `dtypes`;
    - `info()`.
-2. Convert `Date` sang datetime.
+2. Convert `Date` to datetime.
 3. Count missing values.
 4. Replace missing `Price` values with the median `Price`.
 5. Create:
@@ -2277,7 +2277,7 @@ Check the skills you have completed:
 - [ ] Distinguish `loc` from `iloc`.
 - [ ] Filter data using one or multiple conditions.
 - [ ] Sort data using `sort_values()`.
-- [ ] Read and ghi CSV, Excel and JSON.
+- [ ] Read and write CSV, Excel, and JSON.
 - [ ] Detect missing data using `isna()`.
 - [ ] Handle missing values using `dropna()` and `fillna()`.
 - [ ] Detect and remove duplicates.
@@ -2293,5 +2293,5 @@ Check the skills you have completed:
 - [ ] Calculate correlation.
 - [ ] Convert datetime data.
 - [ ] Use `resample()` and `rolling()`.
-- [ ] Create visualization nhanh equal to Pandas.
+- [ ] Create quick visualizations using Pandas.
 - [ ] Complete the integrated data-analysis exercise.
