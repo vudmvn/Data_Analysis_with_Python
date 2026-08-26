@@ -14,6 +14,8 @@
 ## 📁 Cấu trúc tài liệu (Directory Structure)
 
 ### 📘 Bài giảng & Slide (Lectures & Slides)
+- **Tài liệu bài đọc lý thuyết tổng hợp:**
+  - `visualization-intro-vn.md`: Bài đọc chi tiết toàn diện về Trực quan hóa dữ liệu với Matplotlib và Seaborn (Kiến trúc Figure-Axes, 5 biểu đồ nền tảng, Seaborn statistical plots, Dashboard subplots, ứng dụng Business/Economics/Data Science và Cheat sheet).
 - **Matplotlib:**
   - `part04-matplotlib-vn.tex`: Mã nguồn LaTeX Beamer slide bài giảng Matplotlib (*Từ biểu đồ cơ bản đến quy trình phân tích dữ liệu có thể tái lập*).
   - `part04-matplotlib-vn.pdf`: Slide bài giảng Matplotlib định dạng PDF (66 trang).
