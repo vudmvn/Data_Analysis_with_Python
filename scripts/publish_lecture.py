@@ -251,17 +251,17 @@ def scan_lectures_dir(lectures_dir):
 def generate_portal_readmes():
     root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
     lectures_dir = os.path.join(root_dir, "lectures")
-    readme_vn_path = os.path.join(root_dir, "README.md")
-    readme_en_path = os.path.join(root_dir, "README-en.md")
+    readme_vn_path = os.path.join(root_dir, "index.md")
+    readme_en_path = os.path.join(root_dir, "index-en.md")
 
     lecture_map = scan_lectures_dir(lectures_dir)
 
     # -------------------------------------------------------------
-    # 1. TẠO FILE README.md (PHIÊN BẢN TIẾNG VIỆT CÓ DẤU CHUẨN)
+    # 1. TẠO FILE index.md (PHIÊN BẢN TIẾNG VIỆT CÓ DẤU CHUẨN)
     # -------------------------------------------------------------
     vn_content = """# 🐍 DSAI1005 – Phân tích dữ liệu với Python
 
-🌐 **Ngôn ngữ:** 🇻🇳 **Tiếng Việt** | [🇬🇧 Phiên bản Tiếng Anh (README-en.md)](README-en.md)
+🌐 **Ngôn ngữ:** 🇻🇳 **Tiếng Việt** | [🇬🇧 Phiên bản Tiếng Anh (index-en.md)](index-en.md)
 
 > **Giảng viên:** TS. Vũ Đức Minh (`minhvd@neu.edu.vn`)  
 > **Đơn vị phụ trách:** Khoa Khoa học dữ liệu và Trí tuệ nhân tạo – Trường Đại học Kinh tế Quốc dân (NEU)  
@@ -330,14 +330,14 @@ Bảng dưới đây tổng hợp chi tiết tài liệu học tập, bài giả
 
     with open(readme_vn_path, "w", encoding="utf-8") as f:
         f.write(vn_content)
-    print("✅ Đã cập nhật file README.md (Tiếng Việt có dấu chuẩn)!")
+    print("✅ Đã cập nhật file index.md (Tiếng Việt có dấu chuẩn)!")
 
     # -------------------------------------------------------------
-    # 2. TẠO FILE README-en.md (BILINGUAL / ENGLISH VERSION)
+    # 2. TẠO FILE index-en.md (BILINGUAL / ENGLISH VERSION)
     # -------------------------------------------------------------
     en_content = """# 🐍 DSAI1005 – Data Analysis with Python
 
-🌐 **Language:** [🇻🇳 Vietnamese Version (README.md)](README.md) | 🇬🇧 **English**
+🌐 **Language:** [🇻🇳 Vietnamese Version (index.md)](index.md) | 🇬🇧 **English**
 
 > **Lecturer:** Dr. Minh Duc Vu (`minhvd@neu.edu.vn`)  
 > **Department:** School of Data Science and Artificial Intelligence – National Economics University (NEU)  
@@ -406,7 +406,7 @@ The table below summarizes lecture notebooks, reading materials, slides, lab ass
 
     with open(readme_en_path, "w", encoding="utf-8") as f:
         f.write(en_content)
-    print("✅ Đã cập nhật file README-en.md (Phiên bản Tiếng Anh / English Version)!")
+    print("✅ Đã cập nhật file index-en.md (Phiên bản Tiếng Anh / English Version)!")
 
 def run_git_publish(message):
     print("Đang đẩy dữ liệu lên GitHub...")

@@ -1,59 +1,62 @@
 \documentclass[aspectratio=169,11pt]{beamer}
 
 \usetheme{AnnArbor}
-\usepackage{fontspec}
-\usepackage{amsmath,amssymb,booktabs,array,multicol}
-\usepackage{listings}
-\usepackage{xcolor}
-\usepackage{graphicx}
-\usepackage{hyperref}
-\usepackage{ragged2e}
-
-\setmainfont{DejaVu Serif}
-\setsansfont{DejaVu Sans}
-\setmonofont{Noto Sans Mono}
-
-\definecolor{CodeBg}{RGB}{248,248,248}
-\definecolor{TitleBlue}{RGB}{38,79,129}
-\definecolor{AccentGreen}{RGB}{35,125,93}
-\definecolor{SoftGray}{RGB}{80,80,80}
-\definecolor{QuizOrange}{RGB}{180,95,30}
-
-\setbeamercolor{title}{fg=TitleBlue}
-\setbeamercolor{frametitle}{fg=TitleBlue}
-\setbeamercolor{structure}{fg=AccentGreen}
-\setbeamercolor{block title}{fg=white,bg=TitleBlue}
-\setbeamercolor{block body}{bg=blue!3}
-\setbeamercolor{alertblock title}{fg=white,bg=QuizOrange}
-\setbeamercolor{alertblock body}{bg=orange!6}
+\usecolortheme{dolphin}
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{footline}[frame number]
-\setbeamertemplate{itemize item}{\raise0.15ex\hbox{\tiny$\blacktriangleright$}}
-\setbeamertemplate{itemize subitem}{\raise0.15ex\hbox{\tiny$\bullet$}}
 
-\lstdefinestyle{py}{
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{amsmath}
+
+\definecolor{codegray}{RGB}{245,245,245}
+\definecolor{codeblue}{RGB}{0,65,120}
+\definecolor{darkgreen}{RGB}{0,100,60}
+
+\lstdefinestyle{pythonstyle}{
   language=Python,
   basicstyle=\ttfamily\scriptsize,
-  backgroundcolor=\color{CodeBg},
-  frame=single,
-  framerule=0.2pt,
-  rulecolor=\color{gray!35},
-  breaklines=true,
+  keywordstyle=\color{codeblue}\bfseries,
+  stringstyle=\color{darkgreen},
+  commentstyle=\color{gray},
   showstringspaces=false,
-  keywordstyle=\color{TitleBlue}\bfseries,
-  commentstyle=\color{SoftGray}\itshape,
-  stringstyle=\color{AccentGreen},
-  upquote=true
+  breaklines=true,
+  frame=single,
+  backgroundcolor=\color{codegray},
+  columns=fullflexible
 }
 
-\newcommand{\key}[1]{\textbf{\textcolor{AccentGreen}{#1}}}
-\newcommand{\cmd}[1]{\texttt{\detokenize{#1}}}
+\lstdefinestyle{textstyle}{
+  basicstyle=\ttfamily\scriptsize,
+  showstringspaces=false,
+  breaklines=true,
+  frame=single,
+  backgroundcolor=\color{codegray},
+  columns=fullflexible
+}
 
-\title[Data Access \& Storage]{Data Access and Storage with Python}
-\subtitle{Flat Files (CSV), Diverse Formats (Excel, JSON, HTML, PDF), SQLite \& MongoDB}
-\author{Dr. Minh Duc Vu}
-\institute{School of Data Science \& Artificial Intelligence -- National Economics University (NEU)}
-\date{September 2026}
+\lstset{style=pythonstyle}
+
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\smallgap}{\vspace{0.4em}}
+
+\title[Data Access and Storage]{Data Access and Storage with Python}
+\subtitle{Accessing, Importing, Integrating, and Storing Data for Analysis}
+\author{DSAI1005 - Data Analysis with Python}
+\institute{Faculty of Data Science and Artificial Intelligence\\National Economics University}
+\date{2026}
+
+\AtBeginSection[]{
+  \begin{frame}{Roadmap}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
 
 \begin{document}
 
@@ -61,298 +64,1227 @@
   \titlepage
 \end{frame}
 
-\begin{frame}{Learning Objectives (CLO 5.4)}
-\small
-Upon completing this module, learners will be able to:
+\begin{frame}{Lesson Motivation}
+In Data Science and Machine Learning projects, data is rarely available as a clean and analysis-ready DataFrame.
+
+\smallgap
+Data may be stored in many formats:
 \begin{itemize}
-  \item \key{CSV Ingestion \& Export:} Master \cmd{np.loadtxt}, \cmd{np.genfromtxt}, and advanced \cmd{pd.read_csv()} features (\cmd{chunksize}, \cmd{encoding}, \cmd{parse_dates}).
-  \item \key{Diverse File Formats:} Process multi-sheet Excel workbooks (\cmd{openpyxl}), unpack nested JSON trees (\cmd{json_normalize}), scrape HTML tables, and extract PDF records.
-  \item \key{Relational Databases:} Connect to SQLite via \cmd{sqlite3} \& \cmd{SQLAlchemy}, execute parameterized queries, and bridge two-way transfers with Pandas (\cmd{read_sql_query}, \cmd{to_sql}).
-  \item \key{NoSQL Document Stores:} Connect to MongoDB via \cmd{pymongo}, execute CRUD operations, and normalize BSON \cmd{ObjectId} records into DataFrames.
-  \item \key{End-to-End Pipeline:} Architect an automated multimodal data pipeline for business intelligence reporting.
+  \item CSV and delimited text files
+  \item Excel workbooks
+  \item JSON returned by Web APIs
+  \item HTML tables on websites
+  \item PDF reports and documents
+  \item relational databases and NoSQL databases
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Python Data Access \& Storage Ecosystem}
-\centering
-\IfFileExists{images/data-access-storage-overview.png}{
-  \includegraphics[width=0.92\linewidth]{images/data-access-storage-overview.png}
-}{
-  \begin{block}{Architecture}
-  Files \& Databases $\rightarrow$ Pandas / NumPy Core $\rightarrow$ Target Analytics
-  \end{block}
-}
+\begin{frame}{Where This Topic Fits in the ML Workflow}
+\begin{columns}[T]
+\begin{column}{0.45\textwidth}
+\begin{center}
+\small
+\begin{tabular}{c}
+Define Purpose \\
+$\downarrow$ \\
+\textbf{Obtain Data} \\
+$\downarrow$ \\
+\textbf{Explore and Clean Data} \\
+$\downarrow$ \\
+Determine ML Task \\
+$\downarrow$ \\
+Choose ML Methods \\
+$\downarrow$ \\
+Train and Evaluate \\
+$\downarrow$ \\
+Deploy
+\end{tabular}
+\end{center}
+\end{column}
+\begin{column}{0.50\textwidth}
+This lesson focuses on the work that must happen before modeling begins:
+\begin{itemize}
+  \item obtaining data;
+  \item preparing data;
+  \item integrating sources;
+  \item storing reusable results.
+\end{itemize}
+\end{column}
+\end{columns}
 \end{frame}
 
-\begin{frame}[fragile]{Reading CSV Data with NumPy}
-\small
-NumPy provides two primary functions for text-based matrix loading:
-\begin{columns}[T]
-\column{0.48\linewidth}
-\begin{block}{\cmd{np.loadtxt()}}
-Ideal for clean, pure numerical matrices with no missing values.
-\begin{lstlisting}[style=py]
-import numpy as np
-# Ingest homogeneous numeric matrix
-arr = np.loadtxt("matrix.csv", 
-                 delimiter=",", 
-                 skiprows=1)
-print(arr.shape)
+\begin{frame}{Learning Objectives}
+After this lesson, learners should be able to:
+\begin{itemize}
+  \item access data from CSV, Excel, JSON, HTML, PDF, SQLite, and MongoDB;
+  \item use key Pandas I/O parameters such as \code{usecols}, \code{dtype}, \code{parse\_dates}, and \code{chunksize};
+  \item flatten nested JSON data into tabular form;
+  \item move data between SQL databases and Pandas DataFrames;
+  \item build a multi-source data pipeline;
+  \item choose suitable storage formats for analytical tasks.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Lesson Structure}
+\begin{enumerate}
+  \item Overview of data access and storage
+  \item CSV files with NumPy
+  \item CSV files with Pandas
+  \item Microsoft Excel
+  \item JSON
+  \item HTML and PDF
+  \item SQLite
+  \item MongoDB and PyMongo
+  \item Multi-source data pipelines
+  \item Best practices
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Prerequisites}
+To follow the lesson effectively, learners should have:
+\begin{itemize}
+  \item basic Python knowledge;
+  \item familiarity with variables, lists, dictionaries, loops, and functions;
+  \item basic knowledge of NumPy and Pandas DataFrames;
+  \item understanding of rows, columns, and tabular data;
+  \item access to Jupyter Notebook, Google Colab, VS Code, or a similar environment.
+\end{itemize}
+\end{frame}
+
+\section{Overview of Data Access and Storage}
+
+\begin{frame}[fragile]{What Is Data Access?}
+\textbf{Data access} is the process of retrieving data from a storage source and bringing it into an analytical environment.
+
+\smallgap
+Example: loading a CSV file into Pandas.
+\begin{lstlisting}[style=textstyle]
+customers.csv
+      |
+      v
+pd.read_csv()
+      |
+      v
+DataFrame
 \end{lstlisting}
-\end{block}
-\column{0.48\linewidth}
-\begin{block}{\cmd{np.genfromtxt()}}
-Robust parsing with missing value imputation.
-\begin{lstlisting}[style=py]
-# Replace missing cells with 0.0
-arr_gen = np.genfromtxt(
-    "numeric_sample.csv",
+
+Example: querying a database before analysis.
+\begin{lstlisting}[style=textstyle]
+SQL Database -> SQL Query -> Pandas DataFrame
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{What Is Data Storage?}
+\textbf{Data storage} is the process of saving data or analytical results in a reusable format or storage system.
+
+\begin{lstlisting}[style=textstyle]
+DataFrame -> to_csv() -> report.csv
+DataFrame -> to_sql() -> Database Table
+\end{lstlisting}
+
+\smallgap
+Storage is not only an output step. It also supports reproducibility, reporting, sharing, and later modeling.
+\end{frame}
+
+\begin{frame}{Common Data Sources}
+\begin{tabularx}{\textwidth}{lX}
+\toprule
+\textbf{Source Type} & \textbf{Examples} \\
+\midrule
+Flat files & CSV, TSV \\
+Spreadsheets & Excel \\
+Semi-structured data & JSON \\
+Web data & HTML tables \\
+Documents & PDF reports \\
+Relational databases & SQLite, PostgreSQL, MySQL \\
+NoSQL databases & MongoDB \\
+\bottomrule
+\end{tabularx}
+\end{frame}
+
+\begin{frame}[fragile]{Structured and Semi-Structured Data}
+Structured data has a clear row-and-column structure.
+\begin{lstlisting}[style=textstyle]
+CustomerID | Name | City | Revenue
+\end{lstlisting}
+
+Semi-structured data may contain nested objects and lists.
+\begin{lstlisting}[style=pythonstyle]
+{
+    "customer": {"name": "An", "city": "Hanoi"},
+    "orders": [
+        {"product": "A"},
+        {"product": "B"}
+    ]
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Exercise: Classify Data Sources}
+Classify each source into a suitable category.
+\begin{enumerate}
+  \item \code{sales.csv}
+  \item \code{customers.xlsx}
+  \item JSON data returned by a Web API
+  \item \code{company.db}
+  \item MongoDB
+  \item A financial report in PDF format
+\end{enumerate}
+
+\smallgap
+Use: flat file, spreadsheet, semi-structured data, relational database, NoSQL database, document.
+\end{frame}
+
+\begin{frame}{Knowledge Check}
+\textbf{Question 1.} Which format is commonly considered a flat file?
+\begin{enumerate}[A.]
+  \item CSV
+  \item MongoDB
+  \item SQLite
+  \item PDF
+\end{enumerate}
+
+\smallgap
+\textbf{Question 2.} Which format naturally supports nested objects and lists?
+\begin{enumerate}[A.]
+  \item JSON
+  \item CSV
+  \item TSV
+  \item Numerical matrix
+\end{enumerate}
+\end{frame}
+
+\section{Working with CSV Files Using NumPy}
+
+\begin{frame}[fragile]{Reading Numerical Files with \code{np.loadtxt()}}
+\code{np.loadtxt()} is suitable when data is mainly numerical, simple, and has no missing values.
+
+\begin{lstlisting}[style=pythonstyle]
+import numpy as np
+
+data = np.loadtxt(
+    "matrix_data.csv",
+    delimiter=",",
+    skiprows=1
+)
+
+print(data)
+print(data.shape)
+\end{lstlisting}
+
+Column means can be computed using:
+\begin{lstlisting}[style=pythonstyle]
+print(np.mean(data, axis=0))
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Exercise: \code{np.loadtxt()}}
+Complete the program to read \code{sales.csv}, where values are separated by commas.
+
+\begin{lstlisting}[style=pythonstyle]
+# data = np.loadtxt(
+#     "sales.csv",
+#     delimiter=...
+# )
+
+# print(data.shape)
+\end{lstlisting}
+
+Then determine the number of rows and columns.
+\end{frame}
+
+\begin{frame}[fragile]{Handling Missing Values with \code{np.genfromtxt()}}
+\code{np.genfromtxt()} is more flexible than \code{np.loadtxt()} when numerical files contain missing values.
+
+\begin{lstlisting}[style=pythonstyle]
+data = np.genfromtxt(
+    "numeric_data.csv",
     delimiter=",",
     skip_header=1,
-    filling_values=0.0
+    filling_values=0.0,
+    dtype=float
 )
+
+print(data)
 \end{lstlisting}
-\end{block}
-\end{columns}
-\vspace{0.5em}
-Export array to CSV: \texttt{np.savetxt("out.csv", arr, delimiter=",", fmt="\%0.2f")}.
+
+Here, missing values are replaced with \code{0.0}.
 \end{frame}
 
-\begin{frame}[fragile]{Essential Parameters of Pandas \cmd{read_csv()}}
-\small
-\begin{lstlisting}[style=py]
+\begin{frame}[fragile]{Writing Arrays with \code{np.savetxt()}}
+\code{np.savetxt()} saves a NumPy array to a text file.
+
+\begin{lstlisting}[style=pythonstyle]
+output = np.random.randn(5, 3)
+
+np.savetxt(
+    "output.csv",
+    output,
+    delimiter=",",
+    fmt="%.2f",
+    header="A,B,C",
+    comments=""
+)
+\end{lstlisting}
+
+\code{fmt="\%.2f"} writes each number with two decimal places.
+\end{frame}
+
+\begin{frame}{NumPy CSV Functions}
+\begin{tabularx}{\textwidth}{lX}
+\toprule
+\textbf{Function} & \textbf{Purpose} \\
+\midrule
+\code{np.loadtxt()} & Read numerical data from simple structured text files \\
+\code{np.genfromtxt()} & Read numerical data with missing-value support \\
+\code{np.savetxt()} & Write NumPy arrays to text files \\
+\bottomrule
+\end{tabularx}
+\end{frame}
+
+\begin{frame}[fragile]{Practical Exercise: Monthly Sales}
+Create \code{monthly\_sales.csv} with the following content:
+\begin{lstlisting}[style=textstyle]
+Month,Revenue,Cost
+1,120,80
+2,150,
+3,180,110
+4,,130
+\end{lstlisting}
+
+Complete these tasks:
+\begin{enumerate}
+  \item Read the data using \code{np.genfromtxt()}.
+  \item Replace missing values with \code{0}.
+  \item Calculate mean Revenue and Cost.
+  \item Save the processed numerical data using \code{np.savetxt()}.
+\end{enumerate}
+\end{frame}
+
+\section{Working with CSV Files Using Pandas}
+
+\begin{frame}[fragile]{Reading CSV Files with \code{pd.read\_csv()}}
+Pandas provides \code{pd.read\_csv()} for reading tabular data from CSV files.
+
+\begin{lstlisting}[style=pythonstyle]
 import pandas as pd
 
+df = pd.read_csv("customers.csv")
+
+print(df.head())
+\end{lstlisting}
+
+Pandas is suitable when data contains text, dates, multiple types, missing values, and column labels.
+\end{frame}
+
+\begin{frame}[fragile]{Specifying Delimiters with \code{sep}}
+Not every file uses a comma as the separator.
+
+Semicolon-delimited file:
+\begin{lstlisting}[style=pythonstyle]
 df = pd.read_csv(
-    "data/customers.csv",
-    sep=",",                         # Column delimiter character (default ',')
-    index_col="customer_id",         # Designate primary index column
-    usecols=["customer_id", "full_name", "signup_date", "total_spent"], # Save RAM
-    dtype={"customer_id": str},      # Explicit type enforcement
-    parse_dates=["signup_date"],     # Parse ISO date strings to datetime64
-    na_values=["NA", "null", "-"],   # Sentinel missing values
-    encoding="utf-8"                 # Universal text encoding
+    "data.csv",
+    sep=";"
 )
 \end{lstlisting}
-\vspace{-0.3em}
-\begin{alertblock}{Production Export Tip}
-Use \cmd{df.to_csv("clean.csv", index=False, encoding="utf-8-sig")}. The \cmd{utf-8-sig} parameter includes a Byte Order Mark (BOM) enabling Microsoft Excel to automatically render UTF-8 characters properly.
-\end{alertblock}
-\end{frame}
 
-\begin{frame}[fragile]{Out-of-Core Processing with \cmd{chunksize}}
-\small
-When datasets exceed available physical RAM, loading the entire file raises a fatal \key{MemoryError}. Chunk streaming processes records iteratively:
-
-\begin{lstlisting}[style=py]
-import pandas as pd
-
-# Streaming iterator loading 100,000 rows per batch
-chunk_iter = pd.read_csv("large_transactions.csv", chunksize=100000,
-                         usecols=["store_id", "revenue"])
-
-store_totals = {}
-for i, chunk in enumerate(chunk_iter):
-    # Process each batch independently in RAM
-    grouped = chunk.groupby("store_id")["revenue"].sum()
-    for sid, rev in grouped.items():
-        store_totals[sid] = store_totals.get(sid, 0) + rev
-    print(f"-> Finished chunk #{i+1}")
-
-print("Total aggregated revenue:", store_totals)
+Tab-separated file:
+\begin{lstlisting}[style=pythonstyle]
+df = pd.read_csv(
+    "data.tsv",
+    sep="\t"
+)
 \end{lstlisting}
 \end{frame}
 
-\begin{frame}[fragile]{Working with Excel Workbooks (\cmd{openpyxl})}
-\small
-\begin{columns}[T]
-\column{0.48\linewidth}
-\begin{block}{Reading Multiple Worksheets}
-\begin{lstlisting}[style=py]
-# Ingest specific worksheet
-df = pd.read_excel("products.xlsx", 
-                   sheet_name="Products", 
-                   engine="openpyxl")
+\begin{frame}[fragile]{Reading Selected Columns with \code{usecols}}
+\code{usecols} selects columns during import.
 
-# Read ALL sheets into a dict of DFs
-all_sheets = pd.read_excel(
-    "products.xlsx", 
-    sheet_name=None, 
+\begin{lstlisting}[style=pythonstyle]
+df = pd.read_csv(
+    "customers.csv",
+    usecols=[
+        "customer_id",
+        "city",
+        "total_spent"
+    ]
+)
+\end{lstlisting}
+
+Benefits include lower memory use, faster loading, and simpler downstream analysis.
+\end{frame}
+
+\begin{frame}[fragile]{Specifying Data Types with \code{dtype}}
+Pandas can infer data types automatically, but explicit types are often safer.
+
+\begin{lstlisting}[style=pythonstyle]
+df = pd.read_csv(
+    "customers.csv",
+    dtype={
+        "customer_id": str,
+        "age": "Int64"
+    }
+)
+\end{lstlisting}
+
+Fields such as CustomerID, StudentID, ProductID, and PostalCode usually represent identifiers, not numerical measurements.
+\end{frame}
+
+\begin{frame}[fragile]{Parsing Dates with \code{parse\_dates}}
+Pandas can convert columns to datetime during import.
+
+\begin{lstlisting}[style=pythonstyle]
+df = pd.read_csv(
+    "orders.csv",
+    parse_dates=["OrderDate"]
+)
+
+print(df.dtypes)
+\end{lstlisting}
+
+This is useful before filtering, grouping, or resampling by time.
+\end{frame}
+
+\begin{frame}[fragile]{Defining Missing Values with \code{na\_values}}
+Real datasets may use different symbols for missing values.
+
+\begin{lstlisting}[style=pythonstyle]
+df = pd.read_csv(
+    "customers.csv",
+    na_values=[
+        "NA",
+        "N/A",
+        "-",
+        "missing"
+    ]
+)
+\end{lstlisting}
+
+Pandas converts these symbols into standard missing values.
+\end{frame}
+
+\begin{frame}[fragile]{Character Encoding}
+Use UTF-8 when reading text with non-ASCII characters.
+
+\begin{lstlisting}[style=pythonstyle]
+df = pd.read_csv(
+    "customers.csv",
+    encoding="utf-8"
+)
+\end{lstlisting}
+
+For CSV files intended for Microsoft Excel on Windows:
+\begin{lstlisting}[style=pythonstyle]
+df.to_csv(
+    "customers_clean.csv",
+    index=False,
+    encoding="utf-8-sig"
+)
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Inspecting Data After Import}
+After loading a dataset, inspect structure and quality immediately.
+
+\begin{lstlisting}[style=pythonstyle]
+df.head()
+df.shape
+df.info()
+df.dtypes
+df.isna().sum()
+\end{lstlisting}
+
+These commands help identify row counts, column names, data types, non-missing values, and missing-value counts.
+\end{frame}
+
+\begin{frame}[fragile]{Reading Large Datasets with \code{chunksize}}
+When a CSV file is larger than available memory, process it incrementally.
+
+\begin{lstlisting}[style=pythonstyle]
+total = 0
+
+for chunk in pd.read_csv(
+    "transactions.csv",
+    chunksize=100000
+):
+    total += chunk["Amount"].sum()
+
+print(total)
+\end{lstlisting}
+
+The file is read, processed, and discarded one chunk at a time.
+\end{frame}
+
+\begin{frame}[fragile]{Writing a DataFrame to CSV}
+Use \code{to\_csv()} to export a DataFrame.
+
+\begin{lstlisting}[style=pythonstyle]
+df.to_csv(
+    "clean_data.csv",
+    index=False,
+    encoding="utf-8-sig"
+)
+\end{lstlisting}
+
+\code{index=False} prevents the DataFrame index from being written as an additional column.
+\end{frame}
+
+\begin{frame}{Pandas CSV Functions and Arguments}
+\begin{tabularx}{\textwidth}{lX}
+\toprule
+\textbf{Function or Argument} & \textbf{Purpose} \\
+\midrule
+\code{pd.read\_csv()} & Read CSV or other delimited files \\
+\code{usecols=} & Read selected columns only \\
+\code{dtype=} & Specify data types \\
+\code{parse\_dates=} & Convert columns to datetime \\
+\code{na\_values=} & Define missing-value symbols \\
+\code{chunksize=} & Read data incrementally \\
+\code{df.to\_csv()} & Write a DataFrame to CSV \\
+\bottomrule
+\end{tabularx}
+\end{frame}
+
+\begin{frame}{Knowledge Check: Pandas CSV}
+\textbf{Question 1.} Which argument allows only selected columns to be read?
+\begin{enumerate}[A.]
+  \item \code{usecols}
+  \item \code{keepcols}
+  \item \code{columns\_only}
+  \item \code{filter\_columns}
+\end{enumerate}
+
+\smallgap
+\textbf{Question 2.} Which argument is useful for very large CSV files?
+\begin{enumerate}[A.]
+  \item \code{chunksize}
+  \item \code{batch=True}
+  \item \code{split=True}
+  \item \code{large=True}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Practical Exercise: Customer CSV}
+Create \code{customers.csv} containing CustomerID, Name, City, Age, SignupDate, and TotalSpent.
+
+Include missing symbols such as \code{NA} and \code{-}, and CustomerID values such as \code{001} and \code{002}.
+
+Tasks:
+\begin{enumerate}
+  \item Read CustomerID as \code{str}.
+  \item Parse SignupDate as datetime.
+  \item Treat \code{NA} and \code{-} as missing values.
+  \item Read only five columns needed for analysis.
+  \item Inspect the data and export \code{customers\_clean.csv}.
+\end{enumerate}
+\end{frame}
+
+\section{Working with Microsoft Excel}
+
+\begin{frame}[fragile]{Reading a Worksheet}
+Pandas uses \code{pd.read\_excel()} to read Excel data.
+
+\begin{lstlisting}[style=pythonstyle]
+df = pd.read_excel(
+    "products.xlsx",
+    sheet_name="Products",
     engine="openpyxl"
 )
-# all_sheets["Categories"] is a DF
 \end{lstlisting}
-\end{block}
-\column{0.48\linewidth}
-\begin{block}{Multi-Sheet Excel Export}
-\begin{lstlisting}[style=py]
-# Write multi-sheet via ExcelWriter
-with pd.ExcelWriter("report.xlsx", 
-                    engine="openpyxl") as w:
-    df_prod.to_excel(w, 
-                     sheet_name="Products", 
-                     index=False)
-    df_kpi.to_excel(w, 
-                    sheet_name="Summary_KPI", 
-                    index=False)
-\end{lstlisting}
-\end{block}
-\end{columns}
+
+The \code{sheet\_name} argument specifies the worksheet to read.
 \end{frame}
 
-\begin{frame}[fragile]{Flattening Nested JSON Hierarchies (\cmd{json_normalize})}
-\small
-RESTful API payloads commonly arrive with complex multi-level nesting (\key{Sub-dictionaries \& Arrays}).
+\begin{frame}[fragile]{Reading All Worksheets}
+An entire workbook can be read by setting \code{sheet\_name=None}.
 
-\begin{lstlisting}[style=py]
-import json, pandas as pd
+\begin{lstlisting}[style=pythonstyle]
+workbook = pd.read_excel(
+    "products.xlsx",
+    sheet_name=None
+)
 
-with open("ecommerce_transactions.json", "r", encoding="utf-8") as f:
-    orders = json.load(f)
+print(workbook.keys())
+products = workbook["Products"]
+\end{lstlisting}
 
-# Unpack item arrays while propagating top-level order metadata
-df_flat = pd.json_normalize(
+The result is a dictionary of DataFrames.
+\end{frame}
+
+\begin{frame}[fragile]{Writing Multiple DataFrames to One Workbook}
+Use \code{pd.ExcelWriter()} to write multiple DataFrames to separate worksheets.
+
+\begin{lstlisting}[style=pythonstyle]
+with pd.ExcelWriter(
+    "report.xlsx",
+    engine="openpyxl"
+) as writer:
+    df_products.to_excel(
+        writer,
+        sheet_name="Products",
+        index=False
+    )
+    df_sales.to_excel(
+        writer,
+        sheet_name="Sales",
+        index=False
+    )
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Excel Functions}
+\begin{tabularx}{\textwidth}{lX}
+\toprule
+\textbf{Function or Argument} & \textbf{Purpose} \\
+\midrule
+\code{pd.read\_excel()} & Read Excel data \\
+\code{sheet\_name=} & Select a worksheet \\
+\code{sheet\_name=None} & Read all worksheets \\
+\code{df.to\_excel()} & Write a DataFrame to Excel \\
+\code{pd.ExcelWriter()} & Write multiple DataFrames to one workbook \\
+\bottomrule
+\end{tabularx}
+\end{frame}
+
+\begin{frame}{Excel Exercise and Knowledge Check}
+\textbf{Exercise.} Create \code{business\_data.xlsx} with three worksheets: Customers, Products, and Sales. Then read the workbook, inspect worksheet names and dimensions, calculate total Sales, and export a summary workbook.
+
+\smallgap
+\textbf{Question 1.} What does \code{pd.read\_excel()} return when \code{sheet\_name=None} is used?
+\begin{enumerate}[A.]
+  \item A dictionary of DataFrames
+  \item Only the first worksheet
+  \item A NumPy array
+  \item A string
+\end{enumerate}
+\end{frame}
+
+\section{Working with JSON}
+
+\begin{frame}[fragile]{What Is JSON?}
+JSON, or JavaScript Object Notation, is widely used in Web APIs, e-commerce systems, microservices, and NoSQL databases.
+
+\begin{lstlisting}[style=textstyle]
+[
+    {"customer_id": "C001", "city": "Hanoi"},
+    {"customer_id": "C002", "city": "Danang"}
+]
+\end{lstlisting}
+
+For relatively flat JSON structures:
+\begin{lstlisting}[style=pythonstyle]
+df = pd.read_json("customers.json")
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Nested JSON}
+Real-world JSON often contains multiple levels.
+
+\begin{lstlisting}[style=pythonstyle]
+{
+    "order_id": "O001",
+    "customer": {
+        "customer_id": "C001",
+        "city": "Hanoi"
+    },
+    "items": [
+        {"sku": "P001", "qty": 2},
+        {"sku": "P002", "qty": 1}
+    ]
+}
+\end{lstlisting}
+
+For analysis, each item may need to become a separate row.
+\end{frame}
+
+\begin{frame}[fragile]{Flattening Data with \code{pd.json\_normalize()}}
+\begin{lstlisting}[style=pythonstyle]
+df_items = pd.json_normalize(
     orders,
-    record_path=["items"],                  # Explode rows per item element
-    meta=["order_id", "order_date",         # Order-level attributes
-          ["customer", "customer_id"],      # Nested sub-dictionary keys
-          ["customer", "name"], 
-          ["customer", "city"]]
+    record_path=["items"],
+    meta=[
+        "order_id",
+        ["customer", "customer_id"],
+        ["customer", "city"]
+    ]
 )
-print(df_flat.head(3))
 \end{lstlisting}
+
+\begin{itemize}
+  \item \code{record\_path} specifies the nested list to expand into rows.
+  \item \code{meta} specifies parent-level attributes to retain.
+\end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Web Table Scraping \& PDF Tabular Extraction}
-\small
-\begin{columns}[T]
-\column{0.48\linewidth}
-\begin{block}{HTML Table Parsing (\cmd{read_html})}
-\begin{lstlisting}[style=py]
-# Parse all <table> DOM elements
+\begin{frame}{JSON Exercise and Knowledge Check}
+\textbf{Exercise.} Create three orders in JSON. Each order contains OrderID, OrderDate, Customer, and Items. Flatten the data so that each item becomes one row, then calculate Revenue by City.
+
+\smallgap
+\textbf{Question.} What is the purpose of \code{record\_path} in \code{pd.json\_normalize()}?
+\begin{enumerate}[A.]
+  \item To identify the nested list to expand into rows
+  \item To rename columns
+  \item To write data to JSON
+  \item To remove missing values
+\end{enumerate}
+\end{frame}
+
+\section{Accessing Data from HTML and PDF}
+
+\begin{frame}[fragile]{Reading HTML Tables}
+\code{pd.read\_html()} detects HTML \code{<table>} elements and converts them into DataFrames.
+
+\begin{lstlisting}[style=pythonstyle]
 tables = pd.read_html(
-    "financial_quotes.html", 
-    match="VN-Index" # Filter by keyword
+    "financial_quotes.html"
 )
-df_stocks = tables[0]
-print(df_stocks.head())
+
+print(len(tables))
+stocks = tables[0]
 \end{lstlisting}
-\end{block}
-\column{0.48\linewidth}
-\begin{block}{PDF Extraction (\cmd{pdfplumber})}
-\begin{lstlisting}[style=py]
+
+The result is a list of DataFrames.
+\end{frame}
+
+\begin{frame}{Why PDF Extraction Is Harder}
+CSV is designed to represent tabular data.
+
+PDF is primarily designed to:
+\begin{itemize}
+  \item display content;
+  \item preserve layout;
+  \item support printing.
+\end{itemize}
+
+Rows and columns that appear visually may not be stored internally as explicit table structures.
+\end{frame}
+
+\begin{frame}[fragile]{Extracting Tables with \code{pdfplumber}}
+\begin{lstlisting}[style=pythonstyle]
 import pdfplumber
 
-with pdfplumber.open("invoice.pdf") as pdf:
-    for page in pdf.pages:
-        tables = page.extract_tables()
-        for t in tables:
-            df = pd.DataFrame(t[1:], 
-                              columns=t[0])
-            print(df)
+with pdfplumber.open("report.pdf") as pdf:
+    page = pdf.pages[0]
+    tables = page.extract_tables()
 \end{lstlisting}
-\end{block}
-\end{columns}
-\end{frame}
 
-\begin{frame}{Relational (SQLite) vs Document NoSQL (MongoDB)}
-\centering
-\IfFileExists{images/relational-vs-nosql.png}{
-  \includegraphics[width=0.92\linewidth]{images/relational-vs-nosql.png}
-}{
-  \begin{block}{Comparison}
-  SQLite: Tables, Schema, Columns, ACID $\longleftrightarrow$ MongoDB: Collections, Dynamic BSON Documents
-  \end{block}
-}
-\end{frame}
+Convert one extracted table to a DataFrame:
+\begin{lstlisting}[style=pythonstyle]
+table = tables[0]
 
-\begin{frame}[fragile]{Relational Databases: SQLite \& Pandas}
-\small
-\begin{lstlisting}[style=py]
-import sqlite3, pandas as pd
-
-conn = sqlite3.connect("data/company.db")
-
-# 1. Direct multi-table JOIN query into Pandas DataFrame
-query = (
-    "SELECT e.emp_id, e.full_name, d.dept_name, SUM(s.revenue) AS total_revenue "
-    "FROM employees e "
-    "JOIN departments d ON e.dept_id = d.dept_id "
-    "JOIN monthly_sales s ON e.emp_id = s.emp_id "
-    "GROUP BY e.emp_id, e.full_name, d.dept_name "
-    "ORDER BY total_revenue DESC;"
+df = pd.DataFrame(
+    table[1:],
+    columns=table[0]
 )
-df_sales = pd.read_sql_query(query, conn)
+\end{lstlisting}
+\end{frame}
 
-# 2. Persist transformed results back to SQLite
-df_sales.to_sql("top_sales_summary", conn, if_exists="replace", index=False)
+\begin{frame}{HTML and PDF Exercise}
+Given an HTML file containing a product-price table and a foreign-exchange table:
+\begin{enumerate}
+  \item read both tables into Pandas;
+  \item inspect the structure of each table;
+  \item save each table to a separate worksheet in one Excel workbook.
+\end{enumerate}
+
+\smallgap
+For a table extracted from a PDF, inspect headers, missing values, and required cleaning operations before analysis.
+\end{frame}
+
+\section{Working with SQLite Databases}
+
+\begin{frame}[fragile]{What Is SQLite?}
+SQLite is a lightweight relational database system. An entire database can be stored in one file, such as \code{company.db}.
+
+Python provides SQLite support through the standard library.
+\begin{lstlisting}[style=pythonstyle]
+import sqlite3
+\end{lstlisting}
+
+Create a connection and cursor:
+\begin{lstlisting}[style=pythonstyle]
+conn = sqlite3.connect("company.db")
+cursor = conn.cursor()
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Executing SQL Queries}
+The following query retrieves employees with salary at least 30 million.
+
+\begin{lstlisting}[style=pythonstyle]
+cursor.execute(
+    """
+    SELECT emp_id, full_name, salary
+    FROM employees
+    WHERE salary >= ?
+    """,
+    (30000000,)
+)
+
+rows = cursor.fetchall()
+\end{lstlisting}
+
+\code{fetchall()} returns all rows satisfying the query.
+\end{frame}
+
+\begin{frame}[fragile]{Parameterized Queries}
+When query values come from variables or user input, use parameters.
+
+\begin{lstlisting}[style=pythonstyle]
+cursor.execute(
+    "SELECT * FROM users WHERE id = ?",
+    (user_id,)
+)
+\end{lstlisting}
+
+This separates SQL structure from values and helps reduce security risks associated with direct string concatenation.
+\end{frame}
+
+\begin{frame}[fragile]{Reading SQL Results into Pandas}
+Pandas can read SQL query results directly into a DataFrame.
+
+\begin{lstlisting}[style=pythonstyle]
+query = """
+SELECT
+    emp_id,
+    full_name,
+    salary
+FROM employees
+"""
+
+df = pd.read_sql_query(
+    query,
+    conn
+)
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Combining Tables with JOIN}
+\begin{lstlisting}[style=textstyle]
+SELECT
+    e.emp_id,
+    e.full_name,
+    d.dept_name
+FROM employees e
+LEFT JOIN departments d
+ON e.dept_id = d.dept_id;
+\end{lstlisting}
+
+The query result can then be loaded into Pandas.
+\begin{lstlisting}[style=pythonstyle]
+df = pd.read_sql_query(
+    query,
+    conn
+)
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Writing DataFrames to SQLite}
+\begin{lstlisting}[style=pythonstyle]
+df.to_sql(
+    name="sales_summary",
+    con=conn,
+    if_exists="replace",
+    index=False
+)
+\end{lstlisting}
+
+Common values of \code{if\_exists}:
+\begin{itemize}
+  \item \code{fail}: raise an error if the table exists;
+  \item \code{replace}: replace the existing table;
+  \item \code{append}: add rows to the existing table.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{SQLite Functions and Exercise}
+\begin{tabularx}{\textwidth}{lX}
+\toprule
+\textbf{Function} & \textbf{Purpose} \\
+\midrule
+\code{sqlite3.connect()} & Open a connection to SQLite \\
+\code{cursor.execute()} & Execute an SQL statement \\
+\code{fetchall()} & Retrieve query results \\
+\code{pd.read\_sql\_query()} & Convert SQL results to DataFrame \\
+\code{df.to\_sql()} & Write DataFrame to SQL table \\
+\bottomrule
+\end{tabularx}
+
+\smallgap
+\textbf{Exercise.} Create \code{sales.db}, join \code{orders} and \code{customers}, calculate total Amount by City, and store the result in \code{city\_sales\_summary}.
+\end{frame}
+
+\section{Working with MongoDB and PyMongo}
+
+\begin{frame}[fragile]{What Is MongoDB?}
+MongoDB is a document-oriented NoSQL database system.
+
+\begin{columns}[T]
+\begin{column}{0.45\textwidth}
+Relational database:
+\begin{lstlisting}[style=textstyle]
+Table
+  -> Row
+\end{lstlisting}
+\end{column}
+\begin{column}{0.45\textwidth}
+MongoDB:
+\begin{lstlisting}[style=textstyle]
+Collection
+  -> Document
+\end{lstlisting}
+\end{column}
+\end{columns}
+
+\smallgap
+Documents can contain scalar values, nested objects, lists, and multiple levels of hierarchy.
+\end{frame}
+
+\begin{frame}[fragile]{Connecting to MongoDB}
+PyMongo provides \code{MongoClient} for connecting to MongoDB.
+
+\begin{lstlisting}[style=pythonstyle]
+from pymongo import MongoClient
+
+client = MongoClient(
+    "mongodb://localhost:27017/"
+)
+
+db = client["retail_db"]
+orders = db["orders"]
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{CRUD Operations}
+CRUD refers to Create, Read, Update, and Delete.
+
+\begin{lstlisting}[style=pythonstyle]
+# Create
+orders.insert_one(sample_order)
+
+# Read one document
+orders.find_one({"order_id": "ORD001"})
+
+# Filter multiple documents
+orders.find({"total_amount": {"$gte": 1000000}})
+
+# Update
+orders.update_one(
+    {"order_id": "ORD001"},
+    {"$set": {"status": "REFUNDED"}}
+)
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Converting MongoDB Data to Pandas}
+Query results can be converted into a list of documents.
+
+\begin{lstlisting}[style=pythonstyle]
+documents = list(
+    orders.find()
+)
+
+df = pd.json_normalize(
+    documents
+)
+\end{lstlisting}
+
+MongoDB's \code{\_id} field can be converted before exporting.
+\begin{lstlisting}[style=pythonstyle]
+df["_id"] = df["_id"].astype(str)
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{MongoDB Exercise and Knowledge Check}
+\textbf{Exercise.} Create a collection named \code{customer\_orders} with at least five documents. Insert orders, query paid orders, update one status, convert results to Pandas, and calculate paid revenue.
+
+\smallgap
+\textbf{Question.} Which Pandas function is useful for nested MongoDB documents?
+\begin{enumerate}[A.]
+  \item \code{pd.json\_normalize()}
+  \item \code{pd.read\_csv()}
+  \item \code{pd.crosstab()}
+  \item \code{pd.cut()}
+\end{enumerate}
+\end{frame}
+
+\section{Building a Multi-Source Data Pipeline}
+
+\begin{frame}[fragile]{Pipeline Scenario}
+A company stores data in multiple sources:
+\begin{lstlisting}[style=textstyle]
+customers.csv
+products.xlsx
+orders.json
+company.db
+\end{lstlisting}
+
+The goal is to integrate these sources into one analytical dataset for reporting, visualization, or Machine Learning.
+\end{frame}
+
+\begin{frame}{General Integration Workflow}
+\begin{center}
+\begin{tabular}{c}
+CSV / Excel / JSON / SQL \\
+$\downarrow$ \\
+Data Ingestion \\
+$\downarrow$ \\
+Data Cleaning \\
+$\downarrow$ \\
+Transformation \\
+$\downarrow$ \\
+Merge \\
+$\downarrow$ \\
+Analytics Dataset \\
+$\swarrow \quad \searrow$ \\
+SQLite \qquad Excel Report
+\end{tabular}
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Reading Multiple Sources}
+\begin{lstlisting}[style=pythonstyle]
+customers = pd.read_csv("customers.csv")
+
+products = pd.read_excel(
+    "products.xlsx",
+    sheet_name="Products"
+)
+
+import json
+with open("orders.json", "r", encoding="utf-8") as f:
+    orders = json.load(f)
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Flattening Orders and Creating Variables}
+\begin{lstlisting}[style=pythonstyle]
+items = pd.json_normalize(
+    orders,
+    record_path=["items"],
+    meta=[
+        "order_id",
+        ["customer", "customer_id"]
+    ]
+)
+
+items["Revenue"] = (
+    items["Quantity"] * items["Price"]
+)
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Integrating Data with \code{merge()}}
+\begin{lstlisting}[style=pythonstyle]
+df = items.merge(
+    products,
+    on="ProductID",
+    how="left"
+)
+
+df = df.merge(
+    customers,
+    on="CustomerID",
+    how="left"
+)
+\end{lstlisting}
+
+After each merge, inspect:
+\begin{lstlisting}[style=pythonstyle]
+print(df.shape)
+print(df.isna().sum())
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Creating KPI Summaries}
+Calculate revenue and number of orders by region.
+
+\begin{lstlisting}[style=pythonstyle]
+region_summary = (
+    df
+    .groupby("Region")
+    .agg(
+        Revenue=("Revenue", "sum"),
+        Orders=("OrderID", "nunique")
+    )
+    .reset_index()
+)
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Storing and Reporting Results}
+Store analytical data in SQLite.
+\begin{lstlisting}[style=pythonstyle]
+conn = sqlite3.connect("analytics.db")
+
+df.to_sql(
+    "order_analytics",
+    conn,
+    if_exists="replace",
+    index=False
+)
+
 conn.close()
 \end{lstlisting}
-\end{frame}
 
-\begin{frame}[fragile]{Document NoSQL Database: MongoDB (\cmd{pymongo})}
-\small
-\begin{lstlisting}[style=py]
-from pymongo import MongoClient
-import pandas as pd
-
-# Connect to database instance
-client = MongoClient("mongodb://localhost:27017/")
-db = client["retail_store_db"]
-orders_col = db["customer_orders"]
-
-# 1. Flexible document insertion
-orders_col.insert_one({"order_id": "ORD-101", "items": ["P01", "P02"], "amount": 250.00})
-
-# 2. Filter collection stream and normalize to DataFrame
-cursor = orders_col.find({"amount": {"$gte": 100.00}})
-df_orders = pd.json_normalize(list(cursor))
-
-# Cleanse special BSON ObjectId identifier
-if "_id" in df_orders.columns:
-    df_orders["_id"] = df_orders["_id"].astype(str)
+Export KPI summaries to Excel.
+\begin{lstlisting}[style=pythonstyle]
+with pd.ExcelWriter("dashboard.xlsx") as writer:
+    df.to_excel(writer, sheet_name="Details", index=False)
+    region_summary.to_excel(writer, sheet_name="Region_KPI", index=False)
 \end{lstlisting}
 \end{frame}
 
-\begin{frame}{Quick Reference Matrix for Data I/O}
-\small
-\begin{table}[]
-\centering
-\begin{tabular}{llll}
-\toprule
-\textbf{Format} & \textbf{Read Function} & \textbf{Write Function} & \textbf{Core Dependency} \\
-\midrule
-CSV / TSV & \cmd{pd.read_csv()} & \cmd{df.to_csv()} & Pandas (built-in) \\
-Excel & \cmd{pd.read_excel()} & \cmd{df.to_excel()} & \cmd{openpyxl} \\
-JSON & \cmd{pd.json_normalize()} & \cmd{df.to_json()} & \cmd{json}, Pandas \\
-HTML & \cmd{pd.read_html()} & \cmd{df.to_html()} & \cmd{lxml}, \cmd{bs4} \\
-PDF & \cmd{page.extract_tables()} & -- & \cmd{pdfplumber} \\
-SQLite & \cmd{pd.read_sql_query()} & \cmd{df.to_sql()} & \cmd{sqlite3}, SQLAlchemy \\
-MongoDB & \cmd{col.find() -> DF} & \cmd{col.insert_many()} & \cmd{pymongo} \\
-\bottomrule
-\end{tabular}
-\end{table}
-\begin{alertblock}{Production Security \& Performance Principles}
-1. Always use parameterized queries (\cmd{?}) to protect against SQL Injection.  
-2. Manage file and connection handles with \cmd{with} statements.  
-3. Restrict columns with \cmd{usecols} and stream large tables via \cmd{chunksize}.
-\end{alertblock}
+\begin{frame}{Project Exercise: Multi-Source Integration}
+Build \code{order\_analytics} from \code{customers.csv}, \code{products.xlsx}, and \code{orders.json}.
+
+Required fields:
+\begin{itemize}
+  \item OrderID, CustomerID, CustomerName, City
+  \item ProductID, Category, Quantity, UnitPrice, Revenue
+\end{itemize}
+
+Tasks: read sources, inspect data, flatten JSON, merge tables, identify unmatched records, calculate revenue, save details to SQLite, and export KPI summaries to Excel.
 \end{frame}
 
-\begin{frame}{Summary \& Discussion Questions}
-\centering
-\vspace{1em}
-\key{\Large Happy Coding \& Effective Analytics!}
-\vspace{1em}
+\section{Best Practices}
 
-\begin{block}{Discussion Questions for Lab Sessions}
-\begin{enumerate}
-  \item When should e-commerce orders be stored as NoSQL Documents rather than normalized relational tables?
-  \item How would you architect an automated nightly cron pipeline loading Web API JSON streams into SQLite?
+\begin{frame}[fragile]{Read Only Required Columns}
+If a file contains many columns but only a subset is needed, select columns during import.
+
+\begin{lstlisting}[style=pythonstyle]
+pd.read_csv(
+    "large.csv",
+    usecols=[
+        "CustomerID",
+        "Sales"
+    ]
+)
+\end{lstlisting}
+
+This reduces loading time and memory consumption.
+\end{frame}
+
+\begin{frame}[fragile]{Inspect Early and Often}
+Inspect immediately after import.
+\begin{lstlisting}[style=pythonstyle]
+df.head()
+df.shape
+df.info()
+df.isna().sum()
+\end{lstlisting}
+
+Inspect again after integration.
+\begin{lstlisting}[style=pythonstyle]
+df.isna().sum()
+\end{lstlisting}
+
+New missing values may appear when keys do not match across sources.
+\end{frame}
+
+\begin{frame}[fragile]{Control Data Types}
+Inspect data types using:
+\begin{lstlisting}[style=pythonstyle]
+df.dtypes
+\end{lstlisting}
+
+Do not assume that every field containing digits is numerical. For example, \code{CustomerID = "001"} is an identifier and should often be stored as a string.
+\end{frame}
+
+\begin{frame}[fragile]{Use Context Managers}
+When working with files, use \code{with} statements.
+
+\begin{lstlisting}[style=pythonstyle]
+with open("data.json", encoding="utf-8") as f:
+    data = json.load(f)
+\end{lstlisting}
+
+For Excel reports:
+\begin{lstlisting}[style=pythonstyle]
+with pd.ExcelWriter("report.xlsx") as writer:
+    summary.to_excel(writer, index=False)
+\end{lstlisting}
+
+Resources are closed properly after the operation is complete.
+\end{frame}
+
+\begin{frame}{Choose an Appropriate Storage Format}
+\begin{tabularx}{\textwidth}{lX}
+\toprule
+\textbf{Requirement} & \textbf{Suitable Format} \\
+\midrule
+Exchange simple tabular data & CSV \\
+Create multi-sheet reports & Excel \\
+Exchange data through Web APIs & JSON \\
+Store relational data and queries & SQL \\
+Store flexible nested documents & MongoDB \\
+Store large tabular datasets & Parquet \\
+Extract website tables & HTML \\
+Distribute fixed-layout reports & PDF \\
+\bottomrule
+\end{tabularx}
+\end{frame}
+
+\begin{frame}{Final Knowledge Check}
+\textbf{Question 1.} Which technique is appropriate when a CSV file is larger than RAM?
+\begin{enumerate}[A.]
+  \item Reading the file in chunks
+  \item Converting all values to strings
+  \item Creating a second copy of the file
+  \item Using only \code{head()}
 \end{enumerate}
-\end{block}
-\vspace{1em}
-\small Contact: Dr. Minh Duc Vu (\texttt{minhvd@neu.edu.vn})
+
+\smallgap
+\textbf{Question 2.} Which format is especially common for exchanging data through Web APIs?
+\begin{enumerate}[A.]
+  \item JSON
+  \item PDF
+  \item XLS
+  \item SQLite
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Summary}
+A general workflow for working with data from multiple sources:
+\begin{center}
+\small
+\begin{tabular}{ccccccccc}
+Source & $\rightarrow$ & Read & $\rightarrow$ & Inspect & $\rightarrow$ & Clean & $\rightarrow$ & Transform \\[0.4em]
+ & & & & & & & & $\downarrow$ \\[0.4em]
+Store / Report & $\leftarrow$ & Analyze & $\leftarrow$ & Integrate & $\leftarrow$ & & &
+\end{tabular}
+\end{center}
+\smallgap
+The goal is to transform raw, distributed data into reliable analytical data.
+\end{frame}
+
+\begin{frame}{Key Tools}
+\begin{tabularx}{\textwidth}{lX}
+\toprule
+\textbf{Data Source} & \textbf{Python Tools} \\
+\midrule
+CSV & \code{pd.read\_csv()}, \code{to\_csv()} \\
+NumPy text files & \code{loadtxt()}, \code{genfromtxt()}, \code{savetxt()} \\
+Excel & \code{read\_excel()}, \code{ExcelWriter()} \\
+JSON & \code{read\_json()}, \code{json\_normalize()} \\
+HTML & \code{read\_html()} \\
+PDF & \code{pdfplumber} \\
+SQLite & \code{sqlite3}, \code{read\_sql\_query()}, \code{to\_sql()} \\
+MongoDB & \code{pymongo}, \code{json\_normalize()} \\
+\bottomrule
+\end{tabularx}
+\end{frame}
+
+\begin{frame}{Closing Message}
+Data access, preparation, and storage are not secondary technical steps.
+
+\smallgap
+They determine whether later analysis, visualization, and Machine Learning models can be trusted.
+
+\smallgap
+\begin{center}
+\Large Correct data pipeline $\Rightarrow$ reliable analytical results
+\end{center}
 \end{frame}
 
 \end{document}

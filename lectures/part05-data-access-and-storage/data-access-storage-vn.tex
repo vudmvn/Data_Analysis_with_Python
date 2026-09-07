@@ -1,59 +1,64 @@
 \documentclass[aspectratio=169,11pt]{beamer}
 
 \usetheme{AnnArbor}
-\usepackage{fontspec}
-\usepackage{amsmath,amssymb,booktabs,array,multicol}
-\usepackage{listings}
-\usepackage{xcolor}
-\usepackage{graphicx}
-\usepackage{hyperref}
-\usepackage{ragged2e}
-
-\setmainfont{DejaVu Serif}
-\setsansfont{DejaVu Sans}
-\setmonofont{Noto Sans Mono}
-
-\definecolor{CodeBg}{RGB}{248,248,248}
-\definecolor{TitleBlue}{RGB}{38,79,129}
-\definecolor{AccentGreen}{RGB}{35,125,93}
-\definecolor{SoftGray}{RGB}{80,80,80}
-\definecolor{QuizOrange}{RGB}{180,95,30}
-
-\setbeamercolor{title}{fg=TitleBlue}
-\setbeamercolor{frametitle}{fg=TitleBlue}
-\setbeamercolor{structure}{fg=AccentGreen}
-\setbeamercolor{block title}{fg=white,bg=TitleBlue}
-\setbeamercolor{block body}{bg=blue!3}
-\setbeamercolor{alertblock title}{fg=white,bg=QuizOrange}
-\setbeamercolor{alertblock body}{bg=orange!6}
+\usecolortheme{dolphin}
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{footline}[frame number]
-\setbeamertemplate{itemize item}{\raise0.15ex\hbox{\tiny$\blacktriangleright$}}
-\setbeamertemplate{itemize subitem}{\raise0.15ex\hbox{\tiny$\bullet$}}
 
-\lstdefinestyle{py}{
+\usepackage{fontspec}
+\setmainfont{DejaVu Sans}
+\setsansfont{DejaVu Sans}
+\setmonofont{DejaVu Sans Mono}
+
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{amsmath}
+
+\definecolor{codegray}{RGB}{245,245,245}
+\definecolor{codeblue}{RGB}{0,65,120}
+\definecolor{darkgreen}{RGB}{0,100,60}
+
+\lstdefinestyle{pythonstyle}{
   language=Python,
   basicstyle=\ttfamily\scriptsize,
-  backgroundcolor=\color{CodeBg},
-  frame=single,
-  framerule=0.2pt,
-  rulecolor=\color{gray!35},
-  breaklines=true,
+  keywordstyle=\color{codeblue}\bfseries,
+  stringstyle=\color{darkgreen},
+  commentstyle=\color{gray},
   showstringspaces=false,
-  keywordstyle=\color{TitleBlue}\bfseries,
-  commentstyle=\color{SoftGray}\itshape,
-  stringstyle=\color{AccentGreen},
-  upquote=true
+  breaklines=true,
+  frame=single,
+  backgroundcolor=\color{codegray},
+  columns=fullflexible
 }
 
-\newcommand{\key}[1]{\textbf{\textcolor{AccentGreen}{#1}}}
-\newcommand{\cmd}[1]{\texttt{\detokenize{#1}}}
+\lstdefinestyle{textstyle}{
+  basicstyle=\ttfamily\scriptsize,
+  showstringspaces=false,
+  breaklines=true,
+  frame=single,
+  backgroundcolor=\color{codegray},
+  columns=fullflexible
+}
 
-\title[Truy xuất \& Lưu trữ Dữ liệu]{Truy xuất và Lưu trữ Dữ liệu với Python}
-\subtitle{Tập tin phẳng (CSV), Đa định dạng (Excel, JSON, HTML, PDF), SQLite \& MongoDB}
-\author{TS. Vũ Đức Minh}
-\institute{Khoa Khoa học Dữ liệu \& Trí tuệ Nhân tạo -- Đại học Kinh tế Quốc dân (NEU)}
-\date{Tháng 9, 2026}
+\lstset{style=pythonstyle}
+
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\smallgap}{\vspace{0.4em}}
+
+\title[Truy xuất và Lưu trữ Dữ liệu]{Truy xuất và Lưu trữ Dữ liệu với Python}
+\subtitle{Nhập, tích hợp và lưu trữ dữ liệu phục vụ phân tích}
+\author{DSAI1005 - Phân tích dữ liệu với Python}
+\institute{Khoa Khoa học Dữ liệu và Trí tuệ Nhân tạo\\Đại học Kinh tế Quốc dân}
+\date{2026}
+
+\AtBeginSection[]{
+  \begin{frame}{Lộ trình}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
 
 \begin{document}
 
@@ -61,297 +66,1227 @@
   \titlepage
 \end{frame}
 
-\begin{frame}{Mục tiêu bài học (CLO 5.4)}
-\small
-Sau khi hoàn thành bài học này, sinh viên có khả năng:
+\begin{frame}{Động lực của bài học}
+Trong các dự án Data Science và Machine Learning, dữ liệu hiếm khi đã có sẵn dưới dạng một DataFrame sạch và sẵn sàng cho phân tích.
+
+\smallgap
+Dữ liệu có thể được lưu ở nhiều định dạng:
 \begin{itemize}
-  \item \key{Đọc \& ghi CSV:} Nắm vững \cmd{np.loadtxt}, \cmd{np.genfromtxt} và các tham số nâng cao của \cmd{pd.read_csv()} (\cmd{chunksize}, \cmd{encoding}, \cmd{parse_dates}).
-  \item \key{Đa dạng định dạng tệp:} Làm việc với Excel đa trang tính (\cmd{openpyxl}), làm phẳng JSON lồng nhau (\cmd{json_normalize}), bóc tách bảng HTML và trích xuất PDF.
-  \item \key{Cơ sở dữ liệu quan hệ:} Kết nối SQLite qua \cmd{sqlite3} \& \cmd{SQLAlchemy}, thực thi truy vấn SQL và chuyển đổi hai chiều với Pandas (\cmd{read_sql_query}, \cmd{to_sql}).
-  \item \key{Cơ sở dữ liệu NoSQL:} Kết nối MongoDB qua \cmd{pymongo}, thực hiện thao tác CRUD, chuẩn hóa BSON \cmd{ObjectId} sang DataFrame.
-  \item \key{End-to-End Pipeline:} Thiết kế quy trình thu thập dữ liệu đa nguồn phục vụ báo cáo kinh doanh.
+  \item CSV và các tệp văn bản có dấu phân cách;
+  \item workbook Excel;
+  \item JSON trả về từ Web API;
+  \item bảng HTML trên website;
+  \item báo cáo và tài liệu PDF;
+  \item cơ sở dữ liệu quan hệ và cơ sở dữ liệu NoSQL.
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Tổng quan Hệ sinh thái Truy xuất \& Lưu trữ Dữ liệu}
-\centering
-\IfFileExists{images/data-access-storage-overview.png}{
-  \includegraphics[width=0.92\linewidth]{images/data-access-storage-overview.png}
-}{
-  \begin{block}{Hệ sinh thái I/O}
-  Files (CSV/Excel/JSON) \& Databases (SQLite/Mongo) $\rightarrow$ Pandas Core $\rightarrow$ Output Analytics
-  \end{block}
-}
+\begin{frame}{Vị trí trong quy trình Machine Learning}
+\begin{columns}[T]
+\begin{column}{0.45\textwidth}
+\begin{center}
+\small
+\begin{tabular}{c}
+Xác định mục tiêu \\
+$\downarrow$ \\
+\textbf{Thu thập dữ liệu} \\
+$\downarrow$ \\
+\textbf{Khám phá và làm sạch dữ liệu} \\
+$\downarrow$ \\
+Xác định bài toán ML \\
+$\downarrow$ \\
+Chọn phương pháp ML \\
+$\downarrow$ \\
+Huấn luyện và đánh giá \\
+$\downarrow$ \\
+Triển khai
+\end{tabular}
+\end{center}
+\end{column}
+\begin{column}{0.50\textwidth}
+Bài học tập trung vào các công việc cần thực hiện trước khi xây dựng mô hình:
+\begin{itemize}
+  \item truy xuất dữ liệu;
+  \item chuẩn bị dữ liệu;
+  \item tích hợp nhiều nguồn;
+  \item lưu kết quả để tái sử dụng.
+\end{itemize}
+\end{column}
+\end{columns}
 \end{frame}
 
-\begin{frame}[fragile]{Đọc dữ liệu CSV bằng NumPy}
-\small
-NumPy cung cấp hai hàm chính để làm việc với mảng số từ tệp văn bản:
-\begin{columns}[T]
-\column{0.48\linewidth}
-\begin{block}{\cmd{np.loadtxt()}}
-Dành cho dữ liệu số thuần túy, không có giá trị khuyết.
-\begin{lstlisting}[style=py]
-import numpy as np
-# Doc ma tran so thuan tuy
-arr = np.loadtxt("matrix.csv", 
-                 delimiter=",", 
-                 skiprows=1)
-print(arr.shape)
+\begin{frame}{Mục tiêu học tập}
+Sau bài học này, người học có thể:
+\begin{itemize}
+  \item truy xuất dữ liệu từ CSV, Excel, JSON, HTML, PDF, SQLite và MongoDB;
+  \item sử dụng các tham số I/O quan trọng của Pandas như \code{usecols}, \code{dtype}, \code{parse\_dates} và \code{chunksize};
+  \item chuyển JSON lồng nhau về dạng bảng;
+  \item chuyển dữ liệu giữa SQL database và Pandas DataFrame;
+  \item xây dựng pipeline dữ liệu đa nguồn;
+  \item lựa chọn định dạng lưu trữ phù hợp cho từng nhiệm vụ phân tích.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Cấu trúc bài học}
+\begin{enumerate}
+  \item Tổng quan về truy xuất và lưu trữ dữ liệu
+  \item CSV với NumPy
+  \item CSV với Pandas
+  \item Microsoft Excel
+  \item JSON
+  \item HTML và PDF
+  \item SQLite
+  \item MongoDB và PyMongo
+  \item Pipeline dữ liệu đa nguồn
+  \item Các nguyên tắc thực hành tốt
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Điều kiện tiên quyết}
+Người học nên có:
+\begin{itemize}
+  \item kiến thức Python cơ bản;
+  \item hiểu biến, list, dictionary, vòng lặp và hàm;
+  \item kiến thức cơ bản về NumPy và Pandas DataFrame;
+  \item hiểu khái niệm hàng, cột và dữ liệu dạng bảng;
+  \item môi trường Jupyter Notebook, Google Colab, VS Code hoặc tương đương.
+\end{itemize}
+\end{frame}
+
+\section{Tổng quan về truy xuất và lưu trữ dữ liệu}
+
+\begin{frame}[fragile]{Truy xuất dữ liệu là gì?}
+\textbf{Truy xuất dữ liệu} là quá trình lấy dữ liệu từ một nguồn lưu trữ và đưa vào môi trường phân tích.
+
+\smallgap
+Ví dụ: đọc tệp CSV vào Pandas.
+\begin{lstlisting}[style=textstyle]
+customers.csv
+      |
+      v
+pd.read_csv()
+      |
+      v
+DataFrame
 \end{lstlisting}
-\end{block}
-\column{0.48\linewidth}
-\begin{block}{\cmd{np.genfromtxt()}}
-Xử lý được giá trị khuyết và kiểu dữ liệu hỗn hợp.
-\begin{lstlisting}[style=py]
-# Thay the gia tri thieu bang 0.0
-arr_gen = np.genfromtxt(
-    "numeric_sample.csv",
+
+Ví dụ: truy vấn database trước khi phân tích.
+\begin{lstlisting}[style=textstyle]
+SQL Database -> SQL Query -> Pandas DataFrame
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Lưu trữ dữ liệu là gì?}
+\textbf{Lưu trữ dữ liệu} là quá trình ghi dữ liệu hoặc kết quả phân tích vào một định dạng hay hệ thống có thể tái sử dụng.
+
+\begin{lstlisting}[style=textstyle]
+DataFrame -> to_csv() -> report.csv
+DataFrame -> to_sql() -> Database Table
+\end{lstlisting}
+
+\smallgap
+Lưu trữ không chỉ là bước xuất kết quả. Nó còn hỗ trợ tái lập phân tích, báo cáo, chia sẻ dữ liệu và xây dựng mô hình sau này.
+\end{frame}
+
+\begin{frame}{Các nguồn dữ liệu phổ biến}
+\begin{tabularx}{\textwidth}{lX}
+\toprule
+\textbf{Nhóm nguồn dữ liệu} & \textbf{Ví dụ} \\
+\midrule
+Tệp phẳng & CSV, TSV \\
+Bảng tính & Excel \\
+Dữ liệu bán cấu trúc & JSON \\
+Dữ liệu Web & bảng HTML \\
+Tài liệu & báo cáo PDF \\
+Cơ sở dữ liệu quan hệ & SQLite, PostgreSQL, MySQL \\
+Cơ sở dữ liệu NoSQL & MongoDB \\
+\bottomrule
+\end{tabularx}
+\end{frame}
+
+\begin{frame}[fragile]{Dữ liệu có cấu trúc và bán cấu trúc}
+Dữ liệu có cấu trúc thường có dạng hàng--cột rõ ràng.
+\begin{lstlisting}[style=textstyle]
+CustomerID | Name | City | Revenue
+\end{lstlisting}
+
+Dữ liệu bán cấu trúc có thể chứa đối tượng và danh sách lồng nhau.
+\begin{lstlisting}[style=pythonstyle]
+{
+    "customer": {"name": "An", "city": "Hanoi"},
+    "orders": [
+        {"product": "A"},
+        {"product": "B"}
+    ]
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Bài tập: Phân loại nguồn dữ liệu}
+Phân loại các nguồn sau vào nhóm phù hợp.
+\begin{enumerate}
+  \item \code{sales.csv}
+  \item \code{customers.xlsx}
+  \item Dữ liệu JSON trả về từ Web API
+  \item \code{company.db}
+  \item MongoDB
+  \item Báo cáo tài chính dạng PDF
+\end{enumerate}
+
+\smallgap
+Các nhóm cần dùng: tệp phẳng, bảng tính, dữ liệu bán cấu trúc, cơ sở dữ liệu quan hệ, cơ sở dữ liệu NoSQL, tài liệu.
+\end{frame}
+
+\begin{frame}{Kiểm tra kiến thức}
+\textbf{Câu 1.} Định dạng nào thường được xem là tệp phẳng?
+\begin{enumerate}[A.]
+  \item CSV
+  \item MongoDB
+  \item SQLite
+  \item PDF
+\end{enumerate}
+
+\smallgap
+\textbf{Câu 2.} Định dạng nào hỗ trợ tự nhiên đối tượng và danh sách lồng nhau?
+\begin{enumerate}[A.]
+  \item JSON
+  \item CSV
+  \item TSV
+  \item Ma trận số
+\end{enumerate}
+\end{frame}
+
+\section{Làm việc với CSV bằng NumPy}
+
+\begin{frame}[fragile]{Đọc dữ liệu số với \code{np.loadtxt()}}
+\code{np.loadtxt()} phù hợp khi dữ liệu chủ yếu là số, có cấu trúc đơn giản và không có giá trị thiếu.
+
+\begin{lstlisting}[style=pythonstyle]
+import numpy as np
+
+data = np.loadtxt(
+    "matrix_data.csv",
+    delimiter=",",
+    skiprows=1
+)
+
+print(data)
+print(data.shape)
+\end{lstlisting}
+
+Có thể tính trung bình từng cột bằng:
+\begin{lstlisting}[style=pythonstyle]
+print(np.mean(data, axis=0))
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Bài tập: \code{np.loadtxt()}}
+Hoàn thiện chương trình để đọc \code{sales.csv}, trong đó các giá trị được phân cách bằng dấu phẩy.
+
+\begin{lstlisting}[style=pythonstyle]
+# data = np.loadtxt(
+#     "sales.csv",
+#     delimiter=...
+# )
+
+# print(data.shape)
+\end{lstlisting}
+
+Sau đó xác định số hàng và số cột của dữ liệu.
+\end{frame}
+
+\begin{frame}[fragile]{Xử lý giá trị thiếu với \code{np.genfromtxt()}}
+\code{np.genfromtxt()} linh hoạt hơn \code{np.loadtxt()} khi tệp số chứa giá trị thiếu.
+
+\begin{lstlisting}[style=pythonstyle]
+data = np.genfromtxt(
+    "numeric_data.csv",
     delimiter=",",
     skip_header=1,
-    filling_values=0.0
+    filling_values=0.0,
+    dtype=float
 )
+
+print(data)
 \end{lstlisting}
-\end{block}
-\end{columns}
-\vspace{0.5em}
-Xuất mảng ra CSV: \texttt{np.savetxt("out.csv", arr, delimiter=",", fmt="\%0.2f")}.
+
+Trong ví dụ này, các giá trị thiếu được thay bằng \code{0.0}.
 \end{frame}
 
-\begin{frame}[fragile]{Các tham số trọng yếu của Pandas \cmd{read_csv()}}
-\small
-\begin{lstlisting}[style=py]
+\begin{frame}[fragile]{Ghi mảng với \code{np.savetxt()}}
+\code{np.savetxt()} dùng để lưu mảng NumPy ra tệp văn bản.
+
+\begin{lstlisting}[style=pythonstyle]
+output = np.random.randn(5, 3)
+
+np.savetxt(
+    "output.csv",
+    output,
+    delimiter=",",
+    fmt="%.2f",
+    header="A,B,C",
+    comments=""
+)
+\end{lstlisting}
+
+\code{fmt="\%.2f"} ghi mỗi số với hai chữ số sau dấu thập phân.
+\end{frame}
+
+\begin{frame}{Các hàm CSV chính trong NumPy}
+\begin{tabularx}{\textwidth}{lX}
+\toprule
+\textbf{Hàm} & \textbf{Công dụng} \\
+\midrule
+\code{np.loadtxt()} & Đọc dữ liệu số từ tệp văn bản có cấu trúc đơn giản \\
+\code{np.genfromtxt()} & Đọc dữ liệu số và hỗ trợ giá trị thiếu \\
+\code{np.savetxt()} & Ghi mảng NumPy ra tệp văn bản \\
+\bottomrule
+\end{tabularx}
+\end{frame}
+
+\begin{frame}[fragile]{Bài thực hành: Monthly Sales}
+Tạo \code{monthly\_sales.csv} với nội dung:
+\begin{lstlisting}[style=textstyle]
+Month,Revenue,Cost
+1,120,80
+2,150,
+3,180,110
+4,,130
+\end{lstlisting}
+
+Thực hiện:
+\begin{enumerate}
+  \item Đọc dữ liệu bằng \code{np.genfromtxt()}.
+  \item Thay giá trị thiếu bằng \code{0}.
+  \item Tính trung bình Revenue và Cost.
+  \item Lưu dữ liệu sau xử lý bằng \code{np.savetxt()}.
+\end{enumerate}
+\end{frame}
+
+\section{Làm việc với CSV bằng Pandas}
+
+\begin{frame}[fragile]{Đọc CSV với \code{pd.read\_csv()}}
+Pandas cung cấp \code{pd.read\_csv()} để đọc dữ liệu dạng bảng từ tệp CSV.
+
+\begin{lstlisting}[style=pythonstyle]
 import pandas as pd
 
+df = pd.read_csv("customers.csv")
+
+print(df.head())
+\end{lstlisting}
+
+Pandas phù hợp khi dữ liệu chứa văn bản, ngày tháng, nhiều kiểu dữ liệu, giá trị thiếu và tên cột.
+\end{frame}
+
+\begin{frame}[fragile]{Xác định dấu phân cách với \code{sep}}
+Không phải mọi tệp đều dùng dấu phẩy làm ký tự phân cách.
+
+Tệp phân cách bằng dấu chấm phẩy:
+\begin{lstlisting}[style=pythonstyle]
 df = pd.read_csv(
-    "data/customers.csv",
-    sep=",",                         # Ky tu phan cach cot (mac dinh la ',')
-    index_col="customer_id",         # Cot lam chi muc Index
-    usecols=["customer_id", "full_name", "signup_date", "total_spent"], # Tiet kiem RAM
-    dtype={"customer_id": str},      # Ep kieu ro rang tranh sai lech
-    parse_dates=["signup_date"],     # Chuyen doi chuoi thanh kieu datetime
-    na_values=["NA", "null", "-"],   # Cac ky tu quy uoc gia tri khuyet
-    encoding="utf-8"                 # Ho tro tieng Viet chuan
+    "data.csv",
+    sep=";"
 )
 \end{lstlisting}
-\vspace{-0.3em}
-\begin{alertblock}{Mẹo xuất CSV tiếng Việt mở trên Excel}
-Dùng \cmd{df.to_csv("clean.csv", index=False, encoding="utf-8-sig")}. Cờ \cmd{utf-8-sig} bổ sung Byte Order Mark (BOM) giúp Excel tự nhận diện đúng tiếng Việt có dấu.
-\end{alertblock}
-\end{frame}
 
-\begin{frame}[fragile]{Xử lý tệp CSV dung lượng lớn với \cmd{chunksize}}
-\small
-Khi tệp CSV vượt quá dung lượng bộ nhớ RAM, nạp toàn bộ sẽ gây lỗi \key{MemoryError}. Kỹ thuật \key{Chunking} giải quyết triệt để:
-
-\begin{lstlisting}[style=py]
-import pandas as pd
-
-# Khoi tao bo lap streaming doc tung khoi 100,000 dong
-chunk_iter = pd.read_csv("large_transactions.csv", chunksize=100000,
-                         usecols=["store_id", "revenue"])
-
-store_totals = {}
-for i, chunk in enumerate(chunk_iter):
-    # Xu ly tung khoi doc lap trong bo nho
-    grouped = chunk.groupby("store_id")["revenue"].sum()
-    for sid, rev in grouped.items():
-        store_totals[sid] = store_totals.get(sid, 0) + rev
-    print(f"-> Hoan tat xu ly chunk #{i+1}")
-
-print("Tong doanh thu:", store_totals)
+Tệp TSV:
+\begin{lstlisting}[style=pythonstyle]
+df = pd.read_csv(
+    "data.tsv",
+    sep="\t"
+)
 \end{lstlisting}
 \end{frame}
 
-\begin{frame}[fragile]{Làm việc với bảng tính Excel (\cmd{openpyxl})}
-\small
-\begin{columns}[T]
-\column{0.48\linewidth}
-\begin{block}{Đọc nhiều trang tính (Sheets)}
-\begin{lstlisting}[style=py]
-# Doc 1 sheet cu the
-df = pd.read_excel("products.xlsx", 
-                   sheet_name="Products", 
-                   engine="openpyxl")
+\begin{frame}[fragile]{Chỉ đọc cột cần thiết với \code{usecols}}
+\code{usecols} cho phép chọn các cột cần đọc ngay khi nhập dữ liệu.
 
-# Doc TAT CA cac sheet (tra ve dict)
-all_sheets = pd.read_excel(
-    "products.xlsx", 
-    sheet_name=None, 
+\begin{lstlisting}[style=pythonstyle]
+df = pd.read_csv(
+    "customers.csv",
+    usecols=[
+        "customer_id",
+        "city",
+        "total_spent"
+    ]
+)
+\end{lstlisting}
+
+Cách này giúp giảm RAM, rút ngắn thời gian đọc và loại bỏ sớm các biến không cần thiết.
+\end{frame}
+
+\begin{frame}[fragile]{Quy định kiểu dữ liệu với \code{dtype}}
+Pandas có thể tự suy luận kiểu dữ liệu, nhưng nhiều trường hợp cần quy định tường minh.
+
+\begin{lstlisting}[style=pythonstyle]
+df = pd.read_csv(
+    "customers.csv",
+    dtype={
+        "customer_id": str,
+        "age": "Int64"
+    }
+)
+\end{lstlisting}
+
+Các trường ID thường là mã định danh, không phải đại lượng số học.
+\end{frame}
+
+\begin{frame}[fragile]{Chuyển ngày tháng với \code{parse\_dates}}
+Có thể yêu cầu Pandas chuyển cột ngày tháng ngay khi đọc dữ liệu.
+
+\begin{lstlisting}[style=pythonstyle]
+df = pd.read_csv(
+    "orders.csv",
+    parse_dates=["OrderDate"]
+)
+
+print(df.dtypes)
+\end{lstlisting}
+
+Cách này hữu ích khi cần lọc, sắp xếp hoặc tính toán theo thời gian.
+\end{frame}
+
+\begin{frame}[fragile]{Xác định giá trị thiếu với \code{na\_values}}
+Trong dữ liệu thực tế, giá trị thiếu có thể được biểu diễn bằng nhiều ký hiệu khác nhau.
+
+\begin{lstlisting}[style=pythonstyle]
+df = pd.read_csv(
+    "customers.csv",
+    na_values=[
+        "NA",
+        "N/A",
+        "-",
+        "missing"
+    ]
+)
+\end{lstlisting}
+
+Pandas sẽ chuyển các ký hiệu này thành giá trị thiếu chuẩn.
+\end{frame}
+
+\begin{frame}[fragile]{Mã hóa ký tự}
+Khi làm việc với dữ liệu tiếng Việt, UTF-8 là lựa chọn phổ biến.
+
+\begin{lstlisting}[style=pythonstyle]
+df = pd.read_csv(
+    "customers.csv",
+    encoding="utf-8"
+)
+\end{lstlisting}
+
+Khi xuất CSV để mở bằng Excel trên Windows:
+\begin{lstlisting}[style=pythonstyle]
+df.to_csv(
+    "customers_clean.csv",
+    index=False,
+    encoding="utf-8-sig"
+)
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Kiểm tra dữ liệu sau khi nhập}
+Sau khi đọc dữ liệu, cần kiểm tra ngay cấu trúc và chất lượng của DataFrame.
+
+\begin{lstlisting}[style=pythonstyle]
+df.head()
+df.shape
+df.info()
+df.dtypes
+df.isna().sum()
+\end{lstlisting}
+
+Các lệnh này giúp kiểm tra số hàng, số cột, tên cột, kiểu dữ liệu và số giá trị thiếu.
+\end{frame}
+
+\begin{frame}[fragile]{Đọc dữ liệu lớn với \code{chunksize}}
+Khi tệp CSV lớn hơn bộ nhớ khả dụng, không nên đọc toàn bộ dữ liệu cùng lúc.
+
+\begin{lstlisting}[style=pythonstyle]
+total = 0
+
+for chunk in pd.read_csv(
+    "transactions.csv",
+    chunksize=100000
+):
+    total += chunk["Amount"].sum()
+
+print(total)
+\end{lstlisting}
+
+\code{chunksize} cho phép xử lý dữ liệu tuần tự theo từng khối.
+\end{frame}
+
+\begin{frame}[fragile]{Ghi DataFrame ra CSV}
+Sử dụng phương thức \code{to\_csv()}.
+
+\begin{lstlisting}[style=pythonstyle]
+df.to_csv(
+    "clean_data.csv",
+    index=False,
+    encoding="utf-8-sig"
+)
+\end{lstlisting}
+
+\code{index=False} giúp không ghi chỉ mục của DataFrame thành một cột bổ sung.
+\end{frame}
+
+\begin{frame}{Các hàm và tham số CSV chính của Pandas}
+\begin{tabularx}{\textwidth}{lX}
+\toprule
+\textbf{Hàm hoặc tham số} & \textbf{Công dụng} \\
+\midrule
+\code{pd.read\_csv()} & Đọc CSV hoặc tệp văn bản có dấu phân cách \\
+\code{usecols=} & Chỉ đọc các cột cần thiết \\
+\code{dtype=} & Quy định kiểu dữ liệu \\
+\code{parse\_dates=} & Chuyển cột sang kiểu ngày tháng \\
+\code{na\_values=} & Xác định ký hiệu giá trị thiếu \\
+\code{chunksize=} & Đọc dữ liệu theo từng khối \\
+\code{df.to\_csv()} & Ghi DataFrame ra CSV \\
+\bottomrule
+\end{tabularx}
+\end{frame}
+
+\begin{frame}{Kiểm tra kiến thức: Pandas CSV}
+\textbf{Câu 1.} Tham số nào cho phép chỉ đọc một số cột được lựa chọn?
+\begin{enumerate}[A.]
+  \item \code{usecols}
+  \item \code{keepcols}
+  \item \code{columns\_only}
+  \item \code{filter\_columns}
+\end{enumerate}
+
+\smallgap
+\textbf{Câu 2.} Tham số nào hữu ích khi xử lý tệp CSV rất lớn?
+\begin{enumerate}[A.]
+  \item \code{chunksize}
+  \item \code{batch=True}
+  \item \code{split=True}
+  \item \code{large=True}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Bài thực hành: Customer CSV}
+Tạo \code{customers.csv} gồm các cột: CustomerID, Name, City, Age, SignupDate và TotalSpent.
+
+\smallgap
+Trong dữ liệu, đưa vào một số giá trị \code{NA}, một số giá trị \code{-} và CustomerID dạng \code{001}, \code{002}, ...
+
+\smallgap
+Thực hiện:
+\begin{enumerate}
+  \item Đọc CustomerID dưới dạng \code{str}.
+  \item Chuyển SignupDate sang datetime.
+  \item Xem \code{NA} và \code{-} là giá trị thiếu.
+  \item Kiểm tra bằng \code{head()}, \code{shape}, \code{info()} và \code{isna().sum()}.
+  \item Xuất kết quả sang \code{customers\_clean.csv}.
+\end{enumerate}
+\end{frame}
+
+\section{Làm việc với Microsoft Excel}
+
+\begin{frame}[fragile]{Đọc một trang tính}
+Pandas sử dụng \code{pd.read\_excel()} để đọc dữ liệu Excel.
+
+\begin{lstlisting}[style=pythonstyle]
+df = pd.read_excel(
+    "products.xlsx",
+    sheet_name="Products",
     engine="openpyxl"
 )
 \end{lstlisting}
-\end{block}
-\column{0.48\linewidth}
-\begin{block}{Ghi nhiều Sheet vào 1 file}
-\begin{lstlisting}[style=py]
-# Ghi multi-sheet bang ExcelWriter
-with pd.ExcelWriter("report.xlsx", 
-                    engine="openpyxl") as w:
-    df_prod.to_excel(w, 
-                     sheet_name="Products", 
-                     index=False)
-    df_kpi.to_excel(w, 
-                    sheet_name="Summary_KPI", 
-                    index=False)
-\end{lstlisting}
-\end{block}
-\end{columns}
+
+\code{sheet\_name} xác định trang tính cần đọc.
 \end{frame}
 
-\begin{frame}[fragile]{Làm phẳng dữ liệu JSON phân cấp (\cmd{json_normalize})}
-\small
-Dữ liệu JSON từ Web APIs thường có cấu trúc lồng nhau phức tạp (\key{Nested Objects \& Arrays}).
+\begin{frame}[fragile]{Đọc toàn bộ trang tính}
+Có thể đọc toàn bộ workbook bằng \code{sheet\_name=None}.
 
-\begin{lstlisting}[style=py]
-import json, pandas as pd
+\begin{lstlisting}[style=pythonstyle]
+workbook = pd.read_excel(
+    "products.xlsx",
+    sheet_name=None
+)
 
-with open("ecommerce_transactions.json", "r", encoding="utf-8") as f:
-    orders = json.load(f)
+print(workbook.keys())
+\end{lstlisting}
 
-# Lam phang mang 'items' dong thoi mang theo cac truong metadata cap cha
-df_flat = pd.json_normalize(
+Kết quả là dictionary: key là tên trang tính, value là DataFrame tương ứng.
+\end{frame}
+
+\begin{frame}[fragile]{Ghi nhiều DataFrame vào một workbook}
+\code{pd.ExcelWriter()} cho phép ghi nhiều DataFrame vào các trang tính khác nhau trong cùng một tệp Excel.
+
+\begin{lstlisting}[style=pythonstyle]
+with pd.ExcelWriter(
+    "report.xlsx",
+    engine="openpyxl"
+) as writer:
+    df_products.to_excel(
+        writer,
+        sheet_name="Products",
+        index=False
+    )
+    df_sales.to_excel(
+        writer,
+        sheet_name="Sales",
+        index=False
+    )
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Các hàm Excel chính}
+\begin{tabularx}{\textwidth}{lX}
+\toprule
+\textbf{Hàm hoặc tham số} & \textbf{Công dụng} \\
+\midrule
+\code{pd.read\_excel()} & Đọc dữ liệu Excel \\
+\code{sheet\_name=} & Chọn trang tính \\
+\code{sheet\_name=None} & Đọc toàn bộ trang tính \\
+\code{df.to\_excel()} & Ghi DataFrame vào Excel \\
+\code{pd.ExcelWriter()} & Ghi nhiều DataFrame vào một workbook \\
+\bottomrule
+\end{tabularx}
+\end{frame}
+
+\begin{frame}{Bài tập và kiểm tra kiến thức về Excel}
+\textbf{Bài tập.} Tạo \code{business\_data.xlsx} gồm ba trang tính: Customers, Products và Sales. Sau đó đọc toàn bộ workbook, in tên các trang tính, tính tổng Sales và xuất workbook mới.
+
+\smallgap
+\textbf{Câu hỏi.} \code{sheet\_name=None} trả về đối tượng nào?
+\begin{enumerate}[A.]
+  \item Dictionary chứa các DataFrame
+  \item Chỉ trang tính đầu tiên
+  \item Một mảng NumPy
+  \item Một chuỗi ký tự
+\end{enumerate}
+\end{frame}
+
+\section{Làm việc với JSON}
+
+\begin{frame}[fragile]{JSON là gì?}
+JSON là định dạng dữ liệu phổ biến trong Web API, thương mại điện tử, microservices và cơ sở dữ liệu NoSQL.
+
+\begin{lstlisting}[style=pythonstyle]
+[
+    {"customer_id": "C001", "city": "Hanoi"},
+    {"customer_id": "C002", "city": "Danang"}
+]
+\end{lstlisting}
+
+Với JSON tương đối phẳng, có thể dùng:
+\begin{lstlisting}[style=pythonstyle]
+df = pd.read_json("customers.json")
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{JSON lồng nhau}
+Dữ liệu JSON thực tế thường có nhiều cấp.
+
+\begin{lstlisting}[style=pythonstyle]
+{
+    "order_id": "O001",
+    "customer": {
+        "customer_id": "C001",
+        "city": "Hanoi"
+    },
+    "items": [
+        {"sku": "P001", "qty": 2},
+        {"sku": "P002", "qty": 1}
+    ]
+}
+\end{lstlisting}
+
+Để phân tích bằng Pandas, thường cần chuyển cấu trúc này thành bảng.
+\end{frame}
+
+\begin{frame}[fragile]{Làm phẳng với \code{pd.json\_normalize()}}
+\begin{lstlisting}[style=pythonstyle]
+df_items = pd.json_normalize(
     orders,
-    record_path=["items"],                  # Phan tach tung dong theo tung item
-    meta=["order_id", "order_date",         # Thuoc tinh goc cua order
-          ["customer", "customer_id"],      # Truong con long nhau cap 2
-          ["customer", "name"], 
-          ["customer", "city"]]
+    record_path=["items"],
+    meta=[
+        "order_id",
+        ["customer", "customer_id"],
+        ["customer", "city"]
+    ]
 )
-print(df_flat.head(3))
 \end{lstlisting}
+
+\begin{itemize}
+  \item \code{record\_path}: danh sách lồng nhau cần mở rộng thành các dòng.
+  \item \code{meta}: các thuộc tính ở cấp cha cần giữ lại.
+\end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Bóc tách Bảng từ Web HTML \& Báo cáo PDF}
-\small
-\begin{columns}[T]
-\column{0.48\linewidth}
-\begin{block}{Web Scraping bảng với \cmd{read_html}}
-\begin{lstlisting}[style=py]
-# Quet tat ca the <table> tu URL/file
+\begin{frame}{Bài tập và kiểm tra kiến thức về JSON}
+\textbf{Bài tập.} Tạo dữ liệu gồm ba đơn hàng. Mỗi đơn hàng có Customer và Items. Dùng \code{pd.json\_normalize()} để mỗi item trở thành một dòng.
+
+\smallgap
+\textbf{Câu hỏi.} Vai trò của \code{record\_path} là gì?
+\begin{enumerate}[A.]
+  \item Xác định danh sách lồng nhau cần mở rộng thành các dòng
+  \item Đổi tên cột
+  \item Ghi dữ liệu ra JSON
+  \item Xóa giá trị thiếu
+\end{enumerate}
+\end{frame}
+
+\section{Truy xuất dữ liệu từ HTML và PDF}
+
+\begin{frame}[fragile]{Đọc bảng HTML}
+\code{pd.read\_html()} có thể phát hiện các phần tử \code{<table>} và chuyển chúng thành DataFrame.
+
+\begin{lstlisting}[style=pythonstyle]
 tables = pd.read_html(
-    "financial_quotes.html", 
-    match="VN-Index" # Loc theo tu khoa
+    "financial_quotes.html"
 )
-df_stocks = tables[0]
-print(df_stocks.head())
+
+print(len(tables))
+
+stocks = tables[0]
 \end{lstlisting}
-\end{block}
-\column{0.48\linewidth}
-\begin{block}{Trích xuất bảng PDF (\cmd{pdfplumber})}
-\begin{lstlisting}[style=py]
+
+Kết quả là danh sách các DataFrame.
+\end{frame}
+
+\begin{frame}{Vì sao PDF khó trích xuất hơn CSV?}
+CSV được thiết kế để biểu diễn dữ liệu dạng bảng.
+
+\smallgap
+Ngược lại, PDF chủ yếu được thiết kế để:
+\begin{itemize}
+  \item hiển thị nội dung;
+  \item bảo toàn bố cục;
+  \item phục vụ in ấn.
+\end{itemize}
+
+Vì vậy, cấu trúc hàng--cột nhìn thấy trên PDF không phải lúc nào cũng được lưu dưới dạng bảng tường minh bên trong tệp.
+\end{frame}
+
+\begin{frame}[fragile]{Trích xuất bảng với \code{pdfplumber}}
+Một thư viện có thể dùng để trích xuất bảng từ PDF là \code{pdfplumber}.
+
+\begin{lstlisting}[style=pythonstyle]
 import pdfplumber
 
-with pdfplumber.open("invoice.pdf") as pdf:
-    for page in pdf.pages:
-        tables = page.extract_tables()
-        for t in tables:
-            df = pd.DataFrame(t[1:], 
-                              columns=t[0])
-            print(df)
+with pdfplumber.open("report.pdf") as pdf:
+    page = pdf.pages[0]
+    tables = page.extract_tables()
 \end{lstlisting}
-\end{block}
-\end{columns}
-\end{frame}
 
-\begin{frame}{Mô hình Quan hệ (SQLite) vs Hướng tài liệu (MongoDB)}
-\centering
-\IfFileExists{images/relational-vs-nosql.png}{
-  \includegraphics[width=0.92\linewidth]{images/relational-vs-nosql.png}
-}{
-  \begin{block}{So sánh}
-  SQLite: Bảng, Cột, Dòng, ACID, SQL $\longleftrightarrow$ MongoDB: Collections, Documents BSON, Linh hoạt
-  \end{block}
-}
-\end{frame}
+Chuyển bảng sang DataFrame:
+\begin{lstlisting}[style=pythonstyle]
+table = tables[0]
 
-\begin{frame}[fragile]{Cơ sở dữ liệu quan hệ SQLite \& Pandas}
-\small
-\begin{lstlisting}[style=py]
-import sqlite3, pandas as pd
-
-conn = sqlite3.connect("data/company.db")
-
-# 1. Truy van JOIN phuc tap truc tiep vao DataFrame
-query = (
-    "SELECT e.emp_id, e.full_name, d.dept_name, SUM(s.revenue) AS total_revenue "
-    "FROM employees e "
-    "JOIN departments d ON e.dept_id = d.dept_id "
-    "JOIN monthly_sales s ON e.emp_id = s.emp_id "
-    "GROUP BY e.emp_id, e.full_name, d.dept_name "
-    "ORDER BY total_revenue DESC;"
+df = pd.DataFrame(
+    table[1:],
+    columns=table[0]
 )
-df_sales = pd.read_sql_query(query, conn)
+\end{lstlisting}
+\end{frame}
 
-# 2. Luu tru nguoc tro lai co so du lieu SQLite
-df_sales.to_sql("top_sales_summary", conn, if_exists="replace", index=False)
+\begin{frame}{Bài tập HTML và PDF}
+\textbf{HTML.} Cho một tệp HTML có bảng giá sản phẩm và bảng tỷ giá. Đọc cả hai bảng, kiểm tra cấu trúc và lưu mỗi bảng vào một trang tính Excel.
+
+\smallgap
+\textbf{PDF.} Với một bảng trích xuất từ PDF, hãy kiểm tra:
+\begin{itemize}
+  \item tiêu đề cột;
+  \item số hàng và số cột;
+  \item giá trị thiếu;
+  \item các bước làm sạch cần thực hiện trước khi phân tích.
+\end{itemize}
+\end{frame}
+
+\section{Làm việc với SQLite}
+
+\begin{frame}[fragile]{SQLite là gì?}
+SQLite là hệ quản trị cơ sở dữ liệu quan hệ gọn nhẹ. Toàn bộ cơ sở dữ liệu có thể lưu trong một tệp.
+
+\begin{lstlisting}[style=textstyle]
+company.db
+\end{lstlisting}
+
+Python hỗ trợ SQLite thông qua module chuẩn \code{sqlite3}.
+\begin{lstlisting}[style=pythonstyle]
+import sqlite3
+
+conn = sqlite3.connect("company.db")
+cursor = conn.cursor()
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Thực hiện truy vấn SQL}
+\begin{lstlisting}[style=pythonstyle]
+cursor.execute(
+    """
+    SELECT emp_id, full_name, salary
+    FROM employees
+    WHERE salary >= ?
+    """,
+    (30000000,)
+)
+
+rows = cursor.fetchall()
+\end{lstlisting}
+
+\code{fetchall()} trả về toàn bộ các dòng thỏa mãn truy vấn.
+\end{frame}
+
+\begin{frame}[fragile]{Truy vấn có tham số}
+Khi giá trị truy vấn đến từ biến Python hoặc dữ liệu người dùng, nên sử dụng truy vấn có tham số.
+
+\begin{lstlisting}[style=pythonstyle]
+cursor.execute(
+    "SELECT * FROM users WHERE id = ?",
+    (user_id,)
+)
+\end{lstlisting}
+
+Cách này tách cấu trúc SQL khỏi giá trị được truyền vào và giúp giảm rủi ro SQL Injection.
+\end{frame}
+
+\begin{frame}[fragile]{Đọc kết quả SQL vào Pandas}
+Pandas có thể đọc trực tiếp kết quả của một truy vấn SQL.
+
+\begin{lstlisting}[style=pythonstyle]
+query = """
+SELECT
+    emp_id,
+    full_name,
+    salary
+FROM employees
+"""
+
+df = pd.read_sql_query(
+    query,
+    conn
+)
+\end{lstlisting}
+
+Kết quả được trả về dưới dạng DataFrame.
+\end{frame}
+
+\begin{frame}[fragile]{Kết hợp nhiều bảng bằng JOIN}
+\begin{lstlisting}[style=pythonstyle]
+query = """
+SELECT
+    e.emp_id,
+    e.full_name,
+    d.dept_name
+FROM employees e
+LEFT JOIN departments d
+ON e.dept_id = d.dept_id;
+"""
+
+df = pd.read_sql_query(query, conn)
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Ghi DataFrame vào SQLite}
+Pandas cung cấp phương thức \code{to\_sql()}.
+
+\begin{lstlisting}[style=pythonstyle]
+df.to_sql(
+    name="sales_summary",
+    con=conn,
+    if_exists="replace",
+    index=False
+)
+\end{lstlisting}
+
+Các lựa chọn thường dùng của \code{if\_exists}: \code{fail}, \code{replace}, \code{append}.
+\end{frame}
+
+\begin{frame}{Các hàm SQLite và bài tập}
+\begin{tabularx}{\textwidth}{lX}
+\toprule
+\textbf{Hàm} & \textbf{Công dụng} \\
+\midrule
+\code{sqlite3.connect()} & Mở kết nối đến SQLite \\
+\code{cursor.execute()} & Thực thi câu lệnh SQL \\
+\code{fetchall()} & Lấy kết quả truy vấn \\
+\code{pd.read\_sql\_query()} & Chuyển kết quả SQL thành DataFrame \\
+\code{df.to\_sql()} & Ghi DataFrame vào bảng SQL \\
+\bottomrule
+\end{tabularx}
+
+\smallgap
+\textbf{Bài tập.} Tạo \code{sales.db}, JOIN \code{orders} với \code{customers}, tính tổng Amount theo City và lưu kết quả vào \code{city\_sales\_summary}.
+\end{frame}
+
+\section{Làm việc với MongoDB và PyMongo}
+
+\begin{frame}[fragile]{MongoDB là gì?}
+MongoDB là hệ quản trị cơ sở dữ liệu NoSQL hướng document.
+
+\begin{columns}[T]
+\begin{column}{0.45\textwidth}
+Cơ sở dữ liệu quan hệ:
+\begin{lstlisting}[style=textstyle]
+Table
+  -> Row
+\end{lstlisting}
+\end{column}
+\begin{column}{0.45\textwidth}
+MongoDB:
+\begin{lstlisting}[style=textstyle]
+Collection
+  -> Document
+\end{lstlisting}
+\end{column}
+\end{columns}
+
+\smallgap
+Document có thể chứa giá trị đơn, đối tượng lồng nhau, danh sách và nhiều cấp cấu trúc.
+\end{frame}
+
+\begin{frame}[fragile]{Kết nối MongoDB}
+PyMongo cung cấp \code{MongoClient} để kết nối MongoDB.
+
+\begin{lstlisting}[style=pythonstyle]
+from pymongo import MongoClient
+
+client = MongoClient(
+    "mongodb://localhost:27017/"
+)
+
+db = client["retail_db"]
+orders = db["orders"]
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Các thao tác CRUD}
+CRUD gồm Create, Read, Update và Delete.
+
+\begin{lstlisting}[style=pythonstyle]
+# Create
+orders.insert_one(sample_order)
+
+# Read one document
+orders.find_one({"order_id": "ORD001"})
+
+# Filter multiple documents
+orders.find({"total_amount": {"$gte": 1000000}})
+
+# Update
+orders.update_one(
+    {"order_id": "ORD001"},
+    {"$set": {"status": "REFUNDED"}}
+)
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Chuyển dữ liệu MongoDB sang Pandas}
+Kết quả truy vấn có thể được chuyển thành danh sách các document.
+
+\begin{lstlisting}[style=pythonstyle]
+documents = list(
+    orders.find()
+)
+
+df = pd.json_normalize(
+    documents
+)
+\end{lstlisting}
+
+Trường \code{\_id} có thể được chuyển sang chuỗi trước khi xuất dữ liệu.
+\begin{lstlisting}[style=pythonstyle]
+df["_id"] = df["_id"].astype(str)
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Bài tập và kiểm tra kiến thức về MongoDB}
+\textbf{Bài tập.} Tạo collection \code{customer\_orders} có ít nhất năm document. Thêm đơn hàng, truy vấn các đơn hàng đã thanh toán, cập nhật trạng thái một đơn hàng, chuyển kết quả sang Pandas và tính doanh thu đã thanh toán.
+
+\smallgap
+\textbf{Câu hỏi.} Hàm Pandas nào hữu ích với document MongoDB lồng nhau?
+\begin{enumerate}[A.]
+  \item \code{pd.json\_normalize()}
+  \item \code{pd.read\_csv()}
+  \item \code{pd.crosstab()}
+  \item \code{pd.cut()}
+\end{enumerate}
+\end{frame}
+
+\section{Xây dựng pipeline dữ liệu đa nguồn}
+
+\begin{frame}[fragile]{Bối cảnh pipeline}
+Một doanh nghiệp lưu dữ liệu ở nhiều nguồn:
+\begin{lstlisting}[style=textstyle]
+customers.csv
+products.xlsx
+orders.json
+company.db
+\end{lstlisting}
+
+Mục tiêu là tích hợp các nguồn này thành một tập dữ liệu phân tích thống nhất phục vụ báo cáo, trực quan hóa hoặc Machine Learning.
+\end{frame}
+
+\begin{frame}{Quy trình tích hợp tổng quát}
+\begin{center}
+\begin{tabular}{c}
+CSV / Excel / JSON / SQL \\
+$\downarrow$ \\
+Data Ingestion \\
+$\downarrow$ \\
+Data Cleaning \\
+$\downarrow$ \\
+Transformation \\
+$\downarrow$ \\
+Merge \\
+$\downarrow$ \\
+Analytics Dataset \\
+$\swarrow \quad \searrow$ \\
+SQLite \qquad Excel Report
+\end{tabular}
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Đọc nhiều nguồn dữ liệu}
+\begin{lstlisting}[style=pythonstyle]
+customers = pd.read_csv("customers.csv")
+
+products = pd.read_excel(
+    "products.xlsx",
+    sheet_name="Products"
+)
+
+import json
+with open("orders.json", "r", encoding="utf-8") as f:
+    orders = json.load(f)
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Làm phẳng đơn hàng và tạo biến}
+\begin{lstlisting}[style=pythonstyle]
+items = pd.json_normalize(
+    orders,
+    record_path=["items"],
+    meta=[
+        "order_id",
+        ["customer", "customer_id"]
+    ]
+)
+
+items["Revenue"] = (
+    items["Quantity"] * items["Price"]
+)
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Tích hợp dữ liệu với \code{merge()}}
+\begin{lstlisting}[style=pythonstyle]
+df = items.merge(
+    products,
+    on="ProductID",
+    how="left"
+)
+
+df = df.merge(
+    customers,
+    on="CustomerID",
+    how="left"
+)
+\end{lstlisting}
+
+Sau mỗi lần merge, cần kiểm tra:
+\begin{lstlisting}[style=pythonstyle]
+print(df.shape)
+print(df.isna().sum())
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Tạo bảng KPI}
+Tính doanh thu và số đơn hàng theo khu vực.
+
+\begin{lstlisting}[style=pythonstyle]
+region_summary = (
+    df
+    .groupby("Region")
+    .agg(
+        Revenue=("Revenue", "sum"),
+        Orders=("OrderID", "nunique")
+    )
+    .reset_index()
+)
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Lưu trữ và báo cáo kết quả}
+Lưu dữ liệu phân tích vào SQLite.
+\begin{lstlisting}[style=pythonstyle]
+conn = sqlite3.connect("analytics.db")
+
+df.to_sql(
+    "order_analytics",
+    conn,
+    if_exists="replace",
+    index=False
+)
+
 conn.close()
 \end{lstlisting}
-\end{frame}
 
-\begin{frame}[fragile]{Cơ sở dữ liệu NoSQL MongoDB (\cmd{pymongo})}
-\small
-\begin{lstlisting}[style=py]
-from pymongo import MongoClient
-import pandas as pd
-
-# Ket noi cluster / local instance
-client = MongoClient("mongodb://localhost:27017/")
-db = client["retail_store_db"]
-orders_col = db["customer_orders"]
-
-# Truong hop 1: Chen document linh hoat
-orders_col.insert_one({"order_id": "ORD-101", "items": ["P01", "P02"], "amount": 2500000})
-
-# Truong hop 2: Loc du lieu va chuyen sang Pandas DataFrame
-cursor = orders_col.find({"amount": {"$gte": 1000000}})
-df_orders = pd.json_normalize(list(cursor))
-
-# Xu ly khoa dac thu BSON ObjectId
-if "_id" in df_orders.columns:
-    df_orders["_id"] = df_orders["_id"].astype(str)
+Xuất báo cáo KPI ra Excel.
+\begin{lstlisting}[style=pythonstyle]
+with pd.ExcelWriter("dashboard.xlsx") as writer:
+    df.to_excel(writer, sheet_name="Details", index=False)
+    region_summary.to_excel(writer, sheet_name="Region_KPI", index=False)
 \end{lstlisting}
 \end{frame}
 
-\begin{frame}{Bảng tổng kết tra cứu nhanh I/O trong Data Science}
-\small
-\begin{table}[]
-\centering
-\begin{tabular}{llll}
-\toprule
-\textbf{Định dạng} & \textbf{Hàm Đọc (Read)} & \textbf{Hàm Ghi (Write)} & \textbf{Thư viện chính} \\
-\midrule
-CSV / TSV & \cmd{pd.read_csv()} & \cmd{df.to_csv()} & Pandas (built-in) \\
-Excel & \cmd{pd.read_excel()} & \cmd{df.to_excel()} & \cmd{openpyxl} \\
-JSON & \cmd{pd.json_normalize()} & \cmd{df.to_json()} & \cmd{json}, Pandas \\
-HTML & \cmd{pd.read_html()} & \cmd{df.to_html()} & \cmd{lxml}, \cmd{bs4} \\
-PDF & \cmd{page.extract_tables()} & -- & \cmd{pdfplumber} \\
-SQLite & \cmd{pd.read_sql_query()} & \cmd{df.to_sql()} & \cmd{sqlite3}, SQLAlchemy \\
-MongoDB & \cmd{col.find() -> DF} & \cmd{col.insert_many()} & \cmd{pymongo} \\
-\bottomrule
-\end{tabular}
-\end{table}
-\begin{alertblock}{Nguyên tắc vàng về An toàn \& Hiệu năng}
-1. Luôn dùng tham số hóa (\cmd{?}) chống SQL Injection.  
-2. Quản lý tài nguyên qua ngữ cảnh \cmd{with}.  
-3. Sử dụng \cmd{usecols} và \cmd{chunksize} khi làm việc với tập dữ liệu quy mô lớn.
-\end{alertblock}
+\begin{frame}{Bài tập project: Tích hợp dữ liệu đa nguồn}
+Xây dựng \code{order\_analytics} từ \code{customers.csv}, \code{products.xlsx} và \code{orders.json}.
+
+Các trường cần có:
+\begin{itemize}
+  \item OrderID, CustomerID, CustomerName, City
+  \item ProductID, Category, Quantity, UnitPrice, Revenue
+\end{itemize}
+
+Nhiệm vụ: đọc nguồn, kiểm tra dữ liệu, làm phẳng JSON, merge bảng, xác định bản ghi không khớp, tính revenue, lưu chi tiết vào SQLite và xuất KPI ra Excel.
 \end{frame}
 
-\begin{frame}{Tổng kết \& Câu hỏi Thảo luận}
-\centering
-\vspace{1em}
-\key{\Large Chúc các bạn thực hành hiệu quả!}
-\vspace{1em}
+\section{Các nguyên tắc thực hành tốt}
 
-\begin{block}{Câu hỏi suy ngẫm cho buổi thực hành}
-\begin{enumerate}
-  \item Khi nào nên lưu trữ đơn hàng dưới dạng NoSQL Document thay vì bảng cơ sở dữ liệu quan hệ?
-  \item Làm thế nào để tự động hóa đường ống tải dữ liệu từ Web API (JSON) vào database SQLite chạy định kỳ mỗi đêm?
+\begin{frame}[fragile]{Chỉ đọc các cột cần thiết}
+Nếu tệp có nhiều cột nhưng chỉ cần một số biến, hãy chọn cột ngay khi đọc.
+
+\begin{lstlisting}[style=pythonstyle]
+pd.read_csv(
+    "large.csv",
+    usecols=[
+        "CustomerID",
+        "Sales"
+    ]
+)
+\end{lstlisting}
+
+Cách này giúp giảm thời gian đọc và bộ nhớ sử dụng.
+\end{frame}
+
+\begin{frame}[fragile]{Kiểm tra sớm và thường xuyên}
+Kiểm tra ngay sau khi nhập dữ liệu.
+\begin{lstlisting}[style=pythonstyle]
+df.head()
+df.shape
+df.info()
+df.isna().sum()
+\end{lstlisting}
+
+Kiểm tra lại sau khi tích hợp.
+\begin{lstlisting}[style=pythonstyle]
+df.isna().sum()
+\end{lstlisting}
+
+Giá trị thiếu mới có thể xuất hiện khi khóa giữa các nguồn không khớp.
+\end{frame}
+
+\begin{frame}[fragile]{Kiểm soát kiểu dữ liệu}
+Kiểm tra kiểu dữ liệu bằng:
+\begin{lstlisting}[style=pythonstyle]
+df.dtypes
+\end{lstlisting}
+
+Không nên giả định mọi trường chứa chữ số đều là đại lượng số học. Ví dụ, \code{CustomerID = "001"} là mã định danh và thường nên được lưu dưới dạng chuỗi.
+\end{frame}
+
+\begin{frame}[fragile]{Sử dụng context manager}
+Khi làm việc với tệp, nên dùng câu lệnh \code{with}.
+
+\begin{lstlisting}[style=pythonstyle]
+with open("data.json", encoding="utf-8") as f:
+    data = json.load(f)
+\end{lstlisting}
+
+Khi tạo báo cáo Excel:
+\begin{lstlisting}[style=pythonstyle]
+with pd.ExcelWriter("report.xlsx") as writer:
+    summary.to_excel(writer, index=False)
+\end{lstlisting}
+
+Tài nguyên sẽ được đóng đúng cách sau khi thao tác hoàn tất.
+\end{frame}
+
+\begin{frame}{Lựa chọn định dạng lưu trữ phù hợp}
+\begin{tabularx}{\textwidth}{lX}
+\toprule
+\textbf{Yêu cầu} & \textbf{Định dạng phù hợp} \\
+\midrule
+Trao đổi bảng dữ liệu đơn giản & CSV \\
+Tạo báo cáo nhiều trang tính & Excel \\
+Trao đổi dữ liệu qua Web API & JSON \\
+Lưu dữ liệu quan hệ và truy vấn & SQL \\
+Lưu document lồng nhau linh hoạt & MongoDB \\
+Lưu bảng dữ liệu lớn & Parquet \\
+Trích xuất bảng trên website & HTML \\
+Phân phối báo cáo có bố cục cố định & PDF \\
+\bottomrule
+\end{tabularx}
+\end{frame}
+
+\begin{frame}{Kiểm tra kiến thức cuối bài}
+\textbf{Câu 1.} Kỹ thuật nào phù hợp khi tệp CSV lớn hơn RAM?
+\begin{enumerate}[A.]
+  \item Đọc tệp theo từng khối
+  \item Chuyển mọi giá trị thành chuỗi
+  \item Tạo bản sao thứ hai của tệp
+  \item Chỉ dùng \code{head()}
 \end{enumerate}
-\end{block}
-\vspace{1em}
-\small Liên hệ hỗ trợ: TS. Vũ Đức Minh (\texttt{minhvd@neu.edu.vn})
+
+\smallgap
+\textbf{Câu 2.} Định dạng nào đặc biệt phổ biến khi trao đổi dữ liệu qua Web API?
+\begin{enumerate}[A.]
+  \item JSON
+  \item PDF
+  \item XLS
+  \item SQLite
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Tổng kết}
+Quy trình tổng quát khi làm việc với dữ liệu đa nguồn:
+\begin{center}
+\small
+\begin{tabular}{ccccccccc}
+Nguồn & $\rightarrow$ & Đọc & $\rightarrow$ & Kiểm tra & $\rightarrow$ & Làm sạch & $\rightarrow$ & Chuyển đổi \\[0.4em]
+ & & & & & & & & $\downarrow$ \\[0.4em]
+Lưu / Báo cáo & $\leftarrow$ & Phân tích & $\leftarrow$ & Tích hợp & $\leftarrow$ & & &
+\end{tabular}
+\end{center}
+\smallgap
+Mục tiêu là chuyển dữ liệu thô, phân tán thành dữ liệu phân tích đáng tin cậy.
+\end{frame}
+
+\begin{frame}{Các công cụ chính}
+\begin{tabularx}{\textwidth}{lX}
+\toprule
+\textbf{Nguồn dữ liệu} & \textbf{Công cụ Python} \\
+\midrule
+CSV & \code{pd.read\_csv()}, \code{to\_csv()} \\
+Tệp văn bản số với NumPy & \code{loadtxt()}, \code{genfromtxt()}, \code{savetxt()} \\
+Excel & \code{read\_excel()}, \code{ExcelWriter()} \\
+JSON & \code{read\_json()}, \code{json\_normalize()} \\
+HTML & \code{read\_html()} \\
+PDF & \code{pdfplumber} \\
+SQLite & \code{sqlite3}, \code{read\_sql\_query()}, \code{to\_sql()} \\
+MongoDB & \code{pymongo}, \code{json\_normalize()} \\
+\bottomrule
+\end{tabularx}
+\end{frame}
+
+\begin{frame}{Thông điệp kết thúc}
+Truy xuất, chuẩn bị và lưu trữ dữ liệu không phải là các bước kỹ thuật phụ.
+
+\smallgap
+Chúng quyết định liệu các phân tích, trực quan hóa và mô hình Machine Learning sau đó có đáng tin cậy hay không.
+
+\smallgap
+\begin{center}
+\Large Pipeline dữ liệu đúng $\Rightarrow$ kết quả phân tích đáng tin cậy
+\end{center}
 \end{frame}
 
 \end{document}

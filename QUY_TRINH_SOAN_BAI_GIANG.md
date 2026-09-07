@@ -31,7 +31,8 @@ Data_Analysis_with_Python/
 │   ├── create_lecture.py           # Script khởi tạo khung bài giảng mới
 │   └── publish_lecture.py          # Script tự động cập nhật README & push GitHub
 ├── syllabus-vn.md                  # Đề cương chi tiết học phần DSAI1005
-└── README.md                       # Trang chủ repo + Mục lục bài giảng
+├── index.md                        # Trang chủ repo + Mục lục bài giảng (Tiếng Việt)
+└── index-en.md                     # Trang chủ repo + Mục lục bài giảng (Tiếng Anh)
 ```
 
 ---
@@ -60,8 +61,8 @@ Data_Analysis_with_Python/
    - **Kiểm tra đường dẫn ảnh trong `.tex`:** Mọi hình ảnh chèn vào Slide LaTeX Beamer phải được đối chiếu tồn tại thực tế tại thư mục `images/`. Macro `\imageplaceholder` được thiết lập tự động render hình ảnh thật qua `\IfFileExists`.
    - **Biên dịch XeLaTeX & Xóa tệp tạm:** Biên dịch bằng `xelatex -interaction=nonstopmode <filename>.tex` (2 lượt). Ngay sau khi xuất xong tệp PDF, Antigravity Skill **bắt buộc dọn dẹp xóa các tệp tạm** (`.aux`, `.log`, `.nav`, `.out`, `.snm`, `.toc`, `.vrb`) để repo luôn sạch sẽ.
 
-7. **Quy tắc Cập nhật Link Slide PDF vào `README.md` & `README-en.md` (Anti-404 Docsify Link)**:
-   - Cập nhật liên kết slide PDF vào ô Slide thuộc bảng Ma trận bài giảng ở cả 2 tệp `README.md` và `README-en.md`.
+7. **Quy tắc Cập nhật Link Slide PDF vào `index.md` & `index-en.md` (Anti-404 Docsify Link)**:
+   - Cập nhật liên kết slide PDF vào ô Slide thuộc bảng Ma trận bài giảng ở cả 2 tệp `index.md` và `index-en.md`.
    - **Bắt buộc dùng thẻ HTML `target="_blank"`:** Do trang web Docsify là ứng dụng Single Page (SPA), liên kết tệp PDF phải sử dụng dạng `<a href="lectures/.../partXX_lecture_X.pdf" target="_blank">PDF</a>` để trình duyệt mở trực tiếp tệp PDF trên tab mới, tránh lỗi 404 Not Found từ Docsify router.
 
 ---
@@ -96,7 +97,7 @@ python scripts/publish_lecture.py -m "feat(lecture): Hoàn thành bài giảng T
 ```
 Script sẽ tự động:
 1. Đọc tất cả thư mục trong `lectures/`.
-2. Cập nhật bảng **Mục lục bài giảng** chuyên nghiệp tại [README.md](file:///E:/MinhVD/Github/Data_Analysis_with_Python/README.md).
+2. Cập nhật bảng **Mục lục bài giảng** chuyên nghiệp tại [index.md](file:///E:/MinhVD/Github/Data_Analysis_with_Python/index.md) và [index-en.md](file:///E:/MinhVD/Github/Data_Analysis_with_Python/index-en.md).
 3. Thực hiện `git add .`, `git commit` và `git push` trực tiếp lên GitHub repository.
 
 ---

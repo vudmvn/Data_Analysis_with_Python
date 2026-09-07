@@ -22,12 +22,12 @@
 ### 💻 Bài tập thực hành (Lab Notebooks & Practice)
 - **Tiếng Việt:**
   - `numpy-practice-vn.ipynb`: Bài tập thực hành cơ bản và nâng cao về NumPy.
-  - `numpy_business_economics_exercises-vn.ipynb`: Bài tập ứng dụng NumPy trong Phân tích Kinh doanh & Kinh tế.
+  - `numpy-project-vn.ipynb`: Bài tập ứng dụng NumPy trong Phân tích Kinh doanh & Kinh tế.
 - **English:**
   - `numpy-practice-en.ipynb`: Basic and advanced NumPy practice exercises.
-  - `numpy_business_economics_exercises-en.ipynb`: Applied NumPy exercises for Business & Economics.
+  - `numpy-project-en.ipynb`: Applied NumPy exercises for Business & Economics.
 
 ## 🚀 Hướng dẫn học tập (Study Guide)
 1. Đọc bài giảng Markdown (`numpy-intro-vn.md` hoặc `numpy-intro-en.md`) hoặc theo dõi slide PDF (`numpy-intro-vn.pdf` / `numpy-intro-en.pdf`).
-2. Thực hành trực tiếp trên các Jupyter Notebook (`numpy-practice-vn.ipynb` và `numpy_business_economics_exercises-vn.ipynb`).
+2. Thực hành trực tiếp trên các Jupyter Notebook (`numpy-practice-vn.ipynb` và `numpy-project-vn.ipynb`).
 3. Tự làm các bài tập kiểm tra và ứng dụng kinh tế trước khi kiểm tra đáp án.
