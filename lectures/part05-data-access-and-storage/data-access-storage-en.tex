@@ -1,0 +1,358 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+
+\usetheme{AnnArbor}
+\usepackage{fontspec}
+\usepackage{amsmath,amssymb,booktabs,array,multicol}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{ragged2e}
+
+\setmainfont{DejaVu Serif}
+\setsansfont{DejaVu Sans}
+\setmonofont{Noto Sans Mono}
+
+\definecolor{CodeBg}{RGB}{248,248,248}
+\definecolor{TitleBlue}{RGB}{38,79,129}
+\definecolor{AccentGreen}{RGB}{35,125,93}
+\definecolor{SoftGray}{RGB}{80,80,80}
+\definecolor{QuizOrange}{RGB}{180,95,30}
+
+\setbeamercolor{title}{fg=TitleBlue}
+\setbeamercolor{frametitle}{fg=TitleBlue}
+\setbeamercolor{structure}{fg=AccentGreen}
+\setbeamercolor{block title}{fg=white,bg=TitleBlue}
+\setbeamercolor{block body}{bg=blue!3}
+\setbeamercolor{alertblock title}{fg=white,bg=QuizOrange}
+\setbeamercolor{alertblock body}{bg=orange!6}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+\setbeamertemplate{itemize item}{\raise0.15ex\hbox{\tiny$\blacktriangleright$}}
+\setbeamertemplate{itemize subitem}{\raise0.15ex\hbox{\tiny$\bullet$}}
+
+\lstdefinestyle{py}{
+  language=Python,
+  basicstyle=\ttfamily\scriptsize,
+  backgroundcolor=\color{CodeBg},
+  frame=single,
+  framerule=0.2pt,
+  rulecolor=\color{gray!35},
+  breaklines=true,
+  showstringspaces=false,
+  keywordstyle=\color{TitleBlue}\bfseries,
+  commentstyle=\color{SoftGray}\itshape,
+  stringstyle=\color{AccentGreen},
+  upquote=true
+}
+
+\newcommand{\key}[1]{\textbf{\textcolor{AccentGreen}{#1}}}
+\newcommand{\cmd}[1]{\texttt{\detokenize{#1}}}
+
+\title[Data Access \& Storage]{Data Access and Storage with Python}
+\subtitle{Flat Files (CSV), Diverse Formats (Excel, JSON, HTML, PDF), SQLite \& MongoDB}
+\author{Dr. Minh Duc Vu}
+\institute{School of Data Science \& Artificial Intelligence -- National Economics University (NEU)}
+\date{September 2026}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Learning Objectives (CLO 5.4)}
+\small
+Upon completing this module, learners will be able to:
+\begin{itemize}
+  \item \key{CSV Ingestion \& Export:} Master \cmd{np.loadtxt}, \cmd{np.genfromtxt}, and advanced \cmd{pd.read_csv()} features (\cmd{chunksize}, \cmd{encoding}, \cmd{parse_dates}).
+  \item \key{Diverse File Formats:} Process multi-sheet Excel workbooks (\cmd{openpyxl}), unpack nested JSON trees (\cmd{json_normalize}), scrape HTML tables, and extract PDF records.
+  \item \key{Relational Databases:} Connect to SQLite via \cmd{sqlite3} \& \cmd{SQLAlchemy}, execute parameterized queries, and bridge two-way transfers with Pandas (\cmd{read_sql_query}, \cmd{to_sql}).
+  \item \key{NoSQL Document Stores:} Connect to MongoDB via \cmd{pymongo}, execute CRUD operations, and normalize BSON \cmd{ObjectId} records into DataFrames.
+  \item \key{End-to-End Pipeline:} Architect an automated multimodal data pipeline for business intelligence reporting.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Python Data Access \& Storage Ecosystem}
+\centering
+\IfFileExists{images/data-access-storage-overview.png}{
+  \includegraphics[width=0.92\linewidth]{images/data-access-storage-overview.png}
+}{
+  \begin{block}{Architecture}
+  Files \& Databases $\rightarrow$ Pandas / NumPy Core $\rightarrow$ Target Analytics
+  \end{block}
+}
+\end{frame}
+
+\begin{frame}[fragile]{Reading CSV Data with NumPy}
+\small
+NumPy provides two primary functions for text-based matrix loading:
+\begin{columns}[T]
+\column{0.48\linewidth}
+\begin{block}{\cmd{np.loadtxt()}}
+Ideal for clean, pure numerical matrices with no missing values.
+\begin{lstlisting}[style=py]
+import numpy as np
+# Ingest homogeneous numeric matrix
+arr = np.loadtxt("matrix.csv", 
+                 delimiter=",", 
+                 skiprows=1)
+print(arr.shape)
+\end{lstlisting}
+\end{block}
+\column{0.48\linewidth}
+\begin{block}{\cmd{np.genfromtxt()}}
+Robust parsing with missing value imputation.
+\begin{lstlisting}[style=py]
+# Replace missing cells with 0.0
+arr_gen = np.genfromtxt(
+    "numeric_sample.csv",
+    delimiter=",",
+    skip_header=1,
+    filling_values=0.0
+)
+\end{lstlisting}
+\end{block}
+\end{columns}
+\vspace{0.5em}
+Export array to CSV: \texttt{np.savetxt("out.csv", arr, delimiter=",", fmt="\%0.2f")}.
+\end{frame}
+
+\begin{frame}[fragile]{Essential Parameters of Pandas \cmd{read_csv()}}
+\small
+\begin{lstlisting}[style=py]
+import pandas as pd
+
+df = pd.read_csv(
+    "data/customers.csv",
+    sep=",",                         # Column delimiter character (default ',')
+    index_col="customer_id",         # Designate primary index column
+    usecols=["customer_id", "full_name", "signup_date", "total_spent"], # Save RAM
+    dtype={"customer_id": str},      # Explicit type enforcement
+    parse_dates=["signup_date"],     # Parse ISO date strings to datetime64
+    na_values=["NA", "null", "-"],   # Sentinel missing values
+    encoding="utf-8"                 # Universal text encoding
+)
+\end{lstlisting}
+\vspace{-0.3em}
+\begin{alertblock}{Production Export Tip}
+Use \cmd{df.to_csv("clean.csv", index=False, encoding="utf-8-sig")}. The \cmd{utf-8-sig} parameter includes a Byte Order Mark (BOM) enabling Microsoft Excel to automatically render UTF-8 characters properly.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{Out-of-Core Processing with \cmd{chunksize}}
+\small
+When datasets exceed available physical RAM, loading the entire file raises a fatal \key{MemoryError}. Chunk streaming processes records iteratively:
+
+\begin{lstlisting}[style=py]
+import pandas as pd
+
+# Streaming iterator loading 100,000 rows per batch
+chunk_iter = pd.read_csv("large_transactions.csv", chunksize=100000,
+                         usecols=["store_id", "revenue"])
+
+store_totals = {}
+for i, chunk in enumerate(chunk_iter):
+    # Process each batch independently in RAM
+    grouped = chunk.groupby("store_id")["revenue"].sum()
+    for sid, rev in grouped.items():
+        store_totals[sid] = store_totals.get(sid, 0) + rev
+    print(f"-> Finished chunk #{i+1}")
+
+print("Total aggregated revenue:", store_totals)
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Working with Excel Workbooks (\cmd{openpyxl})}
+\small
+\begin{columns}[T]
+\column{0.48\linewidth}
+\begin{block}{Reading Multiple Worksheets}
+\begin{lstlisting}[style=py]
+# Ingest specific worksheet
+df = pd.read_excel("products.xlsx", 
+                   sheet_name="Products", 
+                   engine="openpyxl")
+
+# Read ALL sheets into a dict of DFs
+all_sheets = pd.read_excel(
+    "products.xlsx", 
+    sheet_name=None, 
+    engine="openpyxl"
+)
+# all_sheets["Categories"] is a DF
+\end{lstlisting}
+\end{block}
+\column{0.48\linewidth}
+\begin{block}{Multi-Sheet Excel Export}
+\begin{lstlisting}[style=py]
+# Write multi-sheet via ExcelWriter
+with pd.ExcelWriter("report.xlsx", 
+                    engine="openpyxl") as w:
+    df_prod.to_excel(w, 
+                     sheet_name="Products", 
+                     index=False)
+    df_kpi.to_excel(w, 
+                    sheet_name="Summary_KPI", 
+                    index=False)
+\end{lstlisting}
+\end{block}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Flattening Nested JSON Hierarchies (\cmd{json_normalize})}
+\small
+RESTful API payloads commonly arrive with complex multi-level nesting (\key{Sub-dictionaries \& Arrays}).
+
+\begin{lstlisting}[style=py]
+import json, pandas as pd
+
+with open("ecommerce_transactions.json", "r", encoding="utf-8") as f:
+    orders = json.load(f)
+
+# Unpack item arrays while propagating top-level order metadata
+df_flat = pd.json_normalize(
+    orders,
+    record_path=["items"],                  # Explode rows per item element
+    meta=["order_id", "order_date",         # Order-level attributes
+          ["customer", "customer_id"],      # Nested sub-dictionary keys
+          ["customer", "name"], 
+          ["customer", "city"]]
+)
+print(df_flat.head(3))
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Web Table Scraping \& PDF Tabular Extraction}
+\small
+\begin{columns}[T]
+\column{0.48\linewidth}
+\begin{block}{HTML Table Parsing (\cmd{read_html})}
+\begin{lstlisting}[style=py]
+# Parse all <table> DOM elements
+tables = pd.read_html(
+    "financial_quotes.html", 
+    match="VN-Index" # Filter by keyword
+)
+df_stocks = tables[0]
+print(df_stocks.head())
+\end{lstlisting}
+\end{block}
+\column{0.48\linewidth}
+\begin{block}{PDF Extraction (\cmd{pdfplumber})}
+\begin{lstlisting}[style=py]
+import pdfplumber
+
+with pdfplumber.open("invoice.pdf") as pdf:
+    for page in pdf.pages:
+        tables = page.extract_tables()
+        for t in tables:
+            df = pd.DataFrame(t[1:], 
+                              columns=t[0])
+            print(df)
+\end{lstlisting}
+\end{block}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Relational (SQLite) vs Document NoSQL (MongoDB)}
+\centering
+\IfFileExists{images/relational-vs-nosql.png}{
+  \includegraphics[width=0.92\linewidth]{images/relational-vs-nosql.png}
+}{
+  \begin{block}{Comparison}
+  SQLite: Tables, Schema, Columns, ACID $\longleftrightarrow$ MongoDB: Collections, Dynamic BSON Documents
+  \end{block}
+}
+\end{frame}
+
+\begin{frame}[fragile]{Relational Databases: SQLite \& Pandas}
+\small
+\begin{lstlisting}[style=py]
+import sqlite3, pandas as pd
+
+conn = sqlite3.connect("data/company.db")
+
+# 1. Direct multi-table JOIN query into Pandas DataFrame
+query = (
+    "SELECT e.emp_id, e.full_name, d.dept_name, SUM(s.revenue) AS total_revenue "
+    "FROM employees e "
+    "JOIN departments d ON e.dept_id = d.dept_id "
+    "JOIN monthly_sales s ON e.emp_id = s.emp_id "
+    "GROUP BY e.emp_id, e.full_name, d.dept_name "
+    "ORDER BY total_revenue DESC;"
+)
+df_sales = pd.read_sql_query(query, conn)
+
+# 2. Persist transformed results back to SQLite
+df_sales.to_sql("top_sales_summary", conn, if_exists="replace", index=False)
+conn.close()
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Document NoSQL Database: MongoDB (\cmd{pymongo})}
+\small
+\begin{lstlisting}[style=py]
+from pymongo import MongoClient
+import pandas as pd
+
+# Connect to database instance
+client = MongoClient("mongodb://localhost:27017/")
+db = client["retail_store_db"]
+orders_col = db["customer_orders"]
+
+# 1. Flexible document insertion
+orders_col.insert_one({"order_id": "ORD-101", "items": ["P01", "P02"], "amount": 250.00})
+
+# 2. Filter collection stream and normalize to DataFrame
+cursor = orders_col.find({"amount": {"$gte": 100.00}})
+df_orders = pd.json_normalize(list(cursor))
+
+# Cleanse special BSON ObjectId identifier
+if "_id" in df_orders.columns:
+    df_orders["_id"] = df_orders["_id"].astype(str)
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Quick Reference Matrix for Data I/O}
+\small
+\begin{table}[]
+\centering
+\begin{tabular}{llll}
+\toprule
+\textbf{Format} & \textbf{Read Function} & \textbf{Write Function} & \textbf{Core Dependency} \\
+\midrule
+CSV / TSV & \cmd{pd.read_csv()} & \cmd{df.to_csv()} & Pandas (built-in) \\
+Excel & \cmd{pd.read_excel()} & \cmd{df.to_excel()} & \cmd{openpyxl} \\
+JSON & \cmd{pd.json_normalize()} & \cmd{df.to_json()} & \cmd{json}, Pandas \\
+HTML & \cmd{pd.read_html()} & \cmd{df.to_html()} & \cmd{lxml}, \cmd{bs4} \\
+PDF & \cmd{page.extract_tables()} & -- & \cmd{pdfplumber} \\
+SQLite & \cmd{pd.read_sql_query()} & \cmd{df.to_sql()} & \cmd{sqlite3}, SQLAlchemy \\
+MongoDB & \cmd{col.find() -> DF} & \cmd{col.insert_many()} & \cmd{pymongo} \\
+\bottomrule
+\end{tabular}
+\end{table}
+\begin{alertblock}{Production Security \& Performance Principles}
+1. Always use parameterized queries (\cmd{?}) to protect against SQL Injection.  
+2. Manage file and connection handles with \cmd{with} statements.  
+3. Restrict columns with \cmd{usecols} and stream large tables via \cmd{chunksize}.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{Summary \& Discussion Questions}
+\centering
+\vspace{1em}
+\key{\Large Happy Coding \& Effective Analytics!}
+\vspace{1em}
+
+\begin{block}{Discussion Questions for Lab Sessions}
+\begin{enumerate}
+  \item When should e-commerce orders be stored as NoSQL Documents rather than normalized relational tables?
+  \item How would you architect an automated nightly cron pipeline loading Web API JSON streams into SQLite?
+\end{enumerate}
+\end{block}
+\vspace{1em}
+\small Contact: Dr. Minh Duc Vu (\texttt{minhvd@neu.edu.vn})
+\end{frame}
+
+\end{document}

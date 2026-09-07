@@ -1,0 +1,98 @@
+[
+  {
+    "order_id": "ORD-2026-1001",
+    "order_date": "2026-09-01T10:15:30",
+    "customer": {
+      "customer_id": "CUST-001",
+      "name": "Nguyen Van An",
+      "city": "Ha Noi",
+      "shipping_address": "12 Chua Boc, Dong Da, Ha Noi"
+    },
+    "items": [
+      {
+        "sku": "P001",
+        "name": "Laptop Dell XPS 13",
+        "qty": 1,
+        "unit_price": 28500000
+      },
+      {
+        "sku": "P003",
+        "name": "Chuot Logitech MX Master 3S",
+        "qty": 1,
+        "unit_price": 2450000
+      }
+    ],
+    "payment": {
+      "method": "Credit Card",
+      "gateway": "VNPAY",
+      "status": "Paid"
+    },
+    "discount_code": "BACK2SCHOOL",
+    "discount_amount": 1000000,
+    "shipping_fee": 50000
+  },
+  {
+    "order_id": "ORD-2026-1002",
+    "order_date": "2026-09-02T14:45:00",
+    "customer": {
+      "customer_id": "CUST-002",
+      "name": "Tran Thi Mai",
+      "city": "Da Nang",
+      "shipping_address": "45 Nguyen Van Linh, Da Nang"
+    },
+    "items": [
+      {
+        "sku": "P002",
+        "name": "Ban phim co Keychron K2",
+        "qty": 2,
+        "unit_price": 1950000
+      }
+    ],
+    "payment": {
+      "method": "Momo",
+      "gateway": "Momo E-Wallet",
+      "status": "Paid"
+    },
+    "discount_code": null,
+    "discount_amount": 0,
+    "shipping_fee": 30000
+  },
+  {
+    "order_id": "ORD-2026-1003",
+    "order_date": "2026-09-03T09:20:15",
+    "customer": {
+      "customer_id": "CUST-007",
+      "name": "Bui Phuong Linh",
+      "city": "TP. Ho Chi Minh",
+      "shipping_address": "88 Nguyen Thi Minh Khai, Q.1, TP. HCM"
+    },
+    "items": [
+      {
+        "sku": "P004",
+        "name": "Man hinh Dell UltraSharp 27",
+        "qty": 1,
+        "unit_price": 11200000
+      },
+      {
+        "sku": "P005",
+        "name": "Tai nghe Sony WH-1000XM5",
+        "qty": 1,
+        "unit_price": 7990000
+      },
+      {
+        "sku": "P006",
+        "name": "Webcam Logitech Brio 4K",
+        "qty": 1,
+        "unit_price": 4850000
+      }
+    ],
+    "payment": {
+      "method": "Bank Transfer",
+      "gateway": "Vietcombank",
+      "status": "Paid"
+    },
+    "discount_code": "VIPPLATINUM",
+    "discount_amount": 2000000,
+    "shipping_fee": 0
+  }
+]

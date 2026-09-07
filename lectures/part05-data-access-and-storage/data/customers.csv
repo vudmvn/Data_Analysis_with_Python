@@ -1,0 +1,9 @@
+customer_id,full_name,email,age,city,signup_date,total_spent,loyalty_tier
+CUST-001,Nguyen Van An,an.nguyen@email.com,28,Ha Noi,2024-01-15,4250000,Gold
+CUST-002,Tran Thi Mai,mai.tran@email.com,34,Da Nang,2024-02-20,1850000,Silver
+CUST-003,Le Hoang Nam,,45,TP. Ho Chi Minh,2023-11-05,9800000,Platinum
+CUST-004,Pham Minh Duc,duc.pham@email.com,22,Ha Noi,2024-03-12,,Standard
+CUST-005,Vo Thi Huong,huong.vo@email.com,29,Hai Phong,2024-04-01,3100000,Silver
+CUST-006,Dang Quoc Bao,bao.dang@email.com,,Can Tho,2023-09-18,6500000,Gold
+CUST-007,Bui Phuong Linh,linh.bui@email.com,31,TP. Ho Chi Minh,2024-05-22,12400000,Platinum
+CUST-008,Do Tuan Kiet,kiet.do@email.com,26,Ha Noi,2024-06-10,950000,Standard
