@@ -1,0 +1,233 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[vietnamese]{babel}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Consolas}
+
+\usepackage[a4paper,top=1.8cm,bottom=2cm,left=1.8cm,right=1.8cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{tcolorbox}
+\usepackage{lastpage}
+
+% Màu sắc
+\definecolor{codegray}{rgb}{0.96,0.96,0.96}
+\definecolor{keywordblue}{rgb}{0.0,0.2,0.6}
+\definecolor{stringgreen}{rgb}{0.0,0.5,0.2}
+\definecolor{commentgray}{rgb}{0.4,0.4,0.4}
+\definecolor{correctgreen}{rgb}{0.0,0.5,0.15}
+\definecolor{boxborder}{rgb}{0.7,0.7,0.7}
+
+\lstset{
+  language=Python,
+  backgroundcolor=\color{codegray},
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{keywordblue}\bfseries,
+  stringstyle=\color{stringgreen},
+  commentstyle=\color{commentgray}\itshape,
+  showstringspaces=false,
+  breaklines=true,
+  frame=single,
+  rulecolor=\color{boxborder},
+  aboveskip=4pt,
+  belowskip=4pt,
+  numbers=none,
+  columns=fullflexible
+}
+
+% Header & Footer
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{15pt}
+\lhead{\small \textbf{Học phần:} Phân tích dữ liệu với Python (DSAI1005)}
+\rhead{\small \textbf{ĐÁP ÁN \& BIỂU ĐIỂM CHI TIẾT (TUẦN 1 -- 4)}}
+\lfoot{\small Khoa Khoa học Dữ liệu \& Trí tuệ Nhân tạo -- ĐH Kinh tế Quốc dân}
+\rfoot{\small Trang \thepage/\pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
+
+\begin{document}
+
+\noindent
+\begin{minipage}[t]{0.55\textwidth}
+  \centering
+  \textbf{TRƯỜNG ĐẠI HỌC KINH TẾ QUỐC DÂN}\\
+  \textbf{KHOA KHOA HỌC DỮ LIỆU \& AI}\\
+  \rule{4cm}{0.4pt}\\[2mm]
+  \textbf{HƯỚNG DẪN CHẤM \& ĐÁP ÁN CHÍNH THỨC}\\
+  \textbf{Học phần:} Phân tích dữ liệu với Python (DSAI1005)\\
+  \textbf{Nội dung:} Đề kiểm tra 60 phút (Tuần 1 -- 4) --- \textbf{Mã đề:} \textbf{201}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.42\textwidth}
+  \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=\textbf{Tổng quan thang điểm 10}]
+    \small
+    \textbf{Phần I (Trắc nghiệm):} 20 câu $\times$ 0.25đ = \textbf{5.0 điểm}\\
+    \textbf{Phần II (Tự luận ngắn):} 4 câu = \textbf{5.0 điểm}\\
+    \rule{\linewidth}{0.3pt}\\
+    \textbf{Tổng điểm toàn bài:} \textbf{10.0 điểm}
+  \end{tcolorbox}
+\end{minipage}
+
+\vspace{3mm}
+\hrule
+\vspace{2mm}
+
+\section*{PHẦN I: ĐÁP ÁN TRẮC NGHIỆM (5.0 điểm --- 0.25 điểm / câu)}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+  \hline
+  \textbf{Câu} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} \\
+  \hline
+  \textbf{Đáp án} & \textbf{B} & \textbf{C} & \textbf{A} & \textbf{B} & \textbf{B} & \textbf{B} & \textbf{A} & \textbf{B} & \textbf{B} & \textbf{B} \\
+  \hline
+  \hline
+  \textbf{Câu} & \textbf{11} & \textbf{12} & \textbf{13} & \textbf{14} & \textbf{15} & \textbf{16} & \textbf{17} & \textbf{18} & \textbf{19} & \textbf{20} \\
+  \hline
+  \textbf{Đáp án} & \textbf{B} & \textbf{B} & \textbf{B} & \textbf{C} & \textbf{B} & \textbf{B} & \textbf{A} & \textbf{B} & \textbf{B} & \textbf{B} \\
+  \hline
+\end{tabular}
+\end{center}
+
+\subsection*{Giải thích vắn tắt cơ sở đáp án trắc nghiệm:}
+\begin{itemize}[leftmargin=*,itemsep=1.5pt]
+  \item \textbf{Câu 1 (B):} Mục tiêu cốt lõi của EDA do John Tukey khởi xướng là khám phá dữ liệu, kiểm tra giả định, phát hiện ngoại lệ và cấu trúc trước khi mô hình hóa.
+  \item \textbf{Câu 2 (C):} Tính chất của độ lệch chuẩn: Khi nhân mỗi giá trị với hằng số $c = 3$, độ lệch chuẩn tăng $c = 3$ lần ($\text{Std}(cX) = |c|\text{Std}(X)$).
+  \item \textbf{Câu 3 (A):} Ranh giới xác định ngoại lệ kinh điển trong Boxplot là $[Q_1 - 1.5\times\text{IQR}, \; Q_3 + 1.5\times\text{IQR}]$.
+  \item \textbf{Câu 4 (B):} $r = 0$ chỉ khẳng định không có tương quan tuyến tính (linear), không loại trừ khả năng có mối liên hệ phi tuyến mạnh (như parabol $Y = X^2$).
+  \item \textbf{Câu 5 (B):} \texttt{np.arange(start=3, stop=15, step=4)} sinh mảng $[3, 7, 11]$ (cận trên 15 không được bao gồm).
+  \item \textbf{Câu 6 (B):} \texttt{m[::-1, 1]} đảo ngược các hàng rồi lấy cột index 1: hàng theo thứ tự $[7, 8, 9] \rightarrow [4, 5, 6] \rightarrow [1, 2, 3]$. Cột 1 là $[8, 5, 2]$.
+  \item \textbf{Câu 7 (A):} Broadcasting: Chiều 1: 5 ghép 1 $\rightarrow 5$; Chiều 2: 1 ghép 4 $\rightarrow 4$; Chiều 3: 3 ghép 1 (ngầm hiểu) $\rightarrow 3$ $\Rightarrow$ shape $(5, 4, 3)$.
+  \item \textbf{Câu 8 (B):} \texttt{np.where(condition, x, y)} là hàm vector hóa tương tự toán tử ba ngôi (\texttt{condition ? x : y}).
+  \item \textbf{Câu 9 (B):} \texttt{axis=0} là tính tổng dọc theo các hàng (thu gọn hàng, giữ lại cột), nên ma trận $(4, 5)$ sẽ cho kết quả vector kích thước $(5,)$.
+  \item \textbf{Câu 10 (B):} \texttt{pd.Series} là cấu trúc mảng 1D có gắn index trong Pandas.
+  \item \textbf{Câu 11 (B):} Phương thức \texttt{.loc} cắt lát theo nhãn luôn bao gồm cả cận cuối (inclusive end) $\rightarrow$ chứa cả \texttt{'a'}, \texttt{'b'}, và \texttt{'c'}.
+  \item \textbf{Câu 12 (B):} \texttt{df.fillna()} là phương thức chuẩn để điền giá trị thay thế vào các ô khuyết thiếu \texttt{NaN}.
+  \item \textbf{Câu 13 (B):} Toán tử logic HOẶC trong Pandas bắt buộc dùng bitwise OR \texttt{|} và bọc từng vế trong dấu ngoặc đơn \texttt{()}.
+  \item \textbf{Câu 14 (C):} Nhóm \texttt{'IT'} có lương là $50$ và $70$, giá trị \texttt{max} là $70$.
+  \item \textbf{Câu 15 (B):} Phép nối trong (\texttt{inner join}) chỉ giữ lại các dòng mà khóa xuất hiện đồng thời ở cả hai bảng.
+  \item \textbf{Câu 16 (B):} \texttt{plt.subplots(2, 3)} tạo lưới 2 hàng $\times$ 3 cột $= 6$ đồ thị con (Axes).
+  \item \textbf{Câu 17 (A):} \texttt{sns.kdeplot()} là hàm chuyên dụng vẽ ước lượng mật độ kernel của biến liên tục.
+  \item \textbf{Câu 18 (B):} \texttt{sns.pairplot()} tự động hiển thị lưới phân tán đa biến và biểu đồ phân phối đơn biến trên đường chéo.
+  \item \textbf{Câu 19 (B):} \texttt{plt.tight\_layout()} tự động co giãn khoảng trống giữa các subplots để tránh đè lấn nhãn/ticks.
+  \item \textbf{Câu 20 (B):} \texttt{sns.barplot()} mặc định vẽ giá trị trung bình kèm vạch sai số (error bar biểu thị độ tin cậy) theo từng nhóm danh mục.
+\end{itemize}
+
+\vspace{3mm}
+\hrule
+\vspace{2mm}
+
+\section*{PHẦN II: ĐÁP ÁN \& BIỂU ĐIỂM TỰ LUẬN NGẮN (5.0 điểm)}
+
+\begin{tcolorbox}[colback=gray!5!white,colframe=gray!60!black,title=\textbf{Lưu ý chung dành cho Cán bộ chấm thi}]
+\small
+\begin{itemize}[leftmargin=*,itemsep=1pt]
+  \item Không trừ điểm nếu sinh viên sử dụng dấu nháy kép \texttt{" "} thay cho dấu nháy đơn \texttt{' '} hoặc ngược lại.
+  \item Không trừ điểm nếu sinh viên thiếu dấu đóng ngoặc tròn ở cuối dòng nhưng logic câu lệnh hoàn toàn chính xác.
+  \item Chấp nhận các cách viết tương đương hợp lệ trong NumPy/Pandas/Matplotlib.
+\end{itemize}
+\end{tcolorbox}
+
+\subsection*{Câu 1: NumPy Vectorization \& Slicing (1.0 điểm)}
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item \textbf{(0.5 điểm):}
+  \begin{itemize}
+    \item \textbf{Tên cơ chế:} Cơ chế lan truyền / Mở rộng mảng (\textbf{Broadcasting}). \textit{(Đạt 0.25đ)}
+    \item \textbf{Ma trận kết quả:} \textit{(Đạt 0.25đ)}
+    $$\text{weighted\_scores} = \begin{bmatrix}
+      8.0\times 0.2 & 7.0\times 0.3 & 9.0\times 0.5 \\
+      6.0\times 0.2 & 8.0\times 0.3 & 7.0\times 0.5 \\
+      9.0\times 0.2 & 9.0\times 0.3 & 8.5\times 0.5 \\
+      5.0\times 0.2 & 6.0\times 0.3 & 6.5\times 0.5
+    \end{bmatrix} = \begin{bmatrix}
+      1.6 & 2.1 & 4.5 \\
+      1.2 & 2.4 & 3.5 \\
+      1.8 & 2.7 & 4.25 \\
+      1.0 & 1.8 & 3.25
+    \end{bmatrix}$$
+  \end{itemize}
+
+  \item \textbf{(0.5 điểm):}
+  \begin{itemize}
+    \item \textbf{Dòng lệnh tính gpa:} \textit{(Đạt 0.25đ)}
+\begin{lstlisting}
+gpa = np.sum(weighted_scores, axis=1)  # Hoac: weighted_scores.sum(axis=1)
+\end{lstlisting}
+    \item Tổng gpa các sinh viên là: $[8.2, \; 7.1, \; 8.75, \; 6.05]$.
+    \item Điều kiện \texttt{gpa >= 8.0} thỏa mãn ở sinh viên index 0 và 2.
+    \item Lấy cột 0 (\texttt{scores[..., 0]}): \textbf{Kết quả in ra:} \texttt{[8.0, 9.0]} (hoặc \texttt{[8., 9.]}). \textit{(Đạt 0.25đ)}
+  \end{itemize}
+\end{enumerate}
+
+\subsection*{Câu 2: Thao tác \& Gom nhóm Dữ liệu với Pandas (1.5 điểm)}
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item \textbf{(0.5 điểm):} Lọc dữ liệu và xử lý giá trị khuyết thiếu:
+\begin{lstlisting}
+df_filtered = df_trans[(df_trans['status'] == 'SUCCESS') & (df_trans['amount'] >= 5_000_000)].copy()
+df_filtered['fee'] = df_filtered['fee'].fillna(0)
+\end{lstlisting}
+  \textit{Biểu điểm:} Lọc đúng 2 điều kiện bằng toán tử \texttt{\&} được 0.25đ; Gọi đúng \texttt{.fillna(0)} được 0.25đ.
+
+  \item \textbf{(1.0 điểm):} Gom nhóm theo chi nhánh và tính các chỉ số:
+\begin{lstlisting}
+df_branch_summary = df_filtered.groupby('branch').agg(
+    total_amount=('amount', 'sum'),
+    avg_fee=('fee', 'mean'),
+    trans_count=('amount', 'count')  # hoac 'size'
+).sort_values(by='total_amount', ascending=False)
+\end{lstlisting}
+  \textit{Biểu điểm:} Đúng \texttt{groupby('branch')} được 0.25đ; Đúng các hàm tổng hợp \texttt{'sum'}, \texttt{'mean'}, \texttt{'count'} được 0.5đ; Đúng \texttt{sort\_values(..., ascending=False)} được 0.25đ.
+\end{enumerate}
+
+\subsection*{Câu 3: Bố cục Đa biểu đồ với Matplotlib (1.0 điểm)}
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item \textbf{(0.5 điểm):} Lệnh tạo cửa sổ 1 hàng 2 cột:
+\begin{lstlisting}
+fig, axes = plt.subplots(1, 2, figsize=(12, 4))
+\end{lstlisting}
+  \textit{Biểu điểm:} Đúng số hàng số cột \texttt{(1, 2)} được 0.25đ; Đúng \texttt{figsize=(12, 4)} được 0.25đ.
+
+  \item \textbf{(0.5 điểm):} Đoạn mã vẽ đồ thị và căn chỉnh bố cục:
+\begin{lstlisting}
+axes[0].plot(df_kpi['month'], df_kpi['profit'], color='blue', marker='o')
+axes[1].bar(df_kpi['month'], df_kpi['profit'], color='steelblue')
+plt.tight_layout()
+\end{lstlisting}
+  \textit{Biểu điểm:} Đúng lệnh vẽ đường \texttt{axes[0].plot} (có marker tròn) được 0.2đ; Đúng lệnh vẽ cột \texttt{axes[1].bar} được 0.2đ; Đúng lệnh \texttt{plt.tight\_layout()} được 0.1đ.
+\end{enumerate}
+
+\subsection*{Câu 4: Trực quan hóa Khám phá \& Nhận định Dữ liệu (EDA) (1.5 điểm)}
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item \textbf{(0.75 điểm):}
+  \begin{itemize}
+    \item \textbf{Loại biểu đồ:} Biểu đồ hộp (\textbf{Box Plot}) hoặc Biểu đồ vi-ô-lông (\textbf{Violin Plot}). \textit{(Đạt 0.25đ)}
+    \item \textbf{Mã lệnh Seaborn:} \textit{(Đạt 0.5đ)}
+\begin{lstlisting}
+sns.boxplot(data=df_cards, x='is_fraud', y='tx_amount', hue='card_type')
+# (Chấp nhận x='card_type', y='tx_amount', hue='is_fraud')
+\end{lstlisting}
+  \end{itemize}
+
+  \item \textbf{(0.75 điểm) --- Nhận định phân tích \& Kiến nghị chính sách:}
+  \begin{itemize}
+    \item \textit{Nhận định phân tích (0.375đ):} Gian lận thẻ tín dụng (\texttt{Credit}) thường có tính chất chiếm đoạt hạn mức lớn với giá trị giao dịch cao bất thường (ngoại lệ từ 50 đến 200 triệu), khác hẳn với phân bố thông thường ($\le 10$ triệu) và khác với thẻ ghi nợ (\texttt{Debit}).
+    \item \textit{Kiến nghị chính sách (0.375đ):} Ngân hàng cần thiết lập ngưỡng cảnh báo rủi ro tức thì và yêu cầu xác thực bảo mật 2 lớp (Smart OTP/sinh trắc học) hoặc tạm khóa giao dịch đối với các quẹt thẻ tín dụng có giá trị từ 50 triệu VNĐ trở lên.
+  \end{itemize}
+\end{enumerate}
+
+\begin{center}
+\textbf{------------------- HẾT -------------------}
+\end{center}
+
+\end{document}

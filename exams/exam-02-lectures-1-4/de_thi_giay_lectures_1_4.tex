@@ -1,0 +1,476 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[vietnamese]{babel}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Consolas}
+
+\usepackage[a4paper,top=1.5cm,bottom=1.6cm,left=1.7cm,right=1.7cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{tcolorbox}
+\usepackage{lastpage}
+
+% Màu sắc cho code và khung
+\definecolor{codegray}{rgb}{0.96,0.96,0.96}
+\definecolor{keywordblue}{rgb}{0.0,0.2,0.6}
+\definecolor{stringgreen}{rgb}{0.0,0.5,0.2}
+\definecolor{commentgray}{rgb}{0.4,0.4,0.4}
+\definecolor{boxborder}{rgb}{0.7,0.7,0.7}
+
+\lstset{
+  language=Python,
+  backgroundcolor=\color{codegray},
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{keywordblue}\bfseries,
+  stringstyle=\color{stringgreen},
+  commentstyle=\color{commentgray}\itshape,
+  showstringspaces=false,
+  breaklines=true,
+  frame=single,
+  rulecolor=\color{boxborder},
+  aboveskip=2.5pt,
+  belowskip=2.5pt,
+  numbers=none,
+  columns=fullflexible
+}
+
+% Header & Footer
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{14pt}
+\lhead{\small \textbf{Học phần:} Phân tích dữ liệu với Python (DSAI1005)}
+\rhead{\small \textbf{Đề kiểm tra 60 phút (Tuần 1 -- 4)}}
+\lfoot{\small Khoa Khoa học Dữ liệu \& Trí tuệ Nhân tạo -- ĐH Kinh tế Quốc dân}
+\rfoot{\small Trang \thepage/6}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
+
+\newcommand{\answerbox}[2]{
+  \vspace{1mm}
+  \begin{tcolorbox}[
+    colback=white,
+    colframe=gray!60,
+    boxrule=0.6pt,
+    arc=2pt,
+    height=#1,
+    left=3mm, right=3mm, top=2mm, bottom=2mm
+  ]
+  \small\textit{\color{gray}#2}
+  \end{tcolorbox}
+  \vspace{1mm}
+}
+
+\begin{document}
+
+% =========================================================================
+% TRANG 1: KHUNG THÔNG TIN + BẢNG ĐÁP ÁN + CÂU 1 ĐẾN 5
+% =========================================================================
+\noindent
+\begin{minipage}[t]{0.52\textwidth}
+  \centering
+  \textbf{TRƯỜNG ĐẠI HỌC KINH TẾ QUỐC DÂN}\\
+  \textbf{KHOA KHOA HỌC DỮ LIỆU \& AI}\\
+  \rule{4cm}{0.4pt}\\[1.5mm]
+  \textbf{ĐỀ THI KIỂM TRA ĐỊNH KỲ (TRÊN GIẤY)}\\
+  \textbf{Học phần:} Phân tích dữ liệu với Python\\
+  \textbf{Nội dung:} Trọng tâm kiến thức Tuần 1 -- 4\\
+  \textbf{Mã học phần:} DSAI1005 --- \textbf{Thời gian:} 60 phút\\
+  \textit{\small (Sinh viên không sử dụng tài liệu và máy tính cá nhân)}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.45\textwidth}
+  \begin{tabular}{|p{2.3cm}|p{2.3cm}|p{2.3cm}|}
+    \hline
+    \centering \textbf{Trắc nghiệm} & \centering \textbf{Tự luận} & \centering \textbf{TỔNG ĐIỂM} \tabularnewline
+    \hline
+    & & \\[0.8cm]
+    \hline
+    \multicolumn{3}{|l|}{\small \textit{Cán bộ chấm thi 1:}} \tabularnewline
+    \multicolumn{3}{|l|}{\small \textit{Cán bộ chấm thi 2:}} \tabularnewline
+    \hline
+  \end{tabular}
+\end{minipage}
+
+\vspace{2mm}
+\noindent
+\textbf{Họ và tên sinh viên:} \dotfill{} \textbf{Mã số SV:} \dotfill{} \textbf{Mã đề:} \textbf{201}\\
+\textbf{Lớp sinh hoạt / Chuyên ngành:} \dotfill{} \textbf{Phòng thi:} \dotfill{} \textbf{Số báo danh:} \dotfill
+
+\vspace{2mm}
+\noindent
+\textbf{PHẦN GHI ĐÁP ÁN TRẮC NGHIỆM} \textit{(Ghi chữ cái A, B, C hoặc D tương ứng với đáp án lựa chọn)}:
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+  \hline
+  \textbf{Câu} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} \\
+  \hline
+  \textbf{Đáp án} & & & & & & & & & & \\[3mm]
+  \hline
+  \hline
+  \textbf{Câu} & \textbf{11} & \textbf{12} & \textbf{13} & \textbf{14} & \textbf{15} & \textbf{16} & \textbf{17} & \textbf{18} & \textbf{19} & \textbf{20} \\
+  \hline
+  \textbf{Đáp án} & & & & & & & & & & \\[3mm]
+  \hline
+\end{tabular}
+\end{center}
+
+\vspace{-3mm}
+\hrule
+\vspace{1.5mm}
+
+\section*{PHẦN I: TRẮC NGHIỆM KHÁCH QUAN (5.0 điểm --- Mỗi câu 0.25 điểm)}
+
+\begin{enumerate}[leftmargin=*,itemsep=1.5pt]
+
+\item Mục tiêu cốt lõi của bước ``Phân tích khám phá dữ liệu (EDA)'' trong quy trình phân tích dữ liệu là gì?
+\begin{enumerate}[label=\Alph*.]
+  \item Triển khai thuật toán học máy phức tạp ngay lập tức để đạt độ chính xác cao nhất.
+  \item Khám phá cấu trúc, kiểm tra giả định, phát hiện bất thường và tìm kiếm các mẫu hình dữ liệu.
+  \item Tối ưu hóa dung lượng lưu trữ CSDL vật lý trên hệ thống máy chủ.
+  \item Xuất dữ liệu thô sang phần mềm đồ họa bên thứ ba để chỉnh sửa hình ảnh.
+\end{enumerate}
+
+\item Nếu tất cả các giá trị trong một mảng số liệu được nhân đồng thời với 3, thì độ lệch chuẩn (Standard Deviation) của mảng mới sẽ:
+\begin{multicols}{2}
+\begin{enumerate}[label=\Alph*.]
+  \item Tăng lên gấp 9 lần
+  \item Giữ nguyên không thay đổi
+  \item Tăng lên gấp 3 lần
+  \item Bằng căn bậc hai của giá trị ban đầu
+\end{enumerate}
+\end{multicols}
+
+\item Trong biểu đồ hộp (Box Plot), một giá trị $x$ được xem là điểm ngoại lệ (outlier) tiềm năng nếu nó nằm ngoài khoảng nào sau đây (với $\text{IQR} = Q_3 - Q_1$)?
+\begin{multicols}{2}
+\begin{enumerate}[label=\Alph*.]
+  \item $[Q_1 - 1.5\times\text{IQR}, \; Q_3 + 1.5\times\text{IQR}]$
+  \item $[Q_1 - 3.0\times\text{IQR}, \; Q_3 + 3.0\times\text{IQR}]$
+  \item $[\text{Mean} - 1.5\times\text{Std}, \; \text{Mean} + 1.5\times\text{Std}]$
+  \item $[0, \; Q_3 + \text{IQR}]$
+\end{enumerate}
+\end{multicols}
+
+\item Hệ số tương quan Pearson giữa hai biến $X$ và $Y$ đạt giá trị $r = 0$. Kết luận nào sau đây là chuẩn xác nhất về mặt thống kê?
+\begin{enumerate}[label=\Alph*.]
+  \item $X$ và $Y$ hoàn toàn độc lập và không tồn tại bất kỳ mối quan hệ nào.
+  \item Giữa $X$ và $Y$ không tồn tại mối quan hệ tương quan tuyến tính, nhưng vẫn có thể có mối quan hệ phi tuyến.
+  \item Cứ mỗi khi $X$ tăng 1 đơn vị thì $Y$ giữ nguyên giá trị 0.
+  \item Dữ liệu của cả hai biến $X$ và $Y$ đều là phân phối chuẩn tắc.
+\end{enumerate}
+
+\end{enumerate}
+
+\newpage
+% =========================================================================
+% TRANG 2: CÂU 5 ĐẾN 12 (8 CÂU)
+% =========================================================================
+\begin{enumerate}[leftmargin=*,itemsep=2.5pt,resume]
+
+\item Lệnh NumPy \texttt{np.arange(3, 15, 4)} trả về mảng gồm các phần tử nào sau đây?
+\begin{multicols}{4}
+\begin{enumerate}[label=\Alph*.]
+  \item \texttt{[3, 7, 11, 15]}
+  \item \texttt{[3, 7, 11]}
+  \item \texttt{[4, 8, 12]}
+  \item \texttt{[3, 6, 9, 12]}
+\end{enumerate}
+\end{multicols}
+
+\item Cho đoạn mã NumPy:
+\begin{lstlisting}
+import numpy as np
+m = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+print(m[::-1, 1])
+\end{lstlisting}
+Kết quả in ra là:
+\begin{multicols}{4}
+\begin{enumerate}[label=\Alph*.]
+  \item \texttt{[2, 5, 8]}
+  \item \texttt{[8, 5, 2]}
+  \item \texttt{[9, 6, 3]}
+  \item \texttt{[7, 4, 1]}
+\end{enumerate}
+\end{multicols}
+
+\item Cho mảng $A$ có kích thước \texttt{(5, 1, 3)} và mảng $B$ có kích thước \texttt{(4, 1)}. Theo quy tắc Broadcasting của NumPy, mảng kết quả của \texttt{A * B} có kích thước (shape) là:
+\begin{multicols}{4}
+\begin{enumerate}[label=\Alph*.]
+  \item \texttt{(5, 4, 3)}
+  \item \texttt{(5, 1, 3)}
+  \item \texttt{(4, 5, 3)}
+  \item Báo lỗi \texttt{ValueError}
+\end{enumerate}
+\end{multicols}
+
+\item Hàm nào trong NumPy cho phép thay thế các phần tử trong mảng thỏa mãn một điều kiện cho trước bằng giá trị $X$, ngược lại nhận giá trị $Y$ (tương tự toán tử 3 ngôi)?
+\begin{multicols}{4}
+\begin{enumerate}[label=\Alph*.]
+  \item \texttt{np.select()}
+  \item \texttt{np.where()}
+  \item \texttt{np.filter()}
+  \item \texttt{np.choose()}
+\end{enumerate}
+\end{multicols}
+
+\item Cho mảng hai chiều \texttt{arr} có shape \texttt{(4, 5)}. Khi gọi lệnh \texttt{np.sum(arr, axis=0)}, kết quả trả về là một mảng có kích thước bằng bao nhiêu?
+\begin{multicols}{4}
+\begin{enumerate}[label=\Alph*.]
+  \item \texttt{(4,)}
+  \item \texttt{(5,)}
+  \item \texttt{(1,)}
+  \item \texttt{(4, 5)}
+\end{enumerate}
+\end{multicols}
+
+\item Cấu trúc dữ liệu nào trong thư viện Pandas biểu diễn một chuỗi dữ liệu 1 chiều có gắn kèm hệ thống nhãn chỉ mục (index)?
+\begin{multicols}{4}
+\begin{enumerate}[label=\Alph*.]
+  \item \texttt{DataFrame}
+  \item \texttt{Series}
+  \item \texttt{IndexList}
+  \item \texttt{NDArray}
+\end{enumerate}
+\end{multicols}
+
+\item Cho Series \texttt{s = pd.Series([10, 20, 30, 40], index=['a', 'b', 'c', 'd'])}. Kết quả của lát cắt \texttt{s.loc['a':'c']} chứa những phần tử nào?
+\begin{multicols}{2}
+\begin{enumerate}[label=\Alph*.]
+  \item Chỉ chứa phần tử \texttt{'a'} và \texttt{'b'}
+  \item Chứa cả 3 phần tử \texttt{'a'}, \texttt{'b'}, và \texttt{'c'}
+  \item Báo lỗi cú pháp vì nhãn không phải là số
+  \item Chỉ chứa phần tử \texttt{'c'}
+\end{enumerate}
+\end{multicols}
+
+\item Trong Pandas, phương thức nào dùng để điền các giá trị thay thế (như giá trị trung bình hoặc trung vị) vào các vị trí bị khuyết thiếu (\texttt{NaN}) trong một cột DataFrame?
+\begin{multicols}{4}
+\begin{enumerate}[label=\Alph*.]
+  \item \texttt{df.dropna()}
+  \item \texttt{df.fillna()}
+  \item \texttt{df.replace\_na()}
+  \item \texttt{df.impute()}
+\end{enumerate}
+\end{multicols}
+
+\end{enumerate}
+
+\newpage
+% =========================================================================
+% TRANG 3: CÂU 13 ĐẾN 20 (8 CÂU)
+% =========================================================================
+\begin{enumerate}[leftmargin=*,itemsep=2.5pt,resume]
+
+\item Để lọc các khách hàng có \texttt{credit\_score >= 700} HOẶC \texttt{income > 50000000} trong DataFrame \texttt{df}, cú pháp đúng là:
+\begin{enumerate}[label=\Alph*.]
+  \item \texttt{df[(df['credit\_score'] >= 700) or (df['income'] > 50000000)]}
+  \item \texttt{df[(df['credit\_score'] >= 700) | (df['income'] > 50000000)]}
+  \item \texttt{df[(df['credit\_score'] >= 700) || (df['income'] > 50000000)]}
+  \item \texttt{df.filter(credit\_score >= 700 or income > 50000000)}
+\end{enumerate}
+
+\item Cho đoạn mã Pandas sau:
+\begin{lstlisting}
+import pandas as pd
+df = pd.DataFrame({'Dept': ['Sales', 'IT', 'IT', 'Sales'], 'Salary': [30, 50, 70, 40]})
+print(df.groupby('Dept')['Salary'].agg(['min', 'max']).loc['IT', 'max'])
+\end{lstlisting}
+Giá trị in ra màn hình là:
+\begin{multicols}{4}
+\begin{enumerate}[label=\Alph*.]
+  \item \texttt{30}
+  \item \texttt{50}
+  \item \texttt{70}
+  \item \texttt{60}
+\end{enumerate}
+\end{multicols}
+
+\item Khi thực hiện nối 2 bảng dữ liệu bằng \texttt{pd.merge(df1, df2, on='id', how='inner')}, một dòng chỉ xuất hiện trong kết quả cuối cùng nếu:
+\begin{enumerate}[label=\Alph*.]
+  \item Giá trị khóa \texttt{id} tồn tại ở ít nhất một trong hai bảng.
+  \item Giá trị khóa \texttt{id} xuất hiện đồng thời ở cả hai bảng \texttt{df1} và \texttt{df2}.
+  \item Bảng \texttt{df1} có số dòng nhiều hơn \texttt{df2}.
+  \item Khóa \texttt{id} không chứa bất kỳ giá trị số nguyên nào.
+\end{enumerate}
+
+\item Lệnh \texttt{fig, axes = plt.subplots(2, 3)} trong Matplotlib tạo ra bao nhiêu ô đồ thị con (\texttt{Axes}) trên cửa sổ hình vẽ?
+\begin{multicols}{4}
+\begin{enumerate}[label=\Alph*.]
+  \item 5 ô
+  \item 6 ô
+  \item 2 ô
+  \item 3 ô
+\end{enumerate}
+\end{multicols}
+
+\item Biểu đồ nào sau đây là lựa chọn tối ưu nhất để ước lượng và trực quan hóa đường cong hàm mật độ xác suất liên tục (Kernel Density Estimation) của một biến số tài chính?
+\begin{multicols}{4}
+\begin{enumerate}[label=\Alph*.]
+  \item \texttt{sns.kdeplot()}
+  \item \texttt{sns.scatterplot()}
+  \item \texttt{sns.countplot()}
+  \item \texttt{sns.barplot()}
+\end{enumerate}
+\end{multicols}
+
+\item Trong Seaborn, hàm nào tự động vẽ một lưới ma trận hiển thị phân bố từng biến trên đường chéo chính và biểu đồ phân tán giữa tất cả các cặp biến số liên tục trên các ô còn lại?
+\begin{multicols}{4}
+\begin{enumerate}[label=\Alph*.]
+  \item \texttt{sns.jointplot()}
+  \item \texttt{sns.pairplot()}
+  \item \texttt{sns.heatmap()}
+  \item \texttt{sns.catplot()}
+\end{enumerate}
+\end{multicols}
+
+\item Trong Matplotlib, phương thức nào thường được gọi ở cuối quá trình vẽ đồ thị nhằm tự động căn chỉnh khoảng cách giữa các đồ thị con (subplots), tránh việc tiêu đề và nhãn trục bị chèn lấn lên nhau?
+\begin{multicols}{4}
+\begin{enumerate}[label=\Alph*.]
+  \item \texttt{plt.align\_axis()}
+  \item \texttt{plt.tight\_layout()}
+  \item \texttt{plt.clean\_view()}
+  \item \texttt{plt.auto\_padding()}
+\end{enumerate}
+\end{multicols}
+
+\item Để so sánh giá trị trung bình của biến định lượng theo từng nhóm danh mục kèm theo thanh đo khoảng tin cậy (error bar) hiển thị trực quan, hàm nào của Seaborn là phù hợp nhất?
+\begin{multicols}{4}
+\begin{enumerate}[label=\Alph*.]
+  \item \texttt{sns.lineplot()}
+  \item \texttt{sns.barplot()}
+  \item \texttt{sns.histplot()}
+  \item \texttt{sns.heatmap()}
+\end{enumerate}
+\end{multicols}
+
+\end{enumerate}
+
+\newpage
+% =========================================================================
+% TRANG 4: PHẦN II - CÂU 1 (NUMPY) + KHUNG LÀM BÀI RỘNG RÃI
+% =========================================================================
+\section*{PHẦN II: TỰ LUẬN NGẮN GỌN \& ĐỌC CODE TRÊN GIẤY (5.0 điểm)}
+
+\subsection*{Câu 1: Xử lý Vector hóa \& Mảng Đa chiều với NumPy (1.0 điểm) --- [Tuần 2]}
+Cho ma trận điểm thi của 4 sinh viên trong 3 học phần (Toán, Xác suất, Lập trình) và vector trọng số tín chỉ của 3 môn học:
+\begin{lstlisting}
+import numpy as np
+
+scores = np.array([
+    [8.0, 7.0, 9.0],
+    [6.0, 8.0, 7.0],
+    [9.0, 9.0, 8.5],
+    [5.0, 6.0, 6.5]
+])  # Shape: (4, 3)
+
+weights = np.array([0.2, 0.3, 0.5])  # Shape: (3,)
+\end{lstlisting}
+
+\noindent
+\textbf{Yêu cầu:}
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item \textbf{(0.5 điểm)} Nhờ cơ chế nào mảng \texttt{scores} kích thước \texttt{(4, 3)} có thể nhân trực tiếp với \texttt{weights} kích thước \texttt{(3,)}? Hãy viết giá trị của ma trận điểm số đã nhân trọng số \texttt{weighted\_scores = scores * weights}.
+  \item \textbf{(0.5 điểm)} Viết 1 dòng lệnh NumPy để tính mảng 1D \texttt{gpa} (điểm tổng kết có trọng số của từng sinh viên bằng cách tính tổng các phần tử theo hàng của \texttt{weighted\_scores}), và cho biết kết quả in ra của dòng lệnh sau: \quad \texttt{print(scores[gpa >= 8.0, 0])}
+\end{enumerate}
+
+\answerbox{12.0cm}{
+\textbf{Khu vực làm bài Câu 1:}\\[3mm]
+\textbf{a) Tên cơ chế:} \dotfill\\[4mm]
+\textbf{Ma trận kết quả weighted\_scores:}\\[28mm]
+\textbf{b) Dòng lệnh tính mảng gpa:}\\
+gpa = \dotfill\\[5mm]
+\textbf{Kết quả in ra của câu lệnh print:}\\
+\dotfill\\[3mm]
+\textit{(Giải thích ngắn gọn nếu có):} \dotfill
+}
+
+\newpage
+% =========================================================================
+% TRANG 5: CÂU 2 (PANDAS) + KHUNG LÀM BÀI RỘNG RÃI
+% =========================================================================
+\subsection*{Câu 2: Làm sạch \& Tổng hợp Dữ liệu với Pandas (1.5 điểm) --- [Tuần 3]}
+Cho DataFrame \texttt{df\_trans} ghi nhận lịch sử giao dịch thanh toán ngân hàng gồm các cột:
+\texttt{'branch'} (chi nhánh), \texttt{'amount'} (số tiền giao dịch, VNĐ), \texttt{'fee'} (phí dịch vụ), và \texttt{'status'} (trạng thái: \texttt{'SUCCESS'} hoặc \texttt{'FAILED'}). Trong cột \texttt{'fee'} có tồn tại một số giá trị bị khuyết thiếu (\texttt{NaN}).
+
+\noindent
+\textbf{Yêu cầu viết đúng cú pháp mã lệnh Pandas:}
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item \textbf{(0.5 điểm)} Viết dòng lệnh lọc ra các dòng thỏa mãn: trạng thái là \texttt{'SUCCESS'} và số tiền giao dịch \texttt{'amount'} $\ge 5\,000\,000$ VNĐ, đồng thời thay thế tất cả giá trị \texttt{NaN} trong cột \texttt{'fee'} của tập dữ liệu này bằng giá trị $0$.
+  \item \textbf{(1.0 điểm)} Từ tập dữ liệu đã lọc ở câu a, viết một biểu thức Pandas (sử dụng \texttt{groupby} và \texttt{agg}) để nhóm theo chi nhánh (\texttt{'branch'}), tính: \textbf{tổng} số tiền giao dịch đặt tên là \texttt{'total\_amount'}, \textbf{phí trung bình} đặt tên là \texttt{'avg\_fee'}, và \textbf{số lượt giao dịch} đặt tên là \texttt{'trans\_count'}. Sắp xếp bảng kết quả giảm dần theo \texttt{'total\_amount'}.
+\end{enumerate}
+
+\answerbox{14.0cm}{
+\textbf{Khu vực làm bài Câu 2:}\\[3mm]
+\textbf{a) Lọc dữ liệu và điền giá trị khuyết thiếu (NaN):}\\
+df\_filtered = \dotfill\\[4mm]
+df\_filtered['fee'] = \dotfill\\[7mm]
+\textbf{b) Biểu thức groupby, aggregation và sắp xếp:}\\
+df\_branch\_summary = (\dotfill\\[5mm]
+\hspace*{3.5cm}\dotfill\\[5mm]
+\hspace*{3.5cm}\dotfill\\[5mm]
+\hspace*{3.5cm}\dotfill\\[5mm]
+\hspace*{3.5cm}\dotfill)\\[5mm]
+\dotfill
+}
+
+\newpage
+% =========================================================================
+% TRANG 6: CÂU 3 (MATPLOTLIB) + CÂU 4 (EDA & TRỰC QUAN HÓA) + HẾT
+% =========================================================================
+\subsection*{Câu 3: Bố cục Đa biểu đồ với Matplotlib (1.0 điểm) --- [Tuần 4]}
+Cho DataFrame \texttt{df\_kpi} ghi nhận hiệu suất theo tháng gồm cột \texttt{'month'} (tháng từ 1 đến 12) và \texttt{'profit'} (lợi nhuận sau thuế, triệu đồng).
+
+\noindent
+\textbf{Yêu cầu hoàn thiện đoạn mã (điền vào các vị trí trống) để vẽ đồ thị con 1 hàng 2 cột:}
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item \textbf{(0.5 điểm)} Điền lệnh tạo cửa sổ kích thước $12 \times 4$ inch gồm 1 hàng, 2 cột đồ thị con lưu vào biến \texttt{fig} và mảng \texttt{axes}.
+  \item \textbf{(0.5 điểm)} Vẽ trên \texttt{axes[0]} biểu đồ đường (\texttt{plot}) thể hiện xu hướng lợi nhuận theo tháng (màu xanh dương, có marker tròn \texttt{'o'}). Vẽ trên \texttt{axes[1]} biểu đồ cột (\texttt{bar}) lợi nhuận theo tháng. Cuối cùng, gọi lệnh tối ưu bố cục đồ thị.
+\end{enumerate}
+
+\answerbox{3.8cm}{
+\textbf{Khu vực làm bài Câu 3:}\\
+import matplotlib.pyplot as plt\\[1.5mm]
+fig, axes = \dotfill\\[2.5mm]
+axes[0].plot(\dotfill)\\[2.5mm]
+axes[1].bar(\dotfill)\\[2.5mm]
+\dotfill \quad \textit{(\# Lệnh chống đè nhãn/tiêu đề)}
+}
+
+\subsection*{Câu 4: Trực quan hóa Khám phá \& Nhận định Dữ liệu (EDA) (1.5 điểm) --- [Tuần 1 \& 4]}
+Bộ phận Quản trị rủi ro của ngân hàng phân tích các giao dịch thẻ để phát hiện gian lận. Bộ dữ liệu \texttt{df\_cards} gồm các biến: \texttt{'tx\_amount'} (giá trị giao dịch), \texttt{'card\_type'} (loại thẻ: \texttt{'Credit'} hoặc \texttt{'Debit'}), và nhãn cảnh báo gian lận \texttt{'is\_fraud'} ($1$ là gian lận, $0$ là bình thường).
+
+\noindent
+\textbf{Yêu cầu:}
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item \textbf{(0.75 điểm)} Lựa chọn loại biểu đồ phù hợp nhất để khảo sát sự phân bố, phát hiện giá trị ngoại lệ của \texttt{'tx\_amount'} giữa nhóm gian lận và bình thường, có phân biệt theo loại thẻ. Viết đúng 1 dòng lệnh bằng thư viện \textbf{Seaborn} (\texttt{sns}) để vẽ biểu đồ đó.
+  \item \textbf{(0.75 điểm)} Kết quả biểu đồ cho thấy: Thẻ \texttt{'Debit'} có giá trị giao dịch phân bố thấp, không có ngoại lệ. Ngược lại, thẻ tín dụng (\texttt{'Credit'}) ở nhóm gian lận xuất hiện các ngoại lệ rất lớn từ 50 đến 200 triệu VNĐ.  
+  \textit{Hãy viết \textbf{2 câu nhận định phân tích / kiến nghị chính sách (dưới 50 từ)} giúp ngân hàng thiết lập quy tắc tự động ngăn chặn rủi ro.}
+\end{enumerate}
+
+\answerbox{5.0cm}{
+\textbf{Khu vực làm bài Câu 4:}\\[1.5mm]
+\textbf{a) Loại biểu đồ lựa chọn:} \dotfill\\[2mm]
+\textbf{Lệnh vẽ Seaborn:} \dotfill\\[3mm]
+\textbf{b) Nhận định phân tích \& Kiến nghị chính sách:}\\
+- Nhận định 1: \dotfill\\[2mm]
+\hspace*{2.2cm}\dotfill\\[2mm]
+- Kiến nghị 2: \dotfill\\[2mm]
+\hspace*{2.2cm}\dotfill
+}
+
+\vspace{1mm}
+\begin{center}
+\textbf{------------------- HẾT -------------------}\\
+\textit{\small (Cán bộ coi thi không giải thích gì thêm. Thí sinh nộp lại toàn bộ đề thi sau khi hết giờ.)}
+\end{center}
+
+\end{document}

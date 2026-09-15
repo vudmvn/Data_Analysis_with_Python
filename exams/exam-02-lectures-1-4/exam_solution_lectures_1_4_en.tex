@@ -1,0 +1,233 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Consolas}
+
+\usepackage[a4paper,top=1.8cm,bottom=2cm,left=1.8cm,right=1.8cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{tcolorbox}
+\usepackage{lastpage}
+
+% Colors for syntax highlighting and frames
+\definecolor{codegray}{rgb}{0.96,0.96,0.96}
+\definecolor{keywordblue}{rgb}{0.0,0.2,0.6}
+\definecolor{stringgreen}{rgb}{0.0,0.5,0.2}
+\definecolor{commentgray}{rgb}{0.4,0.4,0.4}
+\definecolor{correctgreen}{rgb}{0.0,0.5,0.15}
+\definecolor{boxborder}{rgb}{0.7,0.7,0.7}
+
+\lstset{
+  language=Python,
+  backgroundcolor=\color{codegray},
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{keywordblue}\bfseries,
+  stringstyle=\color{stringgreen},
+  commentstyle=\color{commentgray}\itshape,
+  showstringspaces=false,
+  breaklines=true,
+  frame=single,
+  rulecolor=\color{boxborder},
+  aboveskip=4pt,
+  belowskip=4pt,
+  numbers=none,
+  columns=fullflexible
+}
+
+% Header & Footer
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{15pt}
+\lhead{\small \textbf{Course:} Data Analysis with Python (DSAI1005)}
+\rhead{\small \textbf{SOLUTIONS \& GRADING RUBRIC (WEEKS 1 -- 4)}}
+\lfoot{\small Faculty of Data Science \& AI --- National Economics University}
+\rfoot{\small Page \thepage/\pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
+
+\begin{document}
+
+\noindent
+\begin{minipage}[t]{0.55\textwidth}
+  \centering
+  \textbf{NATIONAL ECONOMICS UNIVERSITY}\\
+  \textbf{FACULTY OF DATA SCIENCE \& AI}\\
+  \rule{4.5cm}{0.4pt}\\[2mm]
+  \textbf{OFFICIAL SOLUTIONS \& GRADING GUIDE}\\
+  \textbf{Course:} Data Analysis with Python (DSAI1005)\\
+  \textbf{Content:} Midterm Exam (Weeks 1 -- 4) --- \textbf{Exam Code:} \textbf{201-EN}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.42\textwidth}
+  \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=\textbf{Score Breakdown (10-Point Scale)}]
+    \small
+    \textbf{Section I (Multiple-Choice):} 20 items $\times$ 0.25 pts = \textbf{5.0 pts}\\
+    \textbf{Section II (Short-Answer):} 4 questions = \textbf{5.0 pts}\\
+    \rule{\linewidth}{0.3pt}\\
+    \textbf{Total Exam Score:} \textbf{10.0 points}
+  \end{tcolorbox}
+\end{minipage}
+
+\vspace{3mm}
+\hrule
+\vspace{2mm}
+
+\section*{SECTION I: MULTIPLE-CHOICE KEY (5.0 pts --- 0.25 pts each)}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+  \hline
+  \textbf{Q} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} \\
+  \hline
+  \textbf{Key} & \textbf{B} & \textbf{C} & \textbf{A} & \textbf{B} & \textbf{B} & \textbf{B} & \textbf{A} & \textbf{B} & \textbf{B} & \textbf{B} \\
+  \hline
+  \hline
+  \textbf{Q} & \textbf{11} & \textbf{12} & \textbf{13} & \textbf{14} & \textbf{15} & \textbf{16} & \textbf{17} & \textbf{18} & \textbf{19} & \textbf{20} \\
+  \hline
+  \textbf{Key} & \textbf{B} & \textbf{B} & \textbf{B} & \textbf{C} & \textbf{B} & \textbf{B} & \textbf{A} & \textbf{B} & \textbf{B} & \textbf{B} \\
+  \hline
+\end{tabular}
+\end{center}
+
+\subsection*{Concise Conceptual Explanations:}
+\begin{itemize}[leftmargin=*,itemsep=1.5pt]
+  \item \textbf{Q1 (B):} EDA (pioneered by John Tukey) seeks to explore data structure, test assumptions, discover patterns, and spot anomalies before modeling.
+  \item \textbf{Q2 (C):} Scale property of standard deviation: multiplying all values by a constant $c = 3$ scales the standard deviation by $|c| = 3$ ($\text{Std}(cX) = |c|\text{Std}(X)$).
+  \item \textbf{Q3 (A):} Tukey's standard box plot defines outer fences as $[Q_1 - 1.5\times\text{IQR}, \; Q_3 + 1.5\times\text{IQR}]$.
+  \item \textbf{Q4 (B):} $r = 0$ indicates the absence of linear correlation; it does not preclude quadratic or other deterministic non-linear dependencies.
+  \item \textbf{Q5 (B):} \texttt{np.arange(start=3, stop=15, step=4)} generates $[3, 7, 11]$ (stop value 15 is excluded).
+  \item \textbf{Q6 (B):} \texttt{m[::-1, 1]} reverses the row order: $[7, 8, 9] \rightarrow [4, 5, 6] \rightarrow [1, 2, 3]$. Extracting column index 1 yields $[8, 5, 2]$.
+  \item \textbf{Q7 (A):} Broadcasting rules: Dim 1: 5 vs 1 $\rightarrow 5$; Dim 2: 1 vs 4 $\rightarrow 4$; Dim 3: 3 vs 1 (implicit trailing) $\rightarrow 3$ $\Rightarrow$ shape $(5, 4, 3)$.
+  \item \textbf{Q8 (B):} \texttt{np.where(condition, x, y)} is the vectorized equivalent of the ternary operator.
+  \item \textbf{Q9 (B):} \texttt{axis=0} computes the sum down the rows (collapsing rows, preserving columns), producing a 1D array of shape $(5,)$.
+  \item \textbf{Q10 (B):} A \texttt{pd.Series} is a 1D labeled array capable of holding any data type.
+  \item \textbf{Q11 (B):} Label-based slicing with \texttt{.loc} is inclusive of both the start and stop boundaries $\rightarrow$ includes \texttt{'a'}, \texttt{'b'}, and \texttt{'c'}.
+  \item \textbf{Q12 (B):} \texttt{df.fillna()} replaces missing entries (\texttt{NaN}) with designated constant values or summary statistics.
+  \item \textbf{Q13 (B):} In Pandas, multiple boolean conditions require bitwise operators (\texttt{|}) and explicit parentheses around each clause.
+  \item \textbf{Q14 (C):} The \texttt{'IT'} group has salaries 50 and 70; the maximum value is 70.
+  \item \textbf{Q15 (B):} An inner join retains only those rows where the join key is mutually present in both DataFrames.
+  \item \textbf{Q16 (B):} \texttt{plt.subplots(2, 3)} creates a $2 \times 3$ grid of 6 individual \texttt{Axes} subplots.
+  \item \textbf{Q17 (A):} \texttt{sns.kdeplot()} estimates and visualizes the smooth probability density function of continuous variables.
+  \item \textbf{Q18 (B):} \texttt{sns.pairplot()} renders pairwise scatter plots across numeric columns with histograms/KDEs along the diagonal.
+  \item \textbf{Q19 (B):} \texttt{plt.tight\_layout()} automatically adjusts subplot padding to prevent overlapping titles, labels, and ticks.
+  \item \textbf{Q20 (B):} \texttt{sns.barplot()} plots group means with bootstrapped confidence intervals (error bars) by default.
+\end{itemize}
+
+\vspace{3mm}
+\hrule
+\vspace{2mm}
+
+\section*{SECTION II: SOLUTIONS \& GRADING RUBRIC (5.0 pts)}
+
+\begin{tcolorbox}[colback=gray!5!white,colframe=gray!60!black,title=\textbf{General Grading Policy for Evaluators}]
+\small
+\begin{itemize}[leftmargin=*,itemsep=1pt]
+  \item Do not penalize students for interchange of single quotes \texttt{' '} and double quotes \texttt{" "}.
+  \item Minor trailing syntax slips (e.g., missing closing parenthesis at the line end) should not incur deductions if the algorithmic logic is sound.
+  \item Mathematically and logically equivalent implementations in NumPy / Pandas / Matplotlib are entitled to full credit.
+\end{itemize}
+\end{tcolorbox}
+
+\subsection*{Question 1: NumPy Vectorization \& Slicing (1.0 pt)}
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item \textbf{(0.5 pts):}
+  \begin{itemize}
+    \item \textbf{Mechanism:} Array **Broadcasting**. \textit{(0.25 pts)}
+    \item \textbf{Resulting Matrix:} \textit{(0.25 pts)}
+    $$\text{weighted\_scores} = \begin{bmatrix}
+      8.0\times 0.2 & 7.0\times 0.3 & 9.0\times 0.5 \\
+      6.0\times 0.2 & 8.0\times 0.3 & 7.0\times 0.5 \\
+      9.0\times 0.2 & 9.0\times 0.3 & 8.5\times 0.5 \\
+      5.0\times 0.2 & 6.0\times 0.3 & 6.5\times 0.5
+    \end{bmatrix} = \begin{bmatrix}
+      1.6 & 2.1 & 4.5 \\
+      1.2 & 2.4 & 3.5 \\
+      1.8 & 2.7 & 4.25 \\
+      1.0 & 1.8 & 3.25
+    \end{bmatrix}$$
+  \end{itemize}
+
+  \item \textbf{(0.5 pts):}
+  \begin{itemize}
+    \item \textbf{NumPy statement for gpa:} \textit{(0.25 pts)}
+\begin{lstlisting}
+gpa = np.sum(weighted_scores, axis=1)  # Or: weighted_scores.sum(axis=1)
+\end{lstlisting}
+    \item Row-wise sums yield: $[8.2, \; 7.1, \; 8.75, \; 6.05]$.
+    \item Condition \texttt{gpa >= 8.0} is true for indices 0 and 2.
+    \item Extracting column 0 (\texttt{scores[..., 0]}): \textbf{Printed output:} \texttt{[8.0, 9.0]} (or \texttt{[8., 9.]}). \textit{(0.25 pts)}
+  \end{itemize}
+\end{enumerate}
+
+\subsection*{Question 2: Data Cleaning \& Aggregation with Pandas (1.5 pts)}
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item \textbf{(0.5 pts):} Filtering and missing value imputation:
+\begin{lstlisting}
+df_filtered = df_trans[(df_trans['status'] == 'SUCCESS') & (df_trans['amount'] >= 5_000_000)].copy()
+df_filtered['fee'] = df_filtered['fee'].fillna(0)
+\end{lstlisting}
+  \textit{Rubric:} Correct boolean filtering with bitwise \texttt{\&}: 0.25 pts; Correct \texttt{.fillna(0)}: 0.25 pts.
+
+  \item \textbf{(1.0 pts):} Groupby and aggregation expression:
+\begin{lstlisting}
+df_branch_summary = df_filtered.groupby('branch').agg(
+    total_amount=('amount', 'sum'),
+    avg_fee=('fee', 'mean'),
+    trans_count=('amount', 'count')  # Or 'size'
+).sort_values(by='total_amount', ascending=False)
+\end{lstlisting}
+  \textit{Rubric:} Correct \texttt{groupby('branch')}: 0.25 pts; Correct aggregations (\texttt{'sum'}, \texttt{'mean'}, \texttt{'count'}): 0.5 pts; Correct \texttt{sort\_values(..., ascending=False)}: 0.25 pts.
+\end{enumerate}
+
+\subsection*{Question 3: Multi-plot Layouts with Matplotlib (1.0 pt)}
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item \textbf{(0.5 pts):} Statement to initialize subplots:
+\begin{lstlisting}
+fig, axes = plt.subplots(1, 2, figsize=(12, 4))
+\end{lstlisting}
+  \textit{Rubric:} Correct grid specification \texttt{(1, 2)}: 0.25 pts; Correct \texttt{figsize=(12, 4)}: 0.25 pts.
+
+  \item \textbf{(0.5 pts):} Plotting and layout commands:
+\begin{lstlisting}
+axes[0].plot(df_kpi['month'], df_kpi['profit'], color='blue', marker='o')
+axes[1].bar(df_kpi['month'], df_kpi['profit'], color='steelblue')
+plt.tight_layout()
+\end{lstlisting}
+  \textit{Rubric:} Correct line plot on \texttt{axes[0]} with circular marker: 0.2 pts; Correct bar chart on \texttt{axes[1]}: 0.2 pts; Correct \texttt{plt.tight\_layout()}: 0.1 pts.
+\end{enumerate}
+
+\subsection*{Question 4: Exploratory Visualization \& Business Insights (EDA) (1.5 pts)}
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item \textbf{(0.75 pts):}
+  \begin{itemize}
+    \item \textbf{Chart type:} **Box Plot** (or Violin Plot). \textit{(0.25 pts)}
+    \item \textbf{Seaborn statement:} \textit{(0.5 pts)}
+\begin{lstlisting}
+sns.boxplot(data=df_cards, x='is_fraud', y='tx_amount', hue='card_type')
+# (Acceptable variant: x='card_type', y='tx_amount', hue='is_fraud')
+\end{lstlisting}
+  \end{itemize}
+
+  \item \textbf{(0.75 pts) --- Analytical Takeaway \& Policy Recommendation:}
+  \begin{itemize}
+    \item \textit{Analytical Takeaway (0.375 pts):} Credit card fraud typically targets high-credit limits with anomalous transaction sizes (extreme outliers between 50M and 200M VND), contrasting sharply with regular transactions ($\le 10$M VND) and debit card behavior.
+    \item \textit{Policy Recommendation (0.375 pts):} The bank should establish automated step-up authentication (Smart OTP/biometrics) or immediate transaction freezes for all single credit card charges exceeding 50 million VND.
+  \end{itemize}
+\end{enumerate}
+
+\begin{center}
+\textbf{------------------- END OF SOLUTIONS -------------------}
+\end{center}
+
+\end{document}

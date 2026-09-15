@@ -1,0 +1,464 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[vietnamese]{babel}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Consolas}
+
+\usepackage[a4paper,top=1.5cm,bottom=1.6cm,left=1.7cm,right=1.7cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{tcolorbox}
+\usepackage{lastpage}
+
+% Màu sắc cho code và khung
+\definecolor{codegray}{rgb}{0.96,0.96,0.96}
+\definecolor{keywordblue}{rgb}{0.0,0.2,0.6}
+\definecolor{stringgreen}{rgb}{0.0,0.5,0.2}
+\definecolor{commentgray}{rgb}{0.4,0.4,0.4}
+\definecolor{boxborder}{rgb}{0.7,0.7,0.7}
+
+\lstset{
+  language=Python,
+  backgroundcolor=\color{codegray},
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{keywordblue}\bfseries,
+  stringstyle=\color{stringgreen},
+  commentstyle=\color{commentgray}\itshape,
+  showstringspaces=false,
+  breaklines=true,
+  frame=single,
+  rulecolor=\color{boxborder},
+  aboveskip=2.5pt,
+  belowskip=2.5pt,
+  numbers=none,
+  columns=fullflexible
+}
+
+% Header & Footer
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{14pt}
+\lhead{\small \textbf{Học phần:} Phân tích dữ liệu với Python (DSAI1005)}
+\rhead{\small \textbf{Đề kiểm tra 60 phút (Tuần 1 -- 5)}}
+\lfoot{\small Khoa Khoa học Dữ liệu \& Trí tuệ Nhân tạo -- ĐH Kinh tế Quốc dân}
+\rfoot{\small Trang \thepage/6}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
+
+\newcommand{\answerbox}[2]{
+  \vspace{1mm}
+  \begin{tcolorbox}[
+    colback=white,
+    colframe=gray!60,
+    boxrule=0.6pt,
+    arc=2pt,
+    height=#1,
+    left=3mm, right=3mm, top=2mm, bottom=2mm
+  ]
+  \small\textit{\color{gray}#2}
+  \end{tcolorbox}
+  \vspace{1mm}
+}
+
+\begin{document}
+
+% =========================================================================
+% TRANG 1: KHUNG THÔNG TIN + BẢNG ĐÁP ÁN + CÂU 1 ĐẾN 4
+% =========================================================================
+\noindent
+\begin{minipage}[t]{0.52\textwidth}
+  \centering
+  \textbf{TRƯỜNG ĐẠI HỌC KINH TẾ QUỐC DÂN}\\
+  \textbf{KHOA KHOA HỌC DỮ LIỆU \& AI}\\
+  \rule{4cm}{0.4pt}\\[1.5mm]
+  \textbf{ĐỀ THI KIỂM TRA ĐỊNH KỲ (TRÊN GIẤY)}\\
+  \textbf{Học phần:} Phân tích dữ liệu với Python\\
+  \textbf{Mã học phần:} DSAI1005 --- \textbf{Thời gian:} 60 phút\\
+  \textit{\small (Sinh viên không sử dụng tài liệu và máy tính cá nhân)}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.45\textwidth}
+  \begin{tabular}{|p{2.3cm}|p{2.3cm}|p{2.3cm}|}
+    \hline
+    \centering \textbf{Trắc nghiệm} & \centering \textbf{Tự luận} & \centering \textbf{TỔNG ĐIỂM} \tabularnewline
+    \hline
+    & & \\[0.8cm]
+    \hline
+    \multicolumn{3}{|l|}{\small \textit{Cán bộ chấm thi 1:}} \tabularnewline
+    \multicolumn{3}{|l|}{\small \textit{Cán bộ chấm thi 2:}} \tabularnewline
+    \hline
+  \end{tabular}
+\end{minipage}
+
+\vspace{2mm}
+\noindent
+\textbf{Họ và tên sinh viên:} \dotfill{} \textbf{Mã số SV:} \dotfill{} \textbf{Mã đề:} \textbf{101}\\
+\textbf{Lớp sinh hoạt / Chuyên ngành:} \dotfill{} \textbf{Phòng thi:} \dotfill{} \textbf{Số báo danh:} \dotfill
+
+\vspace{2mm}
+\noindent
+\textbf{PHẦN GHI ĐÁP ÁN TRẮC NGHIỆM} \textit{(Ghi chữ cái A, B, C hoặc D tương ứng với đáp án lựa chọn)}:
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+  \hline
+  \textbf{Câu} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} \\
+  \hline
+  \textbf{Đáp án} & & & & & & & & & & \\[3mm]
+  \hline
+  \hline
+  \textbf{Câu} & \textbf{11} & \textbf{12} & \textbf{13} & \textbf{14} & \textbf{15} & \textbf{16} & \textbf{17} & \textbf{18} & \textbf{19} & \textbf{20} \\
+  \hline
+  \textbf{Đáp án} & & & & & & & & & & \\[3mm]
+  \hline
+\end{tabular}
+\end{center}
+
+\vspace{-3mm}
+\hrule
+\vspace{1.5mm}
+
+\section*{PHẦN I: TRẮC NGHIỆM KHÁCH QUAN (5.0 điểm --- Mỗi câu 0.25 điểm)}
+
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+
+\item Trong quy trình phân tích dữ liệu 6 bước, giai đoạn nào được thực hiện ngay trước bước ``Mô hình hóa dữ liệu (Data Modeling)''?
+\begin{multicols}{2}
+\begin{enumerate}[label=\Alph*.]
+  \item Xác định bài toán kinh doanh
+  \item Thu thập dữ liệu
+  \item Phân tích khám phá dữ liệu (EDA)
+  \item Trực quan hóa và báo cáo kết quả
+\end{enumerate}
+\end{multicols}
+
+\item Khi tập dữ liệu về thu nhập của khách hàng bị lệch phải nghiêm trọng (right-skewed) do có một số rất ít khách hàng siêu giàu, chỉ số đo lường xu hướng tập trung nào phản ánh khách quan nhất mức thu nhập điển hình?
+\begin{multicols}{2}
+\begin{enumerate}[label=\Alph*.]
+  \item Số trung bình (Mean)
+  \item Số trung vị (Median)
+  \item Độ lệch chuẩn (Standard Deviation)
+  \item Phương sai (Variance)
+\end{enumerate}
+\end{multicols}
+
+\item Hệ số tương quan Pearson giữa chi phí tiếp thị số và doanh thu đơn hàng đạt $r = 0.88$. Kết luận nào sau đây là chính xác nhất?
+\begin{enumerate}[label=\Alph*.]
+  \item Tương quan tuyến tính âm ở mức rất mạnh.
+  \item Chi phí tiếp thị là nguyên nhân duy nhất làm tăng 88\% doanh thu.
+  \item Giữa hai biến có mối quan hệ tương quan tuyến tính thuận chiều (dương) rất mạnh.
+  \item Giữa hai biến không tồn tại mối quan hệ thống kê đáng kể.
+\end{enumerate}
+
+\item Cho đoạn mã NumPy sau:
+\begin{lstlisting}
+import numpy as np
+a = np.array([[10, 20, 30], [40, 50, 60], [70, 80, 90]])
+print(a[1:, :2])
+\end{lstlisting}
+Kết quả hiển thị trên màn hình là gì?
+\begin{multicols}{4}
+\begin{enumerate}[label=\Alph*.]
+  \item \texttt{[[40, 50], [70, 80]]}
+  \item \texttt{[[20, 30], [50, 60]]}
+  \item \texttt{[[40, 50, 60], [70, 80, 90]]}
+  \item \texttt{[[50, 60], [80, 90]]}
+\end{enumerate}
+\end{multicols}
+
+\end{enumerate}
+
+\newpage
+% =========================================================================
+% TRANG 2: CÂU 5 ĐẾN 12 (8 CÂU)
+% =========================================================================
+\begin{enumerate}[leftmargin=*,itemsep=2.5pt,resume]
+
+\item Cho mảng $A$ có kích thước \texttt{(3, 1)} và mảng $B$ có kích thước \texttt{(1, 4)}. Nhờ cơ chế Broadcasting trong NumPy, mảng kết quả của phép toán \texttt{A + B} sẽ có kích thước (shape) là bao nhiêu?
+\begin{multicols}{4}
+\begin{enumerate}[label=\Alph*.]
+  \item \texttt{(3, 1)}
+  \item \texttt{(1, 4)}
+  \item \texttt{(3, 4)}
+  \item Báo lỗi \texttt{ValueError}
+\end{enumerate}
+\end{multicols}
+
+\item Cho mảng \texttt{x = np.array([10.0, 20.0, np.nan, 30.0])}. Hàm nào sau đây trả về giá trị trung bình chính xác của các phần tử hợp lệ (kết quả bằng $20.0$)?
+\begin{multicols}{2}
+\begin{enumerate}[label=\Alph*.]
+  \item \texttt{np.mean(x)}
+  \item \texttt{np.nanmean(x)}
+  \item \texttt{x.mean(skipna=True)}
+  \item \texttt{np.valid\_mean(x)}
+\end{enumerate}
+\end{multicols}
+
+\item Khái niệm nào trong NumPy mô tả việc thực thi các phép toán đồng thời trên toàn bộ mảng ở tầng mã máy C mà không cần sử dụng vòng lặp \texttt{for} thủ công trong Python?
+\begin{multicols}{2}
+\begin{enumerate}[label=\Alph*.]
+  \item Normalization (Chuẩn hóa)
+  \item Paging (Phân trang)
+  \item Vectorization (Vector hóa)
+  \item Serialization (Tuần tự hóa)
+\end{enumerate}
+\end{multicols}
+
+\item Điểm khác biệt căn bản giữa hai phương thức truy xuất \texttt{.loc[]} và \texttt{.iloc[]} trong Pandas DataFrame là gì?
+\begin{enumerate}[label=\Alph*.]
+  \item \texttt{.loc} dựa trên nhãn (label-based), còn \texttt{.iloc} dựa trên chỉ số vị trí nguyên (integer position-based).
+  \item \texttt{.loc} dùng cho dữ liệu dạng chuỗi, còn \texttt{.iloc} chỉ dùng cho dữ liệu số.
+  \item \texttt{.loc} bỏ qua cận cuối của dải cắt lát, còn \texttt{.iloc} luôn lấy cả cận cuối.
+  \item \texttt{.loc} chỉ dùng cho cấu trúc Series, còn \texttt{.iloc} chỉ dùng cho DataFrame.
+\end{enumerate}
+
+\item Cú pháp nào sau đây lọc chính xác các dòng trong DataFrame \texttt{df} có \texttt{age > 22} và \texttt{major == 'Finance'}?
+\begin{enumerate}[label=\Alph*.]
+  \item \texttt{df[df['age'] > 22 and df['major'] == 'Finance']}
+  \item \texttt{df[(df['age'] > 22) \& (df['major'] == 'Finance')]}
+  \item \texttt{df.query(age > 22 \&\& major == 'Finance')}
+  \item \texttt{df[(df['age'] > 22) and (df['major'] == 'Finance')]}
+\end{enumerate}
+
+\item Cho đoạn mã Pandas sau:
+\begin{lstlisting}
+import pandas as pd
+df = pd.DataFrame({'Region': ['North', 'South', 'North', 'South'], 'Sales': [100, 200, 300, 400]})
+print(df.groupby('Region')['Sales'].mean()['South'])
+\end{lstlisting}
+Giá trị được in ra là:
+\begin{multicols}{4}
+\begin{enumerate}[label=\Alph*.]
+  \item \texttt{200.0}
+  \item \texttt{250.0}
+  \item \texttt{300.0}
+  \item \texttt{400.0}
+\end{enumerate}
+\end{multicols}
+
+\item Trong Pandas, phương thức nào dùng để xoay và tái cấu trúc bảng dữ liệu từ dạng dài (long) sang dạng rộng (wide) kết hợp áp dụng hàm tổng hợp số liệu?
+\begin{multicols}{4}
+\begin{enumerate}[label=\Alph*.]
+  \item \texttt{df.pivot\_table()}
+  \item \texttt{df.melt()}
+  \item \texttt{df.concat()}
+  \item \texttt{df.merge()}
+\end{enumerate}
+\end{multicols}
+
+\item Khi thực hiện nối hai bảng: \texttt{pd.merge(df1, df2, on='cust\_id', how='left')}, các dòng trong \texttt{df2} có giá trị khóa \texttt{cust\_id} không hề xuất hiện trong \texttt{df1} sẽ:
+\begin{enumerate}[label=\Alph*.]
+  \item Bị loại bỏ hoàn toàn khỏi DataFrame kết quả.
+  \item Được giữ lại và điền giá trị \texttt{NaN} vào các cột tương ứng của \texttt{df1}.
+  \item Gây phát sinh ngoại lệ \texttt{KeyError}.
+  \item Ghi đè lên các dòng đầu tiên của \texttt{df1}.
+\end{enumerate}
+
+\end{enumerate}
+
+\newpage
+% =========================================================================
+% TRANG 3: CÂU 13 ĐẾN 20 (8 CÂU)
+% =========================================================================
+\begin{enumerate}[leftmargin=*,itemsep=2.5pt,resume]
+
+\item Trong mô hình hướng đối tượng của Matplotlib, đối tượng đại diện cho một ô/vùng đồ thị cụ thể (nơi chứa trực tiếp các đường, thanh, trục tọa độ và nhãn) là:
+\begin{multicols}{4}
+\begin{enumerate}[label=\Alph*.]
+  \item \texttt{Figure}
+  \item \texttt{Axes}
+  \item \texttt{Canvas}
+  \item \texttt{AxisLine}
+\end{enumerate}
+\end{multicols}
+
+\item Để vẽ biểu đồ phân tán (Scatter plot) giữa biến \texttt{Chi\_tieu} và \texttt{Diem\_tich\_luy}, đồng thời phân biệt màu sắc các điểm dữ liệu theo biến \texttt{Hang\_the} bằng Seaborn, tham số nào được sử dụng?
+\begin{multicols}{4}
+\begin{enumerate}[label=\Alph*.]
+  \item \texttt{color\_column='Hang\_the'}
+  \item \texttt{hue='Hang\_the'}
+  \item \texttt{palette\_col='Hang\_the'}
+  \item \texttt{group='Hang\_the'}
+\end{enumerate}
+\end{multicols}
+
+\item Biểu đồ nào sau đây là lựa chọn tối ưu nhất để khảo sát phân bố giá trị, xác định khoảng tứ phân vị (IQR) và phát hiện các điểm ngoại lệ (outliers) của biến số doanh số bán hàng?
+\begin{multicols}{4}
+\begin{enumerate}[label=\Alph*.]
+  \item Pie Chart
+  \item Box Plot
+  \item Line Plot
+  \item Area Chart
+\end{enumerate}
+\end{multicols}
+
+\item Trong Seaborn, hàm nào cho phép trực quan hóa ma trận tương quan số liệu dạng biểu đồ nhiệt kèm số thập phân hiển thị trực tiếp trong từng ô?
+\begin{multicols}{2}
+\begin{enumerate}[label=\Alph*.]
+  \item \texttt{sns.heatmap(corr, annot=True)}
+  \item \texttt{sns.pairplot(corr, text=True)}
+  \item \texttt{sns.matrixplot(corr, show=True)}
+  \item \texttt{sns.clustermap(corr, labels=True)}
+\end{enumerate}
+\end{multicols}
+
+\item Khi cần nạp một tệp dữ liệu CSV có dung lượng vượt quá bộ nhớ RAM khả dụng bằng Pandas, tham số nào của \texttt{pd.read\_csv()} hỗ trợ nạp dữ liệu theo từng khối (chunk) tuần tự?
+\begin{multicols}{4}
+\begin{enumerate}[label=\Alph*.]
+  \item \texttt{nrows}
+  \item \texttt{batch\_size}
+  \item \texttt{chunksize}
+  \item \texttt{limit}
+\end{enumerate}
+\end{multicols}
+
+\item Để chỉ tải 3 cột \texttt{'id'}, \texttt{'revenue'}, \texttt{'profit'} từ một tệp CSV có hàng trăm cột nhằm tiết kiệm bộ nhớ, ta truyền tham số nào vào \texttt{pd.read\_csv()}?
+\begin{multicols}{2}
+\begin{enumerate}[label=\Alph*.]
+  \item \texttt{usecols=['id', 'revenue', 'profit']}
+  \item \texttt{columns=['id', 'revenue', 'profit']}
+  \item \texttt{selected=['id', 'revenue', 'profit']}
+  \item \texttt{filter=['id', 'revenue', 'profit']}
+\end{enumerate}
+\end{multicols}
+
+\item Hàm nào của Pandas được thiết kế đặc thù để làm phẳng (flatten) các cấu trúc JSON bán cấu trúc có nhiều cấp lồng nhau (nested JSON) trích xuất từ REST API?
+\begin{multicols}{4}
+\begin{enumerate}[label=\Alph*.]
+  \item \texttt{pd.read\_json()}
+  \item \texttt{pd.json\_normalize()}
+  \item \texttt{pd.flatten()}
+  \item \texttt{pd.explode()}
+\end{enumerate}
+\end{multicols}
+
+\item Đoạn lệnh nào sau đây thực thi đúng việc truy vấn dữ liệu từ cơ sở dữ liệu SQLite thông qua kết nối \texttt{conn} và trả về một DataFrame?
+\begin{enumerate}[label=\Alph*.]
+  \item \texttt{df = pd.read\_sql\_query("SELECT * FROM transactions", conn)}
+  \item \texttt{df = conn.execute("SELECT * FROM transactions").to\_dataframe()}
+  \item \texttt{df = pd.DataFrame(conn.query("SELECT * FROM transactions"))}
+  \item \texttt{df = pd.from\_sql("SELECT * FROM transactions", connection=conn)}
+\end{enumerate}
+
+\end{enumerate}
+
+\newpage
+% =========================================================================
+% TRANG 4: PHẦN II - CÂU 1 (NUMPY) + KHUNG LÀM BÀI RỘNG RÃI
+% =========================================================================
+\section*{PHẦN II: TỰ LUẬN NGẮN GỌN \& ĐỌC CODE TRÊN GIẤY (5.0 điểm)}
+
+\subsection*{Câu 1: Thao tác Mảng NumPy \& Đọc hiểu kết quả (1.0 điểm) --- [Tuần 2]}
+Cho đoạn mã Python với thư viện NumPy như sau:
+\begin{lstlisting}
+import numpy as np
+
+data = np.array([
+    [10, 25, 40],
+    [15, 30, 45],
+    [20, 35, 50],
+    [5,  15, 25]
+])  # Shape: (4, 3)
+
+bias = np.array([1, 2, 3])  # Shape: (3,)
+\end{lstlisting}
+
+\noindent
+\textbf{Yêu cầu:}
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item \textbf{(0.5 điểm)} Hãy nêu tên cơ chế giúp thực hiện phép tính \texttt{result = data + bias} và viết giá trị cụ thể của mảng \texttt{result} dưới dạng ma trận số.
+  \item \textbf{(0.5 điểm)} Hãy viết kết quả in ra của dòng lệnh sau: \quad \texttt{print(data[data[:, 0] >= 15, 1:])}
+\end{enumerate}
+
+\answerbox{12.0cm}{
+\textbf{Khu vực làm bài Câu 1:}\\[3mm]
+\textbf{a) Tên cơ chế:} \dotfill\\[4mm]
+\textbf{Ma trận kết quả result:}\\[28mm]
+\textbf{b) Kết quả in ra của câu lệnh ở ý b:}\\
+\dotfill\\[4mm]
+\textit{(Giải thích ngắn gọn nếu có):} \dotfill
+}
+
+\newpage
+% =========================================================================
+% TRANG 5: CÂU 2 (PANDAS) + KHUNG LÀM BÀI RỘNG RÃI
+% =========================================================================
+\subsection*{Câu 2: Thao tác \& Gom nhóm Dữ liệu với Pandas (1.5 điểm) --- [Tuần 3]}
+Cho DataFrame \texttt{df\_orders} ghi nhận thông tin bán hàng gồm 4 cột: \texttt{'order\_id'}, \texttt{'category'} (ngành hàng), \texttt{'price'} (đơn giá niêm yết), và \texttt{'discount'} (tỷ lệ chiết khấu từ 0.0 đến 0.5).
+
+\noindent
+\textbf{Yêu cầu viết mã lệnh Pandas ngắn gọn (1 -- 2 dòng cho mỗi ý):}
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item \textbf{(0.5 điểm)} Viết 1 dòng lệnh tạo cột mới \texttt{'net\_price'} (đơn giá sau chiết khấu) theo công thức: $\text{net\_price} = \text{price} \times (1 - \text{discount})$.
+  \item \textbf{(1.0 điểm)} Viết 1 biểu thức (sử dụng phương thức chuỗi nối tiếp của Pandas) để gom nhóm theo ngành hàng (\texttt{'category'}), tính: \textbf{tổng} giá trị sau chiết khấu (\texttt{'net\_price'}) đặt tên cột là \texttt{'total\_revenue'}, và \textbf{trung bình} tỷ lệ chiết khấu (\texttt{'discount'}) đặt tên cột là \texttt{'avg\_discount'}.
+\end{enumerate}
+
+\answerbox{14.0cm}{
+\textbf{Khu vực làm bài Câu 2:}\\[3mm]
+\textbf{a) Dòng lệnh tạo cột net\_price:}\\
+df\_orders['net\_price'] = \dotfill\\[6mm]
+\textbf{b) Biểu thức groupby và aggregation:}\\
+df\_summary = (\dotfill\\[5mm]
+\hspace*{3.0cm}\dotfill\\[5mm]
+\hspace*{3.0cm}\dotfill\\[5mm]
+\hspace*{3.0cm}\dotfill)\\[4mm]
+\dotfill
+}
+
+\newpage
+% =========================================================================
+% TRANG 6: CÂU 3 (DATA ACCESS) + CÂU 4 (EDA & TRỰC QUAN HÓA) + HẾT
+% =========================================================================
+\subsection*{Câu 3: Truy xuất \& Lưu trữ Dữ liệu Đa nguồn (1.0 điểm) --- [Tuần 5]}
+\noindent
+\textbf{Yêu cầu viết đúng cú pháp mã lệnh Python/Pandas:}
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item \textbf{(0.5 điểm)} Viết lệnh \texttt{pd.read\_csv()} để đọc tệp \texttt{"data/customers.csv"}, trong đó yêu cầu tự động ép cột \texttt{'signup\_date'} sang kiểu dữ liệu ngày tháng thời gian (datetime) và nhận diện các chuỗi \texttt{["?", "None", "NA"]} là giá trị khuyết thiếu (\texttt{NaN}).
+  \item \textbf{(0.5 điểm)} Giả sử đã xử lý xong DataFrame \texttt{df\_summary} và đang có kết nối CSDL SQLite mở ở biến \texttt{conn}. Hãy viết 1 dòng lệnh để ghi DataFrame này vào bảng CSDL có tên \texttt{'report\_category'}, chế độ ghi đè (\texttt{replace}) nếu bảng đã có sẵn, và không lưu cột chỉ mục index.
+\end{enumerate}
+
+\answerbox{3.8cm}{
+\textbf{Khu vực làm bài Câu 3:}\\
+a) Lệnh pd.read\_csv: \dotfill\\[2.5mm]
+\hspace*{3.5cm}\dotfill\\[2.5mm]
+b) Lệnh ghi DataFrame vào CSDL SQLite: \dotfill
+}
+
+\subsection*{Câu 4: Trực quan hóa Dữ liệu \& Rút ra Nhận định Phân tích (1.5 điểm) --- [Tuần 1 \& 4]}
+Một doanh nghiệp thương mại điện tử muốn phân tích ảnh hưởng của tỷ lệ giảm giá (\texttt{'discount\_pct'}) đến số lượng sản phẩm bán được (\texttt{'sales\_volume'}) giữa 2 phân khúc khách hàng (\texttt{'customer\_segment'} có 2 giá trị là \texttt{'VIP'} và \texttt{'Standard'}). Dữ liệu đã được nạp sẵn vào biến DataFrame \texttt{df}.
+
+\noindent
+\textbf{Yêu cầu:}
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item \textbf{(0.75 điểm)} Lựa chọn loại biểu đồ phù hợp nhất để khảo sát mối quan hệ giữa 2 biến định lượng trên có phân biệt theo phân khúc khách hàng. Viết đúng 1 dòng lệnh bằng thư viện \textbf{Seaborn} (\texttt{sns}) để vẽ biểu đồ đó.
+  \item \textbf{(0.75 điểm)} Kết quả biểu đồ: Nhóm \texttt{'VIP'} phân tán ngẫu nhiên theo phương ngang quanh mức bán ổn định (không nhạy cảm với giảm giá); Nhóm \texttt{'Standard'} dốc đứng đi lên khi tăng chiết khấu.  
+  \textit{Hãy viết \textbf{2 câu nhận định kinh doanh ngắn gọn (dưới 50 từ)} giúp ban giám đốc ra quyết định phân bổ ngân sách khuyến mãi tối ưu.}
+\end{enumerate}
+
+\answerbox{5.0cm}{
+\textbf{Khu vực làm bài Câu 4:}\\[1.5mm]
+\textbf{a) Loại biểu đồ lựa chọn:} \dotfill\\[2mm]
+\textbf{Lệnh vẽ Seaborn:} \dotfill\\[3mm]
+\textbf{b) Nhận định kinh doanh:}\\
+- Nhận định 1: \dotfill\\[2mm]
+\hspace*{2.2cm}\dotfill\\[2mm]
+- Nhận định 2: \dotfill\\[2mm]
+\hspace*{2.2cm}\dotfill
+}
+
+\vspace{1mm}
+\begin{center}
+\textbf{------------------- HẾT -------------------}\\
+\textit{\small (Cán bộ coi thi không giải thích gì thêm. Thí sinh nộp lại toàn bộ đề thi sau khi hết giờ.)}
+\end{center}
+
+\end{document}

@@ -1,0 +1,232 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[vietnamese]{babel}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Consolas}
+
+\usepackage[a4paper,top=1.8cm,bottom=2cm,left=1.8cm,right=1.8cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{tcolorbox}
+\usepackage{lastpage}
+
+% Màu sắc
+\definecolor{codegray}{rgb}{0.96,0.96,0.96}
+\definecolor{keywordblue}{rgb}{0.0,0.2,0.6}
+\definecolor{stringgreen}{rgb}{0.0,0.5,0.2}
+\definecolor{commentgray}{rgb}{0.4,0.4,0.4}
+\definecolor{correctgreen}{rgb}{0.0,0.5,0.15}
+\definecolor{boxborder}{rgb}{0.7,0.7,0.7}
+
+\lstset{
+  language=Python,
+  backgroundcolor=\color{codegray},
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{keywordblue}\bfseries,
+  stringstyle=\color{stringgreen},
+  commentstyle=\color{commentgray}\itshape,
+  showstringspaces=false,
+  breaklines=true,
+  frame=single,
+  rulecolor=\color{boxborder},
+  aboveskip=4pt,
+  belowskip=4pt,
+  numbers=none,
+  columns=fullflexible
+}
+
+% Header & Footer
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{15pt}
+\lhead{\small \textbf{Học phần:} Phân tích dữ liệu với Python (DSAI1005)}
+\rhead{\small \textbf{HƯỚNG DẪN CHẤM \& ĐÁP ÁN CHI TIẾT}}
+\lfoot{\small Khoa Khoa học Dữ liệu \& Trí tuệ Nhân tạo -- ĐH Kinh tế Quốc dân}
+\rfoot{\small Trang \thepage/\pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
+
+\begin{document}
+
+\noindent
+\begin{minipage}[t]{0.55\textwidth}
+  \centering
+  \textbf{TRƯỜNG ĐẠI HỌC KINH TẾ QUỐC DÂN}\\
+  \textbf{KHOA KHOA HỌC DỮ LIỆU \& AI}\\
+  \rule{4cm}{0.4pt}\\[2mm]
+  \textbf{HƯỚNG DẪN CHẤM \& ĐÁP ÁN CHÍNH THỨC}\\
+  \textbf{Học phần:} Phân tích dữ liệu với Python (DSAI1005)\\
+  \textbf{Nội dung:} Đề kiểm tra 60 phút (Tuần 1 -- 5) --- \textbf{Mã đề:} \textbf{101}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.42\textwidth}
+  \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=\textbf{Tổng quan thang điểm 10}]
+    \small
+    \textbf{Phần I (Trắc nghiệm):} 20 câu $\times$ 0.25đ = \textbf{5.0 điểm}\\
+    \textbf{Phần II (Tự luận ngắn):} 4 câu = \textbf{5.0 điểm}\\
+    \rule{\linewidth}{0.3pt}\\
+    \textbf{Tổng điểm toàn bài:} \textbf{10.0 điểm}
+  \end{tcolorbox}
+\end{minipage}
+
+\vspace{3mm}
+\hrule
+\vspace{2mm}
+
+\section*{PHẦN I: ĐÁP ÁN TRẮC NGHIỆM (5.0 điểm --- 0.25 điểm / câu)}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+  \hline
+  \textbf{Câu} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} \\
+  \hline
+  \textbf{Đáp án} & \textbf{C} & \textbf{B} & \textbf{C} & \textbf{A} & \textbf{C} & \textbf{B} & \textbf{C} & \textbf{A} & \textbf{B} & \textbf{C} \\
+  \hline
+  \hline
+  \textbf{Câu} & \textbf{11} & \textbf{12} & \textbf{13} & \textbf{14} & \textbf{15} & \textbf{16} & \textbf{17} & \textbf{18} & \textbf{19} & \textbf{20} \\
+  \hline
+  \textbf{Đáp án} & \textbf{A} & \textbf{A} & \textbf{B} & \textbf{B} & \textbf{B} & \textbf{A} & \textbf{C} & \textbf{A} & \textbf{B} & \textbf{A} \\
+  \hline
+\end{tabular}
+\end{center}
+
+\subsection*{Giải thích vắn tắt cơ sở đáp án trắc nghiệm:}
+\begin{itemize}[leftmargin=*,itemsep=1.5pt]
+  \item \textbf{Câu 1 (C):} Theo quy trình 6 bước chuẩn (Tuần 1): Xác định bài toán $\rightarrow$ Thu thập $\rightarrow$ Làm sạch $\rightarrow$ \textbf{EDA} $\rightarrow$ Mô hình hóa $\rightarrow$ Báo cáo/Trực quan hóa.
+  \item \textbf{Câu 2 (B):} Dữ liệu lệch phải (right-skewed) do có outliers cực lớn thì Trung vị (Median) không bị ảnh hưởng, phản ánh trung thực hơn Trung bình (Mean).
+  \item \textbf{Câu 3 (C):} $r = 0.88 > 0.7$ là tương quan tuyến tính thuận chiều rất mạnh (lưu ý tương quan không đồng nhất với quan hệ nhân quả tuyệt đối).
+  \item \textbf{Câu 4 (A):} \texttt{a[1:, :2]}: dòng lấy từ index 1 đến hết (dòng 1, 2: giá trị 40, 50, 60 và 70, 80, 90); cột lấy vị trí 0, 1 $\rightarrow$ \texttt{[[40, 50], [70, 80]]}.
+  \item \textbf{Câu 5 (C):} Quy tắc Broadcasting: \texttt{(3, 1)} ghép với \texttt{(1, 4)} mở rộng theo từng chiều thành \texttt{(3, 4)}.
+  \item \textbf{Câu 6 (B):} \texttt{np.nanmean()} tự động loại bỏ các giá trị \texttt{NaN} trước khi chia trung bình: $(10 + 20 + 30)/3 = 20.0$.
+  \item \textbf{Câu 7 (C):} Vectorization là cơ chế cốt lõi của NumPy chuyển phép toán trên mảng xuống thư viện C thực thi.
+  \item \textbf{Câu 8 (A):} \texttt{.loc} dựa trên nhãn index (label-based), \texttt{.iloc} dựa trên vị trí số nguyên (integer position-based).
+  \item \textbf{Câu 9 (B):} Trong Pandas, kết hợp nhiều điều kiện logic bắt buộc dùng toán tử bitwise \texttt{\&} và bọc từng điều kiện trong cặp ngoặc đơn \texttt{()}.
+  \item \textbf{Câu 10 (C):} Nhóm \texttt{'South'} có 2 giá trị \texttt{Sales} là $200$ và $400$. Trung bình là $(200 + 400)/2 = 300.0$.
+  \item \textbf{Câu 11 (A):} \texttt{df.pivot\_table()} xoay bảng từ dạng dài sang rộng và mặc định tính tổng hợp (aggregation).
+  \item \textbf{Câu 12 (A):} Phép nối trái (\texttt{left join}) giữ nguyên toàn bộ các khóa từ bảng trái (\texttt{df1}); những khóa chỉ có ở bảng phải (\texttt{df2}) sẽ bị bỏ qua.
+  \item \textbf{Câu 13 (B):} \texttt{Figure} là toàn bộ khung vẽ; còn \texttt{Axes} là vùng đồ thị con trực tiếp chứa dữ liệu vẽ, trục tọa độ và tiêu đề.
+  \item \textbf{Câu 14 (B):} Trong Seaborn, tham số \texttt{hue} dùng để phân nhóm màu sắc theo một biến danh mục (categorical variable).
+  \item \textbf{Câu 15 (B):} Box Plot (Biểu đồ hộp) thể hiện trực quan tứ phân vị $Q_1, Q_2, Q_3$ và các điểm ngoại lệ (outliers) nằm ngoài râu.
+  \item \textbf{Câu 16 (A):} \texttt{sns.heatmap(corr, annot=True)} hiển thị ma trận nhiệt kèm nhãn số giá trị tương quan trong từng ô (\texttt{annot=True}).
+  \item \textbf{Câu 17 (C):} \texttt{chunksize} trả về một iterator để đọc từng phần dữ liệu nhằm tối ưu bộ nhớ RAM.
+  \item \textbf{Câu 18 (A):} Tham số \texttt{usecols} trong \texttt{pd.read\_csv()} nhận danh sách các cột cần nạp vào bộ nhớ.
+  \item \textbf{Câu 19 (B):} \texttt{pd.json\_normalize()} là hàm chuyên dụng làm phẳng dữ liệu JSON phân cấp lồng nhau thành bảng 2D phẳng.
+  \item \textbf{Câu 20 (A):} Cú pháp chuẩn kết nối và nạp SQL vào DataFrame là \texttt{pd.read\_sql\_query(sql, conn)}.
+\end{itemize}
+
+\vspace{3mm}
+\hrule
+\vspace{2mm}
+
+\section*{PHẦN II: ĐÁP ÁN \& BIỂU ĐIỂM TỰ LUẬN NGẮN (5.0 điểm)}
+
+\begin{tcolorbox}[colback=gray!5!white,colframe=gray!60!black,title=\textbf{Lưu ý chung dành cho Cán bộ chấm thi}]
+\small
+\begin{itemize}[leftmargin=*,itemsep=1pt]
+  \item Không trừ điểm nếu sinh viên sử dụng dấu nháy kép \texttt{" "} thay cho dấu nháy đơn \texttt{' '} hoặc ngược lại.
+  \item Không trừ điểm nếu sinh viên thiếu dấu đóng ngoặc tròn ở cuối dòng nhưng logic câu lệnh hoàn toàn chính xác.
+  \item Các cách viết tương đương về mặt kết quả logic (ví dụ dùng cú pháp từ điển thay vì Named Aggregation trong Pandas) đều được hưởng trọn điểm.
+\end{itemize}
+\end{tcolorbox}
+
+\subsection*{Câu 1: Thao tác Mảng NumPy (1.0 điểm)}
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item \textbf{(0.5 điểm):}
+  \begin{itemize}
+    \item \textbf{Tên cơ chế:} Cơ chế lan truyền / Mở rộng mảng (\textbf{Broadcasting}). \textit{(Đạt 0.25đ)}
+    \item \textbf{Ma trận kết quả:} \textit{(Đạt 0.25đ)}
+    $$\text{result} = \begin{bmatrix}
+      11 & 27 & 43 \\
+      16 & 32 & 48 \\
+      21 & 37 & 53 \\
+      6  & 17 & 28
+    \end{bmatrix}$$
+  \end{itemize}
+
+  \item \textbf{(0.5 điểm):}
+  \begin{itemize}
+    \item Điều kiện \texttt{data[:, 0] >= 15} lọc ra các dòng có phần tử đầu tiên $\ge 15$, đó là dòng index 1 (giá trị đầu 15) và dòng index 2 (giá trị đầu 20).
+    \item Lát cắt \texttt{1:} lấy từ cột index 1 đến hết (loại bỏ cột đầu).
+    \item Kết quả in ra chính xác: \textit{(Đạt 0.5đ)}
+    $$\begin{bmatrix}
+      30 & 45 \\
+      35 & 50
+    \end{bmatrix}$$
+  \end{itemize}
+\end{enumerate}
+
+\subsection*{Câu 2: Thao tác \& Gom nhóm Dữ liệu với Pandas (1.5 điểm)}
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item \textbf{(0.5 điểm):} Viết đúng dòng lệnh tạo cột mới:
+\begin{lstlisting}
+df_orders['net_price'] = df_orders['price'] * (1 - df_orders['discount'])
+\end{lstlisting}
+
+  \item \textbf{(1.0 điểm):} Gom nhóm và tổng hợp dữ liệu. Sinh viên có thể viết 1 trong 2 cách sau:
+  \begin{itemize}
+    \item \textit{Cách 1 (Khuyên dùng - Named Aggregation):}
+\begin{lstlisting}
+df_summary = df_orders.groupby('category').agg(
+    total_revenue=('net_price', 'sum'),
+    avg_discount=('discount', 'mean')
+)
+\end{lstlisting}
+    \item \textit{Cách 2 (Dictionary Aggregation):}
+\begin{lstlisting}
+df_summary = df_orders.groupby('category').agg({
+    'net_price': 'sum',
+    'discount': 'mean'
+}).rename(columns={'net_price': 'total_revenue', 'discount': 'avg_discount'})
+\end{lstlisting}
+    \item \textbf{Phân bổ điểm:} Đúng \texttt{groupby('category')} được 0.25đ; Đúng các hàm tổng hợp (\texttt{'sum'} và \texttt{'mean'}) được 0.5đ; Đổi đúng tên 2 cột kết quả được 0.25đ.
+  \end{itemize}
+\end{enumerate}
+
+\subsection*{Câu 3: Truy xuất \& Lưu trữ Dữ liệu Đa nguồn (1.0 điểm)}
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item \textbf{(0.5 điểm):} Đọc file CSV với tham số:
+\begin{lstlisting}
+df_customers = pd.read_csv("data/customers.csv", parse_dates=['signup_date'], na_values=["?", "None", "NA"])
+\end{lstlisting}
+  \textit{Biểu điểm:} Đúng tham số \texttt{parse\_dates=['signup\_date']} được 0.25đ; Đúng tham số \texttt{na\_values=["?", "None", "NA"]} được 0.25đ.
+
+  \item \textbf{(0.5 điểm):} Ghi DataFrame vào bảng SQLite:
+\begin{lstlisting}
+df_summary.to_sql("report_category", conn, if_exists="replace", index=False)
+\end{lstlisting}
+  \textit{Biểu điểm:} Đúng tên bảng và kết nối (\texttt{"report\_category", conn}) được 0.25đ; Đúng hai tham số (\texttt{if\_exists="replace", index=False}) được 0.25đ.
+\end{enumerate}
+
+\subsection*{Câu 4: Trực quan hóa Dữ liệu \& Rút ra Nhận định Phân tích (1.5 điểm)}
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item \textbf{(0.75 điểm):}
+  \begin{itemize}
+    \item \textbf{Loại biểu đồ:} Biểu đồ phân tán / Scatter plot. \textit{(Đạt 0.25đ)}
+    \item \textbf{Mã lệnh Seaborn:} \textit{(Đạt 0.5đ)}
+\begin{lstlisting}
+sns.scatterplot(data=df, x='discount_pct', y='sales_volume', hue='customer_segment')
+\end{lstlisting}
+  \end{itemize}
+
+  \item \textbf{(0.75 điểm) --- Nhận định kinh doanh:}
+  \begin{itemize}
+    \item \textit{Nhận định 1 (0.375đ):} Khách hàng phổ thông (\texttt{Standard}) rất nhạy cảm với giảm giá (độ co giãn cầu theo giá cao) --- mức chiết khấu càng cao thì lượng tiêu thụ tăng lên rõ rệt.
+    \item \textit{Nhận định 2 (0.375đ):} Khách hàng \texttt{VIP} không nhạy cảm với giảm giá (mức mua ổn định bất kể khuyến mãi). Doanh nghiệp \textbf{không nên lãng phí ngân sách chiết khấu sâu cho nhóm VIP}, mà nên tập trung ưu đãi giảm giá để kích cầu nhóm Standard, đồng thời thiết kế chính sách chăm sóc/dịch vụ chuyên biệt (phi giá) cho nhóm VIP.
+  \end{itemize}
+\end{enumerate}
+
+\begin{center}
+\textbf{------------------- HẾT -------------------}
+\end{center}
+
+\end{document}

@@ -177,13 +177,14 @@ def scan_lectures_dir(lectures_dir):
                     if is_valid_content_file(full_p, 2000):
                         clean_name = f.replace(".ipynb", "")
                         link_html = f'<a href="lectures/{folder}/{f}" target="_blank">{clean_name}</a>'
-                        is_vn_file = f.endswith("-vn.ipynb") or "_vn" in f
-                        is_en_file = f.endswith("-en.ipynb") or "_en" in f
+                        f_lower = f.lower()
+                        is_vn_file = f_lower.endswith("-vn.ipynb") or "_vn" in f_lower or "_vi" in f_lower or "-vi" in f_lower
+                        is_en_file = f_lower.endswith("-en.ipynb") or "_en" in f_lower or "-en" in f_lower
 
-                        if "solution" in f or "dap_an" in f:
+                        if "solution" in f_lower or "dap_an" in f_lower:
                             if not is_en_file: solution_links_vn.append(f'🔑 {link_html}')
                             if not is_vn_file: solution_links_en.append(f'🔑 {link_html}')
-                        elif "practice" in f or "exercise" in f or "lab" in f:
+                        elif any(k in f_lower for k in ["practice", "exercise", "lab", "project"]):
                             if not is_en_file: lab_links_vn.append(f'💻 {link_html}')
                             if not is_vn_file: lab_links_en.append(f'💻 {link_html}')
                         else:
@@ -196,8 +197,9 @@ def scan_lectures_dir(lectures_dir):
             for f in sorted(files):
                 if f.endswith(".pdf"):
                     link_html = f'<a href="lectures/{folder}/{f}" target="_blank">PDF ({f.replace(".pdf", "")})</a>'
-                    is_vn_file = f.endswith("-vn.pdf") or "_vn" in f
-                    is_en_file = f.endswith("-en.pdf") or "_en" in f
+                    f_lower = f.lower()
+                    is_vn_file = f_lower.endswith("-vn.pdf") or "_vn" in f_lower or "_vi" in f_lower or "-vi" in f_lower
+                    is_en_file = f_lower.endswith("-en.pdf") or "_en" in f_lower or "-en" in f_lower
                     if not is_en_file: slide_links_vn.append(link_html)
                     if not is_vn_file: slide_links_en.append(link_html)
 

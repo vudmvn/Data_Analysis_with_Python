@@ -1,0 +1,1091 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+
+\usetheme{AnnArbor}
+\usecolortheme{dolphin}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+
+\usepackage{fontspec}
+\setmainfont{DejaVu Sans}
+\setsansfont{DejaVu Sans}
+\setmonofont{Consolas}
+
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+
+\definecolor{codegray}{RGB}{245,245,245}
+\definecolor{codeblue}{RGB}{0,65,120}
+\definecolor{darkgreen}{RGB}{0,100,60}
+
+\lstdefinestyle{pythonstyle}{
+  language=Python,
+  basicstyle=\ttfamily\scriptsize,
+  keywordstyle=\color{codeblue}\bfseries,
+  stringstyle=\color{darkgreen},
+  commentstyle=\color{gray},
+  showstringspaces=false,
+  breaklines=true,
+  frame=single,
+  backgroundcolor=\color{codegray},
+  columns=fullflexible
+}
+
+\lstdefinestyle{tinypythonstyle}{
+  language=Python,
+  basicstyle=\ttfamily\tiny,
+  keywordstyle=\color{codeblue}\bfseries,
+  stringstyle=\color{darkgreen},
+  commentstyle=\color{gray},
+  showstringspaces=false,
+  breaklines=true,
+  frame=single,
+  backgroundcolor=\color{codegray},
+  columns=fullflexible
+}
+
+\lstdefinestyle{textstyle}{
+  basicstyle=\ttfamily\scriptsize,
+  showstringspaces=false,
+  breaklines=true,
+  frame=single,
+  backgroundcolor=\color{codegray},
+  columns=fullflexible
+}
+
+\lstset{style=pythonstyle}
+
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\smallgap}{\vspace{0.35em}}
+
+\title[Data Preprocessing with Python]{Data Preprocessing with Python}
+\subtitle{Cleaning, Transforming, and Standardizing Data for Machine Learning}
+\author{DSAI1005 - Data Analysis with Python}
+\institute{Department of Data Science and Artificial Intelligence\\National Economics University}
+\date{2026}
+
+\AtBeginSection[]{
+  \begin{frame}{Session Outline}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+\begin{document}
+
+% -------------------------------------------------------------
+% Title Page
+% -------------------------------------------------------------
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% -------------------------------------------------------------
+% Section: Overview of Data Preprocessing
+% -------------------------------------------------------------
+\section{Overview of Data Preprocessing}
+
+\begin{frame}{Motivation}
+In practice, raw data is rarely ready to be fed directly into machine learning models:
+\begin{itemize}
+  \item \textbf{Missing values:} caused by user omissions or data transmission errors.
+  \item \textbf{Outliers:} could be clerical errors or rare, high-value observations.
+  \item \textbf{Improper data types:} numeric variables stored as strings, incorrect datetime formats.
+  \item \textbf{Categorical variables:} text labels that need to be transformed into numerical formats.
+  \item \textbf{Scale discrepancies:} income in millions vs.\ age under 100.
+  \item \textbf{Class imbalance:} fraud detection or medical diagnoses with low positive rates.
+\end{itemize}
+
+\smallgap
+\begin{alertblock}{Core Principle}
+\textbf{Garbage In, Garbage Out:} Complex machine learning algorithms trained on dirty data produce unreliable and biased results.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{Position in the Machine Learning Workflow}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\begin{center}
+\scriptsize
+\renewcommand{\arraystretch}{0.82}
+\begin{tabular}{c}
+Raw Data \\
+$\downarrow$ \\
+\textbf{Data Inspection \& Cleaning} \\
+$\downarrow$ \\
+\textbf{Data Transformation} \\
+$\downarrow$ \\
+Feature Engineering \& Selection \\
+$\downarrow$ \\
+\textbf{Train / Test Split} \\
+$\downarrow$ \\
+\textbf{Appropriate Preprocessing (Scaling/Encoding)} \\
+$\downarrow$ \\
+Model Training \\
+$\downarrow$ \\
+Model Evaluation
+\end{tabular}
+\end{center}
+\end{column}
+\begin{column}{0.50\textwidth}
+\textbf{Key Benefits:}
+\begin{itemize}
+  \item Improves the quality of model inputs.
+  \item Mitigates the harmful impact of noise.
+  \item Ensures distance-based and gradient-based algorithms work correctly.
+  \item \textbf{Prevents Data Leakage:} Eliminates leakage of test information into the training phase.
+  \item Makes model decisions more interpretable.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Why Do Algorithms Need Preprocessing?}
+Many machine learning algorithms are sensitive to feature scales:
+\begin{itemize}
+  \item Consider two features: \code{Income} (5,000,000 to 100,000,000) and \code{Age} (18 to 70).
+  \item Using Euclidean distance:
+  \[
+  d = \sqrt{(\text{Income}_1 - \text{Income}_2)^2 + (\text{Age}_1 - \text{Age}_2)^2}
+  \]
+  \item \code{Income} completely \textbf{dominates} the distance calculation, rendering \code{Age} irrelevant!
+\end{itemize}
+
+\smallgap
+\textbf{Heavily Impacted Algorithms:}
+\begin{itemize}
+  \item k-Nearest Neighbors (k-NN), k-Means Clustering
+  \item Support Vector Machines (SVM)
+  \item Regularized Regression (Ridge, Lasso, ElasticNet)
+  \item Artificial Neural Networks (Deep Learning)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Learning Objectives}
+By the end of this lecture, students will be able to:
+\begin{enumerate}
+  \item Inspect data structures, types, and missing values using Pandas.
+  \item Differentiate between \textbf{missing values}, \textbf{outliers}, and invalid inputs.
+  \item Utilize descriptive statistics and visualizations (boxplots, histograms) to evaluate data quality.
+  \item Apply the IQR method to detect outliers and evaluate appropriate treatment strategies.
+  \item Encode categorical variables effectively using \textbf{One-Hot Encoding}.
+  \item Differentiate and correctly apply \textbf{Normalization} (Min-Max) and \textbf{Standardization} (Z-score).
+  \item Understand the \textbf{data leakage prevention principle}: Preprocessing transformations must be learned exclusively from the \textbf{Training set}.
+  \item Construct end-to-end preprocessing workflows using Scikit-Learn's \textbf{ColumnTransformer} and \textbf{Pipeline}.
+\end{enumerate}
+\end{frame}
+
+% -------------------------------------------------------------
+% Section: Step 1 & 2 - Loading & Inspecting Data Structure
+% -------------------------------------------------------------
+\section{Steps 1 \& 2 — Loading and Inspecting Data Structure}
+
+\begin{frame}[fragile]{Step 1: Importing Libraries and Loading Data}
+Demonstration dataset: \code{diabetes.csv} (Pima Indians Diabetes Dataset).
+
+\begin{lstlisting}[style=pythonstyle]
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
+from sklearn.impute import SimpleImputer
+
+# Load dataset
+df = pd.read_csv("diabetes.csv")
+df.head()
+\end{lstlisting}
+
+\smallgap
+\code{df.head()} displays the first 5 records: quick inspection of column names, data representations, value types, and obvious anomalies.
+\end{frame}
+
+\begin{frame}{Initial Dataset Preview}
+\begin{center}
+  \includegraphics[width=0.92\textwidth,max height=0.68\textheight,keepaspectratio]{images/image.png}
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Essential Data Inspection Commands}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\textbf{Dimensions and Column Names:}
+\begin{lstlisting}[style=pythonstyle]
+# Number of rows and columns
+df.shape
+# Returns: (768, 9)
+
+# List of column names
+df.columns
+
+# Total elements
+df.size
+\end{lstlisting}
+\end{column}
+\begin{column}{0.48\textwidth}
+\textbf{Sampling Data Records:}
+\begin{lstlisting}[style=pythonstyle]
+# First 10 rows
+df.head(10)
+
+# Last 5 rows
+df.tail()
+
+# 5 random samples
+df.sample(5)
+\end{lstlisting}
+\end{column}
+\end{columns}
+
+\smallgap
+\begin{block}{Best Practice}
+Checking \code{df.sample(5)} often provides a more unbiased view than \code{head()} or \code{tail()}, as raw datasets might be sorted by specific criteria.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Step 2: Checking Data Types with \texttt{df.info()}}
+\code{df.info()} provides a concise summary: record count, column count, non-null counts, data types (\code{dtype}), and memory usage.
+
+\begin{lstlisting}[style=pythonstyle]
+df.info()
+\end{lstlisting}
+
+\smallgap
+\begin{tabularx}{\textwidth}{lX}
+\toprule
+\textbf{Common Data Types} & \textbf{Typical Interpretation} \\
+\midrule
+\code{int64} & Integer quantities (age, count, transaction IDs) \\
+\code{float64} & Floating-point numbers (revenue, measurements, rates) \\
+\code{object} & Text strings or mixed unstructured data \\
+\code{bool} & Boolean flags (True/False) \\
+\code{datetime64} & Timestamps and dates \\
+\code{category} & Categorical variables with a fixed set of levels \\
+\bottomrule
+\end{tabularx}
+\end{frame}
+
+\begin{frame}[fragile]{Checking for Missing Values}
+Calculate total counts and percentages of missing entries per column:
+\begin{lstlisting}[style=pythonstyle]
+# Count missing values per column
+df.isna().sum()      # Equivalent to df.isnull().sum()
+
+# Calculate missing percentage per column
+missing_rate = df.isna().mean() * 100
+print(missing_rate)
+\end{lstlisting}
+
+\begin{center}
+  \includegraphics[width=0.62\textwidth,max height=0.45\textheight,keepaspectratio]{images/image-1.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{Crucial Insight: Implicit Missing Values}
+\begin{alertblock}{Missing data is not always encoded as \texttt{NaN}!}
+In production systems, missing values are frequently recorded using sentinel values:
+\[
+\mathbf{0}, \quad -\mathbf{1}, \quad \mathbf{999}, \quad \text{"\textbf{Unknown}"}, \quad \text{"\textbf{N/A}"}, \quad \text{"\textbf{?}"}
+\]
+\end{alertblock}
+
+\smallgap
+\textbf{Example in Healthcare (\code{diabetes.csv}):}
+\begin{itemize}
+  \item Physiological measurements such as \code{Glucose}, \code{BloodPressure}, \code{SkinThickness}, \code{Insulin}, and \code{BMI} contain values of \textbf{0}.
+  \item Clinically, a living individual cannot have a blood pressure or glucose level of 0!
+  \item These are \textbf{implicit missing values} that must be identified via domain knowledge.
+\end{itemize}
+
+\textbf{Example in Business Analytics:}
+\begin{itemize}
+  \item \code{Age = 0} or \code{-1}; \code{Delivery\_Time = 999} days; \code{Revenue = 0}.
+\end{itemize}
+\end{frame}
+
+% -------------------------------------------------------------
+% Section: Step 3 & 4 - Descriptive Statistics & Outlier Detection
+% -------------------------------------------------------------
+\section{Steps 3 \& 4 — Descriptive Statistics and Outlier Detection}
+
+\begin{frame}[fragile]{Step 3: Descriptive Statistics with \texttt{df.describe()}}
+\begin{lstlisting}[style=pythonstyle]
+# Descriptive statistics for numerical variables
+df.describe()
+
+# Descriptive statistics for all variables (including categoricals)
+df.describe(include="all")
+\end{lstlisting}
+
+\smallgap
+\textbf{Key Diagnostic Indicators:}
+\begin{itemize}
+  \item \textbf{\code{min} and \code{max}:} Are values within plausible physical bounds? (e.g., \code{Age} having $\min = -3$ or $\max = 245$).
+  \item \textbf{\code{mean} vs.\ \code{50\%} (median):}
+  \begin{itemize}
+    \item If $\text{mean} \approx \text{median}$: Distribution is approximately symmetric.
+    \item If $\text{mean} \gg \text{median}$: Right-skewed distribution, driven by extreme positive values.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Step 4: Visualizing Outliers with Boxplots}
+A \textbf{Boxplot} is an indispensable tool for inspecting distribution shape and anomalies:
+\begin{lstlisting}[style=pythonstyle]
+# Single feature boxplot
+plt.figure(figsize=(8, 3))
+plt.boxplot(df["Insulin"].dropna(), vert=False)
+plt.xlabel("Insulin")
+plt.title("Boxplot of Insulin")
+plt.show()
+
+# Multi-feature boxplots via subplots
+numeric_cols = df.select_dtypes(include=np.number).columns
+fig, axes = plt.subplots(len(numeric_cols), 1, figsize=(8, 2.5 * len(numeric_cols)))
+for i, col in enumerate(numeric_cols):
+    axes[i].boxplot(df[col].dropna(), vert=False)
+    axes[i].set_title(col)
+plt.tight_layout()
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Boxplot Visualizations Across Numerical Features}
+\begin{center}
+  \includegraphics[width=0.68\textwidth,max height=0.72\textheight,keepaspectratio]{images/image-2.png}
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Histograms \& Distribution Assessment}
+Combining histograms with Kernel Density Estimation (KDE) reveals distribution skewness:
+\begin{lstlisting}[style=pythonstyle]
+# Plotting with Pandas
+df["Insulin"].hist(bins=30)
+plt.xlabel("Insulin")
+plt.ylabel("Frequency")
+plt.show()
+
+# Plotting with Seaborn (KDE included)
+sns.histplot(data=df, x="Insulin", kde=True)
+plt.title("Distribution of Insulin")
+plt.show()
+\end{lstlisting}
+
+\smallgap
+\begin{block}{Insight}
+For heavily skewed features, log transformations or median-based scaling are generally more robust than mean-variance scaling.
+\end{block}
+\end{frame}
+
+\begin{frame}{Understanding Outliers}
+An \textbf{outlier} is an observation that lies an abnormal distance from other values in the sample.
+
+\smallgap
+\begin{alertblock}{Core Reality}
+\centering
+\textbf{Outliers are NOT inherently erroneous data!}
+\end{alertblock}
+
+\smallgap
+\textbf{Practical Examples:}
+\begin{itemize}
+  \item A VIP corporate client spending \$50,000 compared to an average of \$200.
+  \item An international delivery shipment taking 45 days compared to a 3-day baseline.
+  \item In \textbf{Fraud Detection}, rare fraudulent transactions are precisely the outliers we aim to detect!
+\end{itemize}
+
+\textbf{Guiding Rule:} The first priority is to \textbf{investigate the context and cause}, never delete outliers blindly.
+\end{frame}
+
+% -------------------------------------------------------------
+% Section: Step 5 - IQR Method
+% -------------------------------------------------------------
+\section{Step 5 — Outlier Detection using the IQR Method}
+
+\begin{frame}{Interquartile Range (IQR) Formula}
+The IQR method relies on quartiles, making it robust against extreme values:
+\begin{itemize}
+  \item $Q_1$ (25th Percentile): 25\% of the data falls below this value.
+  \item $Q_3$ (75th Percentile): 75\% of the data falls below this value.
+\end{itemize}
+
+\begin{block}{Interquartile Range and Detection Thresholds}
+\[
+IQR = Q_3 - Q_1
+\]
+\[
+\text{Lower Bound} = Q_1 - 1.5 \times IQR
+\]
+\[
+\text{Upper Bound} = Q_3 + 1.5 \times IQR
+\]
+\end{block}
+
+\smallgap
+Observations falling outside $[\text{Lower Bound}, \text{Upper Bound}]$ are flagged as candidate outliers.
+\end{frame}
+
+\begin{frame}[fragile]{Implementing the IQR Method in Python}
+\begin{lstlisting}[style=pythonstyle]
+# Compute Q1, Q3, and IQR
+q1, q3 = np.percentile(df["Insulin"].dropna(), [25, 75])
+iqr = q3 - q1
+
+lower = q1 - 1.5 * iqr
+upper = q3 + 1.5 * iqr
+
+print(f"Lower Bound: {lower:.2f} | Upper Bound: {upper:.2f}")
+
+# Filter outlier records
+outliers = df[(df["Insulin"] < lower) | (df["Insulin"] > upper)]
+print("Total Outliers Detected:", len(outliers))
+
+# If justifiable to filter:
+clean_df = df[(df["Insulin"] >= lower) & (df["Insulin"] <= upper)].copy()
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{5 Questions to Ask Before Removing Outliers}
+Before discarding any outlier, ask:
+\begin{enumerate}
+  \item Is the value \textbf{physically impossible} in the given business domain? (e.g., Age = -5 or 250).
+  \item Is it a known \textbf{data entry error} or logging glitch? (e.g., typing an extra zero).
+  \item Is there a \textbf{unit mismatch}? (e.g., grams vs.\ kilograms, cents vs.\ dollars).
+  \item Is the outlier the \textbf{primary object of interest}? (e.g., fraud, equipment failure).
+  \item Does removing it discard an \textbf{important customer segment}?
+\end{enumerate}
+
+\smallgap
+\textbf{Alternative Treatment Strategies:}
+\begin{itemize}
+  \item Retain the data and adopt robust models (Decision Trees, Random Forests).
+  \item Winsorization / Capping (clipping values to Lower/Upper bounds).
+  \item Mathematical transformations (Log, Box-Cox) to compress variance.
+\end{itemize}
+\end{frame}
+
+% -------------------------------------------------------------
+% Section: Step 6 - Handling Missing Values
+% -------------------------------------------------------------
+\section{Step 6 — Handling Missing Values}
+
+\begin{frame}[fragile]{Basic Missing Data Strategies}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\textbf{1. Deletion (Rows or Columns):}
+\begin{lstlisting}[style=pythonstyle]
+# Drop all rows containing missing values
+df_clean = df.dropna()
+
+# Drop rows missing specific features
+df_clean = df.dropna(subset=["Age"])
+
+# Drop columns missing > 60% of entries
+df_clean = df.drop(columns=["Col"])
+\end{lstlisting}
+\textit{Only delete when missingness is negligible and random.}
+\end{column}
+\begin{column}{0.48\textwidth}
+\textbf{2. Statistical Imputation:}
+\begin{lstlisting}[style=pythonstyle]
+# Impute with Mean
+df["Age"] = df["Age"].fillna(
+    df["Age"].mean()
+)
+
+# Impute with Median (robust to outliers)
+df["Income"] = df["Income"].fillna(
+    df["Income"].median()
+)
+
+# Impute Categoricals with Mode
+df["City"] = df["City"].fillna(
+    df["City"].mode()[0]
+)
+\end{lstlisting}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{\texttt{SimpleImputer} in Scikit-Learn}
+Scikit-Learn provides \code{SimpleImputer} for standardized, production-ready imputation:
+\begin{lstlisting}[style=pythonstyle]
+from sklearn.impute import SimpleImputer
+
+# Median imputation for numerical features
+imputer_num = SimpleImputer(strategy="median")
+
+# Mode imputation for categorical features
+imputer_cat = SimpleImputer(strategy="most_frequent")
+
+# Constant value imputation
+imputer_const = SimpleImputer(strategy="constant", fill_value="Unknown")
+\end{lstlisting}
+
+\smallgap
+\textbf{Key Parameters:}
+\begin{itemize}
+  \item \code{strategy}: \code{"mean"}, \code{"median"}, \code{"most\_frequent"}, \code{"constant"}.
+  \item \code{fill\_value}: Replacement value when \code{strategy="constant"}.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Critical Warning: Data Leakage During Imputation}
+\begin{alertblock}{Data Leakage Prevention Principle}
+\textbf{NEVER} compute statistics (\code{mean}, \code{median}) across the entire dataset before splitting into train and test sets!
+\end{alertblock}
+
+\smallgap
+\begin{center}
+\large
+\[
+\text{Training Data} \longrightarrow \text{Fit Parameter (e.g., Median)} \longrightarrow \text{Transform Both Train \& Test}
+\]
+\end{center}
+
+\smallgap
+\textbf{Why this is mandatory:}
+\begin{itemize}
+  \item The test set must simulate unseen future production data.
+  \item Computing imputation values using the test set introduces information leakage, yielding overoptimistic test metrics that degrade in deployment.
+\end{itemize}
+\end{frame}
+
+% -------------------------------------------------------------
+% Section: Step 7 - Handling Categorical Variables
+% -------------------------------------------------------------
+\section{Step 7 — Handling Categorical Variables (Encoding)}
+
+\begin{frame}[fragile]{Why Is Categorical Encoding Necessary?}
+Most machine learning algorithms (Linear/Logistic Regression, Neural Networks, SVM) operate strictly on numerical matrices. Hence, qualitative labels:
+\[
+\code{Region} \in \{\text{"North"}, \text{"Central"}, \text{"South"}\}
+\]
+must be converted into numerical binary representations.
+
+\smallgap
+\textbf{Method 1: One-Hot Encoding via Pandas (\code{pd.get\_dummies})}
+\begin{lstlisting}[style=pythonstyle]
+# drop_first=True prevents multicollinearity (dummy variable trap)
+df_encoded = pd.get_dummies(df, columns=["Region"], drop_first=True)
+\end{lstlisting}
+
+\smallgap
+\begin{tabularx}{\textwidth}{lXXX}
+\toprule
+\textbf{Region (Original)} & \textbf{Region\_Central} & \textbf{Region\_North} & \textbf{Region\_South} (Dropped if \code{drop\_first}) \\
+\midrule
+Central & 1 & 0 & 0 \\
+North & 0 & 1 & 0 \\
+South & 0 & 0 & 1 \\
+\bottomrule
+\end{tabularx}
+\end{frame}
+
+\begin{frame}[fragile]{\texttt{OneHotEncoder} in Scikit-Learn}
+For robust production pipelines, Scikit-Learn's \code{OneHotEncoder} is the gold standard:
+
+\begin{lstlisting}[style=pythonstyle]
+from sklearn.preprocessing import OneHotEncoder
+
+# handle_unknown='ignore' is crucial for unseen test labels
+encoder = OneHotEncoder(handle_unknown="ignore", sparse_output=False)
+
+# Learn categories from training set and transform
+X_train_encoded = encoder.fit_transform(X_train[["Region"]])
+X_test_encoded = encoder.transform(X_test[["Region"]])
+\end{lstlisting}
+
+\smallgap
+\begin{block}{Why is \texttt{handle\_unknown="ignore"} Essential?}
+If an unseen category appears during testing (e.g., \code{"Highlands"}), \code{pd.get\_dummies} would yield inconsistent column structures or crash, whereas \code{handle\_unknown="ignore"} encodes all category columns with zeros safely.
+\end{block}
+\end{frame}
+
+% -------------------------------------------------------------
+% Section: Step 8 & 9 - Correlation Analysis & Target Distribution
+% -------------------------------------------------------------
+\section{Steps 8 \& 9 — Correlation Analysis and Target Distribution}
+
+\begin{frame}[fragile]{Step 8: Correlation Analysis}
+Pearson's linear correlation coefficient $r \in [-1, 1]$:
+\begin{lstlisting}[style=pythonstyle]
+# Compute correlation matrix for numerical features
+corr = df.corr(numeric_only=True)
+
+# Visualize using Seaborn Heatmap
+plt.figure(figsize=(9, 7))
+sns.heatmap(corr, annot=True, fmt=".2f", cmap="coolwarm")
+plt.title("Correlation Matrix")
+plt.show()
+
+# Inspect correlation with target variable Outcome
+corr["Outcome"].sort_values(ascending=False)
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Feature Correlation with Target Variable}
+\begin{columns}[c]
+\begin{column}{0.48\textwidth}
+\begin{center}
+  \includegraphics[width=\textwidth,max height=0.70\textheight,keepaspectratio]{images/image-3.png}
+\end{center}
+\end{column}
+\begin{column}{0.50\textwidth}
+\textbf{Key Takeaways:}
+\begin{itemize}
+  \item \code{Glucose} ($r = 0.47$) and \code{BMI} ($r = 0.29$) show the strongest positive correlation with diabetes diagnosis (\code{Outcome}).
+  \item \code{Age} ($r = 0.24$) also correlates positively.
+  \item \textbf{Caution:} High collinearity among predictors may cause \textbf{multicollinearity}.
+  \item Low linear correlation does NOT imply a feature is useless, as the underlying relationship may be non-linear.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Step 9: Evaluating Target Distribution}
+For classification problems, auditing the class balance is mandatory:
+\begin{lstlisting}[style=pythonstyle]
+# Count frequencies and proportions
+print(df["Outcome"].value_counts())
+print(df["Outcome"].value_counts(normalize=True))
+
+# Visualize with a pie chart or countplot
+counts = df["Outcome"].value_counts()
+plt.pie(counts.values, labels=counts.index, autopct="%.1f%%")
+plt.title("Outcome Distribution")
+plt.show()
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Target Class Balance in \texttt{diabetes.csv}}
+\begin{center}
+  \includegraphics[width=0.52\textwidth,max height=0.58\textheight,keepaspectratio]{images/image-4.png}
+\end{center}
+
+\smallgap
+\begin{itemize}
+  \item Class 0 (Non-diabetic): 65.1\% | Class 1 (Diabetic): 34.9\%.
+  \item Moderate imbalance is present. Under extreme imbalance (e.g., 99\% vs 1\%), raw accuracy becomes deceptive, requiring \textbf{Precision, Recall, F1-score, ROC-AUC}, and \textbf{Stratified Sampling}.
+\end{itemize}
+\end{frame}
+
+% -------------------------------------------------------------
+% Section: Step 10 & 11 - Feature Splitting & Train/Test Split
+% -------------------------------------------------------------
+\section{Steps 10 \& 11 — Feature Splitting and Train/Test Split}
+
+\begin{frame}[fragile]{Step 10: Splitting Predictors ($X$) and Target ($y$)}
+\begin{lstlisting}[style=pythonstyle]
+# X contains input predictors (features)
+X = df.drop(columns=["Outcome"])
+
+# y contains the target label to predict
+y = df["Outcome"]
+
+print("Predictor Matrix Shape (X):", X.shape)
+print("Target Vector Shape (y):", y.shape)
+\end{lstlisting}
+
+\smallgap
+\textbf{Significance:}
+\begin{itemize}
+  \item $X$ contains information available at prediction time.
+  \item $y$ represents the ground-truth outcome.
+  \item Ensure $X$ never includes variables calculated after the target occurs (\textbf{Target Leakage}).
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Step 11: Train/Test Data Partitioning}
+\begin{lstlisting}[style=pythonstyle]
+from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y,
+    test_size=0.2,       # 20% reserved for holdout evaluation
+    random_state=42,     # Reproducibility seed
+    stratify=y           # Preserves class proportions across splits
+)
+\end{lstlisting}
+
+\smallgap
+\textbf{Key Argument Explanations:}
+\begin{itemize}
+  \item \code{test\_size=0.2}: 80\% used for model fitting, 20\% reserved for objective testing.
+  \item \code{random\_state=42}: Guarantees identical data partitions across runs.
+  \item \code{stratify=y}: Maintains identical target class ratios ($\approx 35\%$) across both train and test splits.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{The Golden Rule: Why Split Before Scaling?}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\begin{alertblock}{WRONG (Data Leakage)}
+\begin{lstlisting}[style=pythonstyle]
+scaler = StandardScaler()
+# Scaler fits on ENTIRE dataset
+X_scaled = scaler.fit_transform(X)
+
+# Split performed post-scaling
+X_tr, X_te = train_test_split(X_scaled)
+\end{lstlisting}
+$\rightarrow$ Test set mean $\mu$ and variance $\sigma^2$ leak into the model training process!
+\end{alertblock}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{block}{CORRECT PRACTICE}
+\begin{lstlisting}[style=pythonstyle]
+# Partition train/test first
+X_tr, X_te, y_tr, y_te = (
+    train_test_split(X, y, test_size=0.2)
+)
+
+scaler = StandardScaler()
+# ONLY fit on Train
+X_tr_scaled = scaler.fit_transform(X_tr)
+# Test is ONLY transformed
+X_te_scaled = scaler.transform(X_te)
+\end{lstlisting}
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+% -------------------------------------------------------------
+% Section: Step 12 - Feature Scaling
+% -------------------------------------------------------------
+\section{Step 12 — Feature Scaling (Min-Max vs. Standardization)}
+
+\begin{frame}{Two Foundational Scaling Paradigms}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\textbf{1. Min-Max Scaling (Normalization)}
+Maps feature values into a bounded interval, typically $[0, 1]$:
+\[
+x' = \frac{x - x_{\min}}{x_{\max} - x_{\min}}
+\]
+\begin{itemize}
+  \item Minimum value transforms to $0$.
+  \item Maximum value transforms to $1$.
+  \item Sensitive to extreme outliers because $x_{\min}$ and $x_{\max}$ anchor the scale.
+\end{itemize}
+\end{column}
+\begin{column}{0.48\textwidth}
+\textbf{2. Standardization (Z-score)}
+Centers data around mean $0$ with standard deviation $1$:
+\[
+z = \frac{x - \mu}{\sigma}
+\]
+\begin{itemize}
+  \item Does not constrain data to bounded limits.
+  \item Less vulnerable to extreme outliers than Min-Max.
+  \item Does not transform non-normal distributions into Gaussian shapes!
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Min-Max Scaling Implementation \& Output}
+\begin{lstlisting}[style=pythonstyle]
+from sklearn.preprocessing import MinMaxScaler
+
+minmax_scaler = MinMaxScaler()
+X_train_norm = minmax_scaler.fit_transform(X_train)
+X_test_norm = minmax_scaler.transform(X_test)
+\end{lstlisting}
+
+\begin{center}
+  \includegraphics[width=0.82\textwidth,max height=0.58\textheight,keepaspectratio]{images/image-5.png}
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Standardization Implementation \& Output}
+\begin{lstlisting}[style=pythonstyle]
+from sklearn.preprocessing import StandardScaler
+
+standard_scaler = StandardScaler()
+X_train_std = standard_scaler.fit_transform(X_train)
+X_test_std = standard_scaler.transform(X_test)
+\end{lstlisting}
+
+\begin{center}
+  \includegraphics[width=0.82\textwidth,max height=0.58\textheight,keepaspectratio]{images/image-6.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{Min-Max Scaling vs. Standardization}
+\small
+\begin{tabularx}{\textwidth}{lXX}
+\toprule
+\textbf{Evaluation Dimension} & \textbf{Min-Max Scaling} & \textbf{Standardization} \\
+\midrule
+\textbf{Mathematical Formula} & $\frac{x - x_{\min}}{x_{\max} - x_{\min}}$ & $\frac{x - \mu}{\sigma}$ \\
+\textbf{Output Range} & Typically bounded $[0, 1]$ & Unbounded $(-\infty, +\infty)$ \\
+\textbf{Resulting Mean} & Not necessarily $0$ & Equal to $0$ on training set \\
+\textbf{Resulting Standard Dev.} & Variable & Equal to $1$ on training set \\
+\textbf{Sensitivity to Outliers} & \textbf{Very High} & Moderate \\
+\textbf{Typical Applications} & Bounded algorithms, image processing (0--255 pixels), k-NN & Ridge/Lasso regression, SVM, PCA, Neural Networks \\
+\bottomrule
+\end{tabularx}
+\end{frame}
+
+\begin{frame}{Which Algorithms Require Feature Scaling?}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\begin{block}{REQUIRES Feature Scaling}
+Models relying on distance metrics or gradient descent optimization:
+\begin{itemize}
+  \item k-Nearest Neighbors (k-NN)
+  \item k-Means Clustering
+  \item Support Vector Machines (SVM)
+  \item Principal Component Analysis (PCA)
+  \item Regularized Linear/Logistic Models
+  \item Deep Neural Networks
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{block}{DOES NOT Require Scaling}
+Tree-based partition algorithms:
+\begin{itemize}
+  \item Decision Trees
+  \item Random Forests
+  \item Gradient Boosted Trees (XGBoost, LightGBM, CatBoost)
+\end{itemize}
+\smallgap
+\textit{Rationale:} Trees partition features monotonically and independently; splits are invariant to linear scale shifts.
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+% -------------------------------------------------------------
+% Section: Step 13 - ColumnTransformer & Pipeline
+% -------------------------------------------------------------
+\section{Step 13 — Building Preprocessing Pipelines with Scikit-Learn}
+
+\begin{frame}[fragile]{Handling Mixed Datasets with \texttt{ColumnTransformer}}
+Real-world datasets contain both continuous numerical and categorical columns:
+\begin{lstlisting}[style=tinypythonstyle]
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+
+# Pipeline for numerical features: Median Imputation -> Standardization
+numeric_transformer = Pipeline(steps=[
+    ("imputer", SimpleImputer(strategy="median")),
+    ("scaler", StandardScaler())
+])
+
+# Pipeline for categorical features: Mode Imputation -> One-Hot Encoding
+categorical_transformer = Pipeline(steps=[
+    ("imputer", SimpleImputer(strategy="most_frequent")),
+    ("onehot", OneHotEncoder(handle_unknown="ignore"))
+])
+
+# Assemble combined preprocessor via ColumnTransformer
+preprocessor = ColumnTransformer(transformers=[
+    ("num", numeric_transformer, ["Age", "Income", "Order_Value"]),
+    ("cat", categorical_transformer, ["Region", "Customer_Type"])
+])
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Full Model Integration via \texttt{Pipeline}}
+Encapsulate preprocessing and estimator into a unified object:
+\begin{lstlisting}[style=pythonstyle]
+from sklearn.linear_model import LogisticRegression
+
+# Bundle preprocessor and model estimator together
+full_pipeline = Pipeline(steps=[
+    ("preprocessor", preprocessor),
+    ("classifier", LogisticRegression(max_iter=1000))
+])
+
+# Fit pipeline: Learned strictly from train set, zero leakage risk!
+full_pipeline.fit(X_train, y_train)
+
+# Inference on unseen test data
+y_pred = full_pipeline.predict(X_test)
+\end{lstlisting}
+
+\smallgap
+\textbf{Major Pipeline Advantages:}
+\begin{enumerate}
+  \item Completely eliminates data leakage across validation folds.
+  \item Concise, readable, and maintainable codebase.
+  \item Seamless transition from development to production inference.
+\end{enumerate}
+\end{frame}
+
+% -------------------------------------------------------------
+% Section: General Workflow & Case Study
+% -------------------------------------------------------------
+\section{General Workflow and Common Pitfalls}
+
+\begin{frame}{Standard End-to-End Preprocessing Workflow}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\textbf{10-Step Robust Sequence:}
+\begin{enumerate}
+  \item \textbf{Understand:} Business domain and features.
+  \item \textbf{Inspect:} Examine shape, info, types.
+  \item \textbf{Explore (EDA):} Distributions, boxplots, correlations.
+  \item \textbf{Split:} Partition Train/Validation/Test sets.
+  \item \textbf{Impute:} Treat missing values from Train.
+  \item \textbf{Encode:} Transform categorical columns.
+  \item \textbf{Scale:} Standardize or normalize features.
+  \item \textbf{Pipeline:} Wrap transformations cleanly.
+  \item \textbf{Model:} Fit predictive estimators.
+  \item \textbf{Evaluate:} Assess performance on Test set.
+\end{enumerate}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{block}{Execution Flowchart}
+\scriptsize
+\begin{center}
+Raw Data \\
+$\downarrow$ \\
+\textbf{Train / Test Partition} \\
+$\downarrow$ \\
+\textbf{Fit Preprocessing on Train Only} \\
+$\downarrow$ \\
+Transform Training Set \\
+$\downarrow$ \\
+Train ML Estimator \\
+$\downarrow$ \\
+Transform Test Set with Learned Parameters \\
+$\downarrow$ \\
+Evaluate Real-World Performance
+\end{center}
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Common Preprocessing Traps (Part 1: Data \& Outliers)}
+\begin{enumerate}
+  \item \textbf{Automated Deletion of All Outliers:}
+  \begin{itemize}
+    \item Flawed because outliers often represent valid high-value entities or crucial target signals (e.g., financial fraud).
+  \end{itemize}
+  \item \textbf{Solely Relying on \texttt{isna()}:}
+  \begin{itemize}
+    \item Misses implicit sentinel representations ($0, -1, 999$, "?", "Unknown").
+  \end{itemize}
+  \item \textbf{Scaling Target Labels ($y$):}
+  \begin{itemize}
+    \item In classification, target labels are discrete categorical classes ($0/1$) and must never be scaled.
+  \end{itemize}
+  \item \textbf{Discarding Features Due to Low Linear Correlation:}
+  \begin{itemize}
+    \item Pearson correlation only reflects linear relationships; valuable non-linear patterns may be lost.
+  \end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Common Preprocessing Traps (Part 2: Leakage \& Evaluation)}
+\begin{enumerate}
+  \setcounter{enumi}{4}
+  \item \textbf{Fitting Scalers / Imputers Prior to Train/Test Split:}
+  \begin{itemize}
+    \item The most pervasive form of \textbf{Data Leakage}, distorting performance estimates.
+  \end{itemize}
+  \item \textbf{Selecting Features with Overly High Target Correlation:}
+  \begin{itemize}
+    \item Danger of \textbf{Target Leakage} (e.g., using \code{Sales\_Tax} calculated directly from the forecast target \code{Total\_Sales}).
+  \end{itemize}
+  \item \textbf{Inconsistent Processing of Train vs.\ Test Sets:}
+  \begin{itemize}
+    \item Induces distribution drift, leading to catastrophic inference failures in production.
+  \end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Case Study: Customer Churn Prediction}
+\textbf{Telecommunications Dataset Features:}
+\begin{itemize}
+  \item \code{Customer\_ID, Age, Monthly\_Spending, Tenure\_Months, Region, Support\_Calls, Churn}
+\end{itemize}
+
+\textbf{Standard Preprocessing Steps:}
+\begin{enumerate}
+  \item Drop \code{Customer\_ID} (arbitrary identifier with zero predictive power).
+  \item Detect \code{Age = -1} $\rightarrow$ convert to \code{NaN}, then impute with median.
+  \item Clean \code{Region}: Harmonize \code{"Hanoi", "Ha Noi", "HN"} into \code{"Hanoi"}.
+  \item Evaluate \code{Support\_Calls} outliers via boxplots; retain them as high call volume strongly signals churn risk.
+  \item Separate $X, y$ and partition with \code{stratify=y}.
+  \item Build Pipeline: Impute \& scale numerical variables; One-hot encode categoricals.
+\end{enumerate}
+\end{frame}
+
+% -------------------------------------------------------------
+% Section: Hands-On Exercises & Self-Assessment
+% -------------------------------------------------------------
+\section{Hands-On Exercises and Self-Assessment}
+
+\begin{frame}[fragile]{Hands-On Coding Exercises}
+\textbf{Exercise 1 (Data Inspection):} Given DataFrame \code{df}, write code to compute the missing percentage of each column and display them sorted in descending order.
+
+\smallgap
+\textbf{Exercise 2 (Missing Data):} Write code to impute missing entries in \code{Income} using the median computed exclusively on \code{X\_train}.
+
+\smallgap
+\textbf{Exercise 3 (IQR Outlier Thresholds):}
+\begin{lstlisting}[style=pythonstyle]
+# Fill in the blanks to compute lower and upper bounds
+q1 = df["Order_Value"].quantile(0.25)
+q3 = df["Order_Value"].quantile(0.75)
+iqr = _________
+lower_bound = _________
+upper_bound = _________
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Concept Review \& Quiz}
+\textbf{Question 1.} When a numerical feature is heavily right-skewed with severe positive outliers, which imputation statistic is most suitable?
+\begin{enumerate}[A.]
+  \item Mean
+  \item Median
+  \item Minimum
+  \item Constant 0
+\end{enumerate}
+
+\smallgap
+\textbf{Question 2.} Which usage of \code{StandardScaler} complies strictly with machine learning best practices?
+\begin{enumerate}[A.]
+  \item \code{scaler.fit\_transform(X\_train)} and \code{scaler.fit\_transform(X\_test)}
+  \item \code{scaler.fit(X)} followed by \code{train\_test\_split(X)}
+  \item \code{scaler.fit\_transform(X\_train)} and \code{scaler.transform(X\_test)}
+  \item \code{scaler.transform(X\_train)} and \code{scaler.fit(X\_test)}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Lecture Summary}
+\begin{itemize}
+  \item \textbf{Data Preprocessing} forms the critical bedrock of all predictive modeling.
+  \item \textbf{Missing Values:} Beware of implicit sentinels ($0, -1, 999$); standardize using \code{SimpleImputer}.
+  \item \textbf{Outliers:} Diagnose using Boxplots and the IQR method; inspect context before deciding to filter or winsorize.
+  \item \textbf{Categorical Encoding:} Utilize One-Hot Encoding with \code{handle\_unknown="ignore"} to ensure inference safety.
+  \item \textbf{Feature Scaling:} Differentiate Min-Max Scaling ($[0,1]$ bounds) and Standardization ($\mu=0, \sigma=1$).
+  \item \textbf{Leakage Prevention:} Always partition Train/Test first; only \code{fit} on Train and \code{transform} Test.
+  \item \textbf{Pipelines \& ColumnTransformer:} Scikit-Learn's core tools to build robust, modular, and leak-free workflows.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{References}
+\begin{enumerate}
+  \item Scikit-Learn Documentation. \textit{Dataset transformations: preprocessing, imputation, pipelines}. \url{https://scikit-learn.org/stable/modules/preprocessing.html}
+  \item Shmueli, G., Bruce, P. C., Deokar, A. V., \& Patel, N. R. (2023). \textit{Machine Learning for Business Analytics: Concepts, Techniques and Applications in RapidMiner}. Wiley (Chapter 2).
+  \item Géron, A. (2022). \textit{Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow} (3rd ed.). O'Reilly Media.
+  \item McKinney, W. (2022). \textit{Python for Data Analysis: Data Wrangling with pandas, NumPy, and Jupyter} (3rd ed.). O'Reilly Media.
+\end{enumerate}
+\end{frame}
+
+\end{document}

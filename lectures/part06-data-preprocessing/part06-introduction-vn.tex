@@ -1,0 +1,1091 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+
+\usetheme{AnnArbor}
+\usecolortheme{dolphin}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+
+\usepackage{fontspec}
+\setmainfont{DejaVu Sans}
+\setsansfont{DejaVu Sans}
+\setmonofont{Consolas}
+
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+
+\definecolor{codegray}{RGB}{245,245,245}
+\definecolor{codeblue}{RGB}{0,65,120}
+\definecolor{darkgreen}{RGB}{0,100,60}
+
+\lstdefinestyle{pythonstyle}{
+  language=Python,
+  basicstyle=\ttfamily\scriptsize,
+  keywordstyle=\color{codeblue}\bfseries,
+  stringstyle=\color{darkgreen},
+  commentstyle=\color{gray},
+  showstringspaces=false,
+  breaklines=true,
+  frame=single,
+  backgroundcolor=\color{codegray},
+  columns=fullflexible
+}
+
+\lstdefinestyle{tinypythonstyle}{
+  language=Python,
+  basicstyle=\ttfamily\tiny,
+  keywordstyle=\color{codeblue}\bfseries,
+  stringstyle=\color{darkgreen},
+  commentstyle=\color{gray},
+  showstringspaces=false,
+  breaklines=true,
+  frame=single,
+  backgroundcolor=\color{codegray},
+  columns=fullflexible
+}
+
+\lstdefinestyle{textstyle}{
+  basicstyle=\ttfamily\scriptsize,
+  showstringspaces=false,
+  breaklines=true,
+  frame=single,
+  backgroundcolor=\color{codegray},
+  columns=fullflexible
+}
+
+\lstset{style=pythonstyle}
+
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\smallgap}{\vspace{0.35em}}
+
+\title[Tiền xử lý Dữ liệu với Python]{Tiền xử lý Dữ liệu với Python}
+\subtitle{Làm sạch, biến đổi và chuẩn hóa dữ liệu cho Phân tích \& Machine Learning}
+\author{DSAI1005 - Phân tích Dữ liệu với Python}
+\institute{Khoa Khoa học Dữ liệu và Trí tuệ Nhân tạo\\Đại học Kinh tế Quốc dân}
+\date{2026}
+
+\AtBeginSection[]{
+  \begin{frame}{Lộ trình bài học}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+\begin{document}
+
+% -------------------------------------------------------------
+% Title Page
+% -------------------------------------------------------------
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% -------------------------------------------------------------
+% Section: Tổng quan về Tiền xử lý Dữ liệu
+% -------------------------------------------------------------
+\section{Tổng quan về Tiền xử lý Dữ liệu}
+
+\begin{frame}{Động lực của bài học}
+Trong thực tế, dữ liệu thu thập được hiếm khi sẵn sàng để đưa ngay vào phân tích hay mô hình học máy:
+\begin{itemize}
+  \item \textbf{Giá trị bị thiếu (Missing values):} do người dùng bỏ trống hoặc lỗi truyền nhận.
+  \item \textbf{Giá trị bất thường (Outliers):} có thể là lỗi nhập liệu hoặc khách hàng đặc biệt.
+  \item \textbf{Định dạng chưa đúng:} số được lưu thành chuỗi, ngày tháng sai định dạng.
+  \item \textbf{Biến phân loại (Categorical variables):} dạng chuỗi cần chuyển thành dạng số.
+  \item \textbf{Thang đo chênh lệch (Scale difference):} thu nhập hàng chục triệu vs.\ tuổi dưới 100.
+  \item \textbf{Mất cân bằng lớp (Class imbalance):} tỷ lệ gian lận hoặc bệnh tật rất thấp.
+\end{itemize}
+
+\smallgap
+\begin{alertblock}{Nguyên tắc cơ bản}
+\textbf{Garbage In, Garbage Out:} Một mô hình phức tạp huấn luyện trên dữ liệu bẩn sẽ cho ra kết quả sai lệch và không đáng tin cậy.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{Vị trí của Tiền xử lý trong Quy trình Học máy}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\begin{center}
+\scriptsize
+\renewcommand{\arraystretch}{0.82}
+\begin{tabular}{c}
+Dữ liệu thô (Raw Data) \\
+$\downarrow$ \\
+\textbf{Kiểm tra \& Làm sạch (Cleaning)} \\
+$\downarrow$ \\
+\textbf{Biến đổi dữ liệu (Transformation)} \\
+$\downarrow$ \\
+Tạo / Chọn đặc trưng (Feature Engineering) \\
+$\downarrow$ \\
+\textbf{Chia tập dữ liệu (Train/Test Split)} \\
+$\downarrow$ \\
+\textbf{Tiền xử lý phù hợp (Scaling/Encoding)} \\
+$\downarrow$ \\
+Huấn luyện mô hình (Model Training) \\
+$\downarrow$ \\
+Đánh giá mô hình (Evaluation)
+\end{tabular}
+\end{center}
+\end{column}
+\begin{column}{0.50\textwidth}
+\textbf{Vai trò then chốt:}
+\begin{itemize}
+  \item Nâng cao chất lượng dữ liệu đầu vào.
+  \item Giảm tác động tiêu cực của nhiễu.
+  \item Giúp các thuật toán hoạt động chính xác.
+  \item \textbf{Hạn chế Data Leakage:} Tránh rò rỉ thông tin từ tập test vào tập train.
+  \item Giúp mô hình dễ diễn giải hơn.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Vì sao thuật toán cần Tiền xử lý?}
+Nhiều thuật toán học máy rất nhạy cảm với thang đo của biến:
+\begin{itemize}
+  \item Giả sử có hai biến: \code{Income} (5.000.000 -- 100.000.000) và \code{Age} (18 -- 70).
+  \item Khi dùng khoảng cách Euclidean:
+  \[
+  d = \sqrt{(\text{Income}_1 - \text{Income}_2)^2 + (\text{Age}_1 - \text{Age}_2)^2}
+  \]
+  \item Biến \code{Income} với độ lớn vượt trội sẽ \textbf{chi phối gần như toàn bộ} khoảng cách, khiến biến \code{Age} mất hoàn toàn ý nghĩa!
+\end{itemize}
+
+\smallgap
+\textbf{Các thuật toán chịu ảnh hưởng mạnh:}
+\begin{itemize}
+  \item k-Nearest Neighbors (k-NN), k-Means Clustering
+  \item Support Vector Machines (SVM)
+  \item Hồi quy có điều chuẩn (Ridge, Lasso Logistic/Linear Regression)
+  \item Mạng nơ-ron nhân tạo (Neural Networks)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Mục tiêu học tập}
+Sau bài học này, người học có thể:
+\begin{enumerate}
+  \item Sử dụng Pandas để kiểm tra cấu trúc, kiểu dữ liệu và giá trị thiếu.
+  \item Phân biệt \textbf{missing value}, \textbf{outlier} và giá trị không hợp lệ.
+  \item Sử dụng thống kê mô tả và biểu đồ (boxplot, histogram) để đánh giá dữ liệu.
+  \item Áp dụng phương pháp IQR để phát hiện ngoại lệ và biết khi nào nên xử lý.
+  \item Xử lý các biến phân loại bằng kỹ thuật \textbf{One-Hot Encoding}.
+  \item Phân biệt và áp dụng đúng \textbf{Normalization} (Min-Max) và \textbf{Standardization} (Z-score).
+  \item Hiểu nguyên tắc \textbf{chống Data Leakage}: Các phép biến đổi phải được học từ \textbf{Training set}.
+  \item Xây dựng quy trình tiền xử lý hoàn chỉnh bằng \textbf{ColumnTransformer} và \textbf{Pipeline} của scikit-learn.
+\end{enumerate}
+\end{frame}
+
+% -------------------------------------------------------------
+% Section: Bước 1 & 2 - Nạp & Kiểm tra cấu trúc dữ liệu
+% -------------------------------------------------------------
+\section{Bước 1 \& 2 — Nạp và Kiểm tra Cấu trúc Dữ liệu}
+
+\begin{frame}[fragile]{Bước 1: Import thư viện và nạp dữ liệu}
+Bộ dữ liệu minh họa: \code{diabetes.csv} (Bộ dữ liệu chẩn đoán bệnh tiểu đường).
+
+\begin{lstlisting}[style=pythonstyle]
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
+from sklearn.impute import SimpleImputer
+
+# Doc du lieu
+df = pd.read_csv("diabetes.csv")
+df.head()
+\end{lstlisting}
+
+\smallgap
+\code{df.head()} giúp quan sát 5 dòng đầu tiên: nhận diện tên cột, kiểu dữ liệu sơ bộ và các điểm bất thường dễ thấy.
+\end{frame}
+
+\begin{frame}{Kết quả nạp dữ liệu ban đầu}
+\begin{center}
+  \includegraphics[width=0.92\textwidth,max height=0.68\textheight,keepaspectratio]{images/image.png}
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Các lệnh kiểm tra nhanh cấu trúc}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\textbf{Kích thước và danh sách cột:}
+\begin{lstlisting}[style=pythonstyle]
+# So dong va so cot
+df.shape
+# Tra ve: (768, 9)
+
+# Danh sach ten cot
+df.columns
+
+# Kiem tra tong so phan tu
+df.size
+\end{lstlisting}
+\end{column}
+\begin{column}{0.48\textwidth}
+\textbf{Quan sát các mẫu dữ liệu:}
+\begin{lstlisting}[style=pythonstyle]
+# 10 dong dau tien
+df.head(10)
+
+# 5 dong cuoi cung
+df.tail()
+
+# 5 dong ngau nhien
+df.sample(5)
+\end{lstlisting}
+\end{column}
+\end{columns}
+
+\smallgap
+\begin{block}{Lưu ý}
+Quan sát \code{df.sample(5)} thường khách quan hơn chỉ xem \code{head()} hoặc \code{tail()} vì dữ liệu thực tế có thể đã bị sắp xếp theo một thứ tự cụ thể.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Bước 2: Kiểm tra kiểu dữ liệu với \texttt{df.info()}}
+\code{df.info()} cung cấp tổng quan về: số lượng dòng, số cột, tên cột, số giá trị non-null, kiểu dữ liệu (\code{dtype}) và dung lượng bộ nhớ.
+
+\begin{lstlisting}[style=pythonstyle]
+df.info()
+\end{lstlisting}
+
+\smallgap
+\begin{tabularx}{\textwidth}{lX}
+\toprule
+\textbf{Kiểu dữ liệu phổ biến} & \textbf{Ý nghĩa} \\
+\midrule
+\code{int64} & Số nguyên (tuổi, số lượng đơn hàng, đếm) \\
+\code{float64} & Số thực (doanh thu, nồng độ, trọng lượng, tỷ lệ) \\
+\code{object} & Thường là chuỗi văn bản hoặc dữ liệu hỗn hợp \\
+\code{bool} & Giá trị logic True/False \\
+\code{datetime64} & Thời gian (ngày, giờ giao dịch) \\
+\code{category} & Biến phân loại có số lượng nhóm hữu hạn \\
+\bottomrule
+\end{tabularx}
+\end{frame}
+
+\begin{frame}[fragile]{Kiểm tra giá trị thiếu (Missing Values)}
+Kiểm tra số lượng và tỷ lệ giá trị thiếu theo từng cột:
+\begin{lstlisting}[style=pythonstyle]
+# Dem so gia tri thieu theo tung cot
+df.isna().sum()      # Hoac df.isnull().sum()
+
+# Tinh ty le phan tram gia tri thieu
+missing_rate = df.isna().mean() * 100
+print(missing_rate)
+\end{lstlisting}
+
+\begin{center}
+  \includegraphics[width=0.62\textwidth,max height=0.45\textheight,keepaspectratio]{images/image-1.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{Cảnh báo quan trọng: Giá trị thiếu tiềm ẩn}
+\begin{alertblock}{Missing value không phải lúc nào cũng là \texttt{NaN}!}
+Trong thực tế, nhiều hệ thống ghi nhận giá trị thiếu bằng các mã quy ước:
+\[
+\mathbf{0}, \quad -\mathbf{1}, \quad \mathbf{999}, \quad \text{"\textbf{Unknown}"}, \quad \text{"\textbf{N/A}"}, \quad \text{"\textbf{?}"}
+\]
+\end{alertblock}
+
+\smallgap
+\textbf{Ví dụ trong tập dữ liệu Y tế (\code{diabetes.csv}):}
+\begin{itemize}
+  \item Các biến sinh học như \code{Glucose}, \code{BloodPressure}, \code{SkinThickness}, \code{Insulin}, \code{BMI} có giá trị bằng \textbf{0}.
+  \item Về mặt y khoa, một người sống không thể có huyết áp hay đường huyết bằng 0!
+  \item Đây thực chất là \textbf{dữ liệu bị thiếu} nhưng được lưu dưới dạng số 0.
+\end{itemize}
+
+\textbf{Ví dụ trong Kinh doanh:}
+\begin{itemize}
+  \item \code{Age = 0} hoặc \code{Age = -1}; \code{Delivery\_Time = 999} ngày; \code{Revenue = 0}.
+\end{itemize}
+\end{frame}
+
+% -------------------------------------------------------------
+% Section: Bước 3 & 4 - Thống kê mô tả & Phát hiện ngoại lệ
+% -------------------------------------------------------------
+\section{Bước 3 \& 4 — Thống kê Mô tả và Phát hiện Ngoại lệ}
+
+\begin{frame}[fragile]{Bước 3: Thống kê mô tả với \texttt{df.describe()}}
+\begin{lstlisting}[style=pythonstyle]
+# Thong ke mo ta cho cac bien so
+df.describe()
+
+# Thong ke mo ta cho toan bo cac bien (bao gom ca categorical)
+df.describe(include="all")
+\end{lstlisting}
+
+\smallgap
+\textbf{Các chỉ số then chốt cần quan sát:}
+\begin{itemize}
+  \item \textbf{\code{min} và \code{max}:} Có nằm ngoài khoảng giá trị hợp lý không? (Ví dụ: \code{Age} có $\min = -3$ hoặc $\max = 245$).
+  \item \textbf{\code{mean} (trung bình) vs.\ \code{50\%} (trung vị - median):}
+  \begin{itemize}
+    \item Nếu $\text{mean} \approx \text{median}$: phân phối tương đối đối xứng.
+    \item Nếu $\text{mean} \gg \text{median}$: phân phối lệch phải (right-skewed), có sự hiện diện của các giá trị cực lớn kéo trung bình lên.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Bước 4: Trực quan hóa ngoại lệ bằng Boxplot}
+\textbf{Boxplot} là công cụ hàng đầu để nhận diện hình dạng phân phối và các điểm dị biệt:
+\begin{lstlisting}[style=pythonstyle]
+# Ve boxplot cho 1 bien
+plt.figure(figsize=(8, 3))
+plt.boxplot(df["Insulin"].dropna(), vert=False)
+plt.xlabel("Insulin")
+plt.title("Boxplot of Insulin")
+plt.show()
+
+# Ve boxplot cho tat ca cac bien so tren subplots
+numeric_cols = df.select_dtypes(include=np.number).columns
+fig, axes = plt.subplots(len(numeric_cols), 1, figsize=(8, 2.5 * len(numeric_cols)))
+for i, col in enumerate(numeric_cols):
+    axes[i].boxplot(df[col].dropna(), vert=False)
+    axes[i].set_title(col)
+plt.tight_layout()
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Biểu đồ Boxplot của các biến số}
+\begin{center}
+  \includegraphics[width=0.68\textwidth,max height=0.72\textheight,keepaspectratio]{images/image-2.png}
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Biểu đồ Histogram \& Đánh giá Phân phối}
+Histogram kết hợp đường cong mật độ (KDE) giúp quan sát cụ thể độ lệch:
+\begin{lstlisting}[style=pythonstyle]
+# Ve bang Pandas
+df["Insulin"].hist(bins=30)
+plt.xlabel("Insulin")
+plt.ylabel("Tan suat")
+plt.show()
+
+# Ve bang Seaborn co duong KDE
+sns.histplot(data=df, x="Insulin", kde=True)
+plt.title("Phan phoi bien Insulin")
+plt.show()
+\end{lstlisting}
+
+\smallgap
+\begin{block}{Nhận xét}
+Nếu phân phối bị lệch nặng (heavy-tailed / skewed), việc áp dụng phép biến đổi logarit hoặc chuẩn hóa bằng trung vị (median) thường hiệu quả hơn trung bình (mean).
+\end{block}
+\end{frame}
+
+\begin{frame}{Ngoại lệ (Outlier) là gì?}
+\textbf{Outlier} là quan sát nằm xa phần lớn các điểm dữ liệu còn lại trong tập dữ liệu.
+
+\smallgap
+\begin{alertblock}{Lưu ý cốt lõi}
+\centering
+\textbf{Outlier KHÔNG ĐỒNG NGHĨA với dữ liệu sai!}
+\end{alertblock}
+
+\smallgap
+\textbf{Ví dụ trong thực tế:}
+\begin{itemize}
+  \item Một khách hàng VIP chi tiêu 500 triệu đồng trong khi đa số khách hàng chỉ chi tiêu 2 triệu đồng.
+  \item Một đơn hàng vận chuyển quốc tế mất 45 ngày so với trung bình 3 ngày.
+  \item Trong \textbf{Phát hiện gian lận (Fraud Detection)}, các giao dịch bất thường chính là mục tiêu quan trọng nhất cần tìm kiếm!
+\end{itemize}
+
+\textbf{Quy tắc:} Mục tiêu đầu tiên luôn là \textbf{phát hiện và điều tra nguyên nhân}, tuyệt đối không tự động xóa bỏ mà không hiểu ngữ cảnh bài toán.
+\end{frame}
+
+% -------------------------------------------------------------
+% Section: Bước 5 - Phương pháp IQR
+% -------------------------------------------------------------
+\section{Bước 5 — Phát hiện Ngoại lệ bằng Phương pháp IQR}
+
+\begin{frame}{Công thức Interquartile Range (IQR)}
+Phương pháp IQR dựa trên tứ phân vị, không bị ảnh hưởng bởi các giá trị cực trị:
+\begin{itemize}
+  \item $Q_1$ (Phân vị 25\%): 25\% dữ liệu nhỏ hơn giá trị này.
+  \item $Q_3$ (Phân vị 75\%): 75\% dữ liệu nhỏ hơn giá trị này.
+\end{itemize}
+
+\begin{block}{Độ trải giữa (IQR) và Ngưỡng xác định}
+\[
+IQR = Q_3 - Q_1
+\]
+\[
+\text{Ngưỡng dưới (Lower Bound)} = Q_1 - 1.5 \times IQR
+\]
+\[
+\text{Ngưỡng trên (Upper Bound)} = Q_3 + 1.5 \times IQR
+\]
+\end{block}
+
+\smallgap
+Các giá trị nằm ngoài đoạn $[\text{Lower}, \text{Upper}]$ được coi là điểm ngoại lệ tiềm năng.
+\end{frame}
+
+\begin{frame}[fragile]{Cài đặt phương pháp IQR trong Python}
+\begin{lstlisting}[style=pythonstyle]
+# Tinh Q1, Q3 va IQR
+q1, q3 = np.percentile(df["Insulin"].dropna(), [25, 75])
+iqr = q3 - q1
+
+lower = q1 - 1.5 * iqr
+upper = q3 + 1.5 * iqr
+
+print(f"Nguong duoi: {lower:.2f} | Nguong tren: {upper:.2f}")
+
+# Loc ra cac quan sat ngoai le
+outliers = df[(df["Insulin"] < lower) | (df["Insulin"] > upper)]
+print("So luong ngoai le:", len(outliers))
+
+# Neu co ly do hop ly de loai bo:
+clean_df = df[(df["Insulin"] >= lower) & (df["Insulin"] <= upper)].copy()
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{5 Câu hỏi trước khi xử lý Ngoại lệ}
+Trước khi quyết định xử lý một điểm ngoại lệ, người phân tích cần tự hỏi:
+\begin{enumerate}
+  \item Giá trị này có \textbf{bất khả thi về mặt nghiệp vụ} không? (Ví dụ: Tuổi = -5 hay 200 tuổi).
+  \item Có phải là \textbf{lỗi nhập liệu} hoặc lỗi hệ thống ghi nhận không? (Ví dụ: gõ thêm số 0).
+  \item Có sự \textbf{sai lệch về đơn vị đo} không? (Ví dụ: gram vs.\ kilogram, VNĐ vs.\ USD).
+  \item Ngoại lệ có phải chính là \textbf{đối tượng mục tiêu} cần phát hiện không? (Gian lận thẻ tín dụng, lỗi động cơ máy bay).
+  \item Việc xóa có làm \textbf{mất đi một phân khúc quan trọng} của bài toán không?
+\end{enumerate}
+
+\smallgap
+\textbf{Các phương án xử lý ngoài việc xóa bỏ:}
+\begin{itemize}
+  \item Giữ nguyên và dùng mô hình ít nhạy với outlier (Decision Tree, Random Forest).
+  \item Cắt ngọn (Winsorization / Capping) đưa về ngưỡng $\text{Lower} / \text{Upper}$.
+  \item Biến đổi dữ liệu (Log transform, Box-Cox) để thu hẹp độ phân tán.
+\end{itemize}
+\end{frame}
+
+% -------------------------------------------------------------
+% Section: Bước 6 - Xử lý giá trị thiếu
+% -------------------------------------------------------------
+\section{Bước 6 — Xử lý Giá trị Thiếu (Missing Data)}
+
+\begin{frame}[fragile]{Các chiến lược xử lý Missing Data cơ bản}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\textbf{1. Loại bỏ dòng hoặc cột:}
+\begin{lstlisting}[style=pythonstyle]
+# Xoa tat ca dong co gia tri thieu
+df_clean = df.dropna()
+
+# Xoa cac dong thieu o cot cu the
+df_clean = df.dropna(subset=["Age"])
+
+# Xoa cot neu thieu qua nhieu (>60%)
+df_clean = df.drop(columns=["Col"])
+\end{lstlisting}
+\textit{Chỉ nên drop khi tỷ lệ thiếu rất nhỏ và không làm sai lệch phân phối.}
+\end{column}
+\begin{column}{0.48\textwidth}
+\textbf{2. Điền giá trị thống kê (Imputation):}
+\begin{lstlisting}[style=pythonstyle]
+# Dien bang Trung binh (Mean)
+df["Age"] = df["Age"].fillna(
+    df["Age"].mean()
+)
+
+# Dien bang Trung vi (Median) - tot khi co outlier
+df["Income"] = df["Income"].fillna(
+    df["Income"].median()
+)
+
+# Dien bien phan loai bang Mode
+df["City"] = df["City"].fillna(
+    df["City"].mode()[0]
+)
+\end{lstlisting}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{\texttt{SimpleImputer} trong Scikit-Learn}
+Scikit-Learn cung cấp lớp \code{SimpleImputer} chuẩn hóa việc điền dữ liệu:
+\begin{lstlisting}[style=pythonstyle]
+from sklearn.impute import SimpleImputer
+
+# Chien luoc dien trung vi cho bien so
+imputer_num = SimpleImputer(strategy="median")
+
+# Chien luoc dien yeu vi cho bien phan loai
+imputer_cat = SimpleImputer(strategy="most_frequent")
+
+# Chien luoc dien hang so
+imputer_const = SimpleImputer(strategy="constant", fill_value="Unknown")
+\end{lstlisting}
+
+\smallgap
+\textbf{Các tham số chính:}
+\begin{itemize}
+  \item \code{strategy}: \code{"mean"}, \code{"median"}, \code{"most\_frequent"}, \code{"constant"}.
+  \item \code{fill\_value}: Giá trị cần điền khi dùng chiến lược \code{"constant"}.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Cảnh báo quan trọng: Data Leakage khi Imputation}
+\begin{alertblock}{Quy tắc phòng chống rò rỉ dữ liệu (Data Leakage)}
+\textbf{KHÔNG BAO GIỜ} tính \code{mean} hay \code{median} trên toàn bộ tập dữ liệu rồi điền cho cả tập train và test!
+\end{alertblock}
+
+\smallgap
+\begin{center}
+\large
+\[
+\text{Dữ liệu Train} \longrightarrow \text{Học tham số (median)} \longrightarrow \text{Điền cho cả Train \& Test}
+\]
+\end{center}
+
+\smallgap
+\textbf{Lý do then chốt:}
+\begin{itemize}
+  \item Tập test đóng vai trò là dữ liệu mới trong tương lai.
+  \item Nếu sử dụng thông tin của tập test để tính toán tham số tiền xử lý, mô hình sẽ đạt kết quả đánh giá quá lạc quan nhưng hoạt động kém khi triển khai thực tế.
+\end{itemize}
+\end{frame}
+
+% -------------------------------------------------------------
+% Section: Bước 7 - Xử lý biến phân loại
+% -------------------------------------------------------------
+\section{Bước 7 — Xử lý Biến Phân loại (Categorical Encoding)}
+
+\begin{frame}[fragile]{Vì sao cần mã hóa biến phân loại?}
+Hầu hết các thuật toán học máy (Linear/Logistic Regression, Neural Networks, SVM) đều tính toán trên ma trận số. Do đó, các biến phân loại:
+\[
+\code{Region} \in \{\text{"North"}, \text{"Central"}, \text{"South"}\}
+\]
+cần được chuyển hóa thành các cột nhị phân (0 và 1).
+
+\smallgap
+\textbf{Cách 1: One-Hot Encoding bằng Pandas (\code{pd.get\_dummies})}
+\begin{lstlisting}[style=pythonstyle]
+# drop_first=True de tranh da cong tuyen (dummy variable trap)
+df_encoded = pd.get_dummies(df, columns=["Region"], drop_first=True)
+\end{lstlisting}
+
+\smallgap
+\begin{tabularx}{\textwidth}{lXXX}
+\toprule
+\textbf{Region (Gốc)} & \textbf{Region\_Central} & \textbf{Region\_North} & \textbf{Region\_South} (Bị bỏ nếu \code{drop\_first}) \\
+\midrule
+Central & 1 & 0 & 0 \\
+North & 0 & 1 & 0 \\
+South & 0 & 0 & 1 \\
+\bottomrule
+\end{tabularx}
+\end{frame}
+
+\begin{frame}[fragile]{\texttt{OneHotEncoder} trong Scikit-Learn}
+Trong quy trình học máy chuyên nghiệp, nên dùng \code{OneHotEncoder} của scikit-learn:
+
+\begin{lstlisting}[style=pythonstyle]
+from sklearn.preprocessing import OneHotEncoder
+
+# handle_unknown='ignore' rat quan trong khi gap nhan moi o tap Test
+encoder = OneHotEncoder(handle_unknown="ignore", sparse_output=False)
+
+# Hoc cac categories tu tap train va bien doi
+X_train_encoded = encoder.fit_transform(X_train[["Region"]])
+X_test_encoded = encoder.transform(X_test[["Region"]])
+\end{lstlisting}
+
+\smallgap
+\begin{block}{Tại sao \texttt{handle\_unknown="ignore"} lại hữu ích?}
+Nếu tập Test xuất hiện một giá trị mới (ví dụ: \code{"Highlands"}) chưa từng có trong tập Train, \code{pd.get\_dummies} sẽ tạo số lượng cột khác nhau hoặc gây lỗi mô hình, còn \code{handle\_unknown="ignore"} sẽ gán toàn bộ số 0 cho các cột tương ứng một cách an toàn.
+\end{block}
+\end{frame}
+
+% -------------------------------------------------------------
+% Section: Bước 8 & 9 - Phân tích Tương quan & Biến mục tiêu
+% -------------------------------------------------------------
+\section{Bước 8 \& 9 — Phân tích Tương quan và Biến Mục tiêu}
+
+\begin{frame}[fragile]{Bước 8: Phân tích Tương quan (Correlation Analysis)}
+Hệ số tương quan tuyến tính Pearson $r \in [-1, 1]$:
+\begin{lstlisting}[style=pythonstyle]
+# Tinh ma tran tuong quan cho cac bien so
+corr = df.corr(numeric_only=True)
+
+# Truc quan hoa bang Heatmap
+plt.figure(figsize=(9, 7))
+sns.heatmap(corr, annot=True, fmt=".2f", cmap="coolwarm")
+plt.title("Correlation Matrix")
+plt.show()
+
+# Kiem tra tuong quan voi bien muc tieu Outcome
+corr["Outcome"].sort_values(ascending=False)
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Kết quả Tương quan với Biến mục tiêu}
+\begin{columns}[c]
+\begin{column}{0.48\textwidth}
+\begin{center}
+  \includegraphics[width=\textwidth,max height=0.70\textheight,keepaspectratio]{images/image-3.png}
+\end{center}
+\end{column}
+\begin{column}{0.50\textwidth}
+\textbf{Nhận xét từ kết quả:}
+\begin{itemize}
+  \item \code{Glucose} ($r = 0.47$) và \code{BMI} ($r = 0.29$) có tương quan thuận mạnh nhất với bệnh tiểu đường (\code{Outcome}).
+  \item \code{Age} ($r = 0.24$) cũng có mối quan hệ tích cực.
+  \item \textbf{Cảnh báo:} Tương quan cao giữa 2 biến đầu vào có thể gây \textbf{đa cộng tuyến}.
+  \item Tương quan thấp không đồng nghĩa biến vô dụng vì quan hệ có thể là phi tuyến.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Bước 9: Kiểm tra Phân phối Biến mục tiêu (Target Distribution)}
+Đối với bài toán phân loại, kiểm tra tỷ lệ giữa các lớp là bắt buộc:
+\begin{lstlisting}[style=pythonstyle]
+# Dem so luong va ty le
+print(df["Outcome"].value_counts())
+print(df["Outcome"].value_counts(normalize=True))
+
+# Truc quan hoa bang countplot hoac pie chart
+counts = df["Outcome"].value_counts()
+plt.pie(counts.values, labels=counts.index, autopct="%.1f%%")
+plt.title("Outcome Distribution")
+plt.show()
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Phân phối Lớp trong \texttt{diabetes.csv}}
+\begin{center}
+  \includegraphics[width=0.52\textwidth,max height=0.58\textheight,keepaspectratio]{images/image-4.png}
+\end{center}
+
+\smallgap
+\begin{itemize}
+  \item Lớp 0 (Không mắc bệnh): 65.1\% | Lớp 1 (Mắc bệnh): 34.9\%.
+  \item Dữ liệu có sự mất cân bằng nhẹ. Nếu dữ liệu mất cân bằng nghiêm trọng (ví dụ 99\% vs 1\%), chỉ số Accuracy sẽ mất ý nghĩa, cần dùng \textbf{Precision, Recall, F1-score, ROC-AUC} và chia tập theo \textbf{Stratified Sampling}.
+\end{itemize}
+\end{frame}
+
+% -------------------------------------------------------------
+% Section: Bước 10 & 11 - Phân tách Train/Test & Data Leakage
+% -------------------------------------------------------------
+\section{Bước 10 \& 11 — Tách Features/Target và Chia Train/Test}
+
+\begin{frame}[fragile]{Bước 10: Tách Biến đầu vào ($X$) và Biến mục tiêu ($y$)}
+\begin{lstlisting}[style=pythonstyle]
+# X la ma tran cac dac trung (features)
+X = df.drop(columns=["Outcome"])
+
+# y la vector bien muc tieu can du doan (target)
+y = df["Outcome"]
+
+print("Kich thuoc X:", X.shape)
+print("Kich thuoc y:", y.shape)
+\end{lstlisting}
+
+\smallgap
+\textbf{Ý nghĩa:}
+\begin{itemize}
+  \item $X$ đại diện cho thông tin quan sát được tại thời điểm đưa ra quyết định.
+  \item $y$ là nhãn cần dự báo.
+  \item Đảm bảo trong $X$ không chứa thông tin của $y$ hoặc các biến chỉ xuất hiện sau khi $y$ đã xảy ra (\textbf{Target Leakage}).
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Bước 11: Chia Training Set và Test Set}
+\begin{lstlisting}[style=pythonstyle]
+from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y,
+    test_size=0.2,       # 20% giu lai lam tap test
+    random_state=42,     # Co dinh seed de tai lap ket qua
+    stratify=y           # Giu nguyen ty le cac lop giua train va test
+)
+\end{lstlisting}
+
+\smallgap
+\textbf{Giải thích các tham số quan trọng:}
+\begin{itemize}
+  \item \code{test\_size=0.2}: 80\% dữ liệu dùng để học, 20\% dùng để kiểm định khách quan.
+  \item \code{random\_state=42}: Đảm bảo mỗi lần chạy đều phân chia giống nhau.
+  \item \code{stratify=y}: Đảm bảo tỷ lệ người mắc bệnh trong cả tập Train và Test đều giữ nguyên ở mức $\approx 35\%$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Nguyên tắc Vàng: Vì sao phải chia trước khi Scaling?}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\begin{alertblock}{SAI LẦM (Gây Data Leakage)}
+\begin{lstlisting}[style=pythonstyle]
+scaler = StandardScaler()
+# Scaler hoc tren TOAN BO du lieu
+X_scaled = scaler.fit_transform(X)
+
+# Sau do moi chia train/test
+X_tr, X_te = train_test_split(X_scaled)
+\end{lstlisting}
+$\rightarrow$ Giá trị trung bình $\mu$ và độ lệch chuẩn $\sigma$ của tập Test đã bị rò rỉ vào quá trình học!
+\end{alertblock}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{block}{CÁCH LÀM ĐÚNG}
+\begin{lstlisting}[style=pythonstyle]
+# Chia train/test truoc
+X_tr, X_te, y_tr, y_te = (
+    train_test_split(X, y, test_size=0.2)
+)
+
+scaler = StandardScaler()
+# CHI fit tren Train
+X_tr_scaled = scaler.fit_transform(X_tr)
+# Test CHI duoc transform
+X_te_scaled = scaler.transform(X_te)
+\end{lstlisting}
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+% -------------------------------------------------------------
+% Section: Bước 12 - Feature Scaling
+% -------------------------------------------------------------
+\section{Bước 12 — Chuẩn hóa Đặc trưng (Feature Scaling)}
+
+\begin{frame}{Hai kỹ thuật chuẩn hóa đặc trưng cốt lõi}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\textbf{1. Min-Max Scaling (Normalization)}
+Đưa dữ liệu về đoạn cố định, thường là $[0, 1]$:
+\[
+x' = \frac{x - x_{\min}}{x_{\max} - x_{\min}}
+\]
+\begin{itemize}
+  \item Giá trị nhỏ nhất biến thành $0$.
+  \item Giá trị lớn nhất biến thành $1$.
+  \item Rất nhạy cảm với các điểm ngoại lệ (vì $x_{\min}$ và $x_{\max}$ bị kéo giãn).
+\end{itemize}
+\end{column}
+\begin{column}{0.48\textwidth}
+\textbf{2. Standardization (Z-score)}
+Biến đổi dữ liệu có trung bình $0$ và độ lệch chuẩn $1$:
+\[
+z = \frac{x - \mu}{\sigma}
+\]
+\begin{itemize}
+  \item Không giới hạn miền giá trị cố định.
+  \item Ít bị chi phối bởi outlier hơn Min-Max.
+  \item Không biến phân phối thành phân phối chuẩn nếu gốc không chuẩn!
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Thực hành Min-Max Scaling \& Kết quả}
+\begin{lstlisting}[style=pythonstyle]
+from sklearn.preprocessing import MinMaxScaler
+
+minmax_scaler = MinMaxScaler()
+X_train_norm = minmax_scaler.fit_transform(X_train)
+X_test_norm = minmax_scaler.transform(X_test)
+\end{lstlisting}
+
+\begin{center}
+  \includegraphics[width=0.82\textwidth,max height=0.58\textheight,keepaspectratio]{images/image-5.png}
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Thực hành Standardization \& Kết quả}
+\begin{lstlisting}[style=pythonstyle]
+from sklearn.preprocessing import StandardScaler
+
+standard_scaler = StandardScaler()
+X_train_std = standard_scaler.fit_transform(X_train)
+X_test_std = standard_scaler.transform(X_test)
+\end{lstlisting}
+
+\begin{center}
+  \includegraphics[width=0.82\textwidth,max height=0.58\textheight,keepaspectratio]{images/image-6.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{So sánh Min-Max Scaling và Standardization}
+\small
+\begin{tabularx}{\textwidth}{lXX}
+\toprule
+\textbf{Tiêu chí} & \textbf{Min-Max Scaling} & \textbf{Standardization} \\
+\midrule
+\textbf{Công thức} & $\frac{x - x_{\min}}{x_{\max} - x_{\min}}$ & $\frac{x - \mu}{\sigma}$ \\
+\textbf{Phạm vi giá trị} & Thường là $[0, 1]$ & Không giới hạn cố định \\
+\textbf{Trung bình} & Không nhất thiết bằng $0$ & Bằng $0$ trên tập Train \\
+\textbf{Độ lệch chuẩn} & Thay đổi theo dữ liệu & Bằng $1$ trên tập Train \\
+\textbf{Độ nhạy Outlier} & \textbf{Rất cao} & Trung bình \\
+\textbf{Ứng dụng tiêu biểu} & Thuật toán cần khoảng bounded, ảnh (0--255), k-NN & Ridge/Lasso, SVM, PCA, Neural Networks \\
+\bottomrule
+\end{tabularx}
+\end{frame}
+
+\begin{frame}{Mô hình nào cần Feature Scaling?}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\begin{block}{CẦN Feature Scaling}
+Các mô hình tính khoảng cách hoặc dùng đạo hàm để cập nhật trọng số:
+\begin{itemize}
+  \item k-Nearest Neighbors (k-NN)
+  \item k-Means Clustering
+  \item Support Vector Machines (SVM)
+  \item Principal Component Analysis (PCA)
+  \item Hồi quy tuyến tính có Regularization
+  \item Mạng Nơ-ron (Deep Learning)
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{block}{KHÔNG CẦN Feature Scaling}
+Các mô hình dựa trên Cây quyết định:
+\begin{itemize}
+  \item Decision Trees
+  \item Random Forests
+  \item Gradient Boosted Trees (XGBoost, LightGBM, CatBoost)
+\end{itemize}
+\smallgap
+\textit{Lý do:} Cây phân nhánh dựa trên thứ tự giá trị của từng đặc trưng độc lập, hoàn toàn không bị ảnh hưởng bởi độ lớn thang đo.
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+% -------------------------------------------------------------
+% Section: Bước 13 - ColumnTransformer & Pipeline
+% -------------------------------------------------------------
+\section{Bước 13 — Xây dựng Pipeline Tiền xử lý Chuyên nghiệp}
+
+\begin{frame}[fragile]{Xử lý Dữ liệu Hỗn hợp với \texttt{ColumnTransformer}}
+Dữ liệu thực tế thường gồm cả biến số và biến phân loại:
+\begin{lstlisting}[style=tinypythonstyle]
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+
+# Pipeline cho bien so: Dien median -> Chuan hoa Z-score
+numeric_transformer = Pipeline(steps=[
+    ("imputer", SimpleImputer(strategy="median")),
+    ("scaler", StandardScaler())
+])
+
+# Pipeline cho bien phan loai: Dien mode -> One-Hot Encoding
+categorical_transformer = Pipeline(steps=[
+    ("imputer", SimpleImputer(strategy="most_frequent")),
+    ("onehot", OneHotEncoder(handle_unknown="ignore"))
+])
+
+# Ket hop bang ColumnTransformer
+preprocessor = ColumnTransformer(transformers=[
+    ("num", numeric_transformer, ["Age", "Income", "Order_Value"]),
+    ("cat", categorical_transformer, ["Region", "Customer_Type"])
+])
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Tích hợp toàn bộ vào \texttt{Pipeline} Học máy}
+Đóng gói toàn bộ Tiền xử lý và Mô hình dự báo:
+\begin{lstlisting}[style=pythonstyle]
+from sklearn.linear_model import LogisticRegression
+
+# Dong goi preprocessor va model vao Pipeline chung
+full_pipeline = Pipeline(steps=[
+    ("preprocessor", preprocessor),
+    ("classifier", LogisticRegression(max_iter=1000))
+])
+
+# Huan luyen: Scikit-learn tu dong fit tren train, khong leak du lieu!
+full_pipeline.fit(X_train, y_train)
+
+# Du doan tren tap test
+y_pred = full_pipeline.predict(X_test)
+\end{lstlisting}
+
+\smallgap
+\textbf{Lợi ích vượt trội của Pipeline:}
+\begin{enumerate}
+  \item Loại bỏ hoàn toàn nguy cơ rò rỉ dữ liệu (Data Leakage).
+  \item Mã nguồn ngắn gọn, tường minh và dễ bảo trì.
+  \item Triển khai dự báo trên dữ liệu mới (production) an toàn tuyệt đối.
+\end{enumerate}
+\end{frame}
+
+% -------------------------------------------------------------
+% Section: Quy trình tổng quát & Case Study
+% -------------------------------------------------------------
+\section{Quy trình Tổng quát \& Các Bẫy Sai sót Phổ biến}
+
+\begin{frame}{Quy trình Tiền xử lý Dữ liệu Chuẩn mực}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\textbf{Trình tự 10 bước an toàn:}
+\begin{enumerate}
+  \item \textbf{Understand:} Hiểu bài toán và ngữ cảnh.
+  \item \textbf{Inspect:} Kiểm tra shape, info, dtypes.
+  \item \textbf{Explore (EDA):} Thống kê mô tả, boxplot, heatmap.
+  \item \textbf{Split:} Chia Train/Validation/Test.
+  \item \textbf{Handle Missing:} Điền dữ liệu trên Train.
+  \item \textbf{Encode:} Mã hóa biến phân loại.
+  \item \textbf{Scale:} Chuẩn hóa thang đo biến số.
+  \item \textbf{Pipeline:} Đóng gói các bước biến đổi.
+  \item \textbf{Model:} Huấn luyện mô hình học máy.
+  \item \textbf{Evaluate:} Đánh giá trên tập Test.
+\end{enumerate}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{block}{Sơ đồ luồng an toàn}
+\scriptsize
+\begin{center}
+Dữ liệu Thô \\
+$\downarrow$ \\
+\textbf{Train / Test Split} \\
+$\downarrow$ \\
+\textbf{Fit Preprocessing trên Train} \\
+$\downarrow$ \\
+Transform tập Train \\
+$\downarrow$ \\
+Huấn luyện Mô hình \\
+$\downarrow$ \\
+Transform tập Test theo tham số Train \\
+$\downarrow$ \\
+Đánh giá Mô hình Khách quan
+\end{center}
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Những lỗi phổ biến khi Tiền xử lý (Phần 1: Dữ liệu \& Ngoại lệ)}
+\begin{enumerate}
+  \item \textbf{Tự động xóa mọi Outlier:}
+  \begin{itemize}
+    \item Sai vì ngoại lệ có thể là quan sát hoàn toàn hợp lệ hoặc là mục tiêu chính cần phát hiện (ví dụ: giao dịch gian lận).
+  \end{itemize}
+  \item \textbf{Chỉ kiểm tra \texttt{isna()}:}
+  \begin{itemize}
+    \item Bỏ sót các giá trị thiếu ngầm định ($0, -1, 999$, "?", "Unknown").
+  \end{itemize}
+  \item \textbf{Chuẩn hóa cả biến mục tiêu ($y$):}
+  \begin{itemize}
+    \item Với bài toán phân loại, $y$ là nhãn nhị phân ($0/1$), không được scale.
+  \end{itemize}
+  \item \textbf{Loại bỏ biến chỉ vì tương quan tuyến tính thấp:}
+  \begin{itemize}
+    \item Tương quan Pearson chỉ đo mối quan hệ tuyến tính; biến có thể chứa thông tin phi tuyến rất quan trọng.
+  \end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Những lỗi phổ biến khi Tiền xử lý (Phần 2: Leakage \& Đánh giá)}
+\begin{enumerate}
+  \setcounter{enumi}{4}
+  \item \textbf{Fit Scaler / Imputer trước khi chia Train/Test:}
+  \begin{itemize}
+    \item Đây là dạng \textbf{Data Leakage} phổ biến nhất, khiến kết quả đánh giá mô hình bị sai lệch so với thực tế.
+  \end{itemize}
+  \item \textbf{Chọn biến có tương quan quá cao với $y$:}
+  \begin{itemize}
+    \item Nguy cơ \textbf{Target Leakage} (ví dụ biến \code{Sales\_Tax} được tính trực tiếp từ doanh số cần dự báo \code{Total\_Sales}).
+  \end{itemize}
+  \item \textbf{Xử lý tập Train và tập Test bằng các quy tắc khác nhau:}
+  \begin{itemize}
+    \item Gây sai lệch phân phối (distribution drift), mô hình dự đoán sai hoàn toàn khi triển khai trên dữ liệu mới.
+  \end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Case Study: Dự đoán Khách hàng Rời bỏ (Churn)}
+\textbf{Tập dữ liệu doanh nghiệp viễn thông:}
+\begin{itemize}
+  \item \code{Customer\_ID, Age, Monthly\_Spending, Tenure\_Months, Region, Support\_Calls, Churn}
+\end{itemize}
+
+\textbf{Các bước tiền xử lý chuẩn mực:}
+\begin{enumerate}
+  \item Loại bỏ \code{Customer\_ID} vì không có giá trị dự báo.
+  \item Kiểm tra \code{Age = -1} $\rightarrow$ Thay thế bằng \code{NaN} rồi điền bằng trung vị.
+  \item Chuẩn hóa \code{Region}: \code{"Hanoi", "Ha Noi", "HN"} $\rightarrow$ quy về một nhãn \code{"Hanoi"}.
+  \item Kiểm tra ngoại lệ của \code{Support\_Calls} bằng boxplot; giữ lại vì khách hàng gọi hỗ trợ nhiều có nguy cơ rời bỏ cao.
+  \item Tách $X, y$ và chia Train/Test theo phương pháp \code{stratify=y}.
+  \item Xây dựng Pipeline: Điền median \& Scale biến số; One-hot encode biến phân loại.
+\end{enumerate}
+\end{frame}
+
+% -------------------------------------------------------------
+% Section: Bài tập & Tự kiểm tra
+% -------------------------------------------------------------
+\section{Bài tập Thực hành \& Tự kiểm tra}
+
+\begin{frame}[fragile]{Bài tập Thực hành Ngắn}
+\textbf{Bài 1 (Kiểm tra dữ liệu):} Cho DataFrame \code{df}. Viết code tính tỷ lệ phần trăm missing values của từng cột và hiển thị theo thứ tự giảm dần.
+
+\smallgap
+\textbf{Bài 2 (Missing Data):} Viết code điền các giá trị thiếu trong cột \code{Income} bằng giá trị trung vị của cột đó được tính trên \code{X\_train}.
+
+\smallgap
+\textbf{Bài 3 (Xác định Outlier IQR):}
+\begin{lstlisting}[style=pythonstyle]
+# Dien vao cho trong de tinh nguong tren va nguong duoi
+q1 = df["Order_Value"].quantile(0.25)
+q3 = df["Order_Value"].quantile(0.75)
+iqr = _________
+lower_bound = _________
+upper_bound = _________
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Câu hỏi Ôn tập \& Trắc nghiệm}
+\textbf{Câu 1.} Khi một biến số có phân phối lệch phải rất nặng và nhiều ngoại lệ cực lớn, giá trị thống kê nào phù hợp hơn để điền dữ liệu thiếu?
+\begin{enumerate}[A.]
+  \item Trung bình (Mean)
+  \item Trung vị (Median)
+  \item Giá trị nhỏ nhất (Minimum)
+  \item Số 0
+\end{enumerate}
+
+\smallgap
+\textbf{Câu 2.} Với \code{StandardScaler}, cách áp dụng nào sau đây là \textbf{đúng chuẩn}?
+\begin{enumerate}[A.]
+  \item \code{scaler.fit\_transform(X\_train)} và \code{scaler.fit\_transform(X\_test)}
+  \item \code{scaler.fit(X)} rồi \code{train\_test\_split(X)}
+  \item \code{scaler.fit\_transform(X\_train)} và \code{scaler.transform(X\_test)}
+  \item \code{scaler.transform(X\_train)} và \code{scaler.fit(X\_test)}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Tóm tắt Nội dung Bài học}
+\begin{itemize}
+  \item \textbf{Tiền xử lý dữ liệu} là nền tảng quyết định chất lượng của mọi mô hình học máy.
+  \item \textbf{Missing Values:} Luôn lưu ý các giá trị thiếu tiềm ẩn ($0, -1, 999$); dùng \code{SimpleImputer}.
+  \item \textbf{Outliers:} Dùng Boxplot và phương pháp IQR để phát hiện; tìm hiểu nguyên nhân trước khi quyết định xử lý.
+  \item \textbf{Categorical Encoding:} Sử dụng One-Hot Encoding với \code{handle\_unknown="ignore"} để xử lý nhãn mới.
+  \item \textbf{Scaling:} Phân biệt Min-Max Scaling (đoạn $[0,1]$) và Standardization ($\mu=0, \sigma=1$).
+  \item \textbf{Chống Data Leakage:} Luôn chia Train/Test trước; chỉ \code{fit} trên Train, dùng tham số đó để \code{transform} Test.
+  \item \textbf{Pipeline \& ColumnTransformer:} Công cụ chuẩn mực của scikit-learn giúp đóng gói toàn bộ quy trình tiền xử lý an toàn và chuyên nghiệp.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Tài liệu Tham khảo}
+\begin{enumerate}
+  \item Scikit-Learn Documentation. \textit{Dataset transformations: preprocessing, imputation, pipelines}. \url{https://scikit-learn.org/stable/modules/preprocessing.html}
+  \item Shmueli, G., Bruce, P. C., Deokar, A. V., \& Patel, N. R. (2023). \textit{Machine Learning for Business Analytics: Concepts, Techniques and Applications in RapidMiner}. Wiley (Chương 2).
+  \item Géron, A. (2022). \textit{Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow} (3rd ed.). O'Reilly Media.
+  \item McKinney, W. (2022). \textit{Python for Data Analysis: Data Wrangling with pandas, NumPy, and Jupyter} (3rd ed.). O'Reilly Media.
+\end{enumerate}
+\end{frame}
+
+\end{document}
