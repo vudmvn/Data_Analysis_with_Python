@@ -1,10 +1,10 @@
-\documentclass[aspectratio=169,11pt]{beamer}
+\documentclass[aspectratio=169,10pt]{beamer}
 
+% Theme selection
 \usetheme{AnnArbor}
 \usecolortheme{dolphin}
-\setbeamertemplate{navigation symbols}{}
-\setbeamertemplate{footline}[frame number]
 
+% Font and encoding for Vietnamese
 \usepackage{fontspec}
 \setmainfont{DejaVu Sans}
 \setsansfont{DejaVu Sans}
@@ -14,41 +14,26 @@
 \usepackage{array}
 \usepackage{tabularx}
 \usepackage{listings}
-\usepackage{xcolor}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{graphicx}
 \usepackage{tikz}
-\usetikzlibrary{positioning}
-\usepackage[export]{adjustbox}
+\usepackage{amsmath}
+\usepackage{adjustbox}
+\usetikzlibrary{shapes,arrows,positioning,calc}
 
-\definecolor{codegray}{RGB}{245,245,245}
-\definecolor{codeblue}{RGB}{0,65,120}
-\definecolor{darkgreen}{RGB}{0,100,60}
-\definecolor{myred}{RGB}{180,30,30}
-\definecolor{myblue}{RGB}{20,60,140}
+% Color definitions
+\definecolor{codegray}{rgb}{0.95,0.95,0.95}
+\definecolor{codeblue}{rgb}{0.1,0.2,0.6}
+\definecolor{codegreen}{rgb}{0.1,0.5,0.1}
+\definecolor{crimsonred}{rgb}{0.8,0.1,0.1}
+\definecolor{darkgreen}{rgb}{0.0,0.4,0.0}
 
-\lstdefinestyle{pythonstyle}{
-  language=Python,
-  basicstyle=\ttfamily\scriptsize,
-  keywordstyle=\color{codeblue}\bfseries,
-  stringstyle=\color{darkgreen},
-  commentstyle=\color{gray},
-  showstringspaces=false,
-  breaklines=true,
-  frame=single,
-  backgroundcolor=\color{codegray},
-  columns=fullflexible
-}
+% Custom code style
+\newcommand{\code}[1]{\texttt{\textcolor{codeblue}{#1}}}
 
-\lstset{style=pythonstyle}
-
-\newcommand{\code}[1]{\texttt{#1}}
-
-\title[Phân cụm Dữ liệu -- Clustering Algorithms]{Phân cụm Dữ liệu trong Học máy}
-\subtitle{Bản chất, Các lớp Thuật toán Trọng yếu \& Đánh giá Mô hình}
-\author{TS. Vũ Đức Minh}
-\institute{Khoa Khoa học Dữ liệu và Trí tuệ Nhân tạo\\Trường Công nghệ -- Đại học Kinh tế Quốc dân (NEU)}
+% Slide Metadata
+\title[Phân cụm Dữ liệu (Clustering)]{\Large \textbf{CHUYÊN ĐỀ: PHÂN CỤM DỮ LIỆU TRONG MACHINE LEARNING}}
+\subtitle{\normalsize Từ Các Thuật Toán Cốt Lõi (K-Means, Hierarchical, DBSCAN, GMM, FCM) Đến Ứng Dụng Thực Tiễn}
+\author[TS. Vũ Đức Minh]{TS. Vũ Đức Minh}
+\institute[NEU]{Khoa Khoa học Dữ liệu và Trí tuệ Nhân tạo\\Trường Công nghệ -- Đại học Kinh tế Quốc dân (NEU)}
 \date{2026}
 
 \begin{document}
@@ -60,17 +45,20 @@
 
 % Slide 2: Mục tiêu bài giảng
 \begin{frame}{Mục tiêu Bài học (Learning Objectives)}
-  \begin{itemize}
+  \small
+  \begin{itemize}\setlength{\itemsep}{2pt}
     \item \textbf{Bản chất Phân cụm (Clustering):} Hiểu rõ triết lý Học không giám sát (Unsupervised Learning) và phân biệt rạch ròi \textbf{Hard Clustering} vs \textbf{Soft Clustering}.
-    \item \textbf{Làm chủ 4 trường phái thuật toán cốt lõi:}
-      \begin{enumerate}
-        \item \textbf{Centroid-based:} K-Means, K-Means++, Elbow Method.
+    \item \textbf{Độ đo Khoảng cách \& Độ tương đồng:} Hiểu vai trò quyết định của Euclidean, Manhattan, Minkowski, Cosine và Hamming Distance.
+    \item \textbf{Làm chủ 5 trường phái thuật toán cốt lõi:}
+      \begin{enumerate}\setlength{\itemsep}{1pt}
+        \item \textbf{Centroid-based:} K-Means, K-Means++, Elbow Method, K-Medoids.
         \item \textbf{Connectivity-based:} Hierarchical Clustering, Agglomerative, Dendrogram, Linkage Criteria.
         \item \textbf{Density-based:} DBSCAN (Core/Border/Noise, K-distance graph), OPTICS (Reachability Plot).
         \item \textbf{Distribution-based:} Gaussian Mixture Models (GMM), Thuật toán Expectation-Maximization (EM).
+        \item \textbf{Fuzzy Clustering:} Fuzzy C-Means (FCM) với độ thuộc mờ $u_{ik}$.
       \end{enumerate}
-    \item \textbf{Đánh giá Chất lượng Mô hình:} Áp dụng các chỉ số nội tại (Silhouette Coefficient, Davies-Bouldin) và tiêu chuẩn thông tin (AIC/BIC).
-    \item \textbf{Lựa chọn Thuật toán:} Ra quyết định kiến trúc phù hợp với đặc thù hình thái dữ liệu thực tế.
+    \item \textbf{Đánh giá Chất lượng Mô hình:} Áp dụng các chỉ số nội tại (Silhouette, DBI, CH) và ngoại tại (ARI, NMI).
+    \item \textbf{Ứng dụng \& Lựa chọn Thuật toán:} Làm chủ 6 bài toán thực tiễn và cây quyết định lựa chọn mô hình.
   \end{itemize}
 \end{frame}
 
@@ -78,20 +66,21 @@
 \begin{frame}{1. Bản chất của Phân cụm Dữ liệu (Clustering)}
   \begin{columns}[T]
     \begin{column}{0.55\textwidth}
-      \textbf{Khái niệm nền tảng:}
-      \begin{itemize}
+      \textbf{Khái niệm nền tảng (GeeksforGeeks):}
+      \begin{itemize}\setlength{\itemsep}{2pt}
         \item Là bài toán trung tâm của \textbf{Học không giám sát (Unsupervised Learning)}.
         \item Dữ liệu đầu vào chỉ có các biến đặc trưng $\mathcal{X} = \{x_1, \dots, x_N\}$, \textbf{không có nhãn mục tiêu} $y$.
         \item \textbf{Mục tiêu tối thượng:} Tự động gom các quan sát vào các nhóm (cụm) sao cho:
-          \begin{itemize}
+          \begin{itemize}\setlength{\itemsep}{1pt}
             \item \textbf{Độ tương đồng nội cụm cao nhất} (High intra-cluster similarity).
             \item \textbf{Độ phân tách ngoại cụm lớn nhất} (High inter-cluster dissimilarity).
           \end{itemize}
+        \item Cụm là tập hợp các điểm có hành vi, hình thái hoặc khoảng cách tương đồng.
       \end{itemize}
     \end{column}
     \begin{column}{0.45\textwidth}
       \begin{center}
-        \includegraphics[width=0.95\linewidth]{images/clustering-overview.png}
+        \includegraphics[width=0.95\linewidth,height=0.65\textheight,keepaspectratio]{images/clustering-overview.png}
       \end{center}
     \end{column}
   \end{columns}
@@ -102,27 +91,55 @@
   \begin{columns}[T]
     \begin{column}{0.52\textwidth}
       \textbf{1. Phân cụm cứng (Hard Clustering):}
-      \begin{itemize}
+      \begin{itemize}\setlength{\itemsep}{2pt}
         \item Mỗi điểm $x_i$ thuộc duy nhất về một cụm $C_k$ với xác suất tuyệt đối $100\%$.
-        \item Nhãn phân cụm nhị phân: $z_{ik} \in \{0, 1\}$.
+        \item Nhãn phân cụm nhị phân: $z_{ik} \in \{0, 1\}$ thỏa mãn $\sum_{k=1}^K z_{ik} = 1$.
         \item \textit{Đại diện tiêu biểu:} K-Means, Hierarchical, DBSCAN.
       \end{itemize}
-      \vspace{0.5em}
+      \vspace{0.4em}
       \textbf{2. Phân cụm mềm (Soft / Fuzzy Clustering):}
-      \begin{itemize}
-        \item Mỗi điểm thuộc về tất cả các cụm với một \textbf{trọng số xác suất} $\gamma_{ik} \in [0, 1]$ thỏa mãn $\sum_{k=1}^K \gamma_{ik} = 1$.
-        \item \textit{Đại diện tiêu biểu:} GMM (EM), Fuzzy C-Means.
+      \begin{itemize}\setlength{\itemsep}{2pt}
+        \item Mỗi điểm thuộc về tất cả các cụm với một \textbf{trọng số xác suất} hoặc mức độ thuộc (membership) $\gamma_{ik} \in [0, 1]$ thỏa mãn $\sum_{k=1}^K \gamma_{ik} = 1$.
+        \item \textit{Đại diện tiêu biểu:} GMM (EM), Fuzzy C-Means (FCM).
       \end{itemize}
     \end{column}
     \begin{column}{0.48\textwidth}
       \begin{center}
-        \includegraphics[width=0.98\linewidth]{images/hard-vs-soft-clustering.png}
+        \includegraphics[width=0.98\linewidth,height=0.65\textheight,keepaspectratio]{images/hard-vs-soft-clustering.png}
       \end{center}
     \end{column}
   \end{columns}
 \end{frame}
 
-% Slide 5: Bức tranh toàn cảnh 5 trường phái
+% Slide 5: Độ đo khoảng cách và độ tương đồng
+\begin{frame}{Các Độ đo Khoảng cách \& Độ tương đồng (Distance Metrics)}
+  \small
+  \begin{columns}[T]
+    \begin{column}{0.52\textwidth}
+      \textbf{Các hàm khoảng cách thông dụng:}
+      \begin{itemize}\setlength{\itemsep}{2pt}
+        \item \textbf{Euclidean Distance ($L_2$ norm):}
+          $$d(x, z) = \sqrt{\sum_{j=1}^d (x_j - z_j)^2}$$
+          Chuẩn mực cho biến định lượng liên tục cùng thang đo.
+        \item \textbf{Manhattan Distance ($L_1$ norm / City Block):}
+          $$d(x, z) = \sum_{j=1}^d |x_j - z_j|$$
+          Bền vững hơn trước outliers, phù hợp không gian lưới.
+        \item \textbf{Cosine Similarity (Góc vector):}
+          $$\cos(\theta) = \frac{x \cdot z}{\|x\|_2 \|z\|_2}$$
+          Chuẩn mực cho văn bản (TF-IDF), hệ gợi ý.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{center}
+        \includegraphics[width=0.98\linewidth,height=0.42\textheight,keepaspectratio]{images/distance-metrics.png}
+      \end{center}
+      \footnotesize
+      \textbf{Lưu ý sống còn:} Phải thực hiện \textbf{Chuẩn hóa dữ liệu (StandardScaler)} trước khi tính khoảng cách, nếu không biến có giá trị lớn sẽ áp đảo mô hình!
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% Slide 6: Bức tranh toàn cảnh 5 trường phái
 \begin{frame}{Bức tranh Toàn cảnh: 5 Trường phái Phân cụm Chính}
   \begin{table}[]
     \scriptsize
@@ -139,13 +156,13 @@
       \addlinespace
       \textbf{Distribution} & Dữ liệu sinh ra từ tổ hợp các phân phối xác suất & Gaussian Mixture Model (GMM), EM & Hình Elip tự do, xác suất thành viên mềm \\
       \addlinespace
-      \textbf{Grid / Fuzzy} & Lưới không gian hoặc mức độ mờ & STING, CLIQUE, Fuzzy C-Means & Khối lưới, độ thuộc mờ \\
+      \textbf{Fuzzy / Mờ} & Điểm thuộc về cụm theo mức độ mờ ($u_{ik} \in [0,1]$) & Fuzzy C-Means (FCM) & Cụm giao thoa, đường biên mờ \\
       \bottomrule
     \end{tabularx}
   \end{table}
 \end{frame}
 
-% Slide 6: Centroid-based - K-Means
+% Slide 7: Centroid-based - K-Means
 \begin{frame}{2. Centroid-based: Thuật toán K-Means Cổ điển}
   \small
   \begin{columns}[T]
@@ -170,12 +187,12 @@
   \end{columns}
 \end{frame}
 
-% Slide 7: K-Means++ và Elbow Method
+% Slide 8: K-Means++ và Elbow Method
 \begin{frame}{Centroid-based: K-Means++ và Phương pháp Khuỷu tay}
   \begin{columns}[T]
     \begin{column}{0.5\textwidth}
       \textbf{K-Means++ (Arthur \& Vassilvitskii, 2007):}
-      \begin{itemize}
+      \begin{itemize}\setlength{\itemsep}{2pt}
         \item Khởi tạo tâm ngẫu nhiên dễ rơi vào \textbf{cực tiểu cục bộ kém}.
         \item K-Means++ chọn tâm tiếp theo với xác suất tỷ lệ thuận với bình phương khoảng cách tới tâm gần nhất:
           $$P(x) = \frac{D(x)^2}{\sum_{x' \in \mathcal{X}} D(x')^2}$$
@@ -185,9 +202,9 @@
     \begin{column}{0.5\textwidth}
       \textbf{Phương pháp Khuỷu tay (Elbow Method):}
       \begin{center}
-        \includegraphics[width=0.92\linewidth]{images/elbow-method-curve.png}
+        \includegraphics[width=0.92\linewidth,height=0.45\textheight,keepaspectratio]{images/elbow-method-curve.png}
       \end{center}
-      \begin{itemize}
+      \begin{itemize}\setlength{\itemsep}{1pt}
         \item Vẽ đồ thị Inertia (WCSS) theo số cụm $K$.
         \item Chọn $K$ tại \textbf{điểm gãy (Elbow)} nơi tốc độ giảm WCSS bắt đầu chững lại rõ rệt.
       \end{itemize}
@@ -195,98 +212,117 @@
   \end{columns}
 \end{frame}
 
-% Slide 8: Connectivity-based - Hierarchical
-\begin{frame}{3. Connectivity-based: Phân cụm Phân cấp (Hierarchical)}
-  \begin{columns}[T]
-    \begin{column}{0.5\textwidth}
-      \textbf{Hai hướng tiếp cận đối xứng:}
-      \begin{itemize}
-        \item \textbf{Agglomerative (Bottom-Up):} Đi từ $N$ cụm đơn lẻ $\to$ liên tục sáp nhập 2 cụm gần nhất $\to$ 1 cụm tổng thể ($N-1$ bước).
-        \item \textbf{Divisive (Top-Down):} Đi từ 1 cụm lớn $\to$ liên tục phân tách đệ quy $\to$ $N$ cụm đơn lẻ.
-      \end{itemize}
-      \vspace{0.3em}
-      \textbf{Ưu điểm đột phá:}
-      \begin{itemize}
-        \item \textbf{Không cần chọn trước số cụm $K$}.
-        \item Cho phép phân tích cấu trúc đa tầng lồng nhau (Nested Hierarchy).
-      \end{itemize}
-    \end{column}
-    \begin{column}{0.5\textwidth}
-      \begin{center}
-        \includegraphics[width=0.95\linewidth]{images/types-of-hierarchical-clustering.png}
-      \end{center}
-    \end{column}
-  \end{columns}
-\end{frame}
-
-% Slide 9: Biểu đồ cây Dendrogram
-\begin{frame}{Biểu đồ Cây Phân cấp (Dendrogram) \& Cắt Cây Tìm $K$}
+% Slide 9: Centroid-based - K-Medoids (PAM)
+\begin{frame}{Centroid-based: Biến thể Bền vững K-Medoids (PAM)}
   \begin{columns}[T]
     \begin{column}{0.55\textwidth}
-      \begin{center}
-        \includegraphics[width=0.98\linewidth]{images/longest-path-dendrogram.png}
-      \end{center}
+      \textbf{Vấn đề của K-Means với Outliers:}
+      \begin{itemize}\setlength{\itemsep}{2pt}
+        \item Điểm trung bình cộng (Mean) cực kỳ nhạy cảm với ngoại lai, làm lệch tâm cụm nghiêm trọng.
+      \end{itemize}
+      \vspace{0.3em}
+      \textbf{Giải pháp K-Medoids (Kaufman \& Rousseeuw, 1987):}
+      \begin{itemize}\setlength{\itemsep}{2pt}
+        \item Tâm cụm bắt buộc phải là \textbf{một điểm dữ liệu thực tế} trong tập dữ liệu (Medoid).
+        \item Tối ưu hàm mất mát khoảng cách trị tuyệt đối ($L_1$ norm):
+          $$J_{\text{medoid}} = \sum_{k=1}^K \sum_{x \in C_k} \|x - m_k\|_1 \to \min$$
+        \item \textbf{Ưu điểm:} Cực kỳ kiên cường trước nhiễu và ngoại lai.
+      \end{itemize}
     \end{column}
     \begin{column}{0.45\textwidth}
-      \textbf{Quy tắc Cắt cây tìm $K$ tối ưu:}
-      \begin{enumerate}
-        \item Tìm \textbf{nhánh thẳng đứng dài nhất} mà không bị bất kỳ đường ngang nào cắt qua.
-        \item Vẽ một đường cắt nằm ngang xuyên qua khoảng trống này.
-        \item \textbf{Số lượng cụm $K$ tối ưu} chính là số lượng nhánh dọc bị đường thẳng này cắt qua!
-      \end{enumerate}
-      \vspace{0.3em}
-      \textit{Ý nghĩa:} Khoảng cách dọc lớn chứng tỏ cấu trúc cụm giữ nguyên trạng thái phân tách ổn định trên một khoảng khoảng cách rộng.
+      \begin{center}
+        \includegraphics[width=0.92\linewidth,height=0.62\textheight,keepaspectratio]{images/kmeans-clusters-visualization.png}
+      \end{center}
     \end{column}
   \end{columns}
 \end{frame}
 
-% Slide 10: 5 Tiêu chuẩn Liên kết (Linkage Criteria)
-\begin{frame}{Các Tiêu chuẩn Liên kết Cụm (Linkage Criteria)}
+% Slide 10: Connectivity-based - Hierarchical
+\begin{frame}{3. Connectivity-based: Phân cụm Phân cấp (Hierarchical)}
   \begin{columns}[T]
-    \begin{column}{0.48\textwidth}
+    \begin{column}{0.55\textwidth}
+      \textbf{Hai hướng tiếp cận đối ngẫu:}
+      \begin{enumerate}\setlength{\itemsep}{2pt}
+        \item \textbf{Agglomerative (Tích tụ / Bottom-Up):}
+          \begin{itemize}
+            \item Bắt đầu: $N$ cụm đơn lẻ ($N$ lá).
+            \item Mỗi bước: Gộp 2 cụm gần nhau nhất.
+            \item Kết thúc: 1 siêu cụm duy nhất (Gốc).
+          \end{itemize}
+        \item \textbf{Divisive (Phân tách / Top-Down):}
+          \begin{itemize}
+            \item Bắt đầu: 1 cụm tổng thể chứa toàn bộ dữ liệu.
+            \item Phân rã đệ quy thành các cụm nhỏ hơn.
+          \end{itemize}
+      \end{enumerate}
+      \textbf{Ưu thế nổi bật:} Không cần chọn trước số lượng cụm $K$ khi dựng cây!
+    \end{column}
+    \begin{column}{0.45\textwidth}
       \begin{center}
-        \includegraphics[width=0.95\linewidth]{images/distance-metrics.png}
+        \includegraphics[width=0.95\linewidth,height=0.62\textheight,keepaspectratio]{images/types-of-hierarchical-clustering.png}
       \end{center}
     \end{column}
-    \begin{column}{0.52\textwidth}
-      \scriptsize
-      \begin{itemize}
-        \item \textbf{Single Linkage (Min):} $\min d(x, z)$. Nhận diện cụm phi cầu tốt, nhưng dễ mắc \textbf{Hiện tượng Nối chuỗi (Chaining Effect)}.
-        \item \textbf{Complete Linkage (Max):} $\max d(x, z)$. Tạo cụm tròn đặc, ngăn nối chuỗi nhưng nhạy cảm với ngoại lai.
-        \item \textbf{Average Linkage (UPGMA):} Trung bình cộng khoảng cách cặp đôi. Cân bằng, đạt hệ số Cophenetic (CPCC) cao.
-        \item \textbf{Centroid Linkage:} $\|\mu_A - \mu_B\|$. Dễ bị \textbf{Hiện tượng Đảo ngược (Inversion)} phá vỡ tính đơn điệu.
-        \item \textbf{Ward's Method:} Tối thiểu hóa mức tăng tổng phương sai nội cụm $\Delta\text{WCSS}$. Tạo cụm đều, đẹp nhất cho dữ liệu chuẩn.
+  \end{columns}
+\end{frame}
+
+% Slide 11: Dendrogram và 5 Linkage Criteria
+\begin{frame}{Biểu đồ Cây Dendrogram \& 5 Tiêu chuẩn Liên kết (Linkage)}
+  \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+      \textbf{Giải phẫu Biểu đồ Dendrogram:}
+      \begin{center}
+        \includegraphics[width=0.95\linewidth,height=0.42\textheight,keepaspectratio]{images/longest-path-dendrogram.png}
+      \end{center}
+      \footnotesize
+      Trục tung biểu thị khoảng cách sáp nhập. \textbf{Quy tắc cắt cụm:} Cắt ngang qua nhánh dọc dài nhất không bị ngắt quãng.
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \textbf{5 Tiêu chuẩn Liên kết (Linkage):}
+      \begin{itemize}\setlength{\itemsep}{1pt}\footnotesize
+        \item \textbf{Single Linkage:} $D(A, B) = \min d(x, y)$ \\
+          (Dễ bị hiện tượng nối chuỗi - Chaining Effect).
+        \item \textbf{Complete Linkage:} $D(A, B) = \max d(x, y)$ \\
+          (Tạo cụm hình cầu đặc, tránh nối chuỗi).
+        \item \textbf{Average Linkage:} $D(A, B) = \frac{1}{|A||B|}\sum d(x, y)$ \\
+          (Cân bằng, ít nhạy cảm với ngoại lai).
+        \item \textbf{Centroid Linkage:} $D(A, B) = \|\mu_A - \mu_B\|^2$ \\
+          (Có rủi ro đảo ngược Inversion).
+        \item \textbf{Ward's Method:} Tối thiểu hóa mức tăng tổng phương sai WCSS sau khi sáp nhập (\textbf{Tốt nhất thực tế}).
       \end{itemize}
     \end{column}
   \end{columns}
 \end{frame}
 
-% Slide 11: Density-based - DBSCAN
+% Slide 12: Density-based - DBSCAN
 \begin{frame}{4. Density-based: Thuật toán DBSCAN}
+  \small
   \begin{columns}[T]
     \begin{column}{0.52\textwidth}
-      \textbf{Hai siêu tham số:} Bán kính $\epsilon$ và $\text{MinPts}$.
-      \vspace{0.3em}
-      
+      \textbf{Hai siêu tham số cốt lõi:}
+      \begin{itemize}
+        \item $\mathbf{\epsilon}$ (Epsilon): Bán kính lân cận vùng khảo sát.
+        \item $\mathbf{\text{MinPts}}$: Số lượng mẫu tối thiểu trong bán kính $\epsilon$.
+      \end{itemize}
+      \vspace{0.2em}
       \textbf{Phân loại 3 nhóm điểm:}
       \begin{itemize}
         \item \textbf{Core Point:} $|N_\epsilon(p)| \ge \text{MinPts}$.
         \item \textbf{Border Point:} $|N_\epsilon(p)| < \text{MinPts}$ nhưng nằm trong bán kính $\epsilon$ của một Core Point.
         \item \textbf{Noise Point:} Không thuộc 2 nhóm trên (gán nhãn \textbf{-1}).
       \end{itemize}
-      \vspace{0.3em}
+      \vspace{0.2em}
       \textbf{Cơ chế lan truyền cụm:}
       Liên thông mật độ thông qua các chuỗi điểm tiếp cận trực tiếp.
     \end{column}
     \begin{column}{0.48\textwidth}
       \begin{center}
-        \includegraphics[width=0.95\linewidth]{images/dbscan-core-border-noise.png}
+        \includegraphics[width=0.95\linewidth,height=0.62\textheight,keepaspectratio]{images/dbscan-core-border-noise.png}
       \end{center}
     \end{column}
   \end{columns}
 \end{frame}
 
-% Slide 12: DBSCAN K-Distance Graph & OPTICS
+% Slide 13: DBSCAN K-Distance Graph & OPTICS
 \begin{frame}{DBSCAN Đồ thị K-Distance \& Thuật toán OPTICS}
   \small
   \begin{columns}[T]
@@ -311,7 +347,16 @@
   \end{columns}
 \end{frame}
 
-% Slide 13: Distribution-based - GMM & EM
+% Slide 14: So sánh thực nghiệm K-Means vs DBSCAN (GeeksforGeeks)
+\begin{frame}{So sánh Thực nghiệm: K-Means vs DBSCAN trên Dữ liệu Phi cầu}
+  \begin{center}
+    \includegraphics[width=0.88\linewidth,height=0.62\textheight,keepaspectratio]{images/dbscan-vs-kmeans-comparison.png}
+  \end{center}
+  \footnotesize
+  \textbf{Nhận xét từ GeeksforGeeks:} K-Means thất bại trên dữ liệu trăng khuyết (Moons), vòng tròn đồng tâm (Circles) và bị nhiễu kéo lệch tâm; trong khi DBSCAN tìm ra hình dạng phi tuyến chuẩn xác và cô lập 19 điểm nhiễu.
+\end{frame}
+
+% Slide 15: Distribution-based - GMM & EM
 \begin{frame}{5. Distribution-based: Gaussian Mixture Models (GMM)}
   \begin{columns}[T]
     \begin{column}{0.55\textwidth}
@@ -333,7 +378,7 @@
   \end{columns}
 \end{frame}
 
-% Slide 14: Thuật toán EM và 4 Covariance Types
+% Slide 16: Thuật toán EM và 4 Covariance Types
 \begin{frame}{Thuật toán Expectation-Maximization (EM) \& Ma trận Hiệp phương sai}
   \small
   \begin{columns}[T]
@@ -363,7 +408,33 @@
   \end{columns}
 \end{frame}
 
-% Slide 15: Đánh giá mô hình phân cụm
+% Slide 17: Fuzzy Clustering - Fuzzy C-Means (FCM)
+\begin{frame}{Trường phái Thứ 5: Phân cụm Mờ (Fuzzy C-Means - FCM)}
+  \small
+  \begin{columns}[T]
+    \begin{column}{0.55\textwidth}
+      \textbf{Bản chất Phân cụm Mờ (GeeksforGeeks):}
+      \begin{itemize}\setlength{\itemsep}{1pt}
+        \item Mở rộng mềm từ K-Means của Bezdek (1981).
+        \item Mỗi điểm thuộc về nhiều cụm với mức độ mờ $u_{ik} \in [0, 1]$ thỏa mãn $\sum_{k=1}^K u_{ik} = 1$.
+      \end{itemize}
+      \textbf{Hàm mục tiêu mờ ($m > 1$ là tham số mờ):}
+      $$J_m = \sum_{i=1}^N \sum_{k=1}^K u_{ik}^m \|x_i - \mu_k\|^2 \to \min$$
+      \textbf{Công thức cập nhật luân phiên:}
+      $$u_{ik} = \frac{1}{\sum_{j=1}^K \left(\frac{\|x_i - \mu_k\|}{\|x_i - \mu_j\|}\right)^{\frac{2}{m-1}}}, \quad \mu_k = \frac{\sum_{i=1}^N u_{ik}^m x_i}{\sum_{i=1}^N u_{ik}^m}$$
+    \end{column}
+    \begin{column}{0.45\textwidth}
+      \textbf{So sánh với K-Means \& GMM:}
+      \begin{itemize}\setlength{\itemsep}{2pt}
+        \item \textbf{Khi $m \to 1$:} FCM thoái hóa trở về K-Means tiêu chuẩn (Hard).
+        \item \textbf{Khác biệt với GMM:} FCM không giả định phân phối Gaussian, tối ưu hóa trực tiếp trên ma trận độ thuộc mờ $u_{ik}$.
+        \item \textbf{Ứng dụng tiêu biểu:} Phân đoạn ảnh MRI y tế (vùng mô não ranh giới), chấm điểm tín dụng biên.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% Slide 18: Đánh giá mô hình phân cụm
 \begin{frame}{6. Đánh giá Chất lượng Phân cụm (Clustering Metrics)}
   \small
   \begin{columns}[T]
@@ -391,14 +462,14 @@
   \end{columns}
 \end{frame}
 
-% Slide 16: Bảng so sánh tổng kết
+% Slide 19: Bảng so sánh tổng kết
 \begin{frame}{Bảng So sánh Tổng hợp 5 Trường phái Thuật toán}
   \begin{table}[]
     \tiny
     \centering
     \begin{tabularx}{\textwidth}{l *{5}{>{\raggedright\arraybackslash}X}}
       \toprule
-      \textbf{Tiêu chí} & \textbf{K-Means} & \textbf{Hierarchical} & \textbf{DBSCAN} & \textbf{OPTICS} & \textbf{GMM (EM)} \\
+      \textbf{Tiêu chí} & \textbf{K-Means} & \textbf{Hierarchical} & \textbf{DBSCAN} & \textbf{OPTICS} & \textbf{GMM / FCM} \\
       \midrule
       \textbf{Loại phân cụm} & Cứng (Hard) & Cứng (Hard) & Cứng (Hard) & Cứng (Hard) & \textbf{Mềm (Soft)} \\
       \textbf{Cần chọn trước $K$?} & \textbf{Bắt buộc} & Không & Không & Không & \textbf{Bắt buộc} \\
@@ -413,10 +484,10 @@
   \end{table}
 \end{frame}
 
-% Slide 17: Cây quyết định lựa chọn thuật toán
+% Slide 20: Cây quyết định lựa chọn thuật toán
 \begin{frame}{Cây Quyết định Lựa chọn Thuật toán trong Thực tế}
   \begin{center}
-    \resizebox{0.92\textwidth}{!}{
+    \resizebox{0.90\textwidth}{!}{
     \begin{tikzpicture}[
       node distance=1.3cm and 1.2cm,
       box/.style={rectangle, draw=codeblue, fill=codegray, text centered, rounded corners, font=\small\bfseries, minimum height=0.8cm, text width=4.2cm},
@@ -431,7 +502,7 @@
       \node[leaf, below left=of density, xshift=0.5cm] (dbscan) {DBSCAN};
       \node[leaf, below right=of density, xshift=-0.5cm] (optics) {OPTICS / HDBSCAN};
       
-      \node[leaf, below left=of normal, xshift=0.3cm] (gmm) {GMM (Mềm, Elip)};
+      \node[leaf, below left=of normal, xshift=0.3cm] (gmm) {GMM / FCM (Mềm)};
       \node[leaf, below=of normal] (hier) {Hierarchical};
       \node[leaf, below right=of normal, xshift=-0.3cm] (kmeans) {K-Means++};
       
@@ -441,7 +512,7 @@
       \draw[arrow] (density) -- node[left, font=\scriptsize]{Mật độ đều} (dbscan);
       \draw[arrow] (density) -- node[right, font=\scriptsize]{Đa mật độ} (optics);
       
-      \draw[arrow] (normal) -- node[left, font=\scriptsize]{Xác suất} (gmm);
+      \draw[arrow] (normal) -- node[left, font=\scriptsize]{Xác suất/Mờ} (gmm);
       \draw[arrow] (normal) -- node[font=\scriptsize]{Cây phả hệ} (hier);
       \draw[arrow] (normal) -- node[right, font=\scriptsize]{Tốc độ nhanh} (kmeans);
     \end{tikzpicture}
@@ -449,18 +520,78 @@
   \end{center}
 \end{frame}
 
-% Slide 18: Tổng kết & Thực hành
+% Slide 21: 6 Ứng dụng Thực tiễn (GeeksforGeeks)
+\begin{frame}{6 Ứng dụng Thực tiễn Đột phá của Phân cụm (GeeksforGeeks)}
+  \small
+  \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+      \begin{itemize}\setlength{\itemsep}{3pt}
+        \item \textbf{1. Phân khúc Thị trường \& Khách hàng (Market):}
+          Nhóm khách hàng theo mô hình RFM (Recency, Frequency, Monetary) để cá nhân hóa chiến dịch tiếp thị.
+        \item \textbf{2. Phân cụm Tài liệu (Document Clustering):}
+          Tự động nhóm tin tức, văn bản pháp luật bằng Cosine distance trên không gian TF-IDF/Embedding.
+        \item \textbf{3. Phát hiện Dị thường \& Gian lận (Anomaly):}
+          DBSCAN cô lập giao dịch giả mạo tín dụng rơi vào vùng mật độ thấp (nhiễu).
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{itemize}\setlength{\itemsep}{3pt}
+        \item \textbf{4. Phân đoạn Ảnh \& Nén Ảnh (Image Segmentation):}
+          K-Means lượng tử hóa màu (Color Quantization), giảm dung lượng lưu trữ ảnh mà giữ nguyên chất lượng.
+        \item \textbf{5. Hệ thống Gợi ý (Recommendation Systems):}
+          Gom nhóm người dùng tương đồng sở thích (Collaborative Filtering) để đề xuất sản phẩm/phim.
+        \item \textbf{6. Sinh học \& Phân tích Gen (Bioinformatics):}
+          Hierarchical Clustering nhóm các gen có biểu hiện tương đồng (Gene Expression Analysis).
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% Slide 22: Thách thức & Hạn chế trong Phân cụm (GeeksforGeeks)
+\begin{frame}{Thách thức \& Giới hạn của Phân cụm Dữ liệu (GeeksforGeeks)}
+  \small
+  \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+      \textbf{1. Xác định số lượng cụm $K$ tối ưu:}
+      \begin{itemize}\setlength{\itemsep}{2pt}
+        \item Vì không có nhãn đối chuẩn, việc chọn $K$ mang tính chủ quan.
+        \item Đòi hỏi kết hợp Elbow, Silhouette và kiến thức nghiệp vụ miền (Domain Knowledge).
+      \end{itemize}
+      \vspace{0.4em}
+      \textbf{2. Độ nhạy cảm với Khởi tạo \& Outliers:}
+      \begin{itemize}\setlength{\itemsep}{2pt}
+        \item K-Means dễ rơi vào cực tiểu cục bộ nếu không dùng K-Means++.
+        \item Ngoại lai có thể làm sai lệch hoàn toàn vị trí tâm cụm.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \textbf{3. Lời nguyền Số chiều (Curse of Dimensionality):}
+      \begin{itemize}\setlength{\itemsep}{2pt}
+        \item Khi số chiều $d$ quá lớn, khoảng cách giữa các cặp điểm đều tiến về một giá trị tương đương (Distance Concentration).
+        \item \textit{Giải pháp:} Cần giảm chiều bằng PCA/t-SNE trước khi gom cụm.
+      \end{itemize}
+      \vspace{0.4em}
+      \textbf{4. Chi phí Tính toán trên Big Data:}
+      \begin{itemize}\setlength{\itemsep}{2pt}
+        \item Hierarchical ($O(N^2)$ bộ nhớ) bất khả thi khi $N > 20{,}000$.
+        \item Cần chuyển sang Mini-Batch K-Means hoặc BIRCH.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% Slide 23: Tổng kết & Thực hành
 \begin{frame}{Tổng kết \& Lộ trình Thực hành Lab}
   \begin{columns}[T]
     \begin{column}{0.5\textwidth}
       \textbf{Tóm tắt bài học:}
-      \begin{itemize}
+      \begin{itemize}\setlength{\itemsep}{2pt}
         \item Phân cụm là công cụ khám phá cấu trúc tự nhiên mạnh mẽ nhất của Khoa học Dữ liệu.
         \item Không có một thuật toán duy nhất tối ưu cho mọi bài toán (\textit{No Free Lunch Theorem}).
         \item Lựa chọn thuật toán phụ thuộc chặt chẽ vào:
-          \begin{itemize}
+          \begin{itemize}\setlength{\itemsep}{1pt}
             \item Kích thước dữ liệu $N$ (Scale).
-            \item Hình thái hình học của cụm.
+            \item Hình thái hình học của cụm (Cầu vs Phi tuyến).
             \item Tỷ lệ nhiễu và ngoại lai.
             \item Yêu cầu bài toán kinh doanh (cứng hay mềm).
           \end{itemize}
@@ -468,7 +599,7 @@
     \end{column}
     \begin{column}{0.5\textwidth}
       \textbf{Nội dung Thực hành trong Notebook:}
-      \begin{enumerate}
+      \begin{enumerate}\setlength{\itemsep}{2pt}
         \item \textbf{Bài tập tính tay (Hand Calculations):}
           \begin{itemize}
             \item 1 vòng lặp K-Means trên tập số liệu mẫu.

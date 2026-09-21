@@ -36,7 +36,7 @@ Chuyên đề này cung cấp kiến thức nền tảng và chuyên sâu về *
 
 | Tệp tài liệu | Định dạng | Mô tả nội dung |
 |:---|:---:|:---|
-| [part07-clustering-algorithms-vn.pdf](part07-clustering-algorithms-vn.pdf) | `.pdf` | **Slide bài giảng Beamer**: Giới thiệu phân cụm, so sánh 5 trường phái thuật toán, cây quyết định và các chỉ số thẩm định (18 trang) |
+| [part07-clustering-algorithms-vn.pdf](part07-clustering-algorithms-vn.pdf) | `.pdf` | **Slide bài giảng Beamer**: Toàn diện lý thuyết phân cụm (GeeksforGeeks), so sánh 5 trường phái (K-Means, Hierarchical, DBSCAN, GMM, FCM), độ đo khoảng cách, thực nghiệm phi cầu, ứng dụng thực tiễn \& thách thức (23 trang) |
 | [part07-clustering-algorithms-vn.tex](part07-clustering-algorithms-vn.tex) | `.tex` | Mã nguồn LaTeX Beamer của bộ slide bài giảng phân cụm |
 | [part07-clustering-practice-vn.ipynb](part07-clustering-practice-vn.ipynb) | `.ipynb` | **Jupyter Notebook Thực hành Toàn diện**: Tóm tắt lý thuyết & Cheatsheet, 4 bài toán tính tay chi tiết, trực quan hóa chuyên sâu (Voronoi, Dendrogram, K-Distance, GMM Elip), và 5 bài Lab điền khuyết kèm assert test tự động |
 | [part07-introduction-to-data-segmentation.md](part07-introduction-to-data-segmentation.md) | `.md` | Bài giảng Tổng quan Phân khúc dữ liệu (Data Segmentation): Khái niệm, Phân loại vs Phân cụm, Quy trình phân khúc khách hàng, Phân tích RFM |
