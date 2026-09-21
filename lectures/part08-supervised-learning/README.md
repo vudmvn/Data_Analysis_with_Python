@@ -1,4 +1,4 @@
-# Tuần 10–13: Supervised Machine Learning, Linear Regression, Logistic Regression, Decision Trees & Random Forest
+# Tuần 10–14: Supervised Machine Learning, Linear Regression, Logistic Regression, Decision Trees, Random Forest & Support Vector Machine (SVM)
 
 **Học phần:** Phân tích dữ liệu với Python (DSAI1005)  
 **Giảng viên:** TS. Vũ Đức Minh – Khoa Khoa học dữ liệu và Trí tuệ nhân tạo (NEU)  
@@ -14,6 +14,7 @@ Chuyên đề này bao quát toàn bộ nền tảng **Học máy có giám sát
 3. **Hồi quy Logistic (Logistic Regression):** Dự báo biến mục tiêu phân loại nhị phân và đa lớp, chuyển đổi xác suất qua hàm Sigmoid và Softmax, tối ưu bằng Ước lượng Hợp lý Cực đại (MLE).
 4. **Cây quyết định (Decision Trees):** Phân chia đệ quy theo các quy tắc logic *if-else*, đo lường độ thuần khiết qua Entropy, Information Gain, Gini Impurity, và kỹ thuật cắt tỉa cây chống quá khớp.
 5. **Hồi quy Rừng ngẫu nhiên (Random Forest Regression):** Phương pháp học máy kết hợp (Ensemble Learning), kỹ thuật Bagging (Bootstrap Aggregation), không gian con đặc trưng ngẫu nhiên (Random Subspace), đánh giá Out-of-Bag (OOB), và hàm dự báo bậc thang phi tuyến.
+6. **Máy vector hỗ trợ (Support Vector Machine - SVM):** Tối ưu hóa siêu phẳng phân tách với lề cực đại (Maximal Margin), xử lý nhiễu bằng Lề mềm (Soft Margin, tham số $C$, Hinge Loss), và Bí quyết Kernel (Kernel Trick: Linear, RBF, Polynomial) trong không gian chiều cao.
 
 ---
 
@@ -45,7 +46,13 @@ Chuyên đề này bao quát toàn bộ nền tảng **Học máy có giám sát
    - Bản chất toán học xác suất của tập mẫu Out-of-Bag ($1/e \approx 36.8\%$) và kiểm định OOB Score.
    - Đo lường độ quan trọng của đặc trưng (Feature Importance) qua MDI và PFI.
    - Trực quan hóa đường cong bậc thang phân giải cao và phân tích cấu trúc cây con với `plot_tree`.
-8. **Thực hành với Scikit-Learn:** Xây dựng pipeline xử lý dữ liệu và huấn luyện mô hình phân loại & hồi quy hoàn chỉnh bằng Python.
+8. **Chuyên sâu Support Vector Machine (SVM):**
+   - Hình học siêu phẳng $w^Tx + b = 0$, Support Vectors, và độ rộng lề $2/\|w\|$.
+   - Lề cứng (Hard Margin) vs Lề mềm (Soft Margin với $\zeta_i$ và tham số phạt $C$).
+   - Cơ chế hàm mất mát Hinge Loss $\max(0, 1 - yf(x))$.
+   - Bí quyết Kernel (Kernel Trick) ánh xạ phi tuyến lên không gian chiều cao không qua tính tọa độ tường minh (Linear, RBF/Gaussian, Polynomial).
+   - Phân loại đa lớp OvR, OvO và vai trò tối thượng của chuẩn hóa thang đo (`StandardScaler`).
+9. **Thực hành với Scikit-Learn:** Xây dựng pipeline xử lý dữ liệu và huấn luyện mô hình phân loại & hồi quy hoàn chỉnh bằng Python.
 
 ---
 
@@ -58,17 +65,19 @@ Chuyên đề này bao quát toàn bộ nền tảng **Học máy có giám sát
 | [part08-logistic-regression-vn.md](part08-logistic-regression-vn.md) | `.md` | Bài giảng Chuyên sâu Hồi quy Logistic (Logistic Regression): Sigmoid, Odds, Logit, MLE, Log Loss, Softmax đa lớp, Ma trận nhầm lẫn, ROC-AUC & 4 hình ảnh minh họa |
 | [part08-decision-tree-vn.md](part08-decision-tree-vn.md) | `.md` | Bài giảng Chuyên sâu Cây Quyết định (Decision Tree): Cấu trúc cây, Entropy, Information Gain, Gini Impurity, CART, Cắt tỉa Pruning, Code Scikit-Learn & 7 hình ảnh minh họa |
 | [part08-random-forest-regression-vn.md](part08-random-forest-regression-vn.md) | `.md` | Bài giảng Chuyên sâu Hồi quy Rừng ngẫu nhiên (Random Forest Regression): Bagging, Feature Randomness, OOB Score ($36.8\%$), Feature Importance, Code Scikit-Learn Position Salaries & 4 hình ảnh minh họa |
+| [part08-support-vector-machine-vn.md](part08-support-vector-machine-vn.md) | `.md` | Bài giảng Chuyên sâu Máy Vector Hỗ trợ (Support Vector Machine - SVM): Hyperplane, Support Vectors, Lề cứng/mềm, Hinge Loss, Kernel Trick (RBF/Poly), Code Scikit-Learn Breast Cancer & 9 hình ảnh minh họa |
 | [part08-supervised-machine-learning.md](part08-supervised-machine-learning.md) | `.md` | Bản sao tiêu chuẩn bài học Supervised Learning |
 | [part08-linear-regression.md](part08-linear-regression.md) | `.md` | Bản sao tiêu chuẩn bài học Linear Regression |
 | [part08-logistic-regression.md](part08-logistic-regression.md) | `.md` | Bản sao tiêu chuẩn bài học Logistic Regression |
 | [part08-decision-tree.md](part08-decision-tree.md) | `.md` | Bản sao tiêu chuẩn bài học Decision Tree |
 | [part08-random-forest-regression.md](part08-random-forest-regression.md) | `.md` | Bản sao tiêu chuẩn bài học Random Forest Regression |
+| [part08-support-vector-machine.md](part08-support-vector-machine.md) | `.md` | Bản sao tiêu chuẩn bài học Support Vector Machine |
 
 ---
 
 ## 🖼️ Thư mục hình ảnh minh họa (`images/`)
 
-Tất cả 24 hình ảnh sơ đồ toán học và biểu đồ minh họa được chuẩn hóa định dạng `.png` và lưu trữ tại thư mục [`images/`](images/):
+Tất cả 33 hình ảnh sơ đồ toán học và biểu đồ minh họa được chuẩn hóa định dạng `.png` và lưu trữ tại thư mục [`images/`](images/):
 
 ### Nhóm 1: Hồi quy tuyến tính (Linear Regression - 9 ảnh)
 - `introduction-to-linear-regression.png`: Sơ đồ khái niệm biến phụ thuộc $Y$ và biến độc lập $X$.
@@ -102,6 +111,17 @@ Tất cả 24 hình ảnh sơ đồ toán học và biểu đồ minh họa đư
 - `random-forest-regression-plot.png`: Đồ thị thực nghiệm hồi quy phi tuyến trên dữ liệu mức lương theo cấp bậc (Position Salaries).
 - `random-forest-prediction-curve.png`: Đường cong hàm dự báo bậc thang phân giải cao (High-Resolution Grid Prediction Curve).
 
+### Nhóm 5: Máy Vector Hỗ trợ (Support Vector Machine - 9 ảnh)
+- `svm-what-is-svm.png`: Sơ đồ tổng quan giải thuật SVM và mục tiêu phân tách lớp.
+- `svm-support-vectors-hyperplane.png`: Mô hình hóa Hyperplane, Support Vectors và khoảng cách Margin.
+- `svm-linear-vs-non-linear-svm.png`: So sánh đối chiếu giữa Linear SVM và Non-Linear SVM.
+- `svm-multiple-hyperplanes.png`: Minh họa nhiều siêu phẳng phân tách tiềm năng và việc chọn siêu phẳng có lề cực đại.
+- `svm-outlier-scenario.png`: Tình huống dữ liệu thực tế có điểm ngoại lai (Outlier) vi phạm biên.
+- `svm-optimized-soft-margin.png`: Tối ưu hóa siêu phẳng với cơ chế lề mềm (Soft Margin).
+- `svm-1d-nonlinear-data.png`: Tập dữ liệu 1D phi tuyến không thể phân tách bằng một điểm cắt.
+- `svm-kernel-trick-transformation.png`: Ánh xạ dữ liệu lên không gian 2D để phân tách tuyến tính qua Kernel Trick.
+- `svm-breast-cancer-decision-boundary.png`: Trực quan hóa ranh giới quyết định phân loại ung thư vú bằng Scikit-Learn.
+
 ---
 
 ## 🔗 Nguồn tham khảo chính
@@ -111,4 +131,5 @@ Tất cả 24 hình ảnh sơ đồ toán học và biểu đồ minh họa đư
 - [GeeksforGeeks – Understanding Logistic Regression](https://www.geeksforgeeks.org/machine-learning/understanding-logistic-regression/)
 - [GeeksforGeeks – Decision Tree in Machine Learning](https://www.geeksforgeeks.org/machine-learning/decision-tree-introduction-example/)
 - [GeeksforGeeks – Random Forest Regression in Python](https://www.geeksforgeeks.org/machine-learning/random-forest-regression-in-python/)
+- [GeeksforGeeks – Support Vector Machine Algorithm](https://www.geeksforgeeks.org/machine-learning/support-vector-machine-algorithm/)
 - [Scikit-Learn Official User Guide](https://scikit-learn.org/stable/supervised_learning.html)

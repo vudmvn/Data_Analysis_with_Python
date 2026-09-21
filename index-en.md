@@ -42,7 +42,7 @@ The table below summarizes lecture notebooks, reading materials, slides, lab ass
 | **Week 11** | **Data Forecasting & Non-linear Regression (Part 2)** | • [Random Forest Regression](lectures/part08-supervised-learning/part08-random-forest-regression.md) | - | - | - | ✅ *Ready* |
 | **Week 12** | **Logistic Regression & Classification Pipeline** | • [Logistic Regression & Classification Pipeline](lectures/part08-supervised-learning/part08-logistic-regression.md) | - | - | - | ✅ *Ready* |
 | **Week 13** | **Binary Classification & Decision Tree** | • [Decision Tree in Machine Learning](lectures/part08-supervised-learning/part08-decision-tree.md) | - | - | - | ✅ *Ready* |
-| **Week 14** | Multiclass Classification & Imbalanced Data | - | - | - | - | ⏳ *In Progress* |
+| **Week 14** | **Advanced Classification & Support Vector Machine (SVM)** | • [Support Vector Machine (SVM)](lectures/part08-supervised-learning/part08-support-vector-machine.md) | - | - | - | ✅ *Ready* |
 | **Week 15** | Course Summary & Final Review | - | - | - | - | ⏳ *In Progress* |
 
 ---
