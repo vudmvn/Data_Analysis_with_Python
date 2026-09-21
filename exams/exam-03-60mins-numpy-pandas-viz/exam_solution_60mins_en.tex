@@ -1,0 +1,264 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Consolas}
+
+\usepackage[a4paper,top=1.4cm,bottom=1.5cm,left=1.6cm,right=1.6cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{tcolorbox}
+\usepackage{lastpage}
+
+% Colors
+\definecolor{codegray}{rgb}{0.96,0.96,0.96}
+\definecolor{keywordblue}{rgb}{0.0,0.2,0.6}
+\definecolor{stringgreen}{rgb}{0.0,0.5,0.2}
+\definecolor{commentgray}{rgb}{0.4,0.4,0.4}
+\definecolor{solgreen}{rgb}{0.0,0.45,0.15}
+\definecolor{solboxbg}{rgb}{0.93,0.98,0.93}
+\definecolor{solboxborder}{rgb}{0.2,0.6,0.3}
+
+\lstset{
+  language=Python,
+  backgroundcolor=\color{codegray},
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{keywordblue}\bfseries,
+  stringstyle=\color{stringgreen},
+  commentstyle=\color{commentgray}\itshape,
+  showstringspaces=false,
+  breaklines=true,
+  frame=single,
+  rulecolor=\color{gray!50},
+  aboveskip=2pt,
+  belowskip=2pt,
+  numbers=none,
+  columns=fullflexible
+}
+
+% Header & Footer
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{14pt}
+\lhead{\small \textbf{DSAI1005 --- Data Analysis with Python}}
+\rhead{\small \textbf{MIDTERM EXAM --- SOLUTION \& GRADING GUIDE}}
+\lfoot{\small Faculty of Data Science \& AI --- National Economics University (NEU)}
+\rfoot{\small Page \thepage\ of 4}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
+
+\newcommand{\rubricbox}[1]{
+  \begin{tcolorbox}[
+    colback=solboxbg,
+    colframe=solboxborder,
+    boxrule=0.6pt,
+    arc=2pt,
+    left=3mm, right=3mm, top=2mm, bottom=2mm
+  ]
+  \small #1
+  \end{tcolorbox}
+}
+
+\begin{document}
+
+% =========================================================================
+% HEADER
+% =========================================================================
+\noindent
+\begin{minipage}[t]{0.60\textwidth}
+  \textbf{NATIONAL ECONOMICS UNIVERSITY}\\
+  \textbf{FACULTY OF DATA SCIENCE \& AI}\\
+  \rule{5.0cm}{0.4pt}\\[1.5mm]
+  \large \textbf{MIDTERM EXAMINATION SOLUTIONS}\\
+  \normalsize \textbf{Course:} Data Analysis with Python (DSAI1005)\\
+  \textbf{Exam Code:} \textbf{301-EN} --- \textbf{Duration:} 60 minutes
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.38\textwidth}
+  \begin{tcolorbox}[colback=blue!5, colframe=blue!40, arc=2pt, boxrule=0.6pt]
+    \centering \small
+    \textbf{OFFICIAL GRADING RUBRIC}\\
+    \textbf{Total Score: 10.0 Points (100\%)}\\
+    \rule{4cm}{0.3pt}\\[1mm]
+    \textbf{Part I (Quiz):} 6.0 pts (12 $\times$ 0.5)\\
+    \textbf{Part II (Code):} 4.0 pts (2 problems)
+  \end{tcolorbox}
+\end{minipage}
+
+\vspace{2mm}
+\hrule
+\vspace{3mm}
+
+% =========================================================================
+% PART I: MULTIPLE-CHOICE KEY & RATIONALE
+% =========================================================================
+\section*{PART I: MULTIPLE-CHOICE SOLUTIONS (6.0 pts --- 0.5 pt each)}
+
+\subsection*{Master Multiple-Choice Answer Key}
+\begin{center}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\textwidth}{|c|c|c|c|X|}
+  \hline
+  \textbf{Q\#} & \textbf{Topic} & \textbf{Weight} & \textbf{Key} & \textbf{Core Concept Evaluated} \tabularnewline
+  \hline
+  \textbf{Q1} & NumPy & 0.5 pt & \textbf{A} & \texttt{np.linspace} step calculation and element-wise vectorization. \tabularnewline
+  \hline
+  \textbf{Q2} & NumPy & 0.5 pt & \textbf{B} & Step slicing \texttt{[::-1, 1]} memory view mutation versus copy behavior. \tabularnewline
+  \hline
+  \textbf{Q3} & NumPy & 0.5 pt & \textbf{A} & Multi-dimensional broadcasting across shapes \texttt{(4, 1, 6)} and \texttt{(3, 1)}. \tabularnewline
+  \hline
+  \textbf{Q4} & NumPy & 0.5 pt & \textbf{A} & Conditional filtering with \texttt{np.where} and column reduction \texttt{axis=0}. \tabularnewline
+  \hline
+  \textbf{Q5} & Pandas & 0.5 pt & \textbf{B} & Label-aligned addition with \texttt{s1.add(s2, fill\_value=0)}. \tabularnewline
+  \hline
+  \textbf{Q6} & Pandas & 0.5 pt & \textbf{A} & Boundary semantics: inclusive label slicing \texttt{.loc} vs half-open \texttt{.iloc}. \tabularnewline
+  \hline
+  \textbf{Q7} & Pandas & 0.5 pt & \textbf{B} & Multi-level grouping \texttt{groupby} and multi-metric aggregation \texttt{.agg}. \tabularnewline
+  \hline
+  \textbf{Q8} & Pandas & 0.5 pt & \textbf{B} & SQL-style left join semantics: preserving left row count with right \texttt{NaN}. \tabularnewline
+  \hline
+  \textbf{Q9} & Viz & 0.5 pt & \textbf{A} & Object-Oriented 2D subplot array indexing \texttt{axes[row, col]} and methods. \tabularnewline
+  \hline
+  \textbf{Q10} & Viz & 0.5 pt & \textbf{B} & Continuous distributions with extreme skewness: boxplot 5-number summary. \tabularnewline
+  \hline
+  \textbf{Q11} & Viz & 0.5 pt & \textbf{A} & Seaborn semantic channels: \texttt{hue} for palette colors, \texttt{style} for glyphs. \tabularnewline
+  \hline
+  \textbf{Q12} & Viz & 0.5 pt & \textbf{B} & Heatmap numeric value overlay (\texttt{annot=True}) and layout adjustments. \tabularnewline
+  \hline
+\end{tabularx}
+\end{center}
+
+\subsection*{Step-by-Step Technical Explanations}
+\begin{itemize}[leftmargin=*, itemsep=4pt]
+  \item \textbf{Q1 (Option A):} \texttt{np.linspace(0, 10, 5)} yields array \texttt{[0.0, 2.5, 5.0, 7.5, 10.0]}. \texttt{np.arange(1, 6)} produces integer array \texttt{[1, 2, 3, 4, 5]}. Scaled by 2, $b \times 2 = \texttt{[2, 4, 6, 8, 10]}$. Vectorized addition produces $[0+2, 2.5+4, 5.0+6, 7.5+8, 10.0+10] = \texttt{[2.0, 6.5, 11.0, 15.5, 20.0]}$. Floating-point promotion applies.
+  \item \textbf{Q2 (Option B):} Basic slicing on ndarrays produces a \textit{view}, sharing underlying data buffer with \texttt{m}. The slice \texttt{m[::-1, 1]} extracts column 1 in reversed order: row index 2 (80), row index 1 (50), and row index 0 (20). Assigning \texttt{v[0] = 999} mutates the corresponding element in \texttt{m}, which is \texttt{m[2, 1]}. Meanwhile, \texttt{v[2]} corresponds to \texttt{m[0, 1] = 20}. Thus \texttt{m[2, 1]} is 999 and \texttt{v[2]} is 20.
+  \item \textbf{Q3 (Option A):} Broadcasting aligns trailing axes: $A: (4, 1, 6)$ and $B: (3, 1)$. Adding leading singleton: $B: (1, 3, 1)$. Comparing dimensions: axis 2 has $(6, 1) \rightarrow 6$; axis 1 has $(1, 3) \rightarrow 3$; axis 0 has $(4, 1) \rightarrow 4$. Result shape of $A \times B$ is $(4, 3, 6)$. Adding \texttt{np.zeros(6)} aligns with axis 2 (size 6), preserving shape $(4, 3, 6)$.
+  \item \textbf{Q4 (Option A):} Condition: $(x \% 2 == 0) \land (x > 10)$. Evaluating matrix $x = [[12, 25, 8], [30, 15, 22]]$:
+  \begin{itemize}
+    \item Row 0: 12 is even and $> 10 \rightarrow 12 \times 2 = 24$; 25 is odd $\rightarrow 0$; 8 is $\le 10 \rightarrow 0$.
+    \item Row 1: 30 is even and $> 10 \rightarrow 30 \times 2 = 60$; 15 is odd $\rightarrow 0$; 22 is even and $> 10 \rightarrow 22 \times 2 = 44$.
+  \end{itemize}
+  \texttt{filtered} is $[[24, 0, 0], [60, 0, 44]]$. Column sum along \texttt{axis=0}: $[24+60, 0+0, 0+44] = [84, 0, 44]$.
+  \item \textbf{Q5 (Option B):} \texttt{.add(..., fill\_value=0)} replaces missing values with 0 prior to addition. For \texttt{'Da Nang'}, $S_1$ has 30 and $S_2$ is missing $\rightarrow 30 + 0 = 30.0$. For \texttt{'Can Tho'}, $S_1$ is missing and $S_2$ has 15 $\rightarrow 0 + 15 = 15.0$.
+  \item \textbf{Q6 (Option A):} \texttt{.loc} uses label-based indexing where both start and stop endpoints are inclusive (\texttt{'Q2'}, \texttt{'Q3'}, \texttt{'Q4'} $\rightarrow 3$ rows). \texttt{.iloc} uses 0-based integer position indexing where the stop endpoint is exclusive ($[1, 3)$ selects indices 1 and 2 $\rightarrow 2$ rows).
+  \item \textbf{Q7 (Option B):} Rows matching \texttt{('North', 'Food')} are row 0 (\texttt{Sales=100}) and row 4 (\texttt{Sales=200}). Total sum is $100 + 200 = 300$.
+  \item \textbf{Q8 (Option B):} A left join guarantees retention of all records from the left DataFrame ($A$, 500 rows). Unmatched foreign keys will populate attributes from $B$ with \texttt{NaN}.
+  \item \textbf{Q9 (Option A):} In a 2D subplot array \texttt{axes}, indexing follows matrix notation \texttt{[row, col]}. Row index 0 is row 1; column index 1 is column 2. Thus \texttt{axes[0, 1].set\_title(...)} correctly invokes the OO method.
+  \item \textbf{Q10 (Option B):} A boxplot accurately conveys non-parametric distributions via median, quartiles ($Q1, Q3$), and flags extreme values beyond $1.5 \times IQR$ as individual points, avoiding distortion from heavy tails.
+  \item \textbf{Q11 (Option A):} Seaborn maps \texttt{hue} to distinct color palettes, and \texttt{style} to point marker glyphs (e.g., circle, square, triangle).
+  \item \textbf{Q12 (Option B):} \texttt{annot=True} renders the numeric values directly inside each matrix cell; \texttt{plt.tight\_layout()} automatically computes subplot margins to prevent axes labels and titles from overlapping or clipping.
+\end{itemize}
+
+\clearpage
+% =========================================================================
+% PART II: APPLIED CODING SOLUTIONS
+% =========================================================================
+\section*{PART II: APPLIED CODING SOLUTIONS \& GRADING RUBRIC (4.0 pts)}
+
+\subsection*{Problem 1: Quantitative E-Commerce Performance Pipeline (2.0 pts)}
+
+\subsubsection*{Standard Model Solution}
+\begin{lstlisting}
+# [BLANK 1] (0.4 pt)
+(tx_data[:, 0] * tx_data[:, 1] * (1 - tx_data[:, 2])) - tx_data[:, 3]
+
+# [BLANK 2] (0.4 pt)
+np.where((net_revenue >= 250000) | (tx_data[:, 1] >= 4), 'Wholesale', 'Retail')
+
+# [BLANK 3] (0.4 pt)
+cust_df, on='cust_id', how='left'
+
+# [BLANK 4] (0.4 pt)
+['city', 'tier'])['net_rev'].agg(['sum', 'count']
+
+# [BLANK 5] (0.4 pt)
+('net_rev', 'sum'), ascending=False
+\end{lstlisting}
+
+\subsubsection*{Grading Criteria \& Scoring Rubric for Problem 1}
+\begin{itemize}[leftmargin=*, itemsep=4pt]
+  \item \textbf{[BLANK 1] (0.4 pt total):}
+  \begin{itemize}
+    \item \textbf{0.2 pt:} Accurate 2D slice indexing: \texttt{tx\_data[:, 0]}, \texttt{tx\_data[:, 1]}, \texttt{tx\_data[:, 2]}, \texttt{tx\_data[:, 3]}. (Deduct 0.1 pt if student wrote 1D index like \texttt{tx\_data[0]}).
+    \item \textbf{0.2 pt:} Correct algebraic net revenue formula respecting parentheses and order of operations.
+    \item \textit{Alternative:} \lstinline[basicstyle=\ttfamily\scriptsize]!(tx_data[:, 0] * tx_data[:, 1] * (1 - tx_data[:, 2])) - tx_data[:, 3]! expanded algebraically is fully accepted (0.4 pt).
+  \end{itemize}
+
+  \item \textbf{[BLANK 2] (0.4 pt total):}
+  \begin{itemize}
+    \item \textbf{0.2 pt:} Correct conditional with bitwise OR \texttt{|} and proper parentheses around individual boolean clauses: \texttt{(net\_revenue >= 250000) | (tx\_data[:, 1] >= 4)}. Deduct 0.1 pt if Python keyword \texttt{or} was used (causes \texttt{ValueError} on arrays).
+    \item \textbf{0.2 pt:} Exact string labels \texttt{'Wholesale'} and \texttt{'Retail'} in true and false branches.
+  \end{itemize}
+
+  \item \textbf{[BLANK 3] (0.4 pt total):}
+  \begin{itemize}
+    \item \textbf{0.2 pt:} Target merge table \texttt{cust\_df} and join key \texttt{on='cust\_id'} specified.
+    \item \textbf{0.2 pt:} Join type \texttt{how='left'} specified.
+  \end{itemize}
+
+  \item \textbf{[BLANK 4] (0.4 pt total):}
+  \begin{itemize}
+    \item \textbf{0.2 pt:} Grouping keys list \texttt{['city', 'tier']} (or tuple \texttt{('city', 'tier')}).
+    \item \textbf{0.2 pt:} Target column selection \texttt{['net\_rev']} chained with aggregation \texttt{.agg(['sum', 'count'])}.
+    \item \textit{Alternative:} Dictionary syntax \texttt{merged.groupby(['city', 'tier']).agg(\{'net\_rev': ['sum', 'count']\})} is fully accepted for full credit.
+  \end{itemize}
+
+  \item \textbf{[BLANK 5] (0.4 pt total):}
+  \begin{itemize}
+    \item \textbf{0.2 pt:} MultiIndex column tuple specification \texttt{('net\_rev', 'sum')} or \texttt{[('net\_rev', 'sum')]}.
+    \item \textbf{0.2 pt:} Sorting direction parameter \texttt{ascending=False}.
+  \end{itemize}
+\end{itemize}
+
+\vspace{2mm}
+\hrule
+\vspace{3mm}
+
+\subsection*{Problem 2: Multi-Channel Sales Dashboard \& Risk Analytics (2.0 pts)}
+
+\subsubsection*{Standard Model Solution}
+\begin{lstlisting}
+# [BLANK 6] (0.4 pt)
+plt.subplots(1, 2, figsize=(14, 5))
+
+# [BLANK 7] (0.6 pt)
+data=df_sales, x='payment', y='amount', hue='is_fraud', palette='Set2', ax=axes[0]
+
+# [BLANK 8] (0.4 pt)
+rolling(window=4).mean()   # or: rolling(4).mean()
+
+# [BLANK 9] (0.2 pt)
+plt.tight_layout()
+\end{lstlisting}
+
+\subsubsection*{Part C: Executive Insights Model Answers (0.4 pt)}
+\rubricbox{
+  \textbf{Question 1: Outlier Identification in Boxplot (0.2 pt)}
+  \begin{itemize}[itemsep=1pt]
+    \item \textbf{Model Answer:} In a boxplot, typical legitimate transactions fall inside the central box (the Interquartile Range from 25th percentile $Q_1$ to 75th percentile $Q_3$) and within the upper and lower whiskers (defined as $[Q_1 - 1.5 \times IQR, Q_3 + 1.5 \times IQR]$). Any transactions extending beyond the whisker thresholds are marked as individual outlier points (fliers), visually highlighting anomalous or suspicious transaction values that warrant fraud investigation.
+    \item \textbf{Grading:} Award 0.1 pt for mentioning $IQR$ / box boundary; award 0.1 pt for noting that points plotted past $1.5 \times IQR$ / whiskers represent outliers.
+  \end{itemize}
+  \vspace{1mm}
+  \textbf{Question 2: Forecasting Advantage of Rolling Average (0.2 pt)}
+  \begin{itemize}[itemsep=1pt]
+    \item \textbf{Model Answer:} Raw weekly sales data contains high-frequency random noise, day-of-week timing quirks, and one-off anomalies that create erratic peaks and valleys. A 4-week rolling moving average dampens these short-term fluctuations by smoothing the trend, revealing the true underlying baseline trajectory and momentum essential for robust quarterly revenue projections.
+    \item \textbf{Grading:} Award 0.1 pt for mentioning smoothing/reducing variance or noise; award 0.1 pt for explaining that it reveals the underlying trend for forecasting.
+  \end{itemize}
+}
+
+\vfill
+\begin{center}
+\small \textbf{--- END OF SOLUTION \& GRADING GUIDE ---}
+\end{center}
+
+\end{document}
