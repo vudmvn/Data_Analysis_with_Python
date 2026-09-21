@@ -1,4 +1,4 @@
-# Tuần 08–09: Data Segmentation, K-Means, K-Means++, Elbow Method & Hierarchical Clustering
+# Tuần 08–09: Data Segmentation, K-Means, Hierarchical & Density-based Clustering (DBSCAN & OPTICS)
 
 **Học phần:** Phân tích dữ liệu với Python (DSAI1005)  
 **Giảng viên:** TS. Vũ Đức Minh – Khoa Khoa học dữ liệu và Trí tuệ nhân tạo (NEU)  
@@ -8,11 +8,12 @@
 
 ## 📌 Tổng quan chuyên đề
 
-Chuyên đề này cung cấp kiến thức nền tảng và chuyên sâu về **Học không giám sát (Unsupervised Machine Learning)**, tập trung vào bốn mảng kiến thức trụ cột:
+Chuyên đề này cung cấp kiến thức nền tảng và chuyên sâu về **Học không giám sát (Unsupervised Machine Learning)**, tập trung vào năm mảng kiến thức trụ cột:
 1. **Phân khúc dữ liệu (Data Segmentation):** Bản chất phân khúc khách hàng, thị trường và sản phẩm; phân biệt giữa Segmentation, Data Partitioning và Targeting; quy trình xây dựng bài toán phân khúc trong doanh nghiệp.
 2. **Tổng quan Phân cụm dữ liệu (Clustering Overview):** Khám phá cấu trúc tự nhiên của dữ liệu chưa gán nhãn; phân biệt Hard vs Soft Clustering; 5 phương pháp phân cụm cốt lõi (Centroid, Density, Hierarchical, Distribution, Fuzzy); và các chỉ số đánh giá chất lượng (Silhouette, Davies-Bouldin).
 3. **Các Phương pháp Dựa trên Tâm (Centroid-based Methods):** Đi sâu vào giải thuật **K-Means**, thuật toán khởi tạo thông minh **K-Means++** (Arthur & Vassilvitskii, 2007) với giới hạn xấp xỉ $O(\log K)$, **Phương pháp Khuỷu tay (Elbow Method)** dựa trên Distortion và Inertia, cùng biến thể kiên cường trước ngoại lai **K-Medoids (PAM)**.
 4. **Các Phương pháp Dựa trên Tính liên kết (Connectivity-based Methods):** Khám phá toàn diện **Phân cụm Phân cấp (Hierarchical Clustering)**, bao gồm hai nhánh **Agglomerative (Bottom-Up)** và **Divisive (Top-Down)**; cấu trúc biểu đồ cây **Dendrogram** và quy tắc cắt qua nhánh dọc dài nhất tìm $K$ tối ưu; 5 tiêu chuẩn liên kết (Single, Complete, Average, Centroid, Ward); và Hệ số tương quan Cophenetic (CPCC).
+5. **Các Phương pháp Dựa trên Mật độ (Density-based Methods):** Làm chủ **DBSCAN** với hai siêu tham số $(\epsilon, \text{MinPts})$, phân loại 3 nhóm điểm (Core, Border, Noise), kỹ thuật tìm $\epsilon$ bằng đồ thị K-Distance; và thuật toán **OPTICS** khắc phục bài toán đa mật độ thông qua Core Distance, Reachability Distance, Biểu đồ Khả năng tiếp cận (**Reachability Plot**) cùng cơ chế trích xuất đa tầng $\xi$-steep.
 
 ---
 
@@ -23,8 +24,9 @@ Chuyên đề này cung cấp kiến thức nền tảng và chuyên sâu về *
 3. **Ứng dụng thành thạo Phương pháp Khuỷu tay (Elbow Method):** Tính toán hai chỉ số **Distortion** và **Inertia**, vẽ đồ thị Elbow và xác định điểm gãy tối ưu để chọn số lượng cụm $K$.
 4. **Làm chủ Phân cụm Phân cấp & Biểu đồ Dendrogram:** Hiểu rõ cơ chế xây dựng cây phân cấp lồng nhau không cần giả định $K$ ban đầu; đọc giải phẫu Dendrogram và áp dụng kỹ thuật cắt ngang qua nhánh dọc dài nhất.
 5. **Nắm vững 5 tiêu chuẩn liên kết cụm (Linkage Criteria):** Single Linkage (và hiện tượng nối chuỗi Chaining Effect), Complete Linkage, Average Linkage, Centroid Linkage (và rủi ro Đảo ngược Inversion), cùng Ward's Minimum Variance Criterion.
-6. **Đánh giá và so sánh đa chiều các thuật toán:** Định lượng mức độ bảo toàn khoảng cách bằng Cophenetic Correlation Coefficient (CPCC); so sánh K-Means vs Hierarchical vs DBSCAN.
-7. **Thực hành với Scikit-Learn, SciPy & NumPy:** Lập trình K-Means, K-Means++, AgglomerativeClustering, tự cài đặt thuật toán Divisive Clustering đệ quy, trích xuất ma trận liên kết và biểu diễn Dendrogram.
+6. **Làm chủ Phân cụm Dựa trên Mật độ (DBSCAN & OPTICS):** Nhận diện cụm phi cầu có hình dạng bất kỳ, tự động cô lập điểm nhiễu (Outliers); xác định $\epsilon$ bằng đồ thị K-Distance; giải mã Reachability Plot và phân cụm dữ liệu đa mật độ.
+7. **Đánh giá và so sánh đa chiều các thuật toán:** So sánh toàn diện 4 trường phái K-Means vs Hierarchical vs DBSCAN vs OPTICS theo các chiều: hình thái cụm, độ nhạy tham số, tính tất định và độ phức tạp tính toán.
+8. **Thực hành với Scikit-Learn, SciPy & NumPy:** Lập trình K-Means, K-Means++, AgglomerativeClustering, DBSCAN, OPTICS, hàm trích xuất `cluster_optics_dbscan`, xây dựng pipeline tiền xử lý chuẩn hóa `StandardScaler` và trực quan hóa chuyên nghiệp.
 
 ---
 
@@ -36,15 +38,17 @@ Chuyên đề này cung cấp kiến thức nền tảng và chuyên sâu về *
 | [part07-clustering-machine-learning-vn.md](part07-clustering-machine-learning-vn.md) | `.md` | Bài giảng Tổng quan Phân cụm trong Machine Learning: Hard vs Soft, 5 phương pháp phân cụm (K-Means, DBSCAN, Hierarchical, GMM, FCM), Đánh giá Silhouette, Code Scikit-Learn & Hình ảnh minh họa |
 | [part07-kmeans-elbow-kmeans-plus-plus-vn.md](part07-kmeans-elbow-kmeans-plus-plus-vn.md) | `.md` | Bài giảng Chuyên sâu Centroid-based Methods: K-Means (Lloyd), Khởi tạo thông minh K-Means++ ($O(\log K)$), Phương pháp Khuỷu tay (Elbow Method với Distortion/Inertia), K-Medoids & 8 hình ảnh minh họa |
 | [part07-hierarchical-agglomerative-clustering-vn.md](part07-hierarchical-agglomerative-clustering-vn.md) | `.md` | Bài giảng Chuyên sâu Connectivity-based Methods: Hierarchical Clustering, Agglomerative (Bottom-Up) vs Divisive (Top-Down), Cấu trúc Dendrogram, 5 Linkage Criteria, CPCC, Code Scikit-Learn/SciPy & 13 hình ảnh minh họa |
+| [part07-density-based-clustering-dbscan-optics-vn.md](part07-density-based-clustering-dbscan-optics-vn.md) | `.md` | Bài giảng Chuyên sâu Density-based Methods: DBSCAN (Epsilon, MinPts, Core/Border/Noise, K-Distance graph) & OPTICS (Core Distance, Reachability Distance, Reachability Plot, Xi-steep extraction), Code Scikit-Learn & 8 hình ảnh minh họa |
 | [part07-clustering-machine-learning.md](part07-clustering-machine-learning.md) | `.md` | Bản sao tiêu chuẩn bài học Clustering in Machine Learning |
 | [part07-kmeans-elbow-kmeans-plus-plus.md](part07-kmeans-elbow-kmeans-plus-plus.md) | `.md` | Bản sao tiêu chuẩn bài học K-Means, K-Means++ & Elbow Method |
 | [part07-hierarchical-agglomerative-clustering.md](part07-hierarchical-agglomerative-clustering.md) | `.md` | Bản sao tiêu chuẩn bài học Hierarchical & Agglomerative Clustering |
+| [part07-density-based-clustering-dbscan-optics.md](part07-density-based-clustering-dbscan-optics.md) | `.md` | Bản sao tiêu chuẩn bài học DBSCAN & OPTICS |
 
 ---
 
 ## 🖼️ Thư mục hình ảnh minh họa (`images/`)
 
-Tất cả 24 hình ảnh sơ đồ toán học và biểu đồ minh họa được chuẩn hóa định dạng `.png` và lưu trữ tại thư mục [`images/`](images/):
+Tất cả 32 hình ảnh sơ đồ toán học và biểu đồ minh họa được chuẩn hóa định dạng `.png` và lưu trữ tại thư mục [`images/`](images/):
 
 ### Nhóm 1: Tổng quan Phân cụm (Clustering Overview - 3 ảnh)
 - `clustering-overview.png`: Sơ đồ khái niệm phân cụm dữ liệu chưa gán nhãn thành các nhóm tự nhiên.
@@ -76,14 +80,26 @@ Tất cả 24 hình ảnh sơ đồ toán học và biểu đồ minh họa đư
 - `download-divisive-plot.png`: Đồ thị thực nghiệm phân cụm Divisive Clustering và Dendrogram bằng Python.
 - `hierarchical-applications.png`: Tổng hợp các miền ứng dụng thực tiễn đột phá của Phân cụm phân cấp trong đời sống và công nghệ.
 
+### Nhóm 4: Density-based Clustering – DBSCAN & OPTICS (8 ảnh)
+- `dbscan-density-concept.png`: Khái niệm lân cận Epsilon ($\epsilon$), ngưỡng mật độ MinPts và các vùng liên thông mật độ.
+- `dbscan-core-border-noise.png`: Sơ đồ phân loại 3 nhóm điểm dữ liệu trong DBSCAN: Core Points, Border Points và Noise Points.
+- `dbscan-density-connected.png`: Minh họa các quan hệ hình học: Tiếp cận trực tiếp theo mật độ, Tiếp cận theo mật độ và Liên thông mật độ.
+- `dbscan-cluster-result.png`: Đồ thị kết quả phân cụm tự nhiên của DBSCAN trên tập dữ liệu tổng hợp.
+- `dbscan-vs-kmeans-comparison.png`: Bảng so sánh trực quan 3x3 giữa K-Means (Centroid-based) và DBSCAN (Density-based) trên 3 hình thái dữ liệu thách thức (Moons, Circles, Blobs+Noise).
+- `dbscan-k-distance-elbow.png`: Phương pháp Đồ thị K-Distance (K-NN Distance Plot) tìm điểm uốn (Knee/Elbow) xác định Epsilon ($\epsilon$) tối ưu.
+- `optics-clustering-structure.png`: Minh họa cấu trúc phân cụm và trích xuất cụm của thuật toán OPTICS.
+- `optics-reachability-multilevel.png`: Biểu đồ Khả năng tiếp cận (Reachability Plot) đa tầng, so sánh trích xuất tự động $\xi$ và các lát cắt $\epsilon$ phẳng.
+
 ---
 
 ## 🔗 Nguồn tham khảo chính
 
+- [GeeksforGeeks – DBSCAN Clustering in ML - Density based clustering](https://www.geeksforgeeks.org/dbscan-clustering-in-ml-density-based-clustering/)
+- [GeeksforGeeks – Ordering Points To Identify Cluster Structure (OPTICS) using Sklearn](https://www.geeksforgeeks.org/ordering-points-to-identify-cluster-structure-optics-using-sklearn/)
 - [GeeksforGeeks – Hierarchical Clustering in Machine Learning](https://www.geeksforgeeks.org/machine-learning/hierarchical-clustering/)
-- [GeeksforGeeks – Hierarchical Clustering in Data Mining](https://www.geeksforgeeks.org/hierarchical-clustering-in-data-mining/)
 - [GeeksforGeeks – Clustering in Machine Learning](https://www.geeksforgeeks.org/machine-learning/clustering-in-machine-learning/)
 - [GeeksforGeeks – K-means Clustering Introduction](https://www.geeksforgeeks.org/machine-learning/k-means-clustering-introduction/)
-- [GeeksforGeeks – Elbow Method for Optimal Value of k in KMeans](https://www.geeksforgeeks.org/machine-learning/elbow-method-for-optimal-value-of-k-in-kmeans/)
-- [Scikit-Learn Official User Guide – Hierarchical Clustering](https://scikit-learn.org/stable/modules/clustering.html#hierarchical-clustering)
-- [SciPy Hierarchy Module](https://docs.scipy.org/doc/scipy/reference/cluster.hierarchy.html)
+- [Scikit-Learn Official User Guide – DBSCAN](https://scikit-learn.org/stable/modules/clustering.html#dbscan)
+- [Scikit-Learn Official User Guide – OPTICS](https://scikit-learn.org/stable/modules/clustering.html#optics)
+- [Ester et al. (1996) – A Density-Based Algorithm for Discovering Clusters](https://www.aaai.org/Papers/KDD/1996/KDD96-037.pdf)
+- [Ankerst et al. (1999) – OPTICS: Ordering Points To Identify the Clustering Structure](https://dl.acm.org/doi/10.1145/304182.304187)
