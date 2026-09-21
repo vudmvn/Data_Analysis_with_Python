@@ -1,4 +1,4 @@
-# Tuần 08–09: Data Segmentation, K-Means, Hierarchical & Density-based Clustering (DBSCAN & OPTICS)
+# Tuần 08–09: Data Segmentation, K-Means, Hierarchical, Density-based (DBSCAN/OPTICS) & Distribution-based (GMM/EM) Clustering
 
 **Học phần:** Phân tích dữ liệu với Python (DSAI1005)  
 **Giảng viên:** TS. Vũ Đức Minh – Khoa Khoa học dữ liệu và Trí tuệ nhân tạo (NEU)  
@@ -8,12 +8,13 @@
 
 ## 📌 Tổng quan chuyên đề
 
-Chuyên đề này cung cấp kiến thức nền tảng và chuyên sâu về **Học không giám sát (Unsupervised Machine Learning)**, tập trung vào năm mảng kiến thức trụ cột:
+Chuyên đề này cung cấp kiến thức nền tảng và chuyên sâu về **Học không giám sát (Unsupervised Machine Learning)**, hoàn thiện trọn vẹn năm trường phái phân cụm trụ cột:
 1. **Phân khúc dữ liệu (Data Segmentation):** Bản chất phân khúc khách hàng, thị trường và sản phẩm; phân biệt giữa Segmentation, Data Partitioning và Targeting; quy trình xây dựng bài toán phân khúc trong doanh nghiệp.
 2. **Tổng quan Phân cụm dữ liệu (Clustering Overview):** Khám phá cấu trúc tự nhiên của dữ liệu chưa gán nhãn; phân biệt Hard vs Soft Clustering; 5 phương pháp phân cụm cốt lõi (Centroid, Density, Hierarchical, Distribution, Fuzzy); và các chỉ số đánh giá chất lượng (Silhouette, Davies-Bouldin).
 3. **Các Phương pháp Dựa trên Tâm (Centroid-based Methods):** Đi sâu vào giải thuật **K-Means**, thuật toán khởi tạo thông minh **K-Means++** (Arthur & Vassilvitskii, 2007) với giới hạn xấp xỉ $O(\log K)$, **Phương pháp Khuỷu tay (Elbow Method)** dựa trên Distortion và Inertia, cùng biến thể kiên cường trước ngoại lai **K-Medoids (PAM)**.
 4. **Các Phương pháp Dựa trên Tính liên kết (Connectivity-based Methods):** Khám phá toàn diện **Phân cụm Phân cấp (Hierarchical Clustering)**, bao gồm hai nhánh **Agglomerative (Bottom-Up)** và **Divisive (Top-Down)**; cấu trúc biểu đồ cây **Dendrogram** và quy tắc cắt qua nhánh dọc dài nhất tìm $K$ tối ưu; 5 tiêu chuẩn liên kết (Single, Complete, Average, Centroid, Ward); và Hệ số tương quan Cophenetic (CPCC).
 5. **Các Phương pháp Dựa trên Mật độ (Density-based Methods):** Làm chủ **DBSCAN** với hai siêu tham số $(\epsilon, \text{MinPts})$, phân loại 3 nhóm điểm (Core, Border, Noise), kỹ thuật tìm $\epsilon$ bằng đồ thị K-Distance; và thuật toán **OPTICS** khắc phục bài toán đa mật độ thông qua Core Distance, Reachability Distance, Biểu đồ Khả năng tiếp cận (**Reachability Plot**) cùng cơ chế trích xuất đa tầng $\xi$-steep.
+6. **Các Phương pháp Dựa trên Phân phối (Distribution-based Methods):** Làm chủ **Mô hình Hỗn hợp Gauss (Gaussian Mixture Model - GMM)** và thuật toán **Expectation-Maximization (EM)**; phân cụm mềm (Soft Assignment) với ma trận trách nhiệm $\gamma_{nk}$; 4 dạng ma trận hiệp phương sai (`spherical`, `diag`, `tied`, `full`); tiêu chuẩn thông tin AIC/BIC; và chứng minh K-Means là trường hợp giới hạn của GMM.
 
 ---
 
@@ -25,8 +26,9 @@ Chuyên đề này cung cấp kiến thức nền tảng và chuyên sâu về *
 4. **Làm chủ Phân cụm Phân cấp & Biểu đồ Dendrogram:** Hiểu rõ cơ chế xây dựng cây phân cấp lồng nhau không cần giả định $K$ ban đầu; đọc giải phẫu Dendrogram và áp dụng kỹ thuật cắt ngang qua nhánh dọc dài nhất.
 5. **Nắm vững 5 tiêu chuẩn liên kết cụm (Linkage Criteria):** Single Linkage (và hiện tượng nối chuỗi Chaining Effect), Complete Linkage, Average Linkage, Centroid Linkage (và rủi ro Đảo ngược Inversion), cùng Ward's Minimum Variance Criterion.
 6. **Làm chủ Phân cụm Dựa trên Mật độ (DBSCAN & OPTICS):** Nhận diện cụm phi cầu có hình dạng bất kỳ, tự động cô lập điểm nhiễu (Outliers); xác định $\epsilon$ bằng đồ thị K-Distance; giải mã Reachability Plot và phân cụm dữ liệu đa mật độ.
-7. **Đánh giá và so sánh đa chiều các thuật toán:** So sánh toàn diện 4 trường phái K-Means vs Hierarchical vs DBSCAN vs OPTICS theo các chiều: hình thái cụm, độ nhạy tham số, tính tất định và độ phức tạp tính toán.
-8. **Thực hành với Scikit-Learn, SciPy & NumPy:** Lập trình K-Means, K-Means++, AgglomerativeClustering, DBSCAN, OPTICS, hàm trích xuất `cluster_optics_dbscan`, xây dựng pipeline tiền xử lý chuẩn hóa `StandardScaler` và trực quan hóa chuyên nghiệp.
+7. **Làm chủ Phân cụm Dựa trên Phân phối (GMM & EM):** Hiểu sâu mô hình phân cụm mềm (Soft Clustering), 2 bước luân phiên E-step và M-step của thuật toán EM, 4 dạng ma trận hiệp phương sai và kỹ thuật chọn $K$ bằng tiêu chuẩn thông tin BIC/AIC.
+8. **Đánh giá và so sánh toàn diện 5 trường phái:** K-Means vs Hierarchical vs DBSCAN vs OPTICS vs GMM.
+9. **Thực hành với Scikit-Learn, SciPy & NumPy:** Xây dựng mô hình K-Means, K-Means++, AgglomerativeClustering, DBSCAN, OPTICS, GaussianMixture, tự cài đặt thuật toán EM bằng NumPy thuần và ứng dụng tách nền video, phân khúc khách hàng.
 
 ---
 
@@ -39,16 +41,18 @@ Chuyên đề này cung cấp kiến thức nền tảng và chuyên sâu về *
 | [part07-kmeans-elbow-kmeans-plus-plus-vn.md](part07-kmeans-elbow-kmeans-plus-plus-vn.md) | `.md` | Bài giảng Chuyên sâu Centroid-based Methods: K-Means (Lloyd), Khởi tạo thông minh K-Means++ ($O(\log K)$), Phương pháp Khuỷu tay (Elbow Method với Distortion/Inertia), K-Medoids & 8 hình ảnh minh họa |
 | [part07-hierarchical-agglomerative-clustering-vn.md](part07-hierarchical-agglomerative-clustering-vn.md) | `.md` | Bài giảng Chuyên sâu Connectivity-based Methods: Hierarchical Clustering, Agglomerative (Bottom-Up) vs Divisive (Top-Down), Cấu trúc Dendrogram, 5 Linkage Criteria, CPCC, Code Scikit-Learn/SciPy & 13 hình ảnh minh họa |
 | [part07-density-based-clustering-dbscan-optics-vn.md](part07-density-based-clustering-dbscan-optics-vn.md) | `.md` | Bài giảng Chuyên sâu Density-based Methods: DBSCAN (Epsilon, MinPts, Core/Border/Noise, K-Distance graph) & OPTICS (Core Distance, Reachability Distance, Reachability Plot, Xi-steep extraction), Code Scikit-Learn & 8 hình ảnh minh họa |
+| [part07-distribution-based-clustering-gmm-em-vn.md](part07-distribution-based-clustering-gmm-em-vn.md) | `.md` | Bài giảng Chuyên sâu Distribution-based Methods: Gaussian Mixture Models (GMM), Thuật toán Expectation-Maximization (EM), Phân cụm mềm $\gamma_{nk}$, 4 Covariance Types, AIC/BIC, Code NumPy/Scikit-Learn & 9 hình ảnh minh họa |
 | [part07-clustering-machine-learning.md](part07-clustering-machine-learning.md) | `.md` | Bản sao tiêu chuẩn bài học Clustering in Machine Learning |
 | [part07-kmeans-elbow-kmeans-plus-plus.md](part07-kmeans-elbow-kmeans-plus-plus.md) | `.md` | Bản sao tiêu chuẩn bài học K-Means, K-Means++ & Elbow Method |
 | [part07-hierarchical-agglomerative-clustering.md](part07-hierarchical-agglomerative-clustering.md) | `.md` | Bản sao tiêu chuẩn bài học Hierarchical & Agglomerative Clustering |
 | [part07-density-based-clustering-dbscan-optics.md](part07-density-based-clustering-dbscan-optics.md) | `.md` | Bản sao tiêu chuẩn bài học DBSCAN & OPTICS |
+| [part07-distribution-based-clustering-gmm-em.md](part07-distribution-based-clustering-gmm-em.md) | `.md` | Bản sao tiêu chuẩn bài học GMM & EM Algorithm |
 
 ---
 
 ## 🖼️ Thư mục hình ảnh minh họa (`images/`)
 
-Tất cả 32 hình ảnh sơ đồ toán học và biểu đồ minh họa được chuẩn hóa định dạng `.png` và lưu trữ tại thư mục [`images/`](images/):
+Tất cả 41 hình ảnh sơ đồ toán học và biểu đồ minh họa được chuẩn hóa định dạng `.png` và lưu trữ tại thư mục [`images/`](images/):
 
 ### Nhóm 1: Tổng quan Phân cụm (Clustering Overview - 3 ảnh)
 - `clustering-overview.png`: Sơ đồ khái niệm phân cụm dữ liệu chưa gán nhãn thành các nhóm tự nhiên.
@@ -90,16 +94,26 @@ Tất cả 32 hình ảnh sơ đồ toán học và biểu đồ minh họa đư
 - `optics-clustering-structure.png`: Minh họa cấu trúc phân cụm và trích xuất cụm của thuật toán OPTICS.
 - `optics-reachability-multilevel.png`: Biểu đồ Khả năng tiếp cận (Reachability Plot) đa tầng, so sánh trích xuất tự động $\xi$ và các lát cắt $\epsilon$ phẳng.
 
+### Nhóm 5: Distribution-based Clustering – GMM & EM Algorithm (9 ảnh)
+- `gmm-distribution-concept.png`: Mô hình hỗn hợp Gauss tổng hợp từ các phân phối xác suất thành phần đa đỉnh.
+- `gmm-clustering-visualization.png`: Phân tách tập dữ liệu thành các cụm thành phần Gauss trong không gian.
+- `gmm-process-workflow.png`: Sơ đồ khối tổng thể chu trình huấn luyện GMM bằng thuật toán Expectation-Maximization.
+- `em-expectation-step.png`: Cơ chế Bước E (Expectation Step) tính toán ma trận trách nhiệm hậu nghiệm $\gamma_{nk}$.
+- `em-maximization-update.png`: Cơ chế Bước M (Maximization Step) cập nhật trọng số $\pi_k$, kỳ vọng $\mu_k$ và hiệp phương sai $\Sigma_k$.
+- `em-density-components.png`: Đồ thị phân rã hàm mật độ xác suất của các thành phần sau khi hội tụ.
+- `em-log-likelihood-convergence.png`: Đồ thị đường cong hội tụ đơn điệu tăng của hàm Log-Likelihood qua các epoch huấn luyện.
+- `em-fitted-density-result.png`: So sánh đường cong mật độ lý thuyết ước lượng bởi GMM với biểu đồ tần suất (Histogram) thực nghiệm.
+- `gmm-covariance-types.png`: Khảo sát trực quan 4 dạng ma trận hiệp phương sai (`spherical`, `diag`, `tied`, `full`) với các đường elip mức tin cậy $1\sigma, 2\sigma, 3\sigma$.
+
 ---
 
 ## 🔗 Nguồn tham khảo chính
 
+- [GeeksforGeeks – Gaussian Mixture Model](https://www.geeksforgeeks.org/gaussian-mixture-model/)
+- [GeeksforGeeks – Expectation-Maximization Algorithm - ML](https://www.geeksforgeeks.org/ml-expectation-maximization-algorithm/)
 - [GeeksforGeeks – DBSCAN Clustering in ML - Density based clustering](https://www.geeksforgeeks.org/dbscan-clustering-in-ml-density-based-clustering/)
 - [GeeksforGeeks – Ordering Points To Identify Cluster Structure (OPTICS) using Sklearn](https://www.geeksforgeeks.org/ordering-points-to-identify-cluster-structure-optics-using-sklearn/)
 - [GeeksforGeeks – Hierarchical Clustering in Machine Learning](https://www.geeksforgeeks.org/machine-learning/hierarchical-clustering/)
-- [GeeksforGeeks – Clustering in Machine Learning](https://www.geeksforgeeks.org/machine-learning/clustering-in-machine-learning/)
-- [GeeksforGeeks – K-means Clustering Introduction](https://www.geeksforgeeks.org/machine-learning/k-means-clustering-introduction/)
-- [Scikit-Learn Official User Guide – DBSCAN](https://scikit-learn.org/stable/modules/clustering.html#dbscan)
-- [Scikit-Learn Official User Guide – OPTICS](https://scikit-learn.org/stable/modules/clustering.html#optics)
-- [Ester et al. (1996) – A Density-Based Algorithm for Discovering Clusters](https://www.aaai.org/Papers/KDD/1996/KDD96-037.pdf)
-- [Ankerst et al. (1999) – OPTICS: Ordering Points To Identify the Clustering Structure](https://dl.acm.org/doi/10.1145/304182.304187)
+- [Scikit-Learn Official User Guide – Gaussian Mixture Models](https://scikit-learn.org/stable/modules/mixture.html)
+- [Dempster et al. (1977) – Maximum Likelihood from Incomplete Data via the EM Algorithm](https://rss.onlinelibrary.wiley.com/doi/10.1111/j.2517-6161.1977.tb01600.x)
+- [Bishop, C. M. (2006) – Pattern Recognition and Machine Learning (Chapter 9: Mixture Models and EM)](https://www.microsoft.com/en-us/research/publication/pattern-recognition-machine-learning/)
