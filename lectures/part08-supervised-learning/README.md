@@ -1,4 +1,4 @@
-# Tuần 10–14: Supervised Machine Learning, Linear Regression, Logistic Regression, Decision Trees, Random Forest & Support Vector Machine (SVM)
+# Tuần 10–14: Supervised Machine Learning, Linear Regression, Logistic Regression, Decision Trees, Random Forest, SVM & KNN
 
 **Học phần:** Phân tích dữ liệu với Python (DSAI1005)  
 **Giảng viên:** TS. Vũ Đức Minh – Khoa Khoa học dữ liệu và Trí tuệ nhân tạo (NEU)  
@@ -15,6 +15,7 @@ Chuyên đề này bao quát toàn bộ nền tảng **Học máy có giám sát
 4. **Cây quyết định (Decision Trees):** Phân chia đệ quy theo các quy tắc logic *if-else*, đo lường độ thuần khiết qua Entropy, Information Gain, Gini Impurity, và kỹ thuật cắt tỉa cây chống quá khớp.
 5. **Hồi quy Rừng ngẫu nhiên (Random Forest Regression):** Phương pháp học máy kết hợp (Ensemble Learning), kỹ thuật Bagging (Bootstrap Aggregation), không gian con đặc trưng ngẫu nhiên (Random Subspace), đánh giá Out-of-Bag (OOB), và hàm dự báo bậc thang phi tuyến.
 6. **Máy vector hỗ trợ (Support Vector Machine - SVM):** Tối ưu hóa siêu phẳng phân tách với lề cực đại (Maximal Margin), xử lý nhiễu bằng Lề mềm (Soft Margin, tham số $C$, Hinge Loss), và Bí quyết Kernel (Kernel Trick: Linear, RBF, Polynomial) trong không gian chiều cao.
+7. **Thuật toán K láng giềng gần nhất (K-Nearest Neighbors - KNN):** Phương pháp học dựa trên cá thể (Instance-based Learning), giải thuật học lười (Lazy Learner), các độ đo khoảng cách (Euclidean, Manhattan, Minkowski, Cosine), kỹ thuật trọng số khoảng cách và đối phó với Lời nguyền số chiều (Curse of Dimensionality).
 
 ---
 
@@ -52,7 +53,12 @@ Chuyên đề này bao quát toàn bộ nền tảng **Học máy có giám sát
    - Cơ chế hàm mất mát Hinge Loss $\max(0, 1 - yf(x))$.
    - Bí quyết Kernel (Kernel Trick) ánh xạ phi tuyến lên không gian chiều cao không qua tính tọa độ tường minh (Linear, RBF/Gaussian, Polynomial).
    - Phân loại đa lớp OvR, OvO và vai trò tối thượng của chuẩn hóa thang đo (`StandardScaler`).
-9. **Thực hành với Scikit-Learn:** Xây dựng pipeline xử lý dữ liệu và huấn luyện mô hình phân loại & hồi quy hoàn chỉnh bằng Python.
+9. **Chuyên sâu K-Nearest Neighbors (KNN):**
+   - Nguyên lý học dựa trên mẫu (Instance-based), giải thuật học lười (Lazy Learner).
+   - Các độ đo khoảng cách hình học: Euclidean ($L_2$), Manhattan ($L_1$), Minkowski ($L_p$), Cosine, Hamming.
+   - Đánh đổi Bias-Variance qua siêu tham số $K$, phương pháp Elbow và chọn số lẻ tránh hòa phiếu.
+   - Trọng số theo khoảng cách (Distance-Weighted KNN) và kiểm soát Lời nguyền số chiều (Curse of Dimensionality).
+10. **Thực hành với Scikit-Learn:** Xây dựng pipeline xử lý dữ liệu và huấn luyện mô hình phân loại & hồi quy hoàn chỉnh bằng Python.
 
 ---
 
@@ -66,18 +72,20 @@ Chuyên đề này bao quát toàn bộ nền tảng **Học máy có giám sát
 | [part08-decision-tree-vn.md](part08-decision-tree-vn.md) | `.md` | Bài giảng Chuyên sâu Cây Quyết định (Decision Tree): Cấu trúc cây, Entropy, Information Gain, Gini Impurity, CART, Cắt tỉa Pruning, Code Scikit-Learn & 7 hình ảnh minh họa |
 | [part08-random-forest-regression-vn.md](part08-random-forest-regression-vn.md) | `.md` | Bài giảng Chuyên sâu Hồi quy Rừng ngẫu nhiên (Random Forest Regression): Bagging, Feature Randomness, OOB Score ($36.8\%$), Feature Importance, Code Scikit-Learn Position Salaries & 4 hình ảnh minh họa |
 | [part08-support-vector-machine-vn.md](part08-support-vector-machine-vn.md) | `.md` | Bài giảng Chuyên sâu Máy Vector Hỗ trợ (Support Vector Machine - SVM): Hyperplane, Support Vectors, Lề cứng/mềm, Hinge Loss, Kernel Trick (RBF/Poly), Code Scikit-Learn Breast Cancer & 9 hình ảnh minh họa |
+| [part08-knn-vn.md](part08-knn-vn.md) | `.md` | Bài giảng Chuyên sâu K Láng giềng Gần nhất (K-Nearest Neighbors - KNN): Lazy Learner, Độ đo khoảng cách Euclidean/Manhattan, Lựa chọn $K$, Trọng số khoảng cách, Lời nguyền số chiều, Code Scikit-Learn & 4 hình ảnh minh họa |
 | [part08-supervised-machine-learning.md](part08-supervised-machine-learning.md) | `.md` | Bản sao tiêu chuẩn bài học Supervised Learning |
 | [part08-linear-regression.md](part08-linear-regression.md) | `.md` | Bản sao tiêu chuẩn bài học Linear Regression |
 | [part08-logistic-regression.md](part08-logistic-regression.md) | `.md` | Bản sao tiêu chuẩn bài học Logistic Regression |
 | [part08-decision-tree.md](part08-decision-tree.md) | `.md` | Bản sao tiêu chuẩn bài học Decision Tree |
 | [part08-random-forest-regression.md](part08-random-forest-regression.md) | `.md` | Bản sao tiêu chuẩn bài học Random Forest Regression |
 | [part08-support-vector-machine.md](part08-support-vector-machine.md) | `.md` | Bản sao tiêu chuẩn bài học Support Vector Machine |
+| [part08-knn.md](part08-knn.md) | `.md` | Bản sao tiêu chuẩn bài học K-Nearest Neighbors |
 
 ---
 
 ## 🖼️ Thư mục hình ảnh minh họa (`images/`)
 
-Tất cả 33 hình ảnh sơ đồ toán học và biểu đồ minh họa được chuẩn hóa định dạng `.png` và lưu trữ tại thư mục [`images/`](images/):
+Tất cả 37 hình ảnh sơ đồ toán học và biểu đồ minh họa được chuẩn hóa định dạng `.png` và lưu trữ tại thư mục [`images/`](images/):
 
 ### Nhóm 1: Hồi quy tuyến tính (Linear Regression - 9 ảnh)
 - `introduction-to-linear-regression.png`: Sơ đồ khái niệm biến phụ thuộc $Y$ và biến độc lập $X$.
@@ -122,6 +130,12 @@ Tất cả 33 hình ảnh sơ đồ toán học và biểu đồ minh họa đư
 - `svm-kernel-trick-transformation.png`: Ánh xạ dữ liệu lên không gian 2D để phân tách tuyến tính qua Kernel Trick.
 - `svm-breast-cancer-decision-boundary.png`: Trực quan hóa ranh giới quyết định phân loại ung thư vú bằng Scikit-Learn.
 
+### Nhóm 6: K Láng giềng Gần nhất (K-Nearest Neighbors - 4 ảnh)
+- `knn-concept-decision.png`: Sơ đồ khái niệm ra quyết định phân loại dựa trên khoảng cách láng giềng gần nhất.
+- `knn-initial-data.png`: Biểu diễn tập dữ liệu ban đầu trong không gian 2 chiều trước khi truy vấn.
+- `knn-calculate-distance.png`: Quy trình tính toán khoảng cách từ điểm truy vấn tới toàn bộ tập dữ liệu huấn luyện.
+- `knn-voting-labels.png`: Xác định $K$ láng giềng gần nhất và quy trình bỏ phiếu bầu chọn nhãn lớp.
+
 ---
 
 ## 🔗 Nguồn tham khảo chính
@@ -132,4 +146,5 @@ Tất cả 33 hình ảnh sơ đồ toán học và biểu đồ minh họa đư
 - [GeeksforGeeks – Decision Tree in Machine Learning](https://www.geeksforgeeks.org/machine-learning/decision-tree-introduction-example/)
 - [GeeksforGeeks – Random Forest Regression in Python](https://www.geeksforgeeks.org/machine-learning/random-forest-regression-in-python/)
 - [GeeksforGeeks – Support Vector Machine Algorithm](https://www.geeksforgeeks.org/machine-learning/support-vector-machine-algorithm/)
+- [GeeksforGeeks – K-Nearest Neighbors Algorithm](https://www.geeksforgeeks.org/machine-learning/k-nearest-neighbours/)
 - [Scikit-Learn Official User Guide](https://scikit-learn.org/stable/supervised_learning.html)
