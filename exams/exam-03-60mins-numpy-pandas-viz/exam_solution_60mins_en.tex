@@ -53,7 +53,7 @@
 \lhead{\small \textbf{Course:} Data Analysis with Python (DSAI1005)}
 \rhead{\small \textbf{SOLUTIONS \& GRADING GUIDE (60 MINS)}}
 \lfoot{\small Faculty of Data Science \& AI --- National Economics University}
-\rfoot{\small Page \thepage/4}
+\rfoot{\small Page \thepage\ of \pageref{LastPage}}
 \renewcommand{\headrulewidth}{0.5pt}
 \renewcommand{\footrulewidth}{0.5pt}
 
@@ -108,7 +108,7 @@
   \hline
   \textbf{Topic} & \multicolumn{4}{c|}{\textbf{NumPy (20\%)}} & \multicolumn{4}{c|}{\textbf{Pandas (20\%)}} & \multicolumn{4}{c|}{\textbf{Visualization (20\%)}} \\
   \hline
-  \textbf{Key} & \textbf{A} & \textbf{B} & \textbf{A} & \textbf{A} & \textbf{B} & \textbf{A} & \textbf{B} & \textbf{B} & \textbf{A} & \textbf{B} & \textbf{A} & \textbf{B} \\
+  \textbf{Key} & \textbf{B} & \textbf{A} & \textbf{C} & \textbf{B} & \textbf{D} & \textbf{A} & \textbf{C} & \textbf{A} & \textbf{B} & \textbf{D} & \textbf{C} & \textbf{A} \\
   \hline
 \end{tabular}
 \end{center}
@@ -116,90 +116,76 @@
 \vspace{1mm}
 \subsection*{Technical Rationales for Multiple-Choice Items}
 \begin{itemize}[leftmargin=*, itemsep=3.5pt]
-  \item \textbf{Q1 (Key A):} \texttt{np.linspace(0, 10, 5)} generates 5 evenly spaced float values: \texttt{[0.0, 2.5, 5.0, 7.5, 10.0]}. \texttt{np.arange(1, 6)} generates \texttt{[1, 2, 3, 4, 5]}. Multiplying by 2 yields \texttt{[2, 4, 6, 8, 10]}. Element-wise addition gives \texttt{[2.0, 6.5, 11.0, 15.5, 20.0]}.
-  \item \textbf{Q2 (Key B):} Slicing creates an ndarray \textit{view}, sharing the data buffer with matrix \texttt{m}. The slice \texttt{m[::-1, 1]} extracts column index 1 in reverse order: element at row 2 (\texttt{80}), row 1 (\texttt{50}), and row 0 (\texttt{20}). Modifying \texttt{v[0] = 999} mutates \texttt{m[2, 1]} to 999. \texttt{v[2]} refers to \texttt{m[0, 1]}, which is 20. Output: \texttt{999 20}.
-  \item \textbf{Q3 (Key A):} Arrays align from the trailing dimension: $A: (4, 1, 6)$, $B: (3, 1)$. Adding leading singleton: $B: (1, 3, 1)$. Comparing dimensions: axis 2: $(6, 1) \rightarrow 6$; axis 1: $(1, 3) \rightarrow 3$; axis 0: $(4, 1) \rightarrow 4$. Result shape of $A \times B$ is $(4, 3, 6)$. Adding \texttt{np.zeros(6)} preserves shape $(4, 3, 6)$.
-  \item \textbf{Q4 (Key A):} Boolean condition evaluates whether elements are even and strictly greater than 10.
-  Row 0 of \texttt{x}: 12 is even and $> 10 \rightarrow 12 \times 2 = 24$; 25 is odd $\rightarrow 0$; 8 is not $> 10 \rightarrow 0$.
-  Row 1 of \texttt{x}: 30 is even and $> 10 \rightarrow 60$; 15 is odd $\rightarrow 0$; 22 is even and $> 10 \rightarrow 44$.
-  Sum along \texttt{axis=0} (columns): $[24+60, 0+0, 0+44] = \texttt{[84, 0, 44]}$.
-  \item \textbf{Q5 (Key B):} Series addition aligns on index labels. \texttt{fill\_value=0} replaces missing values before addition. \texttt{'Da Nang'} is present only in $S_1$ (30.0 + 0 = 30.0); \texttt{'Can Tho'} is present only in $S_2$ (0 + 15.0 = 15.0).
-  \item \textbf{Q6 (Key A):} Label-based slicing (\texttt{.loc}) is inclusive of both start and stop boundaries (\texttt{'Q2'}, \texttt{'Q3'}, \texttt{'Q4'} $\rightarrow 3$ rows). Integer positional slicing (\texttt{.iloc}) uses standard Python half-open semantics $[1, 3)$ ($\rightarrow 2$ rows: indices 1 and 2).
-  \item \textbf{Q7 (Key B):} Filtering the grouped aggregation table for tuple key \texttt{('North', 'Food')}: rows with \texttt{Region == 'North'} and \texttt{Category == 'Food'} are order 0 (Sales 100) and order 4 (Sales 200). Sum = $100 + 200 = 300$.
-  \item \textbf{Q8 (Key B):} A Left Merge preserves all records of the left DataFrame $A$ ($N = 500$ rows). The 30 rows that have no matching key in table $B$ retain their left attributes and receive \texttt{NaN} for columns originating from $B$.
-  \item \textbf{Q9 (Key A):} In Matplotlib's 2D subplots array, indexing uses 0-based matrix notation \texttt{[row, column]}. First row is index 0; second column is index 1. Method call: \texttt{axes[0, 1].set\_title(...)}.
-  \item \textbf{Q10 (Key B):} A Boxplot simultaneously displays the median (50th percentile), interquartile range ($IQR = Q_3 - Q_1$), and flags extreme outliers beyond $1.5 \times IQR$ whisker fences as individual points.
-  \item \textbf{Q11 (Key A):} In Seaborn relational plotting, \texttt{hue} maps categorical groupings to distinct colors, while \texttt{style} maps categories to distinct point marker glyphs (circles, crosses, diamonds).
-  \item \textbf{Q12 (Key B):} In \texttt{sns.heatmap}, \texttt{annot=True} renders correlation numbers inside cells; \texttt{plt.tight\_layout()} adjusts subplot margins to prevent clipping.
+  \item \textbf{Q1 (Key B):} \texttt{np.arange(start=2, stop=11, step=2)} generates sequence values starting at 2 up to, but excluding, 11 with increment 2: \texttt{[2, 4, 6, 8, 10]}.
+  \item \textbf{Q2 (Key A):} The nested list \texttt{[[10, 20, 30], [40, 50, 60]]} has 2 rows and 3 columns. Thus, its shape is \texttt{(2, 3)} and its number of dimensions (\texttt{ndim}) is \texttt{2}.
+  \item \textbf{Q3 (Key C):} In standard NumPy 2D array indexing \texttt{m[row, col]}, row index 1 and column index 2 accesses the element with value \texttt{6}.
+  \item \textbf{Q4 (Key B):} In NumPy 2D operations, \texttt{axis=0} specifies aggregation along rows (down each column). For shape \texttt{(4, 5)}, computing the mean along \texttt{axis=0} produces a 1D array of 5 column means.
+  \item \textbf{Q5 (Key D):} A Pandas \texttt{Series} is a 1-dimensional labeled array supporting homogeneous types, while a \texttt{DataFrame} is a 2-dimensional labeled tabular data structure with columns potentially of different types.
+  \item \textbf{Q6 (Key A):} \texttt{df.iloc} is strictly integer position-based (0 to length-1). \texttt{df.iloc[0]} retrieves the first row, whereas \texttt{df.loc} indexes by label names.
+  \item \textbf{Q7 (Key C):} \texttt{df.isna()} (or \texttt{df.isnull()}) produces a boolean DataFrame of the same shape, and calling \texttt{.sum()} sums the boolean flags (\texttt{True}=1) along columns to report the total missing count per column.
+  \item \textbf{Q8 (Key A):} Pandas boolean filtering requires bitwise operators (\texttt{\&} for AND, \texttt{|} for OR) and explicit parentheses around each condition: \texttt{df[(df['City'] == 'Hanoi') \& (df['Age'] >= 20)]}. The Python logical operator \texttt{and} causes an ambiguity error on Series.
+  \item \textbf{Q9 (Key B):} A line chart is standard for time-series data because the connecting lines clearly communicate continuous trajectories, temporal trends, and cyclical patterns across chronological order.
+  \item \textbf{Q10 (Key D):} A box plot (\texttt{sns.boxplot}) provides a visual summary of the 5-number summary (min, $Q_1$, median, $Q_3$, max) and plots individual markers for outliers falling outside $1.5 \times IQR$ fences.
+  \item \textbf{Q11 (Key C):} The \texttt{hue} parameter maps categorical levels to distinct color palettes, enabling visual grouping and segmentation without creating separate subplots.
+  \item \textbf{Q12 (Key A):} \texttt{plt.tight\_layout()} automatically adjusts subplot parameters and margins so that titles, tick marks, and axis labels fit within the figure without overlapping.
 \end{itemize}
 
 \clearpage
 % =========================================================================
-% SECTION II: APPLIED CODING SOLUTIONS \& RUBRICS
+% SECTION II: APPLIED CODING SOLUTIONS & RUBRICS
 % =========================================================================
 \section*{SECTION II: APPLIED CODING SOLUTIONS \& RUBRIC (4.0 pts)}
 \textit{\small (40\% Medium-Level Integrated Problems: Vectorized Pipelines, Tabular Analysis \& Visual Analytics)}
 
-\subsection*{Question 1: Vectorized Computations \& Tabular Aggregation (2.0 pts)}
+\subsection*{Question 1: Retail Sales Analysis with NumPy \& Pandas (2.0 pts)}
 
 \subsubsection*{Standard Model Solution}
 \begin{lstlisting}
-# a) Vectorized Net Revenue (0.4 pts):
-net_revenue = (tx_data[:, 0] * tx_data[:, 1] * (1 - tx_data[:, 2])) - tx_data[:, 3]
+# a) Vectorized Revenue calculation (0.4 pts):
+df['Revenue'] = df['Price'] * df['Quantity'] * (1 - df['Discount'])
 
-# b) Conditional Order Tier Categorization (0.4 pts):
-order_tier = np.where((net_revenue >= 250000) | (tx_data[:, 1] >= 4), 'Wholesale', 'Retail')
+# b) Conditional Priority classification with np.where (0.4 pts):
+df['Priority'] = np.where((df['Revenue'] >= 1000) | (df['Quantity'] >= 5), 'High', 'Standard')
 
-# c) Left Merge with Customer Profiles (0.4 pts):
-merged = orders_df.merge(cust_df, on='cust_id', how='left')
+# c) Filter Tech orders with Quantity >= 2 (0.4 pts):
+tech_orders = df[(df['Category'] == 'Tech') & (df['Quantity'] >= 2)]
 
-# d) Multi-Level Groupby and Aggregation (0.4 pts):
-summary = merged.groupby(['city', 'tier'])['net_rev'].agg(['sum', 'count'])
+# d) Groupby Category and compute sum and mean (0.4 pts):
+summary = df.groupby('Category')['Revenue'].agg(['sum', 'mean'])
+# Alternative acceptable syntax:
+# summary = df.groupby('Category').agg({'Revenue': ['sum', 'mean']})
 
-# e) Descending Sort by Total Net Revenue (0.4 pts):
-final_sorted = summary.sort_values(by=('net_rev', 'sum'), ascending=False)
+# e) Sort summary table by total revenue descending (0.4 pts):
+final_sorted = summary.sort_values(by='sum', ascending=False)
+# If multi-level column indexing is produced: summary.sort_values(by=('Revenue', 'sum'), ascending=False)
 \end{lstlisting}
 
 \subsubsection*{Grading Criteria \& Partial Credit for Question 1}
 \begin{itemize}[leftmargin=*, itemsep=3.5pt]
-  \item \textbf{Part a (0.4 pts):} Award 0.2 pts for accurate 2D slice indexing (\texttt{tx\_data[:, 0]}, etc.); award 0.2 pts for correct algebraic formula with parentheses. Expanded equivalent formula is fully accepted for 0.4 pts.
-  \item \textbf{Part b (0.4 pts):} Award 0.2 pts for correct bitwise OR condition with parentheses \texttt{(net\_revenue >= 250000) | (tx\_data[:, 1] >= 4)}; award 0.2 pts for exact output strings \texttt{'Wholesale'} and \texttt{'Retail'}.
-  \item \textbf{Part c (0.4 pts):} Award 0.2 pts for join key \texttt{on='cust\_id'}; award 0.2 pts for join type \texttt{how='left'}.
-  \item \textbf{Part d (0.4 pts):} Award 0.2 pts for grouping keys \texttt{['city', 'tier']}; award 0.2 pts for column selection and \texttt{.agg(['sum', 'count'])}. Equivalent dictionary aggregation is awarded full 0.4 pts.
-  \item \textbf{Part e (0.4 pts):} Award 0.2 pts for tuple \texttt{('net\_rev', 'sum')}; award 0.2 pts for \texttt{ascending=False}.
-\end{itemize}
-
-\vspace{2mm}
-\hrule
-\vspace{2mm}
-
-\subsection*{Question 2: Multi-Panel Visual Analytics \& Outlier Detection (1.5 pts)}
-
-\subsubsection*{Standard Model Solution}
-\begin{lstlisting}
-# a) Matplotlib OO Canvas Initialization (0.5 pts):
-fig, axes = plt.subplots(1, 2, figsize=(14, 5))
-
-# b) Seaborn Stratified Grouped Boxplot (1.0 pts):
-sns.boxplot(
-    data=df_sales,
-    x='payment',
-    y='amount',
-    hue='is_fraud',
-    palette='Set2',
-    ax=axes[0]
-)
-\end{lstlisting}
-
-\subsubsection*{Grading Criteria \& Partial Credit for Question 2}
-\begin{itemize}[leftmargin=*, itemsep=3.5pt]
-  \item \textbf{Part a (0.5 pts):} Award 0.25 pts for grid dimensions (1 row, 2 cols: \texttt{1, 2}); award 0.25 pts for \texttt{figsize=(14, 5)}.
-  \item \textbf{Part b (1.0 pts):}
+  \item \textbf{Part a (0.4 pts):}
   \begin{itemize}
-    \item \textbf{0.3 pts:} Correct data binding and axis variables: \texttt{data=df\_sales, x='payment', y='amount'}.
-    \item \textbf{0.3 pts:} Correct stratification and color palette: \texttt{hue='is\_fraud', palette='Set2'}.
-    \item \textbf{0.2 pts:} Explicit target axis binding: \texttt{ax=axes[0]}.
-    \item \textbf{0.2 pts:} Stated analytical purpose of \texttt{hue='is\_fraud'}: partitions and visually compares transaction distributions of legitimate vs fraudulent payments side-by-side.
+    \item 0.2 pts for correct column arithmetic (\texttt{df['Price'] * df['Quantity']}).
+    \item 0.2 pts for discount application: \texttt{* (1 - df['Discount'])}. Equivalent arithmetic is awarded full credit.
+  \end{itemize}
+  \item \textbf{Part b (0.4 pts):}
+  \begin{itemize}
+    \item 0.2 pts for compound condition with parentheses and bitwise OR: \texttt{(df['Revenue'] >= 1000) | (df['Quantity'] >= 5)}.
+    \item 0.2 pts for correct assignment of output labels \texttt{'High'} and \texttt{'Standard'}.
+  \end{itemize}
+  \item \textbf{Part c (0.4 pts):}
+  \begin{itemize}
+    \item 0.2 pts for filtering on Category: \texttt{df['Category'] == 'Tech'}.
+    \item 0.2 pts for combining with \texttt{\&} and \texttt{df['Quantity'] >= 2}. Deduct 0.1 pt if parentheses are missing.
+  \end{itemize}
+  \item \textbf{Part d (0.4 pts):}
+  \begin{itemize}
+    \item 0.2 pts for grouping by \texttt{'Category'}.
+    \item 0.2 pts for aggregating \texttt{'Revenue'} with \texttt{['sum', 'mean']}.
+  \end{itemize}
+  \item \textbf{Part e (0.4 pts):}
+  \begin{itemize}
+    \item 0.2 pts for identifying sort column \texttt{'sum'} (or \texttt{('Revenue', 'sum')}).
+    \item 0.2 pts for \texttt{ascending=False}.
   \end{itemize}
 \end{itemize}
 
@@ -207,20 +193,48 @@ sns.boxplot(
 \hrule
 \vspace{2mm}
 
-\subsection*{Question 3: Time-Series Revenue Trajectory \& Executive Decision-Making (0.5 pts)}
+\subsection*{Question 2: Sales Performance Visualization with Matplotlib \& Seaborn (1.5 pts)}
 
 \subsubsection*{Standard Model Solution}
 \begin{lstlisting}
-# a) 4-Week Rolling Moving Average & Padding (0.3 pts):
-rolling_trend = weekly_sales.rolling(window=4).mean()   # or: .rolling(4).mean()
-plt.tight_layout()                                      # command to prevent label clipping
+# a) Matplotlib OO Canvas Initialization (0.5 pts):
+fig, axes = plt.subplots(1, 2, figsize=(12, 4))
+
+# b) Plotting on subplots (1.0 pts):
+# Subplot 1: Bar chart of average Revenue on axes[0] (0.5 pts):
+sns.barplot(data=df, x='Category', y='Revenue', ax=axes[0])
+
+# Subplot 2: Box plot of Revenue on axes[1] (0.5 pts):
+sns.boxplot(data=df, x='Category', y='Revenue', ax=axes[1])
+\end{lstlisting}
+
+\subsubsection*{Grading Criteria \& Partial Credit for Question 2}
+\begin{itemize}[leftmargin=*, itemsep=3.5pt]
+  \item \textbf{Part a (0.5 pts):} Award 0.25 pts for subplot grid configuration (\texttt{1, 2} for 1 row, 2 columns); award 0.25 pts for \texttt{figsize=(12, 4)}.
+  \item \textbf{Part b (1.0 pts):}
+  \begin{itemize}
+    \item \textbf{Subplot 1 (0.5 pts):} Award 0.25 pts for \texttt{sns.barplot(data=df, x='Category', y='Revenue')}; award 0.25 pts for targeting \texttt{ax=axes[0]}.
+    \item \textbf{Subplot 2 (0.5 pts):} Award 0.25 pts for \texttt{sns.boxplot(data=df, x='Category', y='Revenue')}; award 0.25 pts for targeting \texttt{ax=axes[1]}.
+  \end{itemize}
+\end{itemize}
+
+\vspace{2mm}
+\hrule
+\vspace{2mm}
+
+\subsection*{Question 3: Layout Optimization \& Chart Interpretation (0.5 pts)}
+
+\subsubsection*{Standard Model Solution}
+\begin{lstlisting}
+# a) Layout optimization command (0.25 pts):
+plt.tight_layout()
 \end{lstlisting}
 
 \rubricbox{
-  \textbf{Part b: Model Takeaways \& Policy Recommendations (0.2 pts):}
+  \textbf{Part b: Outlier Interpretation via Box Plot Whiskers (0.25 pts):}
   \begin{itemize}[itemsep=2pt]
-    \item \textbf{Takeaway 1 (0.1 pt):} Transactions lying above the upper whisker ($Q_3 + 1.5 \times IQR$) are statistical outliers. The boxplot clearly highlights extreme fraud anomalies in Credit Card transactions requiring immediate automated block rules.
-    \item \textbf{Takeaway 2 (0.1 pt):} A 4-week rolling moving average filters out short-term weekly noise and random demand spikes, exposing the underlying trend necessary for reliable quarterly budgeting and forecasting.
+    \item \textbf{Model Answer:} The whiskers of a box plot typically extend up to $1.5 \times IQR$ from the quartiles ($Q_1 - 1.5 \times IQR$ and $Q_3 + 1.5 \times IQR$, where $IQR = Q_3 - Q_1$). Any transaction data points falling outside this range are plotted as distinct individual dots/markers, visually indicating they are statistical outliers.
+    \item \textbf{Grading note:} Full credit (0.25 pts) is awarded if the student states that points beyond the whiskers (or beyond $1.5 \times IQR$) are plotted individually as outliers. Award 0.15 pts if they mention points outside the whiskers without mentioning $1.5 \times IQR$.
   \end{itemize}
 }
 
