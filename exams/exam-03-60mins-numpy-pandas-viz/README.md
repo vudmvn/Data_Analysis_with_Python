@@ -2,11 +2,13 @@
 ## Course: Data Analysis with Python (DSAI1005)
 
 - **Department:** Faculty of Data Science & AI – National Economics University (NEU)
-- **Laboratory:** DATCOM Lab
 - **Course Code:** DSAI1005
 - **Exam Code:** `301-EN`
-- **Format:** Paper-based examination following the standardized **DATCOM Lab Exam Format** (as demonstrated in `Exam_ODD_English_120min.pdf`)
 - **Duration:** 60 minutes
+- **Format:** Paper-based written examination formatted identically to [`exams/exam-02-lectures-1-4/exam_paper_lectures_1_4_en.tex`](../exam-02-lectures-1-4/exam_paper_lectures_1_4_en.tex)
+- **Difficulty Balance:**
+  - **60% Easy & Basic Foundational Questions** (Section I: Multiple-Choice)
+  - **40% Medium-Level Integrated Problems** (Section II: Applied Coding)
 - **Total Score:** 10.0 Points (100%)
 - **Target Page Count:** Exactly 6 pages (`Page 1/6` through `Page 6/6`)
 
@@ -14,22 +16,51 @@
 
 ## 🎯 Exam Structure & Grade Distribution
 
-The examination strictly follows the specified syllabus breakdown:
-- **Part I: Multiple Choice Questions (60% / 6.0 pts)**
-  - **NumPy (20% / 2.0 pts):** 4 questions $\times$ 0.5 pt each (Q1–Q4)
-  - **Pandas (20% / 2.0 pts):** 4 questions $\times$ 0.5 pt each (Q5–Q8)
-  - **Data Visualization (20% / 2.0 pts):** 4 questions $\times$ 0.5 pt each (Q9–Q12)
-  - *Format:* 2-column layout across Pages 2 and 3, with check-boxes (`Answer: □ A  □ B  □ C  □ D`) under each question for direct marking.
-- **Part II: Integrated Data Problems (40% / 4.0 pts)**
-  - **Question 13: Quantitative E-Commerce Performance Pipeline (20% / 2.0 pts) [NumPy & Pandas]**
-    - Subparts a, b, c, d, e (5 subparts $\times$ 0.40 pt each)
-  - **Question 14: Sales Dashboard & Anomaly Visualization (20% / 2.0 pts) [Pandas & Viz]**
-    - Subpart a (0.40 pt): OO subplot canvas initialization
-    - Subpart b (0.60 pt): Grouped Seaborn boxplot call with stratification
-    - Subpart c (0.40 pt): Datetime weekly resampling & 4-week rolling moving average
-    - Subpart d (0.20 pt): Automatic subplot margin spacing (`plt.tight_layout()`)
-    - Subparts e & f (2 $\times$ 0.20 pt = 0.40 pt): Quantitative analytical interpretation (outlier fence detection & forecasting advantage)
-  - *Format:* Dedicated answer boxes labeled *"Write your answer in this box."* for each subpart.
+The examination strictly follows the specified syllabus and difficulty breakdown:
+
+### Section I: Multiple-Choice Questions (6.0 pts / 60% --- Easy & Basic)
+*12 questions $\times$ 0.5 pt each = 6.0 pts (evaluated directly on the top answer sheet grid on Page 1)*
+- **NumPy (20% / 2.0 pts):**
+  - **Q1 (0.5 pt):** Array creation with `np.linspace(0, 10, 5)` and element-wise arithmetic vectorization with `np.arange`.
+  - **Q2 (0.5 pt):** Basic step slicing `m[::-1, 1]` memory view mutation vs independent copy behavior.
+  - **Q3 (0.5 pt):** Multi-dimensional broadcasting rules across shapes `(4, 1, 6)` and `(3, 1)`.
+  - **Q4 (0.5 pt):** Compound bitwise conditional filtering with `np.where` and column-wise reduction along `axis=0`.
+- **Pandas (20% / 2.0 pts):**
+  - **Q5 (0.5 pt):** Series arithmetic `.add(fill_value=0)` across non-identical string index sets.
+  - **Q6 (0.5 pt):** Indexing boundary semantics: inclusive label slicing with `.loc` vs half-open positional `.iloc`.
+  - **Q7 (0.5 pt):** Chained multi-level aggregation `.groupby(['Region', 'Category'])['Sales'].agg(['sum', 'count'])`.
+  - **Q8 (0.5 pt):** SQL left join semantics: preserving left table row count ($N=500$) with `NaN` insertion for unmatched right keys.
+- **Data Visualization (20% / 2.0 pts):**
+  - **Q9 (0.5 pt):** Matplotlib Object-Oriented 2D subplot array indexing `axes[row, col]` and `.set_title()`.
+  - **Q10 (0.5 pt):** Boxplot outlier detection via Tukey whisker fences ($Q_1/Q_3 \pm 1.5 \times IQR$) for skewed financial distributions.
+  - **Q11 (0.5 pt):** Seaborn semantic channels: `hue` for distinct colors, `style` for marker glyphs.
+  - **Q12 (0.5 pt):** Heatmap correlation coefficient overlays (`annot=True`) and subplot margin padding (`plt.tight_layout()`).
+
+---
+
+### Section II: Applied Coding & Short-Answer (4.0 pts / 40% --- Medium Difficulty)
+*Integrated multi-step pipelines requiring synthesized understanding of data operations and visualization*
+- **Question 1: Vectorized Computations & Tabular Aggregation (2.0 pts) [NumPy & Pandas]:**
+  - Scenario: Batch processing of e-commerce transactions across a $5 \times 4$ numerical array `tx_data`.
+  - Tasks a–e (5 tasks $\times$ 0.4 pt each):
+    - *a) Net Revenue formula:* Vectorized 2D slice arithmetic with column weights and discounts.
+    - *b) Vectorized classification:* `np.where` with compound boolean conditions (`|`).
+    - *c) Left Merge:* Joining order records with customer master profile DataFrame.
+    - *d) Multi-level Aggregation:* Chained `.groupby(['city', 'tier'])['net_rev'].agg(['sum', 'count'])`.
+    - *e) Sorting:* Sorting MultiIndex summary table by total revenue descending.
+  - Answer area: Ruled answer box (`\answerbox{6.5cm}`) with `\dotfill` guides on Page 4.
+- **Question 2: Multi-Panel Visual Analytics & Outlier Detection (1.5 pts) [Pandas & Seaborn]:**
+  - Scenario: Multi-channel sales performance and fraud anomaly monitoring dashboard.
+  - Tasks a–b:
+    - *a) Canvas initialization (0.5 pt):* Matplotlib OO `plt.subplots(1, 2, figsize=(14, 5))` grid unpacking.
+    - *b) Stratified Boxplot (1.0 pt):* Complete `sns.boxplot()` call with `x='payment'`, `y='amount'`, `hue='is_fraud'`, and `palette='Set2'` targeted to `axes[0]`.
+  - Answer area: Ruled answer box (`\answerbox{12.8cm}`) with `\dotfill` guides on Page 5.
+- **Question 3: Time-Series Revenue Trajectory & Executive Decision-Making (0.5 pts) [Pandas & Viz Insights]:**
+  - Scenario: Revenue trend smoothing and forecasting.
+  - Tasks a–b:
+    - *a) Trend calculation (0.3 pt):* Weekly resampling, 4-week rolling moving average (`weekly_sales.rolling(4).mean()`), and `plt.tight_layout()`.
+    - *b) Analytical Takeaways (0.2 pt):* Formulating two concise data-driven policies on boxplot whisker outliers and rolling moving average smoothing for forecasting.
+  - Answer area: Ruled answer box (`\answerbox{9.2cm}`) with `\dotfill` guides on Page 6.
 
 ---
 
@@ -37,63 +68,22 @@ The examination strictly follows the specified syllabus breakdown:
 
 | File | Format | Description | Pages |
 | :--- | :---: | :--- | :---: |
-| [exam_paper_60mins_en.tex](exam_paper_60mins_en.tex) | `.tex` | XeLaTeX source code for official student exam paper | 6 |
-| [exam_paper_60mins_en.pdf](exam_paper_60mins_en.pdf) | `.pdf` | Compiled student exam paper formatted to DATCOM Lab standard | **6** |
+| [exam_paper_60mins_en.tex](exam_paper_60mins_en.tex) | `.tex` | XeLaTeX source code for official student exam paper (exam-02 format) | 6 |
+| [exam_paper_60mins_en.pdf](exam_paper_60mins_en.pdf) | `.pdf` | Compiled student exam paper with 12-cell MCQ top grid and ruled answer boxes | **6** |
 | [exam_solution_60mins_en.tex](exam_solution_60mins_en.tex) | `.tex` | XeLaTeX source code for Instructor Solutions & Grading Guide | 4 |
 | [exam_solution_60mins_en.pdf](exam_solution_60mins_en.pdf) | `.pdf` | Compiled master answer key, in-depth technical rationales & grading rubrics | 4 |
-| [Exam_ODD_English_120min.pdf](Exam_ODD_English_120min.pdf) | `.pdf` | Reference benchmark exam format from DATCOM Lab | 10 |
-| [README.md](README.md) | `.md` | Documentation of exam structure, syllabus alignment, and compilation guides | — |
+| [README.md](README.md) | `.md` | Documentation of exam structure, difficulty distribution, and compilation guides | — |
 
 ---
 
-## 📄 Page-by-Page Layout (Student Exam Paper)
+## 📄 Detailed Page-by-Page Layout (Student Exam Paper)
 
-- **Page 1:**
-  - Administrative header: National Economics University, Faculty of DS & AI.
-  - Midterm Examination title, Course code, Exam Version `301-EN`.
-  - Student identity fields: Full name, Student ID, Class, Room, Signature, Exam date.
-  - Duration (60 mins), Total points (10.0 pts), Instructions (Rules 1 to 5).
-  - Official Grading Score Table (Part I: 6.0, Part II: 4.0, Total: 10.0).
-  - Invigilator guidance note.
-- **Page 2:**
-  - Running Header: `Data Analysis with Python | Exam Version: 301-EN | Student ID: ________`
-  - Part I --- Multiple Choice (Two-column layout):
-    - Q1: `np.linspace` & arithmetic vectorization.
-    - Q2: Step slicing `[::-1, 1]` memory view mutation.
-    - Q3: 3D Broadcasting rules `(4, 1, 6) * (3, 1)`.
-    - Q4: Bitwise conditional filtering `np.where` and column reduction `axis=0`.
-    - Q5: Disjoint Series arithmetic `.add(fill_value=0)`.
-    - Q6: `.loc` inclusive label boundary vs `.iloc` half-open positional boundary.
-  - Check-boxes `Answer: □ A  □ B  □ C  □ D` under each question.
-  - Running Footer: `DATCOM Lab --- National Economics University | Page 2/6 | Write directly on this exam paper`.
-- **Page 3:**
-  - Part I --- Multiple Choice (continued, Two-column layout):
-    - Q7: Multi-level aggregation `groupby(['Region', 'Category'])['Sales'].agg(['sum', 'count'])`.
-    - Q8: Left merge / outer join record retention and `NaN` filling semantics.
-    - Q9: Matplotlib OO 2D subplot array indexing `axes[row, col]` and `.set_title()`.
-    - Q10: Boxplot for skewed distributions & $1.5 \times IQR$ outliers.
-    - Q11: Seaborn `hue` and `style` semantic mappings.
-    - Q12: `annot=True` heatmap overlays and `plt.tight_layout()` padding.
-  - Check-boxes `Answer: □ A  □ B  □ C  □ D` under each question.
-  - Running Footer: `Page 3/6`.
-- **Page 4:**
-  - Part II --- Integrated Data Problems:
-    - Question 13: Quantitative E-Commerce Performance Pipeline ($5 \times 4$ array `tx_data`).
-    - Subparts a) to e) with dedicated answer boxes labeled *"Write your answer in this box."*.
-  - Running Footer: `Page 4/6`.
-- **Page 5:**
-  - Question 14: Sales Dashboard & Anomaly Visualization (`df_sales` schema).
-    - Subpart a) [0.40]: $1 \times 2$ subplot grid initialization with `figsize=(14, 5)`.
-    - Subpart b) [0.60]: Stratified grouped `sns.boxplot()` call.
-    - Subplot title/label formatting listing.
-  - Running Footer: `Page 5/6`.
-- **Page 6:**
-  - Question 14 --- Continued:
-    - Subpart c) [0.40]: Weekly resampling & 4-week rolling moving average.
-    - Subpart d) [0.20]: Automatic canvas padding adjustment (`plt.tight_layout()`).
-    - Subparts e) & f) [0.40]: Analytical interpretation questions (Outlier fence identification & moving average smoothing for forecasting).
-  - Official banner: `--- END OF EXAMINATION PAPER ---`.
-  - Running Footer: `Page 6/6`.
+- **Page 1:** Administrative header, course metadata, examiner grading table, student info line, **12-cell Multiple-Choice Answer Sheet**, Section I header, Questions 1 to 3 (NumPy).
+- **Page 2:** Question 4 (NumPy), Questions 5 to 8 (Pandas).
+- **Page 3:** Questions 9 to 12 (Data Visualization).
+- **Page 4:** Section II header, Question 1 (NumPy & Pandas Pipeline: scenario, array listing, tasks a to e, and ruled answer box).
+- **Page 5:** Question 2 (Multi-Panel Visual Analytics: scenario, schema listing, tasks a & b, axes formatting listing, and ruled answer box).
+- **Page 6:** Question 3 (Time-Series Trajectory & Executive Takeaways: scenario, timeseries listing, tasks a & b, ruled answer box, and `--- END OF EXAM ---`).
 
 ---
 
@@ -104,9 +94,11 @@ The LaTeX documents utilize `fontspec` and standard system fonts (`Times New Rom
 ```powershell
 # In exams/exam-03-60mins-numpy-pandas-viz/
 
-# 1. Compile student exam paper
+# 1. Compile student exam paper (run twice to resolve cross-references)
+xelatex -synctex=1 -interaction=nonstopmode exam_paper_60mins_en.tex
 xelatex -synctex=1 -interaction=nonstopmode exam_paper_60mins_en.tex
 
-# 2. Compile solutions and grading guide
+# 2. Compile solutions and grading guide (run twice)
+xelatex -synctex=1 -interaction=nonstopmode exam_solution_60mins_en.tex
 xelatex -synctex=1 -interaction=nonstopmode exam_solution_60mins_en.tex
 ```
