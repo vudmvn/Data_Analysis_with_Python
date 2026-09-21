@@ -2,7 +2,7 @@
 
 **Cập nhật lần cuối:** 22 tháng 9 năm 2026  
 **Học phần:** Phân tích dữ liệu với Python (DSAI1005)  
-**Giảng viên:** TS. Vũ Đức Minh – Khoa Khoa học dữ liệu và Trí tuệ nhân tạo, Trường Công nghệ và Kinh tế số, Đại học Kinh tế Quốc dân (NEU)  
+**Giảng viên:** TS. Vũ Đức Minh – Khoa Khoa học dữ liệu và Trí tuệ nhân tạo, Trường Công nghệ, Đại học Kinh tế Quốc dân (NEU)  
 **Nguồn tài liệu tham khảo chính:**  
 - [GeeksforGeeks – K-means Clustering Introduction](https://www.geeksforgeeks.org/machine-learning/k-means-clustering-introduction/)  
 - [GeeksforGeeks – Elbow Method for Optimal Value of k in KMeans](https://www.geeksforgeeks.org/machine-learning/elbow-method-for-optimal-value-of-k-in-kmeans/)

@@ -2,7 +2,7 @@
 
 **Cập nhật lần cuối:** 22 tháng 9 năm 2026  
 **Học phần:** Phân tích dữ liệu với Python (DSAI1005)  
-**Giảng viên:** TS. Vũ Đức Minh – Khoa Khoa học dữ liệu và Trí tuệ nhân tạo, Trường Công nghệ và Kinh tế số, Đại học Kinh tế Quốc dân (NEU)  
+**Giảng viên:** TS. Vũ Đức Minh – Khoa Khoa học dữ liệu và Trí tuệ nhân tạo, Trường Công nghệ, Đại học Kinh tế Quốc dân (NEU)  
 **Nguồn tài liệu tham khảo chính:**  
 - [GeeksforGeeks – DBSCAN Clustering in ML (Density Based Clustering)](https://www.geeksforgeeks.org/dbscan-clustering-in-ml-density-based-clustering/)  
 - [GeeksforGeeks – Ordering Points To Identify Cluster Structure (OPTICS) using Sklearn](https://www.geeksforgeeks.org/ordering-points-to-identify-cluster-structure-optics-using-sklearn/)

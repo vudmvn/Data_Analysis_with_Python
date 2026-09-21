@@ -2,7 +2,7 @@
 
 **Cập nhật lần cuối:** 21 tháng 9 năm 2026  
 **Học phần:** Phân tích dữ liệu với Python (DSAI1005)  
-**Giảng viên:** TS. Vũ Đức Minh – Khoa Khoa học dữ liệu và Trí tuệ nhân tạo, Trường Công nghệ và Kinh tế số, Đại học Kinh tế Quốc dân (NEU)  
+**Giảng viên:** TS. Vũ Đức Minh – Khoa Khoa học dữ liệu và Trí tuệ nhân tạo, Trường Công nghệ, Đại học Kinh tế Quốc dân (NEU)  
 **Nguồn tài liệu tham khảo chính:** [GeeksforGeeks – Understanding Logistic Regression in Machine Learning](https://www.geeksforgeeks.org/machine-learning/understanding-logistic-regression/)
 
 ---
