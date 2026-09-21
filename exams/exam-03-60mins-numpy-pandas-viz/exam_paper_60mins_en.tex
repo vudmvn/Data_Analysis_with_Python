@@ -1,4 +1,4 @@
-\documentclass[11pt,a4paper]{article}
+\documentclass[10pt,a4paper]{article}
 
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
@@ -7,7 +7,7 @@
 \setsansfont{Arial}
 \setmonofont{Consolas}
 
-\usepackage[a4paper,top=1.3cm,bottom=1.4cm,left=1.6cm,right=1.6cm]{geometry}
+\usepackage[a4paper,top=1.3cm,bottom=1.4cm,left=1.5cm,right=1.5cm]{geometry}
 \usepackage{amsmath,amssymb}
 \usepackage{booktabs}
 \usepackage{tabularx}
@@ -18,54 +18,57 @@
 \usepackage{multicol}
 \usepackage{enumitem}
 \usepackage{tcolorbox}
-\usepackage{lastpage}
 
-% Colors for syntax highlighting and frames
+% Colors
 \definecolor{codegray}{rgb}{0.96,0.96,0.96}
 \definecolor{keywordblue}{rgb}{0.0,0.2,0.6}
 \definecolor{stringgreen}{rgb}{0.0,0.5,0.2}
 \definecolor{commentgray}{rgb}{0.4,0.4,0.4}
-\definecolor{boxborder}{rgb}{0.7,0.7,0.7}
+\definecolor{boxborder}{rgb}{0.3,0.3,0.3}
 
 \lstset{
   language=Python,
   backgroundcolor=\color{codegray},
-  basicstyle=\ttfamily\footnotesize,
+  basicstyle=\ttfamily\scriptsize,
   keywordstyle=\color{keywordblue}\bfseries,
   stringstyle=\color{stringgreen},
   commentstyle=\color{commentgray}\itshape,
   showstringspaces=false,
   breaklines=true,
   frame=single,
-  rulecolor=\color{boxborder},
+  rulecolor=\color{gray!60},
   aboveskip=1.5pt,
   belowskip=1.5pt,
   numbers=none,
   columns=fullflexible
 }
 
-% Header & Footer
+% Header & Footer (Exam_ODD_English_120min style)
 \pagestyle{fancy}
 \fancyhf{}
 \setlength{\headheight}{14pt}
-\lhead{\small \textbf{Course:} Data Analysis with Python (DSAI1005)}
-\rhead{\small \textbf{Midterm Exam (NumPy, Pandas, Viz) --- 60 Minutes}}
-\lfoot{\small Faculty of Data Science \& AI --- National Economics University (NEU)}
-\rfoot{\small Page \thepage\ of 6}
-\renewcommand{\headrulewidth}{0.5pt}
-\renewcommand{\footrulewidth}{0.5pt}
+\lhead{\small Data Analysis with Python}
+\chead{\small Exam Version: \textbf{301-EN}}
+\rhead{\small Student ID: \underline{\hspace{3.2cm}}}
+\lfoot{\small DATCOM Lab --- National Economics University}
+\cfoot{\small Page \thepage/6}
+\rfoot{\small \textit{Write directly on this exam paper}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
 
-\newcommand{\answerbox}[2]{
+% Box for student answers (matches Exam_ODD style)
+\newcommand{\codebox}[1]{
   \vspace{0.8mm}
   \begin{tcolorbox}[
     colback=white,
-    colframe=gray!60,
-    boxrule=0.6pt,
-    arc=2pt,
+    colframe=boxborder,
+    boxrule=0.5pt,
+    arc=0mm,
     height=#1,
-    left=3mm, right=3mm, top=1.8mm, bottom=1.8mm
+    valign=bottom,
+    left=2.5mm, right=2.5mm, top=1.5mm, bottom=1.5mm
   ]
-  \footnotesize\textit{\color{gray}#2}
+  \hfill \textit{\tiny \color{gray}Write your answer in this box.}
   \end{tcolorbox}
   \vspace{0.8mm}
 }
@@ -73,64 +76,75 @@
 \begin{document}
 
 % =========================================================================
-% PAGE 1: HEADER + SCORE TABLE + 12-BOX ANSWER GRID + NUMPY QUESTIONS 1 TO 3
+% PAGE 1: COVER PAGE / INSTRUCTIONS / GRADING SCORE TABLE (Exam_ODD style)
 % =========================================================================
-\noindent
-\begin{minipage}[t]{0.54\textwidth}
-  \centering
-  \textbf{NATIONAL ECONOMICS UNIVERSITY}\\
-  \textbf{FACULTY OF DATA SCIENCE \& AI}\\
-  \rule{4.5cm}{0.4pt}\\[1.2mm]
-  \textbf{MIDTERM EXAMINATION (PAPER-BASED)}\\
-  \textbf{Course:} Data Analysis with Python (DSAI1005)\\
-  \textbf{Topics:} NumPy (20\%), Pandas (20\%), Viz (20\%), Code (40\%)\\
-  \textbf{Duration:} 60 minutes --- \textbf{Exam Code:} \textbf{301-EN}\\
-  \textit{\small (No personal laptops, textbooks, or unauthorized notes allowed)}
-\end{minipage}
-\hfill
-\begin{minipage}[t]{0.42\textwidth}
-  \begin{tabular}{|p{2.0cm}|p{2.0cm}|p{2.0cm}|}
-    \hline
-    \centering \textbf{Part I (60\%)} & \centering \textbf{Part II (40\%)} & \centering \textbf{TOTAL} \tabularnewline
-    \hline
-    & & \\[0.65cm]
-    \hline
-    \multicolumn{3}{|l|}{\small \textit{Examiner 1:}} \tabularnewline
-    \multicolumn{3}{|l|}{\small \textit{Examiner 2:}} \tabularnewline
-    \hline
-  \end{tabular}
-\end{minipage}
+\thispagestyle{empty}
 
-\vspace{1.5mm}
-\noindent
-\textbf{Full Name:} \dotfill{} \textbf{Student ID:} \dotfill{}\\
-\textbf{Class / Cohort:} \dotfill{} \textbf{Exam Room:} \dotfill{} \textbf{Seat No:} \dotfill
-
-\vspace{1.5mm}
-\noindent
-\textbf{MULTIPLE-CHOICE ANSWER SHEET} \textit{(Write capital letters A, B, C, or D into corresponding boxes)}:
 \begin{center}
-\small
-\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+  {\Large \textbf{NATIONAL ECONOMICS UNIVERSITY}}\\[1.5mm]
+  {\large \textbf{Faculty of Data Science and Artificial Intelligence}}\\[3.5mm]
+  {\LARGE \textbf{MIDTERM EXAMINATION}}\\[2mm]
+  {\Large \textbf{DATA ANALYSIS WITH PYTHON (DSAI1005)}}\\[1.5mm]
+  {\large \textbf{EXAM VERSION: 301-EN}}
+\end{center}
+
+\vspace{5mm}
+\noindent
+\begin{tabularx}{\textwidth}{@{}l X l X@{}}
+  \textbf{Full name:} & \dotfill & \textbf{Student ID:} & \dotfill \\[2.5mm]
+  \textbf{Class:}     & \dotfill & \textbf{Room:}       & \dotfill \\[2.5mm]
+  \textbf{Signature:} & \dotfill & \textbf{Exam date:}   & \dotfill \\
+\end{tabularx}
+
+\vspace{5mm}
+\noindent
+\textbf{Duration:} 60 minutes (1 hour). \textbf{Total:} 10.0 points.\\
+The exam has two parts: \textbf{(I) Multiple Choice} --- 6.0 points (60\%); \textbf{(II) Integrated Data Problems} --- 4.0 points (40\%).
+
+\vspace{5mm}
+\noindent
+{\large \textbf{INSTRUCTIONS}}
+\begin{enumerate}[leftmargin=*, itemsep=4pt]
+  \item Write directly on this exam paper and keep each answer inside the designated answer area.
+  \item For output-prediction questions, reason from the code; you do not need to run Python.
+  \item For coding questions, write only the necessary statements; do not copy the given data again.
+  \item Equivalent correct solutions are accepted when the logic and result are correct.
+  \item Show clear reasoning where requested. Partial credit may be awarded for a correct method even if a final arithmetic value is slightly inaccurate.
+\end{enumerate}
+
+\vspace{8mm}
+\begin{center}
+\renewcommand{\arraystretch}{1.6}
+\begin{tabular}{|l|c|c|c|}
   \hline
-  \textbf{Question} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} & \textbf{11} & \textbf{12} \\
+  \textbf{Part} & \textbf{Part I (Multiple Choice)} & \textbf{Part II (Integrated Problems)} & \textbf{Total} \\
   \hline
-  \textbf{Answer} & & & & & & & & & & & & \\[3.2mm]
+  \textbf{Maximum} & 6.0 & 4.0 & 10.0 \\
+  \hline
+  \textbf{Score} & & & \\[3mm]
   \hline
 \end{tabular}
 \end{center}
 
-\vspace{-2mm}
-\hrule
-\vspace{1.2mm}
+\vspace{8mm}
+\begin{center}
+\textit{\small Invigilators do not provide additional explanation of technical content.}
+\end{center}
 
-\section*{PART I: MULTIPLE-CHOICE QUESTIONS (6.0 pts --- 12 questions $\times$ 0.5 pt each)}
+\clearpage
+% =========================================================================
+% PAGE 2: PART I - MULTIPLE CHOICE (QUESTIONS 1 TO 6)
+% =========================================================================
+\noindent
+{\large \textbf{PART I --- MULTIPLE CHOICE (12 questions $\times$ 0.5 = 6.0 points)}}\\[1mm]
+\textit{\small Select one best answer for each question and mark A/B/C/D directly on this paper.}
 
-\subsection*{Section A: Numerical Computing with NumPy (2.0 pts --- 20\% of exam)}
+\vspace{1.5mm}
+\begin{multicols}{2}
 
-\begin{enumerate}[leftmargin=*,itemsep=2.5pt]
-
-\item Consider the following NumPy array initialization and arithmetic expression:
+% --- Q1 (NumPy) ---
+\noindent
+\textbf{1.} Consider the following NumPy array initialization:
 \begin{lstlisting}
 import numpy as np
 a = np.linspace(0, 10, 5)
@@ -138,91 +152,106 @@ b = np.arange(1, 6)
 res = a + b * 2
 \end{lstlisting}
 What is the resulting array \texttt{res}?
-\begin{multicols}{2}
-\begin{enumerate}[label=\Alph*.]
+\begin{enumerate}[label=\Alph*., itemsep=0.5pt, leftmargin=1.5em]
   \item \texttt{[2., 6.5, 11., 15.5, 20.]}
   \item \texttt{[2., 4.5, 9., 13.5, 18.]}
   \item \texttt{[2, 7, 11, 16, 20]}
   \item \texttt{[0., 4.5, 11., 15.5, 22.]}
 \end{enumerate}
-\end{multicols}
+\vspace{0.5mm}
+\noindent
+\textbf{Answer:} $\square$ A \quad $\square$ B \quad $\square$ C \quad $\square$ D
 
-\item In NumPy, basic slicing creates an array \textit{view} rather than an independent memory copy. Consider:
+\vspace{3.5mm}
+
+% --- Q2 (NumPy) ---
+\noindent
+\textbf{2.} Basic slicing creates a memory view rather than an independent copy:
 \begin{lstlisting}
-m = np.array([[10, 20, 30], [40, 50, 60], [70, 80, 90]])
+m = np.array([[10, 20, 30],
+              [40, 50, 60],
+              [70, 80, 90]])
 v = m[::-1, 1]
 v[0] = 999
 print(m[2, 1], v[2])
 \end{lstlisting}
 What values are printed to the console?
-\begin{multicols}{4}
-\begin{enumerate}[label=\Alph*.]
+\begin{enumerate}[label=\Alph*., itemsep=0.5pt, leftmargin=1.5em]
   \item \texttt{80 20}
   \item \texttt{999 20}
   \item \texttt{80 999}
   \item \texttt{999 80}
 \end{enumerate}
-\end{multicols}
+\vspace{0.5mm}
+\noindent
+\textbf{Answer:} $\square$ A \quad $\square$ B \quad $\square$ C \quad $\square$ D
 
-\item Array $A$ has shape \texttt{(4, 1, 6)} and array $B$ has shape \texttt{(3, 1)}. Under NumPy broadcasting rules, what is the shape of the evaluated array from the expression \texttt{C = A * B + np.zeros(6)}?
-\begin{multicols}{4}
-\begin{enumerate}[label=\Alph*.]
+\vspace{3.5mm}
+
+% --- Q3 (NumPy) ---
+\noindent
+\textbf{3.} Array $A$ has shape \texttt{(4, 1, 6)} and array $B$ has shape \texttt{(3, 1)}. Under NumPy broadcasting rules, what is the shape of \texttt{C = A * B + np.zeros(6)}?
+\begin{enumerate}[label=\Alph*., itemsep=0.5pt, leftmargin=1.5em]
   \item \texttt{(4, 3, 6)}
   \item \texttt{(4, 1, 6)}
   \item \texttt{(3, 4, 6)}
   \item Raises \texttt{ValueError}
 \end{enumerate}
-\end{multicols}
+\vspace{0.5mm}
+\noindent
+\textbf{Answer:} $\square$ A \quad $\square$ B \quad $\square$ C \quad $\square$ D
 
-\end{enumerate}
+\columnbreak
 
-\clearpage
-% =========================================================================
-% PAGE 2: NUMPY Q4 + PANDAS QUESTIONS 5 TO 8
-% =========================================================================
-\begin{enumerate}[leftmargin=*,itemsep=2.5pt,resume]
-
-\item Consider the following conditional filtering and axis reduction snippet:
+% --- Q4 (NumPy) ---
+\noindent
+\textbf{4.} Consider conditional filtering and axis reduction:
 \begin{lstlisting}
 x = np.array([[12, 25, 8], [30, 15, 22]])
-filtered = np.where((x % 2 == 0) & (x > 10), x * 2, 0)
+filtered = np.where((x % 2 == 0) & (x > 10),
+                    x * 2, 0)
 print(np.sum(filtered, axis=0))
 \end{lstlisting}
 What output array is displayed?
-\begin{multicols}{4}
-\begin{enumerate}[label=\Alph*.]
+\begin{enumerate}[label=\Alph*., itemsep=0.5pt, leftmargin=1.5em]
   \item \texttt{[84, 0, 44]}
   \item \texttt{[24, 60]}
   \item \texttt{[84, 50, 44]}
   \item \texttt{[24, 0, 44]}
 \end{enumerate}
-\end{multicols}
+\vspace{0.5mm}
+\noindent
+\textbf{Answer:} $\square$ A \quad $\square$ B \quad $\square$ C \quad $\square$ D
 
-\end{enumerate}
+\vspace{3.5mm}
 
-\vspace{-1mm}
-\subsection*{Section B: Tabular Data Processing with Pandas (2.0 pts --- 20\% of exam)}
-
-\begin{enumerate}[leftmargin=*,itemsep=2.5pt,resume]
-
-\item When performing arithmetic addition between two Pandas Series $S_1$ and $S_2$ with non-identical string index labels:
+% --- Q5 (Pandas) ---
+\noindent
+\textbf{5.} When performing arithmetic between two Series $S_1$ and $S_2$ with non-identical string index labels:
 \begin{lstlisting}
 import pandas as pd
-s1 = pd.Series([10, 20, 30], index=['Hanoi', 'HCMC', 'Da Nang'])
-s2 = pd.Series([5, 15, 25], index=['HCMC', 'Can Tho', 'Hanoi'])
+s1 = pd.Series([10, 20, 30],
+               index=['Hanoi', 'HCMC', 'Da Nang'])
+s2 = pd.Series([5, 15, 25],
+               index=['HCMC', 'Can Tho', 'Hanoi'])
 res = s1.add(s2, fill_value=0)
 \end{lstlisting}
-What is the value of \texttt{res['Da Nang']} and \texttt{res['Can Tho']} in the resulting Series?
-\begin{multicols}{2}
-\begin{enumerate}[label=\Alph*.]
+What are \texttt{res['Da Nang']} and \texttt{res['Can Tho']}?
+\begin{enumerate}[label=\Alph*., itemsep=0.5pt, leftmargin=1.5em]
   \item Both evaluate to \texttt{NaN}.
-  \item \texttt{res['Da Nang'] = 30.0} and \texttt{res['Can Tho'] = 15.0}.
-  \item An \texttt{IndexMismatchError} exception is raised.
-  \item \texttt{res['Da Nang'] = 0.0} and \texttt{res['Can Tho'] = 0.0}.
+  \item \texttt{30.0} and \texttt{15.0} respectively.
+  \item An \texttt{IndexMismatchError} is raised.
+  \item \texttt{0.0} and \texttt{0.0} respectively.
 \end{enumerate}
-\end{multicols}
+\vspace{0.5mm}
+\noindent
+\textbf{Answer:} $\square$ A \quad $\square$ B \quad $\square$ C \quad $\square$ D
 
-\item Consider the sales performance DataFrame \texttt{df}:
+\vspace{3.5mm}
+
+% --- Q6 (Pandas) ---
+\noindent
+\textbf{6.} Consider the sales DataFrame \texttt{df}:
 \begin{lstlisting}
 df = pd.DataFrame({
     'Revenue': [150, 280, 310, 450],
@@ -231,200 +260,206 @@ df = pd.DataFrame({
 loc_slice = df.loc['Q2':'Q4', 'Revenue']
 iloc_slice = df.iloc[1:3, 0]
 \end{lstlisting}
-How many elements are contained in \texttt{loc\_slice} and \texttt{iloc\_slice} respectively?
-\begin{multicols}{2}
-\begin{enumerate}[label=\Alph*.]
-  \item \texttt{loc\_slice}: 3 elements; \texttt{iloc\_slice}: 2 elements
-  \item \texttt{loc\_slice}: 2 elements; \texttt{iloc\_slice}: 2 elements
-  \item \texttt{loc\_slice}: 3 elements; \texttt{iloc\_slice}: 3 elements
-  \item \texttt{loc\_slice}: 2 elements; \texttt{iloc\_slice}: 3 elements
+Number of elements in \texttt{loc\_slice} and \texttt{iloc\_slice}:
+\begin{enumerate}[label=\Alph*., itemsep=0.5pt, leftmargin=1.5em]
+  \item \texttt{loc\_slice}: 3; \texttt{iloc\_slice}: 2
+  \item \texttt{loc\_slice}: 2; \texttt{iloc\_slice}: 2
+  \item \texttt{loc\_slice}: 3; \texttt{iloc\_slice}: 3
+  \item \texttt{loc\_slice}: 2; \texttt{iloc\_slice}: 3
 \end{enumerate}
+\vspace{0.5mm}
+\noindent
+\textbf{Answer:} $\square$ A \quad $\square$ B \quad $\square$ C \quad $\square$ D
+
 \end{multicols}
 
-\item Given the multi-level aggregation pipeline on retail transactions:
+\clearpage
+% =========================================================================
+% PAGE 3: PART I - MULTIPLE CHOICE (QUESTIONS 7 TO 12)
+% =========================================================================
+\noindent
+{\large \textbf{PART I --- MULTIPLE CHOICE (continued)}}\\[1mm]
+\textit{\small Select one best answer for each question and mark A/B/C/D directly on this paper.}
+
+\vspace{1.5mm}
+\begin{multicols}{2}
+
+% --- Q7 (Pandas) ---
+\noindent
+\textbf{7.} Given the multi-level aggregation pipeline on retail orders:
 \begin{lstlisting}
 orders = pd.DataFrame({
-    'Region':   ['North', 'South', 'North', 'South', 'North'],
-    'Category': ['Food', 'Food', 'Tech', 'Tech', 'Food'],
+    'Region':   ['North', 'South', 'North',
+                 'South', 'North'],
+    'Category': ['Food', 'Food', 'Tech',
+                 'Tech', 'Food'],
     'Sales':    [100, 150, 300, 250, 200]
 })
-summary = orders.groupby(['Region', 'Category'])['Sales'].agg(['sum', 'count'])
+summary = orders.groupby(['Region', 'Category']
+                        )['Sales'].agg(['sum', 'count'])
 print(summary.loc[('North', 'Food'), 'sum'])
 \end{lstlisting}
 What value is printed to the console?
-\begin{multicols}{4}
-\begin{enumerate}[label=\Alph*.]
+\begin{enumerate}[label=\Alph*., itemsep=0.5pt, leftmargin=1.5em]
   \item \texttt{100}
   \item \texttt{300}
   \item \texttt{2}
   \item \texttt{450}
 \end{enumerate}
-\end{multicols}
+\vspace{0.5mm}
+\noindent
+\textbf{Answer:} $\square$ A \quad $\square$ B \quad $\square$ C \quad $\square$ D
 
-\item You execute a Left Merge between table \texttt{A} ($N = 500$ rows) and table \texttt{B} ($M = 80$ rows) on key \texttt{'store\_id'}:
+\vspace{3.5mm}
+
+% --- Q8 (Pandas) ---
+\noindent
+\textbf{8.} You execute a Left Merge between table \texttt{A} ($N = 500$ rows) and table \texttt{B} ($M = 80$ rows) on key \texttt{'store\_id'}:
 \begin{lstlisting}
 merged = pd.merge(A, B, on='store_id', how='left')
 \end{lstlisting}
-Assuming \texttt{'store\_id'} is unique in table \texttt{B}, but 30 rows in table \texttt{A} reference a \texttt{store\_id} that does not exist in table \texttt{B}. Which statement is true regarding \texttt{merged}?
-\begin{enumerate}[label=\Alph*.]
-  \item \texttt{merged} contains exactly 470 rows, dropping the 30 unmatched entries.
-  \item \texttt{merged} contains exactly 500 rows, and columns originating from table \texttt{B} will have \texttt{NaN} for those 30 rows.
-  \item \texttt{merged} contains exactly 80 rows, matching only the intersection.
-  \item A \texttt{KeyError} is thrown because all foreign keys must exist in the right table.
+Assuming \texttt{'store\_id'} is unique in table \texttt{B}, but 30 rows in \texttt{A} have no match in \texttt{B}. Which statement is true?
+\begin{enumerate}[label=\Alph*., itemsep=0.5pt, leftmargin=1.5em]
+  \item \texttt{merged} contains exactly 470 rows.
+  \item \texttt{merged} contains exactly 500 rows, with \texttt{NaN} for table \texttt{B} columns on the 30 unmatched rows.
+  \item \texttt{merged} contains exactly 80 rows.
+  \item A \texttt{KeyError} is thrown.
 \end{enumerate}
+\vspace{0.5mm}
+\noindent
+\textbf{Answer:} $\square$ A \quad $\square$ B \quad $\square$ C \quad $\square$ D
 
-\end{enumerate}
+\vspace{3.5mm}
 
-\clearpage
-% =========================================================================
-% PAGE 3: DATA VISUALIZATION QUESTIONS 9 TO 12
-% =========================================================================
-\subsection*{Section C: Data Visualization with Matplotlib \& Seaborn (2.0 pts --- 20\% of exam)}
-
-\begin{enumerate}[leftmargin=*,itemsep=3pt,resume]
-
-\item In Matplotlib's Object-Oriented interface, consider the canvas creation:
+% --- Q9 (Viz) ---
+\noindent
+\textbf{9.} In Matplotlib's Object-Oriented interface:
 \begin{lstlisting}
 import matplotlib.pyplot as plt
 fig, axes = plt.subplots(2, 3, figsize=(15, 8))
 \end{lstlisting}
-Which statement correctly accesses and configures the subplot located in the \textbf{first row, second column}?
-\begin{multicols}{2}
-\begin{enumerate}[label=\Alph*.]
+Which statement correctly configures the subplot in the \textbf{first row, second column}?
+\begin{enumerate}[label=\Alph*., itemsep=0.5pt, leftmargin=1.5em]
   \item \texttt{axes[0, 1].set\_title("Branch Q2")}
   \item \texttt{axes[1, 2].set\_title("Branch Q2")}
   \item \texttt{axes[1, 0].title = "Branch Q2"}
   \item \texttt{plt.subplot(1, 2).set\_title("Branch Q2")}
 \end{enumerate}
-\end{multicols}
+\vspace{0.5mm}
+\noindent
+\textbf{Answer:} $\square$ A \quad $\square$ B \quad $\square$ C \quad $\square$ D
 
-\item In exploratory data analysis, when analyzing continuous financial transaction amounts containing substantial skewness and extreme high-value outliers, which visualization tool is most appropriate for observing the median, interquartile range ($IQR$), and whisker thresholds simultaneously?
-\begin{multicols}{4}
-\begin{enumerate}[label=\Alph*.]
+\columnbreak
+
+% --- Q10 (Viz) ---
+\noindent
+\textbf{10.} When analyzing continuous financial transaction values with extreme high-value outliers and severe positive skewness, which visualization tool is most appropriate for observing the median, $IQR$, and outlier whiskers simultaneously?
+\begin{enumerate}[label=\Alph*., itemsep=0.5pt, leftmargin=1.5em]
   \item \texttt{sns.barplot()}
   \item \texttt{sns.boxplot()}
   \item \texttt{sns.countplot()}
   \item \texttt{sns.lineplot()}
 \end{enumerate}
-\end{multicols}
+\vspace{0.5mm}
+\noindent
+\textbf{Answer:} $\square$ A \quad $\square$ B \quad $\square$ C \quad $\square$ D
 
-\item Consider the following Seaborn relational plotting statement:
+\vspace{4mm}
+
+% --- Q11 (Viz) ---
+\noindent
+\textbf{11.} Consider the Seaborn scatter plot statement:
 \begin{lstlisting}
 import seaborn as sns
-sns.scatterplot(data=df, x='Marketing_Spend', y='Revenue', hue='Channel', style='Tier')
+sns.scatterplot(data=df, x='Marketing_Spend',
+                y='Revenue', hue='Channel',
+                style='Tier')
 \end{lstlisting}
-What role do the parameters \texttt{hue='Channel'} and \texttt{style='Tier'} play in the resulting visualization?
-\begin{enumerate}[label=\Alph*.]
-  \item \texttt{hue} maps channel categories to distinct point colors; \texttt{style} maps tier categories to distinct marker shapes (glyphs).
-  \item \texttt{hue} adjusts point opacity; \texttt{style} sets the background CSS layout.
-  \item \texttt{hue} partitions data into separate subplots; \texttt{style} specifies the font style.
-  \item Both parameters are synonymous and map data to line width.
+What roles do \texttt{hue} and \texttt{style} play?
+\begin{enumerate}[label=\Alph*., itemsep=0.5pt, leftmargin=1.5em]
+  \item \texttt{hue} maps channel categories to distinct colors; \texttt{style} maps tier categories to distinct marker shapes.
+  \item \texttt{hue} adjusts opacity; \texttt{style} sets font size.
+  \item \texttt{hue} creates subplots; \texttt{style} sets line width.
+  \item Both parameters are identical synonyms.
 \end{enumerate}
+\vspace{0.5mm}
+\noindent
+\textbf{Answer:} $\square$ A \quad $\square$ B \quad $\square$ C \quad $\square$ D
 
-\item Given the Pearson correlation matrix computation and visualization:
+\vspace{4mm}
+
+% --- Q12 (Viz) ---
+\noindent
+\textbf{12.} Given the correlation matrix visualization:
 \begin{lstlisting}
-corr_matrix = df[['Age', 'Income', 'Spending_Score', 'Tenure']].corr()
-sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', vmin=-1, vmax=1)
+corr_matrix = df[['Age', 'Income', 'Score']].corr()
+sns.heatmap(corr_matrix, annot=True,
+            cmap='coolwarm', vmin=-1, vmax=1)
 plt.tight_layout()
 \end{lstlisting}
-What is the primary function of \texttt{annot=True} and \texttt{plt.tight\_layout()} respectively?
-\begin{enumerate}[label=\Alph*.]
-  \item \texttt{annot=True} adds interactive tooltips; \texttt{plt.tight\_layout()} compresses the image to a low-resolution thumbnail.
-  \item \texttt{annot=True} writes numeric correlation coefficients inside each cell; \texttt{plt.tight\_layout()} adjusts subplot margins to prevent label clipping.
-  \item \texttt{annot=True} filters out correlations near zero; \texttt{plt.tight\_layout()} converts the plot to black and white.
-  \item \texttt{annot=True} prints p-values; \texttt{plt.tight\_layout()} locks axes aspect ratios to 1:1.
+Primary role of \texttt{annot=True} and \texttt{plt.tight\_layout()}:
+\begin{enumerate}[label=\Alph*., itemsep=0.5pt, leftmargin=1.5em]
+  \item \texttt{annot=True} adds tooltips; \texttt{tight\_layout()} downsamples resolution.
+  \item \texttt{annot=True} writes correlation values in cells; \texttt{tight\_layout()} adjusts subplot margins.
+  \item \texttt{annot=True} filters zeros; \texttt{tight\_layout()} converts to grayscale.
+  \item \texttt{annot=True} computes p-values; \texttt{tight\_layout()} locks 1:1 aspect ratio.
 \end{enumerate}
+\vspace{0.5mm}
+\noindent
+\textbf{Answer:} $\square$ A \quad $\square$ B \quad $\square$ C \quad $\square$ D
 
-\end{enumerate}
+\end{multicols}
 
 \clearpage
 % =========================================================================
-% PAGE 4: SECTION II - PROBLEM 1 (INTEGRATED NUMPY & PANDAS)
+% PAGE 4: PART II - QUESTION 13 (NUMPY & PANDAS INTEGRATED PROBLEM)
 % =========================================================================
-\section*{PART II: APPLIED CODING --- FILL IN THE BLANKS (4.0 pts)}
+\section*{PART II --- INTEGRATED DATA PROBLEMS (4.0 points)}
 
-\subsection*{Problem 1: Quantitative E-Commerce Performance Pipeline (2.0 pts) --- [NumPy \& Pandas]}
+\subsection*{Question 13. [2.0 points] Quantitative E-Commerce Performance Pipeline [NumPy \& Pandas]}
 
 \noindent
-\textbf{Scenario:} An enterprise processes transactional batches. Complete the vectorized calculation and tabular aggregation pipeline by filling in the missing code expressions for \textbf{[BLANK 1]} through \textbf{[BLANK 5]}.
+\textbf{Scenario:} An enterprise processes transactional batches. Given raw transactional array \texttt{tx\_data} ($5 \times 4$), where columns represent \texttt{[0: unit\_price, 1: quantity, 2: discount\_rate (0 to 1), 3: shipping\_cost]}:
 
 \begin{lstlisting}
 import numpy as np
 import pandas as pd
 
-# Raw transactional logs: 5 orders across 4 numerical metrics
-# Columns: [0: unit_price, 1: quantity, 2: discount_rate (0 to 1), 3: shipping_cost]
 tx_data = np.array([
     [50000.0,  3.0, 0.10, 15000.0], [120000.0, 1.0, 0.00, 20000.0],
     [45000.0,  4.0, 0.05, 10000.0], [300000.0, 2.0, 0.20, 25000.0],
     [80000.0,  5.0, 0.15, 15000.0]
 ])
-
-# Step 1: Vectorized Net Revenue: (unit_price * quantity * (1 - discount_rate)) - shipping_cost
-net_revenue = ____________________________________________________________________  # [BLANK 1]
-
-# Step 2: Categorize orders into "Wholesale" if net_revenue >= 250000 or quantity >= 4, else "Retail"
-order_tier = _____________________________________________________________________  # [BLANK 2]
-
-# Step 3: Integrate into DataFrame and merge with customer profile records
-orders_df = pd.DataFrame({
-    'order_id': ['O01', 'O02', 'O03', 'O04', 'O05'],
-    'cust_id':  ['C10', 'C20', 'C10', 'C30', 'C20'],
-    'net_rev':  net_revenue, 'tier': order_tier
-})
-cust_df = pd.DataFrame({
-    'cust_id': ['C10', 'C20', 'C30', 'C40'],
-    'city':    ['Hanoi', 'HCMC', 'Da Nang', 'Hanoi'],
-    'status':  ['VIP', np.nan, 'Regular', 'VIP']
-})
-
-# Merge orders_df with cust_df on 'cust_id' (retain all orders, perform a left merge):
-merged = orders_df.merge(________________________________________________________)  # [BLANK 3]
-merged['status'] = merged['status'].fillna('Standard')
-
-# Step 4: Multi-level aggregation by ['city', 'tier']: calculate sum and count on 'net_rev'
-summary = merged.groupby(________________________________________________________)  # [BLANK 4]
-
-# Step 5: Sort the summarized table by total revenue descending
-final_sorted = summary.sort_values(by=___________________________________________)  # [BLANK 5]
 \end{lstlisting}
 
-\vspace{1.5mm}
 \noindent
-\textbf{Student Answer Sheet for Problem 1 (Write exact Python expressions):}
+\textbf{a) [0.40]} Write a vectorized NumPy expression to compute 1D array \texttt{net\_revenue} across all 5 orders according to the formula: $\text{net\_revenue} = (\text{unit\_price} \times \text{quantity} \times (1 - \text{discount\_rate})) - \text{shipping\_cost}$.
+\codebox{1.4cm}
 
-\begin{center}
-\renewcommand{\arraystretch}{1.3}
-\begin{tabularx}{\textwidth}{|l|X|}
-  \hline
-  \textbf{Blank Number} & \textbf{Your Exact Code Expression} \tabularnewline
-  \hline
-  \textbf{[BLANK 1]} (0.4 pt) & \tabularnewline
-  \textit{\scriptsize Vectorized Net Revenue formula} & \\[3.5mm]
-  \hline
-  \textbf{[BLANK 2]} (0.4 pt) & \tabularnewline
-  \textit{\scriptsize np.where categorization} & \\[3.5mm]
-  \hline
-  \textbf{[BLANK 3]} (0.4 pt) & \tabularnewline
-  \textit{\scriptsize orders\_df.merge(...) arguments} & \\[3.5mm]
-  \hline
-  \textbf{[BLANK 4]} (0.4 pt) & \tabularnewline
-  \textit{\scriptsize groupby(...) \& .agg(...) arguments} & \\[3.5mm]
-  \hline
-  \textbf{[BLANK 5]} (0.4 pt) & \tabularnewline
-  \textit{\scriptsize sort\_values(...) arguments} & \\[3.5mm]
-  \hline
-\end{tabularx}
-\end{center}
+\noindent
+\textbf{b) [0.40]} Using \texttt{np.where}, write an expression to create a 1D string array \texttt{order\_tier} categorizing an order as \texttt{"Wholesale"} if $\text{net\_revenue} \ge 250\,000$ \textbf{or} $\text{quantity} \ge 4$, otherwise \texttt{"Retail"}.
+\codebox{1.4cm}
+
+\noindent
+\textbf{c) [0.40]} Assume DataFrame \texttt{orders\_df} (columns: \texttt{order\_id}, \texttt{cust\_id}, \texttt{net\_rev}, \texttt{tier}) and customer table \texttt{cust\_df} (columns: \texttt{cust\_id}, \texttt{city}, \texttt{status}) are defined. Write a Pandas statement to merge \texttt{orders\_df} with \texttt{cust\_df} on \texttt{'cust\_id'} such that \textbf{all orders are retained} (a Left Merge).
+\codebox{1.4cm}
+
+\noindent
+\textbf{d) [0.40]} On the merged DataFrame \texttt{merged}, write a statement chaining \texttt{.groupby()} and \texttt{.agg()} to group records by \texttt{['city', 'tier']} and compute both the \textbf{sum} and \textbf{count} of \texttt{'net\_rev'}.
+\codebox{1.4cm}
+
+\noindent
+\textbf{e) [0.40]} Write a statement to sort the resulting aggregated DataFrame \texttt{summary} by total revenue (the sum of \texttt{net\_rev}) in \textbf{descending} order.
+\codebox{1.4cm}
 
 \clearpage
 % =========================================================================
-% PAGE 5: SECTION II - PROBLEM 2 (PART A: CANVAS & SEABORN DISTRIBUTION)
+% PAGE 5: PART II - QUESTION 14 PART A (CANVAS & SEABORN BOXPLOT)
 % =========================================================================
-\subsection*{Problem 2: Multi-Channel Sales Dashboard \& Risk Analytics (2.0 pts) --- [Pandas \& Viz]}
+\subsection*{Question 14. [2.0 points] Sales Dashboard \& Anomaly Visualization [Pandas \& Viz]}
 
 \noindent
-\textbf{Scenario:} You are constructing an executive multi-panel analytics dashboard comparing sales distributions across payment channels and identifying risk anomalies. You are provided with a pre-loaded DataFrame \texttt{df\_sales}:
+\textbf{Scenario:} You are constructing an executive analytics dashboard comparing sales distributions across payment channels and monitoring risk anomalies. You are provided with a pre-loaded DataFrame \texttt{df\_sales}:
 
 \begin{lstlisting}
 import pandas as pd
@@ -432,114 +467,74 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Schema of df_sales:
-#   'order_date': string formatted ('2026-09-01', ...)
+#   'order_date': string formatted dates (e.g. '2026-09-01')
 #   'channel':    string ('Online', 'Store', 'Partner')
 #   'payment':    string ('Credit Card', 'Cash', 'Bank Transfer')
-#   'amount':     float (order value in VND)
+#   'amount':     float (transaction order value in VND)
 #   'is_fraud':   int (1 for suspicious/fraudulent, 0 for legitimate)
 \end{lstlisting}
 
-\subsubsection*{Part A: Canvas Layout \& Grouped Categorical Boxplot (1.0 pt)}
-Complete the code to set up a side-by-side subplot canvas and construct a grouped Seaborn boxplot displaying transaction amounts by payment method, stratified by fraud status.
+\noindent
+\textbf{a) [0.40]} Write a Matplotlib Object-Oriented statement to initialize a figure and a $1 \times 2$ subplot grid (1 row, 2 columns) named \texttt{fig, axes} with overall figure dimensions of $14 \times 5$ inches.
+\codebox{2.2cm}
 
+\noindent
+\textbf{b) [0.60]} Write a complete Seaborn call to render a grouped Boxplot on \texttt{axes[0]} displaying transaction amounts (\texttt{y='amount'}) across payment methods (\texttt{x='payment'}), stratified by fraud status (\texttt{hue='is\_fraud'}), using color palette \texttt{'Set2'}, plotted specifically onto target axis \texttt{axes[0]}.
+\codebox{3.5cm}
+
+\vspace{3mm}
+\noindent
+\textit{After plotting, the left subplot is labeled as follows:}
 \begin{lstlisting}
-# Step 1: Initialize figure and a 1x2 subplot grid (1 row, 2 columns) with figure size (14, 5) inches
-fig, axes = ______________________________________________________________________  # [BLANK 6]
-
-# Step 2: Plot a grouped Boxplot on axes[0]
-# - Data source: df_sales; X-axis: 'payment'; Y-axis: 'amount'
-# - Stratification hue: 'is_fraud'; Color palette: 'Set2'; Target axes: axes[0]
-sns.boxplot(
-    ______________________________________________________________________________  # [BLANK 7]
-)
 axes[0].set_title("Transaction Amount Distribution by Payment Method", fontsize=12)
 axes[0].set_xlabel("Payment Method", fontsize=10)
 axes[0].set_ylabel("Order Value (VND)", fontsize=10)
 \end{lstlisting}
 
-\vspace{3mm}
-\noindent
-\textbf{Student Answer Sheet for Problem 2 --- Part A:}
-
-\begin{center}
-\renewcommand{\arraystretch}{1.6}
-\begin{tabularx}{\textwidth}{|l|X|}
-  \hline
-  \textbf{Blank Number} & \textbf{Your Exact Python Code Expression} \tabularnewline
-  \hline
-  \textbf{[BLANK 6]} (0.4 pt) & \tabularnewline
-  \textit{\scriptsize plt.subplots setup} & \\[10mm]
-  \hline
-  \textbf{[BLANK 7]} (0.6 pt) & \tabularnewline
-  \textit{\scriptsize sns.boxplot parameters} & \\[22mm]
-  \hline
-\end{tabularx}
-\end{center}
-
 \clearpage
 % =========================================================================
-% PAGE 6: SECTION II - PROBLEM 2 (PART B: TIME-SERIES & PART C: INSIGHTS)
+% PAGE 6: PART II - QUESTION 14 CONTINUED (TIME-SERIES & INSIGHTS)
 % =========================================================================
-\subsubsection*{Part B: Time-Series Revenue Trajectory \& Moving Average (0.6 pt)}
-On the second subplot (\texttt{axes[1]}), you must convert order dates to datetime, aggregate weekly total revenue, compute a 4-week rolling moving average to smooth short-term variance, plot both series, and adjust subplot spacing.
+\noindent
+{\large \textbf{QUESTION 14 --- CONTINUED}}\\[1.5mm]
+\textit{On the second subplot (\texttt{axes[1]}), order dates are parsed and indexed to analyze weekly revenue trajectory:}
 
 \begin{lstlisting}
-# Convert 'order_date' to datetime and set as DataFrame index:
 df_sales['order_date'] = pd.to_datetime(df_sales['order_date'])
 df_sales = df_sales.set_index('order_date')
-
-# Step 3: Resample weekly ('W'), aggregate sum of 'amount', and calculate 4-week rolling mean:
 weekly_sales = df_sales['amount'].resample('W').sum()
-rolling_trend = weekly_sales._____________________________________________________  # [BLANK 8]
+\end{lstlisting}
 
-# Step 4: Plot both raw weekly sales and smoothed rolling trend on axes[1]
+\noindent
+\textbf{c) [0.40]} Write a Pandas statement using \texttt{weekly\_sales} to compute a \textbf{4-week rolling moving average} named \texttt{rolling\_trend} to smooth erratic short-term revenue variance.
+\codebox{1.5cm}
+
+\vspace{1mm}
+\noindent
+\textit{Both actual weekly sales and the smoothed rolling trend are plotted on \texttt{axes[1]}:}
+\begin{lstlisting}
 axes[1].plot(weekly_sales.index, weekly_sales.values, label='Weekly Actual', color='steelblue', alpha=0.6)
 axes[1].plot(weekly_sales.index, rolling_trend.values, label='4-Week Trend', color='crimson', linewidth=2)
 axes[1].set_title("Weekly Revenue Trajectory & 4-Week Moving Average", fontsize=12)
-axes[1].set_xlabel("Week Ending Date", fontsize=10)
-axes[1].set_ylabel("Total Revenue (VND)", fontsize=10)
-axes[1].legend()
-axes[1].grid(True, linestyle='--', alpha=0.5)
-
-# Step 5: Automatically adjust padding to prevent overlapping labels and titles across subplots:
-__________________________________________________________________________________  # [BLANK 9]
+axes[1].set_xlabel("Week Ending Date", fontsize=10); axes[1].set_ylabel("Total Revenue (VND)", fontsize=10)
+axes[1].legend(); axes[1].grid(True, linestyle='--', alpha=0.5)
 \end{lstlisting}
 
-\vspace{1.5mm}
 \noindent
-\textbf{Student Answer Sheet for Problem 2 --- Part B:}
+\textbf{d) [0.20]} Write the standard Matplotlib command to automatically adjust canvas padding and prevent subplot titles and tick labels from overlapping.
+\codebox{1.5cm}
 
-\begin{center}
-\renewcommand{\arraystretch}{1.5}
-\begin{tabularx}{\textwidth}{|l|X|}
-  \hline
-  \textbf{Blank Number} & \textbf{Your Exact Python Code Expression} \tabularnewline
-  \hline
-  \textbf{[BLANK 8]} (0.4 pt) \textit{\scriptsize rolling mean call} & \\[6mm]
-  \hline
-  \textbf{[BLANK 9]} (0.2 pt) \textit{\scriptsize layout padding call} & \\[5mm]
-  \hline
-\end{tabularx}
-\end{center}
+\noindent
+\textbf{e) [0.20]} In the boxplot on \texttt{axes[0]}, how can a risk analyst visually differentiate between typical legitimate transactions and fraudulent outliers in terms of the interquartile range ($IQR$) and whisker boundaries?
+\codebox{2.5cm}
 
-\vspace{-1mm}
-\subsubsection*{Part C: Analytical Interpretation \& Executive Decision-Making (0.4 pt)}
-Answer the following two short questions based on the visualization dashboard constructed above:
-
-\begin{enumerate}[label=\textbf{\arabic*.}]
-  \item In the boxplot on \texttt{axes[0]}, how can a risk analyst visually differentiate between typical legitimate transactions and fraudulent outliers in terms of the interquartile range ($IQR$) and whisker boundaries?
-  \item Why is plotting a 4-week rolling trend line on \texttt{axes[1]} analytically superior to observing only erratic week-to-week revenue spikes when forecasting quarterly revenue?
-\end{enumerate}
-
-\answerbox{3.3cm}{\textbf{Executive Decision Answers (Write concise answers below):}\\[1mm]
-\textbf{1. Outlier Identification:}\\
-\vspace{0.8cm}\\
-\textbf{2. Forecasting Advantage of Rolling Average:}\\
-}
+\noindent
+\textbf{f) [0.20]} Why is plotting a 4-week rolling trend line on \texttt{axes[1]} analytically superior to observing only erratic week-to-week revenue spikes when forecasting quarterly revenue?
+\codebox{2.5cm}
 
 \vfill
 \begin{center}
-\small \textbf{--- END OF EXAMINATION PAPER ---}
+  \small \textbf{--- END OF EXAMINATION PAPER ---}
 \end{center}
 
 \end{document}

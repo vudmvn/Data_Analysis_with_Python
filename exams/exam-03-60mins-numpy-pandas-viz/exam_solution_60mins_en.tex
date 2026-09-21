@@ -163,60 +163,60 @@
 % =========================================================================
 % PART II: APPLIED CODING SOLUTIONS
 % =========================================================================
-\section*{PART II: APPLIED CODING SOLUTIONS \& GRADING RUBRIC (4.0 pts)}
+\section*{PART II: INTEGRATED DATA PROBLEMS --- SOLUTIONS \& RUBRIC (4.0 pts)}
 
-\subsection*{Problem 1: Quantitative E-Commerce Performance Pipeline (2.0 pts)}
+\subsection*{Question 13. [2.0 points] Quantitative E-Commerce Performance Pipeline [NumPy \& Pandas]}
 
 \subsubsection*{Standard Model Solution}
 \begin{lstlisting}
-# [BLANK 1] (0.4 pt)
+# a) [0.40] Vectorized Net Revenue:
 (tx_data[:, 0] * tx_data[:, 1] * (1 - tx_data[:, 2])) - tx_data[:, 3]
 
-# [BLANK 2] (0.4 pt)
+# b) [0.40] np.where Order Tier Categorization:
 np.where((net_revenue >= 250000) | (tx_data[:, 1] >= 4), 'Wholesale', 'Retail')
 
-# [BLANK 3] (0.4 pt)
-cust_df, on='cust_id', how='left'
+# c) [0.40] Left Merge with cust_df:
+orders_df.merge(cust_df, on='cust_id', how='left')
 
-# [BLANK 4] (0.4 pt)
-['city', 'tier'])['net_rev'].agg(['sum', 'count']
+# d) [0.40] Groupby & Multi-Metric Aggregation:
+merged.groupby(['city', 'tier'])['net_rev'].agg(['sum', 'count'])
 
-# [BLANK 5] (0.4 pt)
-('net_rev', 'sum'), ascending=False
+# e) [0.40] Sort by Total Net Revenue Descending:
+summary.sort_values(by=('net_rev', 'sum'), ascending=False)
 \end{lstlisting}
 
-\subsubsection*{Grading Criteria \& Scoring Rubric for Problem 1}
+\subsubsection*{Grading Criteria \& Scoring Rubric for Question 13}
 \begin{itemize}[leftmargin=*, itemsep=4pt]
-  \item \textbf{[BLANK 1] (0.4 pt total):}
+  \item \textbf{Subpart a) (0.40 pt total):}
   \begin{itemize}
-    \item \textbf{0.2 pt:} Accurate 2D slice indexing: \texttt{tx\_data[:, 0]}, \texttt{tx\_data[:, 1]}, \texttt{tx\_data[:, 2]}, \texttt{tx\_data[:, 3]}. (Deduct 0.1 pt if student wrote 1D index like \texttt{tx\_data[0]}).
-    \item \textbf{0.2 pt:} Correct algebraic net revenue formula respecting parentheses and order of operations.
-    \item \textit{Alternative:} \lstinline[basicstyle=\ttfamily\scriptsize]!(tx_data[:, 0] * tx_data[:, 1] * (1 - tx_data[:, 2])) - tx_data[:, 3]! expanded algebraically is fully accepted (0.4 pt).
+    \item \textbf{0.20 pt:} Accurate 2D slice indexing: \texttt{tx\_data[:, 0]}, \texttt{tx\_data[:, 1]}, \texttt{tx\_data[:, 2]}, \texttt{tx\_data[:, 3]}. (Deduct 0.1 pt if student wrote 1D index like \texttt{tx\_data[0]}).
+    \item \textbf{0.20 pt:} Correct algebraic net revenue formula respecting parentheses and order of operations.
+    \item \textit{Alternative:} \lstinline[basicstyle=\ttfamily\scriptsize]!(tx_data[:, 0] * tx_data[:, 1] * (1 - tx_data[:, 2])) - tx_data[:, 3]! expanded algebraically is fully accepted (0.40 pt).
   \end{itemize}
 
-  \item \textbf{[BLANK 2] (0.4 pt total):}
+  \item \textbf{Subpart b) (0.40 pt total):}
   \begin{itemize}
-    \item \textbf{0.2 pt:} Correct conditional with bitwise OR \texttt{|} and proper parentheses around individual boolean clauses: \texttt{(net\_revenue >= 250000) | (tx\_data[:, 1] >= 4)}. Deduct 0.1 pt if Python keyword \texttt{or} was used (causes \texttt{ValueError} on arrays).
-    \item \textbf{0.2 pt:} Exact string labels \texttt{'Wholesale'} and \texttt{'Retail'} in true and false branches.
+    \item \textbf{0.20 pt:} Correct conditional with bitwise OR \texttt{|} and proper parentheses around individual boolean clauses: \texttt{(net\_revenue >= 250000) | (tx\_data[:, 1] >= 4)}. Deduct 0.1 pt if Python keyword \texttt{or} was used (causes \texttt{ValueError} on arrays).
+    \item \textbf{0.20 pt:} Exact string labels \texttt{'Wholesale'} and \texttt{'Retail'} in true and false branches.
   \end{itemize}
 
-  \item \textbf{[BLANK 3] (0.4 pt total):}
+  \item \textbf{Subpart c) (0.40 pt total):}
   \begin{itemize}
-    \item \textbf{0.2 pt:} Target merge table \texttt{cust\_df} and join key \texttt{on='cust\_id'} specified.
-    \item \textbf{0.2 pt:} Join type \texttt{how='left'} specified.
+    \item \textbf{0.20 pt:} Target merge table \texttt{cust\_df} and join key \texttt{on='cust\_id'} specified.
+    \item \textbf{0.20 pt:} Join type \texttt{how='left'} specified.
   \end{itemize}
 
-  \item \textbf{[BLANK 4] (0.4 pt total):}
+  \item \textbf{Subpart d) (0.40 pt total):}
   \begin{itemize}
-    \item \textbf{0.2 pt:} Grouping keys list \texttt{['city', 'tier']} (or tuple \texttt{('city', 'tier')}).
-    \item \textbf{0.2 pt:} Target column selection \texttt{['net\_rev']} chained with aggregation \texttt{.agg(['sum', 'count'])}.
+    \item \textbf{0.20 pt:} Grouping keys list \texttt{['city', 'tier']} (or tuple \texttt{('city', 'tier')}).
+    \item \textbf{0.20 pt:} Target column selection \texttt{['net\_rev']} chained with aggregation \texttt{.agg(['sum', 'count'])}.
     \item \textit{Alternative:} Dictionary syntax \texttt{merged.groupby(['city', 'tier']).agg(\{'net\_rev': ['sum', 'count']\})} is fully accepted for full credit.
   \end{itemize}
 
-  \item \textbf{[BLANK 5] (0.4 pt total):}
+  \item \textbf{Subpart e) (0.40 pt total):}
   \begin{itemize}
-    \item \textbf{0.2 pt:} MultiIndex column tuple specification \texttt{('net\_rev', 'sum')} or \texttt{[('net\_rev', 'sum')]}.
-    \item \textbf{0.2 pt:} Sorting direction parameter \texttt{ascending=False}.
+    \item \textbf{0.20 pt:} MultiIndex column tuple specification \texttt{('net\_rev', 'sum')} or \texttt{[('net\_rev', 'sum')]}.
+    \item \textbf{0.20 pt:} Sorting direction parameter \texttt{ascending=False}.
   \end{itemize}
 \end{itemize}
 
@@ -224,20 +224,20 @@ cust_df, on='cust_id', how='left'
 \hrule
 \vspace{3mm}
 
-\subsection*{Problem 2: Multi-Channel Sales Dashboard \& Risk Analytics (2.0 pts)}
+\subsection*{Question 14. [2.0 points] Sales Dashboard \& Anomaly Visualization [Pandas \& Viz]}
 
 \subsubsection*{Standard Model Solution}
 \begin{lstlisting}
-# [BLANK 6] (0.4 pt)
-plt.subplots(1, 2, figsize=(14, 5))
+# a) [0.40] Subplot Canvas Grid:
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
 
-# [BLANK 7] (0.6 pt)
-data=df_sales, x='payment', y='amount', hue='is_fraud', palette='Set2', ax=axes[0]
+# b) [0.60] Stratified Grouped Boxplot:
+sns.boxplot(data=df_sales, x='payment', y='amount', hue='is_fraud', palette='Set2', ax=axes[0])
 
-# [BLANK 8] (0.4 pt)
-rolling(window=4).mean()   # or: rolling(4).mean()
+# c) [0.40] 4-Week Rolling Moving Average:
+rolling_trend = weekly_sales.rolling(window=4).mean()   # or: rolling(4).mean()
 
-# [BLANK 9] (0.2 pt)
+# d) [0.20] Automatic Subplot Padding:
 plt.tight_layout()
 \end{lstlisting}
 
