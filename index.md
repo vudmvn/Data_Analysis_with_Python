@@ -38,7 +38,7 @@ Bảng dưới đây tổng hợp chi tiết tài liệu học tập, bài giả
 | **Tuần 07** | Thi giữa kỳ | - | - | - | - | ⏳ *Đang biên soạn* |
 | **Tuần 08** | **Phân khúc & Phân cụm dữ liệu (Phần 1)** | • [Phân khúc dữ liệu trong Machine Learning](lectures/part07-data-segmentation-clustering/part07-introduction-to-data-segmentation.md) | - | - | - | ✅ *Đã sẵn sàng* |
 | **Tuần 09** | Phân khúc & Phân cụm dữ liệu (Phần 2) | - | - | - | - | ⏳ *Đang biên soạn* |
-| **Tuần 10** | **Dự báo dữ liệu & Học máy có giám sát (Phần 1)** | • [Học máy có giám sát (Supervised Machine Learning)](lectures/part08-supervised-learning/part08-supervised-machine-learning-vn.md) | - | - | - | ✅ *Đã sẵn sàng* |
+| **Tuần 10** | **Dự báo dữ liệu & Học máy có giám sát (Phần 1)** | • [Học máy có giám sát (Supervised Machine Learning)](lectures/part08-supervised-learning/part08-supervised-machine-learning-vn.md)<br>• [Hồi quy tuyến tính (Linear Regression)](lectures/part08-supervised-learning/part08-linear-regression-vn.md) | - | - | - | ✅ *Đã sẵn sàng* |
 | **Tuần 11** | Dự báo dữ liệu & Hồi quy tuyến tính (Phần 2) | - | - | - | - | ⏳ *Đang biên soạn* |
 | **Tuần 12** | Hồi quy phi tuyến & Classification Pipeline | - | - | - | - | ⏳ *Đang biên soạn* |
 | **Tuần 13** | Phân loại nhị phân (Binary Classification) | - | - | - | - | ⏳ *Đang biên soạn* |
