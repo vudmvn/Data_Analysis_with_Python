@@ -36,6 +36,9 @@ Chuyên đề này cung cấp kiến thức nền tảng và chuyên sâu về *
 
 | Tệp tài liệu | Định dạng | Mô tả nội dung |
 |:---|:---:|:---|
+| [part07-clustering-algorithms-vn.pdf](part07-clustering-algorithms-vn.pdf) | `.pdf` | **Slide bài giảng Beamer**: Giới thiệu phân cụm, so sánh 5 trường phái thuật toán, cây quyết định và các chỉ số thẩm định (18 trang) |
+| [part07-clustering-algorithms-vn.tex](part07-clustering-algorithms-vn.tex) | `.tex` | Mã nguồn LaTeX Beamer của bộ slide bài giảng phân cụm |
+| [part07-clustering-practice-vn.ipynb](part07-clustering-practice-vn.ipynb) | `.ipynb` | **Jupyter Notebook Thực hành Toàn diện**: Tóm tắt lý thuyết & Cheatsheet, 4 bài toán tính tay chi tiết, trực quan hóa chuyên sâu (Voronoi, Dendrogram, K-Distance, GMM Elip), và 5 bài Lab điền khuyết kèm assert test tự động |
 | [part07-introduction-to-data-segmentation.md](part07-introduction-to-data-segmentation.md) | `.md` | Bài giảng Tổng quan Phân khúc dữ liệu (Data Segmentation): Khái niệm, Phân loại vs Phân cụm, Quy trình phân khúc khách hàng, Phân tích RFM |
 | [part07-clustering-machine-learning-vn.md](part07-clustering-machine-learning-vn.md) | `.md` | Bài giảng Tổng quan Phân cụm trong Machine Learning: Hard vs Soft, 5 phương pháp phân cụm (K-Means, DBSCAN, Hierarchical, GMM, FCM), Đánh giá Silhouette, Code Scikit-Learn & Hình ảnh minh họa |
 | [part07-kmeans-elbow-kmeans-plus-plus-vn.md](part07-kmeans-elbow-kmeans-plus-plus-vn.md) | `.md` | Bài giảng Chuyên sâu Centroid-based Methods: K-Means (Lloyd), Khởi tạo thông minh K-Means++ ($O(\log K)$), Phương pháp Khuỷu tay (Elbow Method với Distortion/Inertia), K-Medoids & 8 hình ảnh minh họa |
