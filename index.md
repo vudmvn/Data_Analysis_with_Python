@@ -42,7 +42,7 @@ Bảng dưới đây tổng hợp chi tiết tài liệu học tập, bài giả
 | **Tuần 11** | **Dự báo dữ liệu & Hồi quy phi tuyến (Phần 2)** | • [Hồi quy Rừng ngẫu nhiên (Random Forest Regression)](lectures/part08-supervised-learning/part08-random-forest-regression-vn.md) | - | - | - | ✅ *Đã sẵn sàng* |
 | **Tuần 12** | **Hồi quy phi tuyến & Classification Pipeline** | • [Hồi quy Logistic & Classification Pipeline](lectures/part08-supervised-learning/part08-logistic-regression-vn.md) | - | - | - | ✅ *Đã sẵn sàng* |
 | **Tuần 13** | **Phân loại nhị phân & Cây quyết định (Decision Tree)** | • [Cây quyết định trong Machine Learning](lectures/part08-supervised-learning/part08-decision-tree-vn.md) | - | - | - | ✅ *Đã sẵn sàng* |
-| **Tuần 14** | **Phân loại nâng cao (SVM & KNN)** | • [Máy Vector Hỗ trợ (Support Vector Machine)](lectures/part08-supervised-learning/part08-support-vector-machine-vn.md)<br>• [K Láng giềng Gần nhất (K-Nearest Neighbors)](lectures/part08-supervised-learning/part08-knn-vn.md) | - | - | - | ✅ *Đã sẵn sàng* |
+| **Tuần 14** | **Phân loại nâng cao (SVM, KNN & Naive Bayes)** | • [Máy Vector Hỗ trợ (Support Vector Machine)](lectures/part08-supervised-learning/part08-support-vector-machine-vn.md)<br>• [K Láng giềng Gần nhất (K-Nearest Neighbors)](lectures/part08-supervised-learning/part08-knn-vn.md)<br>• [Phân loại Naive Bayes](lectures/part08-supervised-learning/part08-naive-bayes-vn.md) | - | - | - | ✅ *Đã sẵn sàng* |
 | **Tuần 15** | Tổng kết & Ôn tập cuối kỳ | - | - | - | - | ⏳ *Đang biên soạn* |
 
 ---
