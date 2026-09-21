@@ -38,10 +38,10 @@ The table below summarizes lecture notebooks, reading materials, slides, lab ass
 | **Week 07** | Midterm Examination | - | - | - | - | ⏳ *In Progress* |
 | **Week 08** | Data Segmentation & Clustering (Part 1) | - | - | - | - | ⏳ *In Progress* |
 | **Week 09** | Data Segmentation & Clustering (Part 2) | - | - | - | - | ⏳ *In Progress* |
-| **Week 10** | Data Forecasting & Linear Regression (Part 1) | - | - | - | - | ⏳ *In Progress* |
-| **Week 11** | Data Forecasting & Linear Regression (Part 2) | - | - | - | - | ⏳ *In Progress* |
-| **Week 12** | Non-linear Regression & Classification Pipeline | - | - | - | - | ⏳ *In Progress* |
-| **Week 13** | Binary Classification Algorithms | - | - | - | - | ⏳ *In Progress* |
+| **Week 10** | **Data Forecasting & Supervised Learning (Part 1)** | • [Supervised Machine Learning](lectures/part08-supervised-learning/part08-supervised-machine-learning.md)<br>• [Linear Regression](lectures/part08-supervised-learning/part08-linear-regression.md) | - | - | - | ✅ *Ready* |
+| **Week 11** | **Data Forecasting & Non-linear Regression (Part 2)** | • [Random Forest Regression](lectures/part08-supervised-learning/part08-random-forest-regression.md) | - | - | - | ✅ *Ready* |
+| **Week 12** | **Logistic Regression & Classification Pipeline** | • [Logistic Regression & Classification Pipeline](lectures/part08-supervised-learning/part08-logistic-regression.md) | - | - | - | ✅ *Ready* |
+| **Week 13** | **Binary Classification & Decision Tree** | • [Decision Tree in Machine Learning](lectures/part08-supervised-learning/part08-decision-tree.md) | - | - | - | ✅ *Ready* |
 | **Week 14** | Multiclass Classification & Imbalanced Data | - | - | - | - | ⏳ *In Progress* |
 | **Week 15** | Course Summary & Final Review | - | - | - | - | ⏳ *In Progress* |
 

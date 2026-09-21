@@ -1,18 +1,19 @@
-# Tuần 10–13: Supervised Machine Learning, Linear Regression, Logistic Regression & Decision Trees
+# Tuần 10–13: Supervised Machine Learning, Linear Regression, Logistic Regression, Decision Trees & Random Forest
 
 **Học phần:** Phân tích dữ liệu với Python (DSAI1005)  
 **Giảng viên:** TS. Vũ Đức Minh – Khoa Khoa học dữ liệu và Trí tuệ nhân tạo (NEU)  
-**Cập nhật lần cuối:** 21 tháng 9 năm 2026
+**Cập nhật lần cuối:** 22 tháng 9 năm 2026
 
 ---
 
 ## 📌 Tổng quan chuyên đề
 
-Chuyên đề này bao quát toàn bộ nền tảng **Học máy có giám sát (Supervised Machine Learning)** trong phân tích dữ liệu kinh doanh và kinh tế số, đi sâu nghiên cứu ba trụ cột thuật toán cốt lõi:
+Chuyên đề này bao quát toàn bộ nền tảng **Học máy có giám sát (Supervised Machine Learning)** trong phân tích dữ liệu kinh doanh và kinh tế số, đi sâu nghiên cứu các trụ cột thuật toán cốt lõi:
 1. **Tổng quan Học có giám sát (Supervised ML Overview):** Khái niệm, Phân loại vs Hồi quy, Pipeline 5 bước, và 8 thuật toán tiêu biểu.
 2. **Hồi quy tuyến tính (Linear Regression):** Dự báo biến mục tiêu liên tục, phương pháp OLS, Gradient Descent, 7 giả định Gauss-Markov và điều chuẩn Ridge/Lasso.
 3. **Hồi quy Logistic (Logistic Regression):** Dự báo biến mục tiêu phân loại nhị phân và đa lớp, chuyển đổi xác suất qua hàm Sigmoid và Softmax, tối ưu bằng Ước lượng Hợp lý Cực đại (MLE).
 4. **Cây quyết định (Decision Trees):** Phân chia đệ quy theo các quy tắc logic *if-else*, đo lường độ thuần khiết qua Entropy, Information Gain, Gini Impurity, và kỹ thuật cắt tỉa cây chống quá khớp.
+5. **Hồi quy Rừng ngẫu nhiên (Random Forest Regression):** Phương pháp học máy kết hợp (Ensemble Learning), kỹ thuật Bagging (Bootstrap Aggregation), không gian con đặc trưng ngẫu nhiên (Random Subspace), đánh giá Out-of-Bag (OOB), và hàm dự báo bậc thang phi tuyến.
 
 ---
 
@@ -39,7 +40,12 @@ Chuyên đề này bao quát toàn bộ nền tảng **Học máy có giám sát
    - Cấu trúc cây: Nút gốc (Root), Nút quyết định (Decision Node), Nhánh (Branch), Nút lá (Leaf).
    - Tiêu chuẩn phân chia: Entropy, Information Gain (ID3), Gini Impurity (CART), và Variance Reduction (Hồi quy).
    - Khắc phục hiện tượng Quá khớp (Overfitting) qua Cắt tỉa sớm (Pre-pruning) và Cắt tỉa sau (Post-pruning / `ccp_alpha`).
-7. **Thực hành với Scikit-Learn:** Xây dựng pipeline xử lý dữ liệu và huấn luyện mô hình phân loại & hồi quy hoàn chỉnh bằng Python.
+7. **Chuyên sâu Random Forest Regression:**
+   - Nguyên lý Bagging và Random Subspace giúp triệt tiêu phương sai mà không làm tăng độ chệch.
+   - Bản chất toán học xác suất của tập mẫu Out-of-Bag ($1/e \approx 36.8\%$) và kiểm định OOB Score.
+   - Đo lường độ quan trọng của đặc trưng (Feature Importance) qua MDI và PFI.
+   - Trực quan hóa đường cong bậc thang phân giải cao và phân tích cấu trúc cây con với `plot_tree`.
+8. **Thực hành với Scikit-Learn:** Xây dựng pipeline xử lý dữ liệu và huấn luyện mô hình phân loại & hồi quy hoàn chỉnh bằng Python.
 
 ---
 
@@ -51,16 +57,18 @@ Chuyên đề này bao quát toàn bộ nền tảng **Học máy có giám sát
 | [part08-linear-regression-vn.md](part08-linear-regression-vn.md) | `.md` | Bài giảng Chuyên sâu Hồi quy Tuyến tính (Linear Regression): Best-Fit Line, OLS, Gradient Descent, 7 Giả định, Đo lường, Điều chuẩn Ridge/Lasso, Code Scikit-Learn & 9 hình ảnh minh họa |
 | [part08-logistic-regression-vn.md](part08-logistic-regression-vn.md) | `.md` | Bài giảng Chuyên sâu Hồi quy Logistic (Logistic Regression): Sigmoid, Odds, Logit, MLE, Log Loss, Softmax đa lớp, Ma trận nhầm lẫn, ROC-AUC & 4 hình ảnh minh họa |
 | [part08-decision-tree-vn.md](part08-decision-tree-vn.md) | `.md` | Bài giảng Chuyên sâu Cây Quyết định (Decision Tree): Cấu trúc cây, Entropy, Information Gain, Gini Impurity, CART, Cắt tỉa Pruning, Code Scikit-Learn & 7 hình ảnh minh họa |
+| [part08-random-forest-regression-vn.md](part08-random-forest-regression-vn.md) | `.md` | Bài giảng Chuyên sâu Hồi quy Rừng ngẫu nhiên (Random Forest Regression): Bagging, Feature Randomness, OOB Score ($36.8\%$), Feature Importance, Code Scikit-Learn Position Salaries & 4 hình ảnh minh họa |
 | [part08-supervised-machine-learning.md](part08-supervised-machine-learning.md) | `.md` | Bản sao tiêu chuẩn bài học Supervised Learning |
 | [part08-linear-regression.md](part08-linear-regression.md) | `.md` | Bản sao tiêu chuẩn bài học Linear Regression |
 | [part08-logistic-regression.md](part08-logistic-regression.md) | `.md` | Bản sao tiêu chuẩn bài học Logistic Regression |
 | [part08-decision-tree.md](part08-decision-tree.md) | `.md` | Bản sao tiêu chuẩn bài học Decision Tree |
+| [part08-random-forest-regression.md](part08-random-forest-regression.md) | `.md` | Bản sao tiêu chuẩn bài học Random Forest Regression |
 
 ---
 
 ## 🖼️ Thư mục hình ảnh minh họa (`images/`)
 
-Tất cả 20 hình ảnh sơ đồ toán học và biểu đồ minh họa được chuẩn hóa định dạng `.png` và lưu trữ tại thư mục [`images/`](images/):
+Tất cả 24 hình ảnh sơ đồ toán học và biểu đồ minh họa được chuẩn hóa định dạng `.png` và lưu trữ tại thư mục [`images/`](images/):
 
 ### Nhóm 1: Hồi quy tuyến tính (Linear Regression - 9 ảnh)
 - `introduction-to-linear-regression.png`: Sơ đồ khái niệm biến phụ thuộc $Y$ và biến độc lập $X$.
@@ -88,6 +96,12 @@ Tất cả 20 hình ảnh sơ đồ toán học và biểu đồ minh họa đư
 - `customer-demographics-tree.png`: Cây quyết định kết hợp thuộc tính nhân khẩu học và hành vi.
 - `applications-of-decision-trees.png`: Các lĩnh vực ứng dụng thực tiễn của Decision Trees.
 
+### Nhóm 4: Hồi quy Rừng ngẫu nhiên (Random Forest Regression - 4 ảnh)
+- `random-forest-regression-concept.png`: Sơ đồ khái niệm kiến trúc tổng thể nhiều cây con và cơ chế trung bình hóa dự báo.
+- `random-forest-architecture.png`: Kiến trúc chi tiết quy trình lấy mẫu Bootstrap Aggregating (Bagging) và Random Subspace.
+- `random-forest-regression-plot.png`: Đồ thị thực nghiệm hồi quy phi tuyến trên dữ liệu mức lương theo cấp bậc (Position Salaries).
+- `random-forest-prediction-curve.png`: Đường cong hàm dự báo bậc thang phân giải cao (High-Resolution Grid Prediction Curve).
+
 ---
 
 ## 🔗 Nguồn tham khảo chính
@@ -96,4 +110,5 @@ Tất cả 20 hình ảnh sơ đồ toán học và biểu đồ minh họa đư
 - [GeeksforGeeks – Linear Regression in Machine Learning](http://www.geeksforgeeks.org/machine-learning/ml-linear-regression/)
 - [GeeksforGeeks – Understanding Logistic Regression](https://www.geeksforgeeks.org/machine-learning/understanding-logistic-regression/)
 - [GeeksforGeeks – Decision Tree in Machine Learning](https://www.geeksforgeeks.org/machine-learning/decision-tree-introduction-example/)
+- [GeeksforGeeks – Random Forest Regression in Python](https://www.geeksforgeeks.org/machine-learning/random-forest-regression-in-python/)
 - [Scikit-Learn Official User Guide](https://scikit-learn.org/stable/supervised_learning.html)
